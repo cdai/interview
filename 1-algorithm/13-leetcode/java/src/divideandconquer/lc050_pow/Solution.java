@@ -1,4 +1,4 @@
-package lc050_pow;
+package divideandconquer.lc050_pow;
 
 /**
  * Implement pow(x, n).

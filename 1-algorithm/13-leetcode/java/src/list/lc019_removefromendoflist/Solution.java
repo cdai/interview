@@ -1,4 +1,6 @@
-package lc019_removefromendoflist;
+package list.lc019_removefromendoflist;
+
+import list.ListNode;
 
 /**
  * Given a linked list, remove the nth node from the end of list and return its head.
@@ -32,11 +34,5 @@ public class Solution {
             head = head.next;
         }
         return head;
-    }
-
-    private class ListNode {
-        int val;
-        ListNode next;
-        public ListNode(int x) { val = x; }
     }
 }
