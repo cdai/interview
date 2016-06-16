@@ -9,16 +9,15 @@ public class Solution {
             return error;
         }
 
-        HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
+        HashMap<Integer,Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
             map.put(nums[i], i);
         }
 
-        Integer j;
         for (int i = 0; i < nums.length; i++) {
-            j = map.get(target - nums[i]);
-            if (j != null) {
-                return new int[] {i + 1, j + 1};
+            Integer j = map.get(target - nums[i]);
+            if (j != null && i != j) { // error1: j!=null
+                return new int[] {i, j};
             }
         }
         return error;
