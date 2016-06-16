@@ -1,4 +1,4 @@
-package list.lc084_removeduplicatefromsortedlist2;
+package list.lc082_removeduplicatefromsortedlist2;
 
 import list.ListNode;
 
