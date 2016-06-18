@@ -1,4 +1,4 @@
-package lc001_twosum;
+package array.lc001_twosum;
 
 import java.util.HashMap;
 
