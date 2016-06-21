@@ -1,14 +1,14 @@
-package list.lc019_removefromendoflist;
+package fundamentals.list.lc019_removefromendoflist;
 
-import list.ListNode;
+import fundamentals.list.ListNode;
 
 /**
- * Given a linked list, remove the nth node from the end of list and return its head.
- * For example, given linked list: 1->2->3->4->5, and n = 2.
- * After removing the second node from the end, the linked list becomes 1->2->3->5.
+ * Given a linked fundamentals.list, remove the nth node from the end of fundamentals.list and return its head.
+ * For example, given linked fundamentals.list: 1->2->3->4->5, and n = 2.
+ * After removing the second node from the end, the linked fundamentals.list becomes 1->2->3->5.
  * Note: Given n will always be valid. Try to do this in one pass.
  *
- * Definition for singly-linked list.
+ * Definition for singly-linked fundamentals.list.
  * public class ListNode {
  *     int val;
  *     ListNode next;

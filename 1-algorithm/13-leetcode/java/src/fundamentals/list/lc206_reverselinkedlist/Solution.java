@@ -1,9 +1,9 @@
-package list.lc206_reverselinkedlist;
+package fundamentals.list.lc206_reverselinkedlist;
 
-import list.ListNode;
+import fundamentals.list.ListNode;
 
 /**
- * Reverse a singly linked list.
+ * Reverse a singly linked fundamentals.list.
  */
 public class Solution {
     public ListNode reverseList(ListNode head) {

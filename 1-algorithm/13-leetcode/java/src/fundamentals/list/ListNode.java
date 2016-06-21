@@ -1,4 +1,4 @@
-package list;
+package fundamentals.list;
 
 public class ListNode {
     public int val;
