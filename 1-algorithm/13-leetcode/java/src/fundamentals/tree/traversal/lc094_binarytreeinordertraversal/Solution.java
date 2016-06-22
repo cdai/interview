@@ -1,4 +1,4 @@
-package fundamentals.tree.lc094_binarytreeinordertraversal;
+package fundamentals.tree.traversal.lc094_binarytreeinordertraversal;
 
 import fundamentals.tree.TreeNode;
 
