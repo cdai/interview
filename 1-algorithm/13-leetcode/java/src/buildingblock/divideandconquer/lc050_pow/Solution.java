@@ -1,4 +1,4 @@
-package divideandconquer.lc050_pow;
+package buildingblock.divideandconquer.lc050_pow;
 
 /**
  * Implement pow(x, n).
