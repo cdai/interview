@@ -8,7 +8,7 @@ import fundamentals.tree.TreeNode;
  * from the root node down to the farthest leaf node.
  */
 public class Solution {
-    public int maxDepth(TreeNode root) {
+    public int maxDepth_old(TreeNode root) {
         if (root == null) {
             return 0;
         }
@@ -25,5 +25,14 @@ public class Solution {
             rDepth = doMaxDepth(root.right, depth+1);
         }
         return Math.max(lDepth, rDepth);
+    }
+
+
+    // More elegant, compact, efficient solution
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
     }
 }
