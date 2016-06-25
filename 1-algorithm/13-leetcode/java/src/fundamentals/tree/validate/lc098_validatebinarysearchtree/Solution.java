@@ -1,4 +1,4 @@
-package fundamentals.tree.bst.lc098_validatebinarysearchtree;
+package fundamentals.tree.validate.lc098_validatebinarysearchtree;
 
 import fundamentals.tree.TreeNode;
 
