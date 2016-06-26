@@ -1,4 +1,4 @@
-package fundamentals.string.lc008_stringtointeger;
+package fundamentals.string.convert.lc008_stringtointeger;
 
 /**
  * Implement atoi to convert a string to an integer.

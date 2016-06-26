@@ -1,4 +1,4 @@
-package fundamentals.string.lc038_countandsay;
+package fundamentals.string.convert.lc038_countandsay;
 
 /**
  * The count-and-say sequence is the sequence of integers beginning as follows: 1, 11, 21, 1211, 111221, ...
