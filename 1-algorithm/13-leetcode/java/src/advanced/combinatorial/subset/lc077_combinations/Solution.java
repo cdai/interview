@@ -1,4 +1,4 @@
-package advanced.combinatorial.combination.lc077_combinations;
+package advanced.combinatorial.subset.lc077_combinations;
 
 import java.util.ArrayList;
 import java.util.List;

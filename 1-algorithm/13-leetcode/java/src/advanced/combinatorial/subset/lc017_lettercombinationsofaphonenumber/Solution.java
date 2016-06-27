@@ -1,4 +1,4 @@
-package advanced.combinatorial.combination.lc017_lettercombinationsofaphonenumber;
+package advanced.combinatorial.subset.lc017_lettercombinationsofaphonenumber;
 
 import java.util.ArrayList;
 import java.util.Arrays;
