@@ -39,4 +39,17 @@ public class Solution {
         return n1 + n2;
     }
 
+    // Dynamic programming
+    public int climbStairs2(int n) {
+        int n0 = 1;
+        int n1 = 1;
+        int n2 = 2;
+        for (int i = 2; i <= n; i++) {
+            n2 = n0 + n1;
+            n0 = n1;
+            n1 = n2;
+        }
+        return (n < 2) ? n1 : n2;
+    }
+
 }
