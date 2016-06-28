@@ -1,0 +1,42 @@
+package advanced.combinatorial.backtracking.lc070_climbingstairs;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * You are climbing a stair case. It takes n steps to reach to the top.
+ * Each time you can either climb 1 or 2 steps.
+ * In how many distinct ways can you climb to the top?
+ */
+public class Solution {
+
+    private Map<Integer,Integer> cache = new HashMap<>();
+
+    public int climbStairs(int n) {
+        if (n == 0) {
+            return 1;
+        }
+        if (n < 0) {
+            return 0;
+        }
+
+        int n1;
+        if (cache.containsKey(n-1)) {
+            n1 = cache.get(n-1);
+        } else {
+            n1 = climbStairs(n-1);
+            cache.put(n-1, n1);
+        }
+
+        int n2;
+        if (cache.containsKey(n-2)) {
+            n2 = cache.get(n-2);
+        } else {
+            n2 = climbStairs(n-2);
+            cache.put(n-2, n2);
+        }
+
+        return n1 + n2;
+    }
+
+}
