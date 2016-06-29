@@ -1,4 +1,4 @@
-package advanced.combinatorial.backtracking.lc070_climbingstairs;
+package advanced.dp.lc070_climbingstairs;
 
 import java.util.HashMap;
 import java.util.Map;
