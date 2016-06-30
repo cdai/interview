@@ -34,3 +34,4 @@
 # Intellij IDEA
 .idea/
 *.iml
+.out/
