@@ -7,7 +7,20 @@ import java.util.Queue;
 import java.util.Set;
 
 /**
- *
+ * Given two words (beginWord and endWord), and a dictionary's word list,
+ * find the length of shortest transformation sequence from beginWord to endWord, such that:
+ *  1.Only one letter can be changed at a time
+ *  2.Each intermediate word must exist in the word list
+ * For example,
+ * Given:
+ *  beginWord = "hit"
+ *  endWord = "cog"
+ *  wordList = ["hot","dot","dog","lot","log"]
+ * As one shortest transformation is "hit" -> "hot" -> "dot" -> "dog" -> "cog", return its length 5.
+ * Note:
+ *  Return 0 if there is no such transformation sequence.
+ *  All words have the same length.
+ *  All words contain only lowercase alphabetic characters.
  */
 public class Solution {
 
@@ -53,31 +66,56 @@ public class Solution {
     }
 
     public int ladderLength(String beginWord, String endWord, Set<String> wordList) {
-        return 0;
-    }
-
-    public int ladderLength2(String beginWord, String endWord, Set<String> wordList) {
         Queue<String> queue = new LinkedList<>();
         queue.offer(beginWord);
 
-        int i = 1;
-        for ( ; i < wordList.size(); i++) {
+        wordList.add(endWord);
+
+        for (int i = 1; !queue.isEmpty(); i++) {
 
             int size = queue.size();
+            System.out.println("Queue size: " + size);
             while (size-- > 0) {
                 String w = queue.poll();
-                if (isOnlyOneEdit(w, endWord)) {
-                    return i+1;
+                if (w.equals(endWord)) {
+                    return i;
                 }
 
-                for (String cand : wordList) {
-                    if (isOnlyOneEdit(w, cand)) {
-                        queue.offer(cand);
+                // Same result but rely on dict size
+                /*for (Iterator<String> it = wordList.iterator(); it.hasNext(); ) {
+                    String str = it.next();
+                    if (isOnlyOneEdit(w, str)) {
+                        queue.offer(str);
+                        it.remove();
+                    }
+                }*/
+
+                // Rely on the word size
+                for (int j = 0; j < w.length(); j++) {
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        if (c == w.charAt(j)) {
+                            continue;
+                        }
+
+                        char[] oldstr = w.toCharArray();
+                        oldstr[j] = c;
+                        String newstr = new String(oldstr);
+                        if (wordList.contains(newstr)) {
+                            queue.add(newstr);
+
+                            /*
+                             * This is the key! Why? Suppose hit->hot->dot,lot.
+                             * Does this mean lot can't go to dog, which is removed by dot?
+                             * Suppose X: X + 1 = dot and X + 1 = lot. Then X must be ?ot.
+                             * But ?ot must be on the same level as dot,lot.
+                             */
+                            wordList.remove(newstr);
+                        }
                     }
                 }
             }
         }
-        return (i == wordList.size()) ? 0 : i+1; // i+1, since #word is wanted not #transform
+        return 0;
     }
 
     private boolean isOnlyOneEdit(String w1, String w2) {
