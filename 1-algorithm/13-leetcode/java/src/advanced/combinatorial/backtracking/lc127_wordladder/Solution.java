@@ -74,7 +74,6 @@ public class Solution {
         for (int i = 1; !queue.isEmpty(); i++) {
 
             int size = queue.size();
-            System.out.println("Queue size: " + size);
             while (size-- > 0) {
                 String w = queue.poll();
                 if (w.equals(endWord)) {
