@@ -1,4 +1,4 @@
-package advanced.combinatorial.backtracking.lc079_wordsearch;
+package advanced.combinatorial.backtracking.dfs.lc079_wordsearch;
 
 /**
  * Given a 2D board and a word, find if the word exists in the grid.

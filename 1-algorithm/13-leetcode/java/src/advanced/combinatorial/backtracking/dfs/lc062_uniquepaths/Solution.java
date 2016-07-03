@@ -1,4 +1,4 @@
-package advanced.combinatorial.backtracking.lc062_uniquepaths;
+package advanced.combinatorial.backtracking.dfs.lc062_uniquepaths;
 
 /**
  * A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
