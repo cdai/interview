@@ -10,7 +10,7 @@ public class Solution {
     public int reverse(int x) {
         int r = 0;
         while (x != 0) {
-            if (r > Integer.MAX_VALUE / 10 || r < Integer.MIN_VALUE / 10) {
+            if (r > Integer.MAX_VALUE / 10 || r < Integer.MIN_VALUE / 10) {  // error: may overflow after reversed
                 return 0;
             }
 
