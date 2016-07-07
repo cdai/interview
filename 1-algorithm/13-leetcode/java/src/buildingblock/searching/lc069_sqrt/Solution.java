@@ -1,4 +1,4 @@
-package buildingblock.binarysearch.lc069_sqrt;
+package buildingblock.searching.lc069_sqrt;
 
 /**
  * Sqrt(x)
