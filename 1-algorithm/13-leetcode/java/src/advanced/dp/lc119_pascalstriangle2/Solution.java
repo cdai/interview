@@ -20,7 +20,7 @@ public class Solution {
             for (int j = 0; j < i + 1; j++) {
                 row[j] = n1 + n2;
                 n1 = n2;
-                n2 = (j < i) ? row[j + 1] : 0;
+                n2 = (j < i) ? row[j + 1] : 0; // j < i-1 ?
             }
         }
 
