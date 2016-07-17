@@ -1,4 +1,4 @@
-package buildingblock.sorting.lc088_mergesortedarray;
+package buildingblock.sorting.merge.lc088_mergesortedarray;
 
 /**
  * Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.

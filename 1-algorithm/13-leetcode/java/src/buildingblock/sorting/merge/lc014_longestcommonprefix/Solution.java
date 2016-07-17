@@ -1,4 +1,4 @@
-package buildingblock.sorting.lc014_longestcommonprefix;
+package buildingblock.sorting.merge.lc014_longestcommonprefix;
 
 /**
  * Write a function to find the longest common prefix string amongst an array of strings.

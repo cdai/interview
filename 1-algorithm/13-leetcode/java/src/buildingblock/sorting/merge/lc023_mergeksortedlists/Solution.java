@@ -1,4 +1,4 @@
-package buildingblock.sorting.lc023_mergeksortedlists;
+package buildingblock.sorting.merge.lc023_mergeksortedlists;
 
 import fundamentals.list.ListNode;
 
