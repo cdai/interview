@@ -1,4 +1,4 @@
-package fundamentals.string.convert.lc012_integertoroman;
+package misc.math.lc012_integertoroman;
 
 /**
  * Given an integer, convert it to a roman numeral.
