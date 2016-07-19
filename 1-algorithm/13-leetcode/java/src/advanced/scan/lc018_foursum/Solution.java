@@ -1,4 +1,4 @@
-package fundamentals.array.lc018_foursum;
+package advanced.scan.lc018_foursum;
 
 import java.util.ArrayList;
 import java.util.Arrays;

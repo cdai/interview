@@ -1,4 +1,4 @@
-package fundamentals.array.lc015_threesum;
+package advanced.scan.lc015_threesum;
 
 import java.util.ArrayList;
 import java.util.Arrays;
