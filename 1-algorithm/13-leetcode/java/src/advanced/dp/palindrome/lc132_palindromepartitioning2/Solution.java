@@ -14,6 +14,35 @@ public class Solution {
     }
 
     public int minCut(String s) {
+        int n = s.length();
+        if (n == 0) {
+            return 0;
+        }
+
+        // cut(n) means minimum cut from [0,n-1]
+        // e.g. cut(1)=0 -> [0,0] needs 0 cut at most
+        // e.g. cut(2)=1 -> [0,1] needs 1 cut at most
+        int[] cut = new int[n + 1];
+        for (int i = 0; i < cut.length; i++) {
+            cut[i] = i - 1;
+        }
+
+        // Why correct: invariance cut[k] is correct for every k <= i
+        for (int i = 0; i < n; i++) {
+            // Odd length palindrome: i as center of [i-j..i..i+j]
+            for (int j = 0; i >= j && i + j < n && s.charAt(i - j) == s.charAt(i + j); j++) {
+                cut[i + j + 1] = Math.min(cut[i + j + 1], 1 + cut[i - j]);
+            }
+
+            // Even length palindrome: i,i+1 as center of [i-j+1..i,i+1..i+j]
+            for (int j = 1; i >= j - 1 && i + j < n && s.charAt(i - j + 1) == s.charAt(i + j); j++) {
+                cut[i + j + 1] = Math.min(cut[i + j + 1], 1 + cut[i - j + 1]);
+            }
+        }
+        return cut[n];
+    }
+
+    public int minCut2(String s) {
         if (s.isEmpty()) {
             return 0;
         }
