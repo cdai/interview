@@ -42,6 +42,8 @@ public class Solution {
         return cut[n];
     }
 
+    // Wrong: an inner loop is required to determine palindrome, eg.[gbghg,g]
+    // This is totally wrong, since f[n] is not optimal solution for problem n at all!!!
     public int minCut2(String s) {
         if (s.isEmpty()) {
             return 0;
