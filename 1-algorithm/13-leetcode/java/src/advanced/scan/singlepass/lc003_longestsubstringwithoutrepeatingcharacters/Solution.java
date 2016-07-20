@@ -1,4 +1,4 @@
-package fundamentals.string.search.lc003_longestsubstringwithoutrepeatingcharacters;
+package advanced.scan.singlepass.lc003_longestsubstringwithoutrepeatingcharacters;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package advanced.scan.lc016_threesumclosest;
+package advanced.scan.twopointers.lc016_threesumclosest;
 
 import java.util.Arrays;
 
