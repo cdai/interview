@@ -1,4 +1,4 @@
-package misc.math.lc029_dividetwointegers;
+package misc.math.arithmetic.lc029_dividetwointegers;
 
 /**
  * Divide two integers without using multiplication, division and mod operator.

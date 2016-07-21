@@ -1,4 +1,4 @@
-package misc.math.lc008_palindromenumber;
+package misc.math.number.lc008_palindromenumber;
 
 /**
  * Determine whether an integer is a palindrome. Do this without extra space.

@@ -1,4 +1,4 @@
-package misc.math.lc067_addbinary;
+package misc.math.arithmetic.lc067_addbinary;
 
 /**
  * Given two binary strings, return their sum (also a binary string).
