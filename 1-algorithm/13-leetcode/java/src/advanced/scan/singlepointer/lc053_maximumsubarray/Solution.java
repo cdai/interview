@@ -1,4 +1,4 @@
-package advanced.scan.singlepass.lc053_maximumsubarray;
+package advanced.scan.singlepointer.lc053_maximumsubarray;
 
 /**
  * Find the contiguous subarray within an array (containing at least one number) which has the largest sum.

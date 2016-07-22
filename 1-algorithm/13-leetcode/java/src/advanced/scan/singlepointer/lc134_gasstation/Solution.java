@@ -1,4 +1,4 @@
-package advanced.scan.singlepass.lc134_gasstation;
+package advanced.scan.singlepointer.lc134_gasstation;
 
 /**
  * There are N gas stations along a circular route, where the amount of gas at station i is gas[i].
