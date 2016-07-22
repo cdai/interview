@@ -1,4 +1,4 @@
-package advanced.scan.twohalves.lc42_trappingrainwater;
+package advanced.scan.twopointers.lc42_trappingrainwater;
 
 import java.util.ArrayList;
 import java.util.List;
