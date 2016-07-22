@@ -15,9 +15,10 @@ public class Solution {
         System.out.println(new Solution().reverseBits((int) 2147483648L));
 
         System.out.println(new Solution().reverseBits((int) 1));
+        System.out.println(new Solution().reverseBits((int) -2139062144));
     }
 
-    private Map<Byte,Byte> cache = new HashMap<>();
+    private Map<Byte,Integer> cache = new HashMap<>();
 
     // you need treat n as an unsigned value
     public int reverseBits(int n) {
@@ -29,16 +30,24 @@ public class Solution {
         return res;
     }
 
-    private byte reverseByte(byte n) {
-        Byte res = cache.get(n);
+    private int reverseByte(byte n) {
+        Integer res = cache.get(n);
         if (res != null) {
             return res;
         }
         res = 0;
         for(int i = 0; i < 8; i++, n >>= 1) {
-            res = (byte) (res << 1 | (n & 1));
+            res = (res << 1 | (n & 1));
         }
         cache.put(n, res);
+        return res;
+    }
+
+    public int reverseBits2(int n) {
+        int res = 0;
+        for(int i = 0; i < 32; i++, n >>= 1){
+            res = res << 1 | (n & 1);
+        }
         return res;
     }
 
@@ -55,14 +64,6 @@ public class Solution {
         result += (n % 2);
         //System.out.println(Integer.toUnsignedLong(result));
         return result;
-    }
-
-    public int reverseBits2(int n) {
-        int res = 0;
-        for(int i = 0; i < 32; i++, n >>= 1){
-            res = res << 1 | (n & 1);
-        }
-        return res;
     }
 
 }
