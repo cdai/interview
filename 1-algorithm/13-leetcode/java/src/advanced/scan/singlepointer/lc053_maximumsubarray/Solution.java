@@ -20,7 +20,7 @@ public class Solution {
         // So, f(n) = max(f(n-1), ending)
         int fn = nums[0], ending = nums[0];
         for (int i = 1; i < nums.length; i++) {
-            ending = Math.max(ending + nums[i], nums[i]);
+            ending = Math.max(ending + nums[i], nums[i]); // it makes sense both maxSoFar and maxEndHere = nums[i]
             fn = Math.max(fn, ending);
         }
         return fn;
