@@ -1,4 +1,4 @@
-package fundamentals.list.lc024_swapnodeinpairs;
+package fundamentals.list.reversal.lc024_swapnodeinpairs;
 
 import fundamentals.list.ListNode;
 

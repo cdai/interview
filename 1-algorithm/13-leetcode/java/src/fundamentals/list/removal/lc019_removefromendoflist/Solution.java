@@ -1,4 +1,4 @@
-package fundamentals.list.lc019_removefromendoflist;
+package fundamentals.list.removal.lc019_removefromendoflist;
 
 import fundamentals.list.ListNode;
 

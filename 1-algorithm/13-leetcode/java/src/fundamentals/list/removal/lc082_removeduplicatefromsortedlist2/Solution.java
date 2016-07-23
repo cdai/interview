@@ -1,4 +1,4 @@
-package fundamentals.list.lc082_removeduplicatefromsortedlist2;
+package fundamentals.list.removal.lc082_removeduplicatefromsortedlist2;
 
 import fundamentals.list.ListNode;
 
