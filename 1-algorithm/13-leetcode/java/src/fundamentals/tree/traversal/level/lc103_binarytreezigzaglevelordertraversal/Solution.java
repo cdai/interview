@@ -1,4 +1,4 @@
-package fundamentals.tree.traversal.lc103_binarytreezigzaglevelordertraversal;
+package fundamentals.tree.traversal.level.lc103_binarytreezigzaglevelordertraversal;
 
 import fundamentals.tree.TreeNode;
 

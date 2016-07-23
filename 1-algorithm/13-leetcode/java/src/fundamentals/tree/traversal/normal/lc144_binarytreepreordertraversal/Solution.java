@@ -1,4 +1,4 @@
-package fundamentals.tree.traversal.lc144_binarytreepreordertraversal;
+package fundamentals.tree.traversal.normal.lc144_binarytreepreordertraversal;
 
 import fundamentals.tree.TreeNode;
 

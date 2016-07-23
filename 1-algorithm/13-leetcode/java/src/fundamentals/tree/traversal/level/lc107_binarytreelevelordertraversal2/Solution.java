@@ -1,4 +1,4 @@
-package fundamentals.tree.traversal.lc107_binarytreelevelordertraversal2;
+package fundamentals.tree.traversal.level.lc107_binarytreelevelordertraversal2;
 
 import fundamentals.tree.TreeNode;
 
