@@ -1,4 +1,4 @@
-package fundamentals.tree.traversal.lc116_populatingnexttightpointersineachnode;
+package fundamentals.tree.traversal.lc116_populatingnextrightpointersineachnode;
 
 import fundamentals.tree.TreeLinkNode;
 
