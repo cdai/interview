@@ -1,4 +1,4 @@
-package fundamentals.list.reversal.lc061_rotatelist;
+package fundamentals.list.koffset.lc061_rotatelist;
 
 import fundamentals.list.ListNode;
 
