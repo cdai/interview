@@ -30,15 +30,10 @@ public class Solution {
                 /* => MustBe(low,mid) */
                 high = mid;
             } else {
-                /* Since symmetrical as above */
-                /* => MustBe(mid,high) */
-                if (low == mid) {
-                    /* MustBe(low,high) and low + 1 = high: (3) when termination, invariant holds */
-                    return Math.min(nums[low], nums[high]);
-                }
 
-                /* MustBe(mid,high) */
-                low = mid;
+                /* Since nums[low]<...nums[mid]<...nums[0]<...<nums[high] */
+                /* MustBe(mid + 1,high) */
+                low = mid + 1;
             }
 
             /* MustBe(low,high): (2) when preservation, invariant holds */
