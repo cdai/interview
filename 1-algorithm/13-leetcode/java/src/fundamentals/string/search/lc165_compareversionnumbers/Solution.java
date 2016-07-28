@@ -1,5 +1,7 @@
 package fundamentals.string.search.lc165_compareversionnumbers;
 
+import java.util.Arrays;
+
 /**
  * Compare two version numbers version1 and version2. If version1 > version2 return 1,
  * if version1 < version2 return -1, otherwise return 0.
