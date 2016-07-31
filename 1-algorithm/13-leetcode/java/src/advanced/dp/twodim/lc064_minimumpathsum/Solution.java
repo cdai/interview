@@ -1,4 +1,4 @@
-package advanced.dp.lc064_minimumpathsum;
+package advanced.dp.twodim.lc064_minimumpathsum;
 
 /**
  * Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right

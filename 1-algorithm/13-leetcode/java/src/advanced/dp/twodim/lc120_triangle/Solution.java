@@ -1,4 +1,4 @@
-package advanced.dp.lc120_triangle;
+package advanced.dp.twodim.lc120_triangle;
 
 import java.util.Arrays;
 import java.util.List;

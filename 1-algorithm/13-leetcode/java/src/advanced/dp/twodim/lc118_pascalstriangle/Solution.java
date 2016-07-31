@@ -1,4 +1,4 @@
-package advanced.dp.lc118_pascalstriangle;
+package advanced.dp.twodim.lc118_pascalstriangle;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package advanced.dp.lc121_besttimetobuyandsellstock;
+package advanced.dp.onedim.lc121_besttimetobuyandsellstock;
 
 /**
  * Say you have an array for which the ith element is the price of a given stock on day i.

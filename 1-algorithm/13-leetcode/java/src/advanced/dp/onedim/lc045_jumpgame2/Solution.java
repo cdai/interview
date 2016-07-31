@@ -1,4 +1,4 @@
-package advanced.dp.lc045_jumpgame2;
+package advanced.dp.onedim.lc045_jumpgame2;
 
 /**
  * Given an array of non-negative integers, you are initially positioned at the first index of the array.

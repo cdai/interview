@@ -1,4 +1,4 @@
-package advanced.dp.lc140_wordbreak2;
+package advanced.dp.onedim.lc140_wordbreak2;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package advanced.dp.lc091_decodeways;
+package advanced.dp.onedim.lc091_decodeways;
 
 /**
  * A message containing letters from A-Z is being encoded to numbers using the following mapping:

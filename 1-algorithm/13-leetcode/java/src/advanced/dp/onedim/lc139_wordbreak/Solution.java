@@ -1,4 +1,4 @@
-package advanced.dp.lc139_wordbreak;
+package advanced.dp.onedim.lc139_wordbreak;
 
 import java.util.HashSet;
 import java.util.Set;
