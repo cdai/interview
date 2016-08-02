@@ -1,4 +1,4 @@
-package buildingblock.divideandconquer.lc215_kthlargestelementinanarray;
+package buildingblock.sorting.heap.lc215_kthlargestelementinanarray;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
