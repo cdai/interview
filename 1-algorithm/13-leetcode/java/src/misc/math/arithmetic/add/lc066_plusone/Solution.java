@@ -1,4 +1,4 @@
-package misc.math.arithmetic.lc066_plusone;
+package misc.math.arithmetic.add.lc066_plusone;
 
 /**
  * Given a non-negative number represented as an array of digits, plus one to the number.

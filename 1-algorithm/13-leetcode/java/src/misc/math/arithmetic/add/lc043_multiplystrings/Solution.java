@@ -1,4 +1,4 @@
-package misc.math.arithmetic.lc043_multiplystrings;
+package misc.math.arithmetic.add.lc043_multiplystrings;
 
 /**
  * Given two numbers represented as strings, return multiplication of the numbers as a string.

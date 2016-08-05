@@ -1,4 +1,4 @@
-package misc.math.arithmetic.lc372_superpow;
+package misc.math.arithmetic.mod.lc372_superpow;
 
 import java.util.Arrays;
 

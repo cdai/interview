@@ -1,4 +1,4 @@
-package misc.math.arithmetic.lc172_factorialtrailingzeroes;
+package misc.math.arithmetic.div.lc172_factorialtrailingzeroes;
 
 /**
  * Given an integer n, return the number of trailing zeroes in n!.
