@@ -1,4 +1,4 @@
-package misc.math.arithmetic.lc204_countprimes;
+package misc.math.number.lc204_countprimes;
 
 /**
  * Count the number of prime numbers less than a non-negative number, n.

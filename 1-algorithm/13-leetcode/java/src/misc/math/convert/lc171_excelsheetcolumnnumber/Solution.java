@@ -1,4 +1,4 @@
-package misc.math.number.lc171_excelsheetcolumnnumber;
+package misc.math.convert.lc171_excelsheetcolumnnumber;
 
 /**
  * Related to question Excel Sheet Column Title.

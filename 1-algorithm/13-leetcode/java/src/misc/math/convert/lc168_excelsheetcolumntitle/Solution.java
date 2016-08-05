@@ -1,4 +1,4 @@
-package misc.math.number.lc168_excelsheetcolumntitle;
+package misc.math.convert.lc168_excelsheetcolumntitle;
 
 /**
  * Given a positive integer, return its corresponding column title as appear in an Excel sheet.
