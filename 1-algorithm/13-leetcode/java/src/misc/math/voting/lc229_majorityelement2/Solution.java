@@ -14,11 +14,11 @@ public class Solution {
         // Use two counters to save at most two majority num
         // The left elements at most [0,2/3) is unable to cancel off two counters
 
-        //    [1,1,1,2,1,3,1]
+        //    [1,1,1,3,5,2,9,4]
         // n1= 1
-        // c1= 1 2 3   4 3 4
-        // n2=       2
-        // c2=       1   0
+        // c1= 1 2 3
+        // n2=       3   2   4
+        // c2=       1 0 1 0 1
         Integer n1 = null, n2 = null;
         int c1 = 0, c2 = 0;
         for (int i = 0; i < nums.length; i++) {
