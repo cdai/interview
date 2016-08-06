@@ -1,4 +1,4 @@
-package buildingblock.hashing.lc205_isomorphicstrings;
+package buildingblock.hashing.dict.lc205_isomorphicstrings;
 
 import java.util.HashMap;
 import java.util.Map;

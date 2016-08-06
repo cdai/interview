@@ -1,4 +1,4 @@
-package buildingblock.hashing.lc290_wordpattern;
+package buildingblock.hashing.dict.lc290_wordpattern;
 
 import java.util.HashMap;
 import java.util.Map;
