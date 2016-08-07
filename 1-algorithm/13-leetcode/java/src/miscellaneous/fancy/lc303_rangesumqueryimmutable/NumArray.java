@@ -1,4 +1,4 @@
-package advanced.scan.singlepointer.lc303_rangesumqueryimmutable;
+package miscellaneous.fancy.lc303_rangesumqueryimmutable;
 
 /**
  * Given an integer array nums, find the sum of the elements between indices i and j (i ≤ j), inclusive.

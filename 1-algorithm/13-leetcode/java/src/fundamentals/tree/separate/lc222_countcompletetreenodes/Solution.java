@@ -1,4 +1,4 @@
-package fundamentals.tree.depth.lc222_countcompletetreenodes;
+package fundamentals.tree.separate.lc222_countcompletetreenodes;
 
 import fundamentals.tree.TreeNode;
 
