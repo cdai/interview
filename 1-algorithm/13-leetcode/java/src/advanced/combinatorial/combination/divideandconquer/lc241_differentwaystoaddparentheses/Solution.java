@@ -1,4 +1,4 @@
-package advanced.combinatorial.combination.lc241_differentwaystoaddparentheses;
+package advanced.combinatorial.combination.divideandconquer.lc241_differentwaystoaddparentheses;
 
 import java.util.ArrayList;
 import java.util.List;

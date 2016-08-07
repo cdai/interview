@@ -1,4 +1,4 @@
-package advanced.combinatorial.combination.lc095_uniquebinarysearchtrees2;
+package advanced.combinatorial.combination.divideandconquer.lc095_uniquebinarysearchtrees2;
 
 import fundamentals.tree.TreeNode;
 
