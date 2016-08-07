@@ -1,4 +1,4 @@
-package miscellaneous.bitmanipulation.lc260_singlenumber3;
+package miscellaneous.bitmanipulation.xor.lc260_singlenumber3;
 
 import java.util.Arrays;
 
