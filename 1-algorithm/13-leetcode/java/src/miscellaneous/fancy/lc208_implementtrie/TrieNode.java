@@ -1,4 +1,4 @@
-package fundamentals.tree.trie.lc208_implementtrie;
+package miscellaneous.fancy.lc208_implementtrie;
 
 import java.util.HashMap;
 import java.util.Map;
