@@ -1,4 +1,4 @@
-package fundamentals.string.dict.lc049_groupanagrams;
+package buildingblock.hashing.dict.lc049_groupanagrams;
 
 import java.util.*;
 

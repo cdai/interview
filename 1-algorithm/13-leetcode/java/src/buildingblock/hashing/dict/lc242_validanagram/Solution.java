@@ -1,4 +1,4 @@
-package fundamentals.string.dict.lc242_validanagram;
+package buildingblock.hashing.dict.lc242_validanagram;
 
 import java.util.HashMap;
 import java.util.Map;
