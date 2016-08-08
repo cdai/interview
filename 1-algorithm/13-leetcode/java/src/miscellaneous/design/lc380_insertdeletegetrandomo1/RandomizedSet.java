@@ -1,4 +1,4 @@
-package miscellaneous.fancy.lc380_insertdeletegetrandomo1;
+package miscellaneous.design.lc380_insertdeletegetrandomo1;
 
 import java.util.ArrayList;
 import java.util.HashSet;

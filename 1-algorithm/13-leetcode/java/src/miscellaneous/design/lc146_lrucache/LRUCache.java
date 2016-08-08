@@ -1,4 +1,4 @@
-package miscellaneous.fancy.lc146_lrucache;
+package miscellaneous.design.lc146_lrucache;
 
 import java.util.HashMap;
 import java.util.LinkedList;

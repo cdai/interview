@@ -1,4 +1,4 @@
-package miscellaneous.fancy.lc208_implementtrie;
+package miscellaneous.design.lc208_implementtrie;
 
 import java.util.HashMap;
 import java.util.Map;
