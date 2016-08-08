@@ -16,7 +16,41 @@ public class Solution {
         System.out.println(new Solution().largestDivisibleSubset(new int[]{8, 4, 1, 3}));
     }
 
+    // Use extra space to reconstruct path
     public List<Integer> largestDivisibleSubset(int[] nums) {
+        int n = nums.length;
+        int[] path = new int[n];
+        int[] subsets = new int[n];
+        Arrays.fill(subsets, 1);
+        Arrays.sort(nums);                      // error2: must sort, eg.nums=[8,4,1,3] -> subsets=[1,2,3,4]
+
+        // Compute optimal solution
+        int max = 0, maxIndex = 0;
+        for (int i = 0; i < n; i++) {
+            // Find nearest divisible number    // error1: may not be optimal, eg.[1,2,3,8,9,72]
+            for (int j = i - 1; j >= 0; j--) {
+                if ((subsets[j] + 1 > subsets[i]) && (nums[i] % nums[j] == 0)) {
+                    subsets[i] = subsets[j] + 1;
+                    path[i] = j;
+                }
+            }
+            if (max < subsets[i]) {
+                max = subsets[i];
+                maxIndex = i;
+            }
+        }
+
+        // Reconstruct optimal solution path
+        List<Integer> result = new ArrayList<>();
+        int index = maxIndex;
+        while (max-- > 0) {
+            result.add(nums[index]);
+            index = path[index];
+        }
+        return result;
+    }
+
+    public List<Integer> largestDivisibleSubset2(int[] nums) {
         int n = nums.length;
         int[] subsets = new int[n];
         Arrays.fill(subsets, 1);
