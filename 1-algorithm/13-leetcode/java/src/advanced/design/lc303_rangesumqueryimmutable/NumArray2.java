@@ -1,4 +1,4 @@
-package miscellaneous.design.lc303_rangesumqueryimmutable;
+package advanced.design.lc303_rangesumqueryimmutable;
 
 /**
  * sumRange() is O(1), but totally TLE, since matrix could be very huge!

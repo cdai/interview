@@ -1,4 +1,4 @@
-package miscellaneous.design.lc304_rangesumquery2dimmutable;
+package advanced.design.lc304_rangesumquery2dimmutable;
 
 /**
  */

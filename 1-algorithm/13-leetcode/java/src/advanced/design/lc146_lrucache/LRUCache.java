@@ -1,4 +1,4 @@
-package miscellaneous.design.lc146_lrucache;
+package advanced.design.lc146_lrucache;
 
 import java.util.HashMap;
 import java.util.LinkedList;

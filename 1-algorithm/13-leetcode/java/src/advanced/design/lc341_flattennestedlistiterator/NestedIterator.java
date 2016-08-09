@@ -1,4 +1,4 @@
-package miscellaneous.design.lc341_flattennestedlistiterator;
+package advanced.design.lc341_flattennestedlistiterator;
 
 import java.util.ArrayList;
 import java.util.Iterator;

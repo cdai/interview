@@ -1,4 +1,4 @@
-package miscellaneous.design.lc355_designtwitter;
+package advanced.design.lc355_designtwitter;
 
 import java.util.ArrayList;
 import java.util.HashMap;

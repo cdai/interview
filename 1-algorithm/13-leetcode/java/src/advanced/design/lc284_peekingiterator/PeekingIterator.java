@@ -1,4 +1,4 @@
-package miscellaneous.design.lc284_peekingiterator;
+package advanced.design.lc284_peekingiterator;
 
 import java.util.Arrays;
 import java.util.Iterator;

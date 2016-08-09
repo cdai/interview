@@ -1,4 +1,4 @@
-package miscellaneous.design.lc381_insertdeletegetrandomo1duplicatesallowed;
+package advanced.design.lc381_insertdeletegetrandomo1duplicatesallowed;
 
 import java.util.ArrayList;
 import java.util.HashMap;

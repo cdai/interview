@@ -1,4 +1,4 @@
-package miscellaneous.design.lc208_implementtrie;
+package advanced.design.lc208_implementtrie;
 
 /**
  * Implement a trie with insert, search, and startsWith methods.
