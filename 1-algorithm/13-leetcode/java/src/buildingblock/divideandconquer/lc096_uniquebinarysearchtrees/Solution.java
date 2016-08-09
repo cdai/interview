@@ -1,4 +1,4 @@
-package advanced.combinatorial.combination.divideandconquer.lc096_uniquebinarysearchtrees;
+package buildingblock.divideandconquer.lc096_uniquebinarysearchtrees;
 
 /**
  * Given n, how many structurally unique BST's (binary search trees) that store values 1...n?
