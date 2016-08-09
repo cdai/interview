@@ -1,4 +1,4 @@
-package advanced.dp.onedim.lc313_superuglynumber;
+package advanced.scan.index.lc313_superuglynumber;
 
 import java.util.ArrayList;
 import java.util.List;
