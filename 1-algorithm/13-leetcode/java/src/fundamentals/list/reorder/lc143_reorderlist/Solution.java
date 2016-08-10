@@ -1,4 +1,4 @@
-package fundamentals.list.reversion.lc143_reorderlist;
+package fundamentals.list.reorder.lc143_reorderlist;
 
 import fundamentals.list.ListNode;
 

@@ -1,4 +1,4 @@
-package fundamentals.list.reversion.lc092_reverselinkedlist2;
+package fundamentals.list.reversal.lc092_reverselinkedlist2;
 
 import fundamentals.list.ListNode;
 
@@ -27,7 +27,7 @@ public class Solution {
             prev = prev.next;
         }
 
-        // 2.Do the reversion
+        // 2.Do the reversal
         // Invariant: prev->...->cur->then->... => prev->then...->cur->...
         // After that, "cur" stay the same, update "then"
         ListNode cur = prev.next;

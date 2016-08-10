@@ -1,4 +1,4 @@
-package fundamentals.list.removal.lc328_oddevenlinkedlist;
+package fundamentals.list.reorder.lc328_oddevenlinkedlist;
 
 import fundamentals.list.ListNode;
 

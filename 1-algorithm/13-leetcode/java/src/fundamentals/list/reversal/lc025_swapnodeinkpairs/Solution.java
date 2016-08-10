@@ -1,4 +1,4 @@
-package fundamentals.list.reversion.lc025_swapnodeinkpairs;
+package fundamentals.list.reversal.lc025_swapnodeinkpairs;
 
 import fundamentals.list.ListNode;
 

@@ -1,4 +1,4 @@
-package fundamentals.list.reversion.lc234_palindromelinkedlist;
+package fundamentals.list.reversal.lc234_palindromelinkedlist;
 
 import fundamentals.list.ListNode;
 
