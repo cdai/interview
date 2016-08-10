@@ -1,4 +1,4 @@
-package fundamentals.list.reversal.lc206_reverselinkedlist;
+package fundamentals.list.reversion.lc206_reverselinkedlist;
 
 import fundamentals.list.ListNode;
 

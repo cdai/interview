@@ -1,4 +1,4 @@
-package fundamentals.list.reversal.lc092_reverselinkedlist2;
+package fundamentals.list.reversion.lc092_reverselinkedlist2;
 
 import fundamentals.list.ListNode;
 
@@ -10,7 +10,38 @@ import fundamentals.list.ListNode;
  * Note: Given m, n satisfy the following condition: 1 ≤ m ≤ n ≤ length of fundamentals.list.
  */
 public class Solution {
+
+    // My 2nd: from leetcode discuss and soulmachine
+    // Alternative for list reversal. Elegant!
     public ListNode reverseBetween(ListNode head, int m, int n) {
+        if (head == null) {
+            return head;
+        }
+
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+
+        // 1.Find node in front of range to be reversed
+        ListNode prev = dummy;
+        for (int i = 0; i < m - 1; i++) {
+            prev = prev.next;
+        }
+
+        // 2.Do the reversion
+        // Invariant: prev->...->cur->then->... => prev->then...->cur->...
+        // After that, "cur" stay the same, update "then"
+        ListNode cur = prev.next;
+        for (int i = 0; i < n - m; i++) {
+            ListNode then = cur.next;
+            cur.next = then.next;
+            then.next = prev.next;
+            prev.next = then;
+        }
+        return dummy.next;
+    }
+
+    // My 1st: ugly...
+    public ListNode reverseBetween2(ListNode head, int m, int n) {
         if (!(head != null && 1 <= m && m <= n) || m == n) { // error1: corner-case1 m=n
             return head;
         }
