@@ -1,4 +1,4 @@
-package fundamentals.list.reversal.lc025_swapnodeinkpairs;
+package fundamentals.list.reversal.lc025_reversenodeinkgroup;
 
 import fundamentals.list.ListNode;
 
@@ -19,7 +19,45 @@ import fundamentals.list.ListNode;
  * }
  */
 public class Solution {
+
+    // My 2nd
     public ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null || k <= 1) {
+            return head;
+        }
+
+        int len = 0;
+        for (ListNode n = head; n != null; n = n.next) {
+            len++;
+        }
+
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+
+        ListNode prev = dummy;
+        for (int i = 0; i < len / k; i++) {
+            prev = reverseK(prev, k);
+        }
+        return dummy.next;
+    }
+
+    // Perform K-1 reversals for K group
+    private ListNode reverseK(ListNode prev, int k) {
+        ListNode cur = prev.next;
+        if (cur != null) {      // when len is divisible by k, no node left in last batch
+            while (k-- > 1) {
+                ListNode then = cur.next;
+                cur.next = then.next;
+                then.next = prev.next;
+                prev.next = then;
+            }
+        }
+        return cur;
+    }
+
+
+    // My 1st
+    public ListNode reverseKGroup1(ListNode head, int k) {
         if (k < 2) {
             return head;
         }
