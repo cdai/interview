@@ -16,7 +16,30 @@ import fundamentals.list.ListNode;
  * }
  */
 public class Solution {
+
+    // 2nd: More clear version!
     public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+
+        // 1.Find nth node: there're n nodes between (nprev, cur)
+        // -> when terminating (cur=null), nprev is previous node of nth
+        ListNode nprev = dummy, cur = dummy;
+        for (int i = 0; cur != null; i++) {
+            if (i >= n + 1) {       // Prove: nprev starts off when cur is already N+1 away -> #nodes in the middle = cur - nprev - 1 = n
+                nprev = nprev.next;
+            }
+            cur = cur.next;
+        }
+
+        // 2.Delete nth node: nprev is at least dummy, which means delete first node
+        // given n is always valid -> exclude the case n is too large or even negative
+        nprev.next = nprev.next.next;
+        return dummy.next;
+    }
+
+    // 1st
+    public ListNode removeNthFromEnd2(ListNode head, int n) {
         ListNode cur = head;
         ListNode prev = null;
         int i;
