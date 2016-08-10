@@ -22,7 +22,7 @@ public class Solution {
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
 
-        // 1.Find nth node: there're n nodes between (nprev, cur)
+        // 1.Find prev of nth node: there're n nodes between (nprev, cur)
         // -> when terminating (cur=null), nprev is previous node of nth
         ListNode nprev = dummy, cur = dummy;
         for (int i = 0; cur != null; i++) {
