@@ -12,8 +12,53 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
-    // Use your code to assert, do NOT use your head to assume!!!
+    // Smart and clean!
     public ListNode oddEvenList(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+
+        // even=null if even nodes, otherwise even.next=null
+        // Smart! Use even as condition, so odd must not be null
+        ListNode odd = head, even = odd.next, evenHead = even;
+        while (even != null && even.next != null) {
+            odd.next = odd.next.next;
+            even.next = even.next.next;
+
+            odd = odd.next;
+            even = even.next;
+        }
+        odd.next = evenHead;
+        return head;
+    }
+
+    // My 2nd: errornous if we want odd stop at last one
+    public ListNode oddEvenList2(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+
+        ListNode head2 = new ListNode(0);
+        ListNode odd = head, even = head2;
+        while (odd.next != null) { // NPE here without "if" in loop body
+            even.next = odd.next;
+            odd.next = odd.next.next;
+
+            even = even.next;
+            even.next = null;
+
+            if (odd.next == null) { // error: hard to handle cur.next
+                break;
+            }
+            odd = odd.next;
+        }
+        odd.next = head2.next; // NPE here if add "odd != null" in loop condition
+        return head;
+    }
+
+    // My 1st: ugly...
+    // Use your code to assert, do NOT use your head to assume!!!
+    public ListNode oddEvenList3(ListNode head) {
         if (head == null || head.next == null) {
             return head;
         }
