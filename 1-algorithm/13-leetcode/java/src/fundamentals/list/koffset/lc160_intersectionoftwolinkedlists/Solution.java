@@ -32,7 +32,61 @@ public class Solution {
         System.out.println(new Solution().getIntersectionNode(headA, headB).val);
     }
 
+    // Very smart solution from leetcode discuss!
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+
+        // Suppose lenA= a + c, lenB = b + c, lenB > lenA.
+        // Explain: After switching, ListNode a move on list B by (b + c - a - c) before b move onto list A.
+        //          At that time, a and b move towards the end together with same position!
+        // Note: It'll end up with a=b!=null or a=b=null whatever. It's also correct if lenA=lenB, loop terminates before switch.
+        ListNode a = headA, b = headB;
+        while (a != b) {
+            a = (a == null) ? headB : a.next;
+            b = (b == null) ? headA : b.next;
+        }
+        return a;
+    }
+
+    // O(N) time, O(1) space
+    public ListNode getIntersectionNode2(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+
+        int lenA = length(headA);
+        int lenB = length(headB);
+
+        // Move on longer list to make it same length with shorter one
+        ListNode shorter = (lenA < lenB) ? headA : headB;
+        ListNode longer = (shorter == headB) ? headA : headB;
+        for (int i = 0; i < Math.abs(lenA - lenB); i++) {
+            longer = longer.next;
+        }
+
+        // Now we can move together
+        for (int i = 0; i < Math.min(lenA, lenB); i++) {
+            if (shorter == longer) {
+                return shorter;
+            }
+            shorter = shorter.next;
+            longer = longer.next;
+        }
+        return null;
+    }
+
+    private int length(ListNode node) {
+        int len = 0;
+        while (node != null) {
+            node = node.next;
+            len++;
+        }
+        return len;
+    }
+
+    public ListNode getIntersectionNode3(ListNode headA, ListNode headB) {
         if (headA == null || headB == null) {
             return null; // return null if no intersection
         }
