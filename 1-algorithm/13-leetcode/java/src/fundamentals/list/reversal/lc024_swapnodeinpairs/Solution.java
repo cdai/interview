@@ -15,7 +15,44 @@ import fundamentals.list.ListNode;
  *     ListNode(int x) { val = x; }
  */
 public class Solution {
+
+    // My 2nd
+    // O(N)
     public ListNode swapPairs(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+
+        // 1.We need dummy header to operate head
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+
+        // 2.Swap one by one (invariant: nodes behind prev (inclusive) are swapped already)
+        // when prev reach end -> all nodes have been swapped
+        ListNode prev = dummy;
+        do {
+            prev = swap(prev);
+        } while (prev != null);
+
+        return dummy.next;
+    }
+
+    // prev->first->second => prev->second->first, then move prev to first to maintain invariant
+    private ListNode swap(ListNode prev) {
+        if (prev.next == null || prev.next.next == null) {
+            return null;
+        }
+        ListNode first = prev.next;
+        ListNode second = first.next;
+
+        prev.next = second;
+        first.next = second.next;
+        second.next = first;
+        return first;
+    }
+
+    // My 1st
+    public ListNode swapPairs2(ListNode head) {
         ListNode n1 = head, n2 = null, prev = null;
         while (n1 != null && n1.next != null) {
             n2 = n1.next;
