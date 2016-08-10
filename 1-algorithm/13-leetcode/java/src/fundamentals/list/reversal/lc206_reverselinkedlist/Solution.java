@@ -6,7 +6,54 @@ import fundamentals.list.ListNode;
  * Reverse a singly linked fundamentals.list.
  */
 public class Solution {
+
+    public static void main(String[] args) {
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        System.out.println(new Solution().reverseList(head));
+    }
+
+    // My 2nd
+    // Recursive version: reverseList(head) return new head
     public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode second = head.next;
+        head.next = null;
+
+        ListNode newHead = reverseList(second);
+        second.next = head;
+        return newHead;
+    }
+
+    // My 2nd
+    // Iterative version
+    public ListNode reverseList2(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+
+        // Note: at last, dummy<->first causes dead lock...
+        //ListNode dummy = new ListNode(0);
+        //dummy.next = head;
+
+        // prev->cur => prev<=cur, then move prev and cur off by one
+        // invariant: nodes behind prev (inclusive) are reversed already
+        ListNode prev = null, cur = head;
+        while (cur != null) {
+            ListNode tmp = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = tmp;
+        }
+        return prev;
+    }
+
+    // My 1st
+    public ListNode reverseList3(ListNode head) {
         if (head == null) {
             return head;
         }
