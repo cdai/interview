@@ -22,6 +22,15 @@ public class Solution {
         root.right.left = new TreeLinkNode(6);
         root.right.right = new TreeLinkNode(7);
 
+        root.left.left.left = new TreeLinkNode(8);
+        root.left.left.right = new TreeLinkNode(9);
+        root.left.right.left = new TreeLinkNode(10);
+        root.left.right.right = new TreeLinkNode(11);
+        root.right.left.left = new TreeLinkNode(12);
+        root.right.left.right = new TreeLinkNode(13);
+        root.right.right.left = new TreeLinkNode(14);
+        root.right.right.right = new TreeLinkNode(15);
+
         new Solution().connect(root);
 
         System.out.println(root.val + " next: " + root.next);
@@ -33,7 +42,46 @@ public class Solution {
         System.out.println(root.right.right.val + " next: " + root.right.right.next);
     }
 
+    // O(N) time, O(1) space: key is to use "next" too!
     public void connect(TreeLinkNode root) {
+        if (root == null) {
+            return;
+        }
+
+        while (root.left != null) {
+            TreeLinkNode first = root;              // error1: don't forget save first node, since we always move root
+            while (root.next != null) {             // error2: if you stop here, don't forget the children of last node
+                root.left.next = root.right;
+                root.right.next = root.next.left;
+                root = root.next;                   // error3: don't forget move pointer in inner of nested loop
+            }
+            root.left.next = root.right;
+            root = first.left;
+        }
+    }
+
+    // DFS: key is to use "next". but DFS needs O(h) extra space.
+    public void connect2(TreeLinkNode root) {
+        if (root == null) {
+            return;
+        }
+
+        // 1.Connect children for lower level use
+        if (root.left != null) {    // Assume perfect binary tree, but left is null for leaves
+            root.left.next = root.right;
+        }
+
+        // 2.Higher level must be handled already, so connect to sibling
+        if (root.right != null && root.next != null) {
+            root.right.next = root.next.left;
+        }
+
+        connect(root.left);
+        connect(root.right);
+    }
+
+    // My 1st
+    public void connect1(TreeLinkNode root) {
         if (root == null) {
             return;
         }
