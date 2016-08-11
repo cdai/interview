@@ -20,7 +20,7 @@ import java.util.Queue;
 public class Solution {
 
     // My 2nd: O(N) time, O(width) space
-    public List<List<Integer>> levelOrder2(TreeNode root) {
+    public List<List<Integer>> levelOrder(TreeNode root) {
         Queue<TreeNode> queue = new LinkedList<>();
         if (root != null) {
             queue.offer(root);
@@ -47,7 +47,7 @@ public class Solution {
 
     // Interesting DFS solution from leetcode discuss
     // This is much faster than BFS version?! Beat 85%!!!
-    public List<List<Integer>> levelOrder(TreeNode root) {
+    public List<List<Integer>> levelOrder_dfs(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
         doLevelOrder(result, root, 0);
         return result;

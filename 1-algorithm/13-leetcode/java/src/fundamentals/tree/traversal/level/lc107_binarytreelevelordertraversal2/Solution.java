@@ -21,7 +21,7 @@ import java.util.Queue;
 public class Solution {
 
     // DFS solution inspired by solution from leetcode discuss
-    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+    public List<List<Integer>> levelOrderBottom_dfs(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
         doLevelOrderBottom(result, root, 1);
         return result;
@@ -41,7 +41,7 @@ public class Solution {
     }
 
     // My 2nd: BFS solution with only one line changed
-    public List<List<Integer>> levelOrderBottom2(TreeNode root) {
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
         Queue<TreeNode> queue = new LinkedList<>();
         if (root != null) {
             queue.offer(root);
