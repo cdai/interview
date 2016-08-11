@@ -11,6 +11,26 @@ import fundamentals.list.ListNode;
 public class Solution {
 
     public ListNode removeElements(ListNode head, int val) {
+        if (head == null) {
+            return null;
+        }
+
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+
+        ListNode prev = dummy;
+        while (prev.next != null) {
+            if (prev.next.val == val) {
+                prev.next = prev.next.next; // prev remains, so it cannot be null
+            } else {
+                prev = prev.next;           // prev.next is non-null, so prev cannot be null
+            }
+        }
+        return dummy.next;
+    }
+
+    // My 1st
+    public ListNode removeElements1(ListNode head, int val) {
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
 
