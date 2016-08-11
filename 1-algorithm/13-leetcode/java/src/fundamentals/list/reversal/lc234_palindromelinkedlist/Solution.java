@@ -17,7 +17,43 @@ public class Solution {
         System.out.println(new Solution().isPalindrome(head));
     }
 
+    // My 2nd
     public boolean isPalindrome(ListNode head) {
+        if (head == null) {
+            return true;
+        }
+
+        // 1.Find middle node
+        ListNode mid = head, fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            mid = mid.next;
+            fast = fast.next.next;
+        }
+
+        // 2.Reverse second half
+        ListNode prev = mid, cur = mid.next;
+        while (cur != null) {
+            ListNode tmp = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = tmp;
+        }
+        mid.next = null;
+
+        // 3.Compare
+        ListNode from = head, to = prev;
+        while (from != null && to != null) { // different from 1st, but it's ok
+            if (from.val != to.val) {
+                return false;
+            }
+            from = from.next;
+            to = to.next;
+        }
+        return true;
+    }
+
+    // My 1st
+    public boolean isPalindrome1(ListNode head) {
         if (head == null) {
             return true;
         }
