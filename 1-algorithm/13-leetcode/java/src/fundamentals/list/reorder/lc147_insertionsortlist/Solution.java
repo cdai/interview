@@ -22,7 +22,7 @@ public class Solution {
         }
 
         ListNode dummy = new ListNode(0);
-        //dummy.next = head;
+        //dummy.next = head;        // Cause cycle. Consider dummy as another linked list
 
         // Invariant: nodes before cur is sorted
         ListNode cur = head;
@@ -35,8 +35,6 @@ public class Solution {
             cur.next = pos.next;
             pos.next = cur;
             cur = tmp;
-
-            print(dummy);
         }
         return dummy.next;
     }
