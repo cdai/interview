@@ -26,7 +26,22 @@ public class Solution {
         System.out.println();
     }
 
+    // My 2nd
     public void deleteNode(ListNode node) {
+        if (node == null || node.next == null) { // impossible to delete tail
+            return;
+        }
+
+        // Copy val from next node ("then")
+        ListNode then = node.next;
+        node.val = then.val;
+
+        // Delete next node instead
+        node.next = then.next;
+    }
+
+    // My 1st
+    public void deleteNode1(ListNode node) {
         if (node == null || node.next == null) {
             return;
         }
