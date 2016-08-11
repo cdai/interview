@@ -14,7 +14,57 @@ import java.util.Stack;
  * Note: Recursive solution is trivial, could you do it iteratively?
  */
 public class Solution {
+
+    // Iterative traversal: O(N) time, O(h) space
     public List<Integer> inorderTraversal(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> result = new ArrayList<>();
+        TreeNode cur = root;
+        while (!stack.isEmpty() || cur != null) {
+            if (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            } else {
+                cur = stack.pop();
+                result.add(cur.val);
+                cur = cur.right;
+            }
+        }
+        return result;
+    }
+
+    // Morris traversal: O(N) time, O(1) space
+    public List<Integer> inorderTraversal_morris(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        TreeNode cur = root;
+        while (cur != null) {
+            if (cur.left == null) {
+                result.add(cur.val);        // Exit-1: no left child, then go right
+                cur = cur.right;
+            } else {
+                // Find rightmost in left subtree
+                TreeNode rightmost = cur.left;
+                while (rightmost.right != null && rightmost.right != cur) {
+                    rightmost = rightmost.right;
+                }
+
+                // 1) rightmost = null: then link i to root as footprint before go left
+                // 2) rightmost = cur: means we're back to root by footprint, so restore rightmost.right then go right
+                if (rightmost.right == null) {
+                    rightmost.right = cur;
+                    cur = cur.left;
+                } else {
+                    result.add(cur.val);    // Exit-2: left subtree complete, then go right
+                    rightmost.right = null;
+                    cur = cur.right;
+                }
+            }
+        }
+        return result;
+    }
+
+    // My 1st
+    public List<Integer> inorderTraversal1(TreeNode root) {
         List<Integer> vals = new ArrayList<>();
         if (root == null) {
             return vals;
