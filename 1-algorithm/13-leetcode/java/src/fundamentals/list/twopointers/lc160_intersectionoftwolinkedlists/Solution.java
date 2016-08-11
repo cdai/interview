@@ -1,4 +1,4 @@
-package fundamentals.list.koffset.lc160_intersectionoftwolinkedlists;
+package fundamentals.list.twopointers.lc160_intersectionoftwolinkedlists;
 
 import fundamentals.list.ListNode;
 

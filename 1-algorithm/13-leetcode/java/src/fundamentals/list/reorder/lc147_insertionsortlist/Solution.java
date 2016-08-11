@@ -1,4 +1,4 @@
-package fundamentals.list.lc147_insertionsortlist;
+package fundamentals.list.reorder.lc147_insertionsortlist;
 
 import fundamentals.list.ListNode;
 
@@ -15,7 +15,34 @@ public class Solution {
         new Solution().insertionSortList(n1);
     }
 
+    // Solution from leetcode discuss
     public ListNode insertionSortList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode dummy = new ListNode(0);
+        //dummy.next = head;
+
+        // Invariant: nodes before cur is sorted
+        ListNode cur = head;
+        while (cur != null) {
+            ListNode pos = dummy;
+            while (pos.next != null && pos.next.val <= cur.val) {
+                pos = pos.next;
+            }
+            ListNode tmp = cur.next;
+            cur.next = pos.next;
+            pos.next = cur;
+            cur = tmp;
+
+            print(dummy);
+        }
+        return dummy.next;
+    }
+
+    // My 1st
+    public ListNode insertionSortList1(ListNode head) {
         if (head == null) {
             return null;
         }

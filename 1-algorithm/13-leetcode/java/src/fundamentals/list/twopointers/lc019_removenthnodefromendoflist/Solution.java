@@ -1,4 +1,4 @@
-package fundamentals.list.koffset.lc019_removenthnodefromendoflist;
+package fundamentals.list.twopointers.lc019_removenthnodefromendoflist;
 
 import fundamentals.list.ListNode;
 

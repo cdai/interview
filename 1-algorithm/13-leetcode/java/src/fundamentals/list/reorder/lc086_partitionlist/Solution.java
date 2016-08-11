@@ -1,4 +1,4 @@
-package fundamentals.list.lc086_partitionlist;
+package fundamentals.list.reorder.lc086_partitionlist;
 
 import fundamentals.list.ListNode;
 

@@ -1,4 +1,4 @@
-package fundamentals.list.lc141_linkedlistcycle;
+package fundamentals.list.twopointers.lc141_linkedlistcycle;
 
 import fundamentals.list.ListNode;
 
