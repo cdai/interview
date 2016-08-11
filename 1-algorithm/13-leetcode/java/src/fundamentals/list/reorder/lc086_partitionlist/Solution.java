@@ -37,7 +37,7 @@ public class Solution {
             head = head.next;
         }
         small.next = largeHead.next;
-        large.next = null;          // Note: use two new lists, don't wrong about cycle, only remember this one!
+        large.next = null;          // Note: use two new lists, don't worry about cycle, only remember this one!
         return smallHead.next;
     }
 
