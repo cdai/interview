@@ -14,7 +14,34 @@ import java.util.Stack;
  */
 public class Solution {
 
+    // My 2nd
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> result = new ArrayList<>();
+        pathSum(result, new ArrayList<>(), root, sum);
+        return result;
+    }
+
+    private void pathSum(List<List<Integer>> result,
+                         List<Integer> path, TreeNode root, int sum) {
+        if (root == null) {
+            return;
+        }
+
+        sum -= root.val;
+        path.add(root.val);
+
+        if (root.left == null && root.right == null && sum == 0) {
+            result.add(new ArrayList<>(path));
+        } else {
+            pathSum(result, path, root.left, sum);
+            pathSum(result, path, root.right, sum);
+        }
+
+        path.remove(path.size() - 1);
+    }
+
+    // My 1st
+    public List<List<Integer>> pathSum1(TreeNode root, int sum) {
         if (root == null) {
             return Collections.emptyList();
         }
