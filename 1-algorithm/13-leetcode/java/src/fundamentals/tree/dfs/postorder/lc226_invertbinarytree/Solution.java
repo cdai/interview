@@ -1,4 +1,4 @@
-package fundamentals.tree.construct.lc226_invertbinarytree;
+package fundamentals.tree.dfs.postorder.lc226_invertbinarytree;
 
 import fundamentals.tree.TreeNode;
 
@@ -18,7 +18,19 @@ import fundamentals.tree.TreeNode;
  */
 public class Solution {
 
+    // My 2nd: O(N) time, O(h) space
     public TreeNode invertTree(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        TreeNode left = root.left, right = root.right;
+        root.left = invertTree(right);
+        root.right = invertTree(left);
+        return root;
+    }
+
+    // My 1st
+    public TreeNode invertTree1(TreeNode root) {
         if (root == null) {
             return null;
         }

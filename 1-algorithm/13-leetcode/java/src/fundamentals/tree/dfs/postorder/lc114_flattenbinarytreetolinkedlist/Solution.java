@@ -1,4 +1,4 @@
-package fundamentals.tree.construct.lc114_flattenbinarytreetolinkedlist;
+package fundamentals.tree.dfs.postorder.lc114_flattenbinarytreetolinkedlist;
 
 import fundamentals.tree.TreeNode;
 
