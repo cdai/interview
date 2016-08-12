@@ -2,13 +2,49 @@ package fundamentals.tree.construct.lc105_constructbinarytreefrompreorderandinor
 
 import fundamentals.tree.TreeNode;
 
+import java.util.Arrays;
+
 /**
  * Given preorder and inorder traversal of a tree, construct the binary tree.
  * Note: You may assume that duplicates do not exist in the tree.
  */
 public class Solution {
 
+    // My 2nd: easy index, but many sub array generated slow down the performance...
     public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if (preorder.length == 0) {
+            return null;
+        }
+
+        int rootVal = preorder[0];
+        int rootIdx = search(inorder, rootVal);
+
+        TreeNode root = new TreeNode(rootVal);
+        root.left = buildTree(sub(preorder, 1, rootIdx + 1), sub(inorder, 0, rootIdx));
+        root.right = buildTree(sub(preorder, rootIdx + 1), sub(inorder, rootIdx + 1));
+        return root;
+    }
+
+    private int search(int[] a, int target) {
+        int i = 0;
+        for ( ; i < a.length; i++) {
+            if (a[i] == target) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private int[] sub(int[] a, int from) {
+        return Arrays.copyOfRange(a, from, a.length);
+    }
+
+    private int[] sub(int[] a, int from, int to) {
+        return Arrays.copyOfRange(a, from, to);
+    }
+
+    // My 1st
+    public TreeNode buildTree1(int[] preorder, int[] inorder) {
         if (preorder.length == 0 || inorder.length == 0 || preorder.length != inorder.length) {
             return null;
         }
