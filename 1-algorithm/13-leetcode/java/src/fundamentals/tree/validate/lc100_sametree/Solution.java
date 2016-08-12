@@ -7,6 +7,8 @@ import fundamentals.tree.TreeNode;
  * Two binary trees are considered equal if they are structurally identical and the nodes have the same value.
  */
 public class Solution {
+    // My 2nd: preorder traversal, can implement in stack
+    // My 1st
     public boolean isSameTree(TreeNode p, TreeNode q) {
         if (p == null || q == null) {
             return (p == null && q == null);

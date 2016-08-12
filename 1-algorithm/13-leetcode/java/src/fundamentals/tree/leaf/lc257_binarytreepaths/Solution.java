@@ -17,7 +17,7 @@ import java.util.List;
  * All root-to-leaf paths are: ["1->2->5", "1->3"]
  */
 public class Solution {
-    
+
     // My 2nd: use return value to replace result argument
     public List<String> binaryTreePaths(TreeNode root) {
         return doFindPath(root, "");
