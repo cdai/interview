@@ -11,37 +11,37 @@ import java.util.Stack;
  * Note: next() and hasNext() should run in average O(1) time and uses O(h) memory,
  * where h is the height of the tree.
  */
-public class Solution {
+public class BSTIterator {
 
-    private Stack<TreeNode> stack = new Stack<>();
+    private Stack<TreeNode> stack;
 
-    public Solution(TreeNode root) {
-        if (root != null) {
-            toLeftmost(root);
-        }
+    private TreeNode cur;
+
+    public BSTIterator(TreeNode root) {
+        this.stack = new Stack<>();
+        this.cur = root;
     }
 
     /** @return whether we have a next smallest number */
     public boolean hasNext() {
-        return !stack.isEmpty();
+        return !stack.isEmpty() || cur != null;
     }
 
     /** @return the next smallest number */
     public int next() {
-        TreeNode smallest = stack.pop();
-        if (smallest.right != null) {
-            toLeftmost(smallest.right);
+        int val = 0;
+        while (hasNext()) {
+            if (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            } else {
+                cur = stack.pop();
+                val = cur.val;
+                cur = cur.right;
+                break;
+            }
         }
-        return smallest.val;
-    }
-
-    // This is inorder traversal actually
-    // Each node is pushed onto stack once
-    // So it's O(1) on average, and stack is O(h)
-    private void toLeftmost(TreeNode root) {
-        do {
-            stack.push(root);
-        } while ((root = root.left) != null);
+        return val;
     }
 
 }
