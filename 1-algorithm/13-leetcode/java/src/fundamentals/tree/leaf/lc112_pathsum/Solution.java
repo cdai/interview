@@ -1,4 +1,4 @@
-package fundamentals.tree.root2leafnum.lc112_pathsum;
+package fundamentals.tree.leaf.lc112_pathsum;
 
 import fundamentals.tree.TreeNode;
 

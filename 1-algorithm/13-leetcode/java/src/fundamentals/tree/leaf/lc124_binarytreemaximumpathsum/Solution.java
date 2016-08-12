@@ -1,4 +1,4 @@
-package fundamentals.tree.root2leafnum.lc124_binarytreemaximumpathsum;
+package fundamentals.tree.leaf.lc124_binarytreemaximumpathsum;
 
 import fundamentals.tree.TreeNode;
 

@@ -1,4 +1,4 @@
-package fundamentals.tree.root2leafnum.lc257_binarytreepaths;
+package fundamentals.tree.leaf.lc257_binarytreepaths;
 
 import fundamentals.tree.TreeNode;
 

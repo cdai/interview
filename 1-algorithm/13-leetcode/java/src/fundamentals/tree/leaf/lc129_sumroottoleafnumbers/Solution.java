@@ -1,4 +1,4 @@
-package fundamentals.tree.root2leafnum.lc129_sumroottoleafnumbers;
+package fundamentals.tree.leaf.lc129_sumroottoleafnumbers;
 
 import fundamentals.tree.TreeNode;
 

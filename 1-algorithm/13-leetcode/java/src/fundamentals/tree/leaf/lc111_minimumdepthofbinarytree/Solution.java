@@ -1,4 +1,4 @@
-package fundamentals.tree.depth.lc111_minimumdepthofbinarytree;
+package fundamentals.tree.leaf.lc111_minimumdepthofbinarytree;
 
 import fundamentals.tree.TreeNode;
 
