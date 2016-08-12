@@ -20,7 +20,65 @@ public class Solution {
         new Solution().recoverTree(root);
     }
 
+    // My 2nd: key is how to find these two nodes
     public void recoverTree(TreeNode root) {
+        TreeNode n1 = null, n2 = null;
+
+        // 1.Find that two nodes by Morris traversal
+        TreeNode cur = root, prev = null;
+        while (cur != null) {
+            if (cur.left == null) {
+                // Inorder visit 1: when no left child exists
+                if (prev != null && prev.val > cur.val) {
+                    /*if (n1 == null) {
+                        n1 = cur;
+                    } else {
+                        n2 = cur;
+                        break;
+                    }*/
+                    if (n1 == null) {
+                        n1 = prev;
+                    }
+                    n2 = cur;
+                }
+                prev = cur;
+
+                cur = cur.right;
+            } else {
+                TreeNode rightmost = cur.left;
+                while (rightmost.right != null && rightmost.right != cur) {
+                    rightmost = rightmost.right;
+                }
+
+                if (rightmost.right == null) {
+                    rightmost.right = cur;
+                    cur = cur.left;
+                } else {
+                    rightmost.right = null;
+
+                    // Inorder visit 2: when left subtree traversal complete
+                    if (prev != null && prev.val > cur.val) {
+                        if (n1 == null) {
+                            n1 = prev;
+                        }
+                        n2 = cur;
+                    }
+                    prev = cur;
+
+                    cur = cur.right;
+                }
+            }
+        }
+
+        // 2.Recover them
+        int tmp = n1.val;
+        n1.val = n2.val;
+        n2.val = tmp;
+    }
+
+
+    // My 1st
+    public void recoverTree1(TreeNode root) {
         TreeNode node1 = null, node2 = null;
 
         // Do Morris traversal, find first and last inverted node

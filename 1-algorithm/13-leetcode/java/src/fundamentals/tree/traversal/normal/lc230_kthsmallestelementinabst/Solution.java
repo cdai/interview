@@ -26,6 +26,7 @@ public class Solution {
         System.out.println(new Solution().kthSmallest(root, 7));
     }
 
+    // 2nd
     public int kthSmallest(TreeNode root, int k) {
         Stack<TreeNode> stack = new Stack<>();
         TreeNode p = root;
@@ -37,7 +38,7 @@ public class Solution {
                 p = stack.pop();
 
                 // In-order visit
-                if (--k == 0) {
+                if (--k == 0) {     // kth starts from 1
                     return p.val;
                 }
 
