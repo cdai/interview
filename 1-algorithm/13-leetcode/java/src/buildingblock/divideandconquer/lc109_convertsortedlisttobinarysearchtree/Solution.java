@@ -1,4 +1,4 @@
-package fundamentals.tree.construct.lc109_convertsortedlisttobinarysearchtree;
+package buildingblock.divideandconquer.lc109_convertsortedlisttobinarysearchtree;
 
 import fundamentals.list.ListNode;
 import fundamentals.tree.TreeNode;
@@ -8,7 +8,36 @@ import fundamentals.tree.TreeNode;
  */
 public class Solution {
 
+    // My 2nd: O(N) time, O(logN) space
     public TreeNode sortedListToBST(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+
+        // 1.Find middle node and prev
+        ListNode prev = null, mid = head, fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            prev = mid;
+            mid = mid.next;
+            fast = fast.next.next;
+        }
+
+        // 2.Cut off and handle first half if exist
+        TreeNode root = new TreeNode(mid.val);
+        if (prev != null) {
+            prev.next = null;
+            root.left = sortedListToBST(head);
+        }
+
+        // 3.Cut off and handle second half
+        ListNode half2 = mid.next;
+        mid.next = null;
+        root.right = sortedListToBST(half2);
+        return root;
+    }
+
+    // My 1st
+    public TreeNode sortedListToBST1(ListNode head) {
         if (head == null) {
             return null;
         }
