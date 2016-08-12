@@ -10,7 +10,28 @@ import java.util.LinkedList;
  * Find the total sum of all root-to-leaf numbers.
  */
 public class Solution {
+
+    // My 2nd: much faster by using int as path
+    //          no need to recover it like LinkedList.
     public int sumNumbers(TreeNode root) {
+        return doSum(root, 0);
+    }
+
+    private int doSum(TreeNode root, int path) {
+        if (root == null) {     // error1: root could be null not only when input is null, but when root has only one subtree
+            return 0;
+        }
+
+        path = path * 10 + root.val; // error2: must put before the following codes
+
+        if (root.left == null && root.right == null) {
+            return path;
+        }
+        return doSum(root.left, path) + doSum(root.right, path);
+    }
+
+    // My 1st
+    public int sumNumbers1(TreeNode root) {
         return doSumNumbers(new LinkedList<Integer>(), root);
     }
 
