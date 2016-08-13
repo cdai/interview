@@ -7,12 +7,34 @@ package buildingblock.searching.lc153_findminimuminrotatedsortedarray;
  */
 public class Solution {
 
+    // My 2nd: without bunch of asserts, just open eyes on key points
+    // 1) Initialization: invariant definition and init value
+    // 2) Preservation: make invariant hold
+    // 3) Termination: range shrinks all the way so it must terminate, then return -1, index or value
+    public int findMin(int[] nums) {
+        int low = 0, high = nums.length - 1;
+
+        // Min element MustBe(low,high)
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] > nums[high]) { // last half is disordered
+                low = mid + 1;
+            } else { // last half is ordered or doesn't exist (mid=high)
+                high = mid;
+            }
+        }
+
+        // MustBe(low,high) and low=high
+        return nums[low];
+    }
+
+    // My 1st
     // Test case:
     // 1.Odd or even number of values
     // 2.Min is first, last or first half or second half
     // 3.Empty, only-one array
     // 4.positive, negative, zero
-    public int findMin(int[] nums) {
+    public int findMin1(int[] nums) {
         /* MustBe(0,N-1): min value must be in range [0,N-1] */
         int low = 0, high = nums.length - 1;
 
