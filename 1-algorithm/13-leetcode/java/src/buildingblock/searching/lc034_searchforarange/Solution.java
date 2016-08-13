@@ -8,7 +8,49 @@ package buildingblock.searching.lc034_searchforarange;
  */
 public class Solution {
 
+    // My 2nd: two binary searches with O(logN) time
     public int[] searchRange(int[] nums, int target) {
+        int[] range = new int[]{ -1, -1 };
+        if (nums.length == 0) {
+            return range;
+        }
+
+        // 1.Find first occurence of target
+        int low = 0, high = nums.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] < target) {
+                low = mid + 1;
+            } else if (nums[mid] > target) {
+                high = mid - 1;
+            } else {
+                range[0] = mid;
+                high = mid - 1;     // find target, but continue binary search on [low,mid)
+            }
+        }
+
+        if (range[0] == -1) {
+            return range;
+        }
+
+        // 2.Find last occurence of target
+        low = 0; high = nums.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] < target) {
+                low = mid + 1;
+            } else if (nums[mid] > target) {
+                high = mid - 1;
+            } else {
+                range[1] = mid;
+                low = mid + 1;      // find target, but continue binary search on (mid,high]
+            }
+        }
+        return range;
+    }
+
+    // My 1st: divide and conquer
+    public int[] searchRange1(int[] nums, int target) {
         if (nums == null || nums.length == 0) {
             return new int[]{ -1, -1 };
         }
