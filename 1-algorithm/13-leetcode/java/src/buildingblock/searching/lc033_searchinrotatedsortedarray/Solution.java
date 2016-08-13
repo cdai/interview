@@ -8,7 +8,71 @@ package buildingblock.searching.lc033_searchinrotatedsortedarray;
  */
 public class Solution {
 
+    // Inspired from leetcode discuss
     public int search(int[] nums, int target) {
+        int n = nums.length;
+
+        // 1.Find pivot (smallest element position)
+        // This is actually another problem 153
+        int low = 0, high = n - 1;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] > nums[high]) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+
+        // 2.Pretend to binary search on a sorted array
+        //  But transform index when we need to compare (realmid)
+        int pivot = low;
+        low = 0; high = n - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2; // how to avoid overflow...
+            int realmid = (mid + pivot) % n;
+            if (nums[realmid] == target) {
+                return realmid;
+            } else if (nums[realmid] > target) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return -1;
+    }
+
+    // My 2nd: O(logN)
+    public int search2(int[] nums, int target) {
+        // target must be [0,n-1] or doesn't exist in array
+        int low = 0, high = nums.length - 1;
+
+        // MustBe(low,high)
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+            if (nums[mid] < nums[high]) {
+                if (nums[mid] < target && target <= nums[high]) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            } else {
+                if (nums[low] <= target && target < nums[mid]) {
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            }
+        }
+        // low is the insert position, but -1 is required
+        return -1;
+    }
+
+    // My 1st
+    public int search1(int[] nums, int target) {
         if (nums == null || nums.length == 0) {
             return -1;
         }
