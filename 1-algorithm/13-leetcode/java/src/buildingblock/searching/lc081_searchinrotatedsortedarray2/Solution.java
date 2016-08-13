@@ -6,12 +6,72 @@ package buildingblock.searching.lc081_searchinrotatedsortedarray2;
  * Write a function to determine if a given target is in the array.
  */
 public class Solution {
-
+    
+    // Solution from leetcode discuss: a little simpler than mine in if-condition
+    // The key is to consider from one bound: mid and high OR mid and low
     public boolean search(int[] nums, int target) {
-        return search(nums, target, 0, nums.length - 1);
+        int low = 0, high = nums.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target) {
+                return true;
+            }
+            if (nums[mid] < nums[high]) {       // Second half is sorted
+                if (nums[mid] < target && target <= nums[high]) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            } else if (nums[mid] > nums[high]) {// First half may be sorted eg.[0,1,4,5,0] or all the same eg.[4,4,4,5,0]
+                if (nums[low] <= target && target < nums[mid]) {
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            } else {                            // A[mid] = A[high] and A[mid]<>target, so it's safe to shrink from high bound
+                high--;
+            }
+        }
+        return false;
     }
 
-    private boolean search(int[] nums, int target, int low, int high) {
+    // My 2nd: O(logN) but O(N) in the worst case
+    public boolean search2(int[] nums, int target) {
+        int low = 0, high = nums.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target) {
+                return true;
+            }
+            if (nums[mid] < nums[high]) {
+                if (nums[mid] < target && target <= nums[high]) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            } else if (nums[low] < nums[mid]) {
+                if (nums[low] <= target && target < nums[mid]) {
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            } else {                            // case: A[low] => A[mid] => A[high]
+                if (nums[mid] == nums[high]) {  // it must have: A[low]=A[mid] or A[mid]=A[high], otherwise two pivots exist
+                    high--;                     // (pivot-1 is between A[low] > A[mid], pivot-2 is between A[mid] > A[high])
+                } else {
+                    low++;
+                }
+            }
+        }
+        return false;
+    }
+
+    // My 1st: recursion is not a must
+    public boolean search1(int[] nums, int target) {
+        return search1(nums, target, 0, nums.length - 1);
+    }
+
+    private boolean search1(int[] nums, int target, int low, int high) {
         /* MustBe(low,high) */
         if (low > high) {
             return false;
@@ -27,19 +87,19 @@ public class Solution {
         if (nums[low] > nums[mid]) {
             // nums[low],...nums[0],...nums[mid],...nums[high]
             if (nums[mid] < target && target <= nums[high]) {
-                return search(nums, target, mid + 1, high);
+                return search1(nums, target, mid + 1, high);
             }
-            return search(nums, target, low, mid - 1);
+            return search1(nums, target, low, mid - 1);
         }
 
         if (nums[mid] > nums[high]) {
             // nums[low],...nums[mid],...nums[0],...nums[high]
             if (nums[low] <= target && target < nums[mid]) {
-                return search(nums, target, low, mid - 1);
+                return search1(nums, target, low, mid - 1);
             }
-            return search(nums, target, mid + 1, high);
+            return search1(nums, target, mid + 1, high);
         }
-        return search(nums, target, low, mid - 1) || search(nums, target, mid + 1, high);
+        return search1(nums, target, low, mid - 1) || search1(nums, target, mid + 1, high);
     }
 
 }
