@@ -6,7 +6,27 @@ package buildingblock.divideandconquer.lc096_uniquebinarysearchtrees;
  */
 public class Solution {
 
+    // My 2nd: O(N^2) time, O(N) space
     public int numTrees(int n) {
+        if (n < 0) {
+            return 1;
+        }
+
+        int[] nums = new int[n + 1];
+        nums[0] = 1;
+
+        for (int i = 1; i <= n; i++) {
+            // Pick j from [1,i] as root
+            for (int j = 1; j <= i; j++) {
+                // #left subtree * #right subtree
+                nums[i] += (nums[j - 1] * nums[i - j]);
+            }
+        }
+        return nums[n];
+    }
+
+    // My 1st
+    public int numTrees1(int n) {
         int[] nums = new int[n + 2];
         nums[0] = nums[n + 1] = 1;
 
