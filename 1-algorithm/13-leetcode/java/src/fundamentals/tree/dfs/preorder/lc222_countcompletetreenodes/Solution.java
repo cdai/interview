@@ -1,6 +1,8 @@
-package fundamentals.tree.separate.lc222_countcompletetreenodes;
+package fundamentals.tree.dfs.preorder.lc222_countcompletetreenodes;
 
 import fundamentals.tree.TreeNode;
+
+import java.util.function.UnaryOperator;
 
 /**
  * Given a complete binary tree, count the number of nodes.
@@ -11,7 +13,36 @@ import fundamentals.tree.TreeNode;
  */
 public class Solution {
 
+    // 2nd: still hard to finish on my own...
+    // Have a taste of JDK 8 lambda, it turns out TLE sometimes...
     public int countNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        // 1.Get height of leftmost and rightmost
+        int leftHeight = getHeight(root, (node -> node.left));
+        int rightHeight = getHeight(root, (node -> node.right));
+
+        // 2.Calculate #nodes if the last level is full too
+        if (leftHeight == rightHeight) {
+            return (2 << (leftHeight - 1)) - 1;
+        } else {
+            return countNodes(root.left) + countNodes(root.right) + 1;
+        }
+    }
+
+    private int getHeight(TreeNode root, UnaryOperator<TreeNode> next) {
+        int height = 0;
+        while (root != null) {
+            root = next.apply(root);
+            height++;
+        }
+        return height;
+    }
+
+    // 1st: O(logN*logN)
+    public int countNodes1(TreeNode root) {
         if (root == null) {
             return 0;
         }
@@ -25,7 +56,7 @@ public class Solution {
         if (leftH == rightH) {
             return (2 << leftH) - 1; // error3: 2^(h+1) -> 2<<h
         } else {
-            return countNodes(root.left) + countNodes(root.right) + 1;
+            return countNodes1(root.left) + countNodes1(root.right) + 1;
         }
     }
 
