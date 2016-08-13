@@ -8,7 +8,29 @@ package buildingblock.searching.lc367_validperfectsquare;
  */
 public class Solution {
 
+    // My 2nd: O(logN)
     public boolean isPerfectSquare(int num) {
+        if (num <= 0) {
+            return false;
+        }
+
+        int low = 1, high = num;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            long result = num - (long) mid * mid;
+            if (result > 0) {
+                low = mid + 1;
+            } else if (result < 0) {
+                high = mid - 1;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // My 1st
+    public boolean isPerfectSquare1(int num) {
         if (num <= 0) {
             return false;
         }
