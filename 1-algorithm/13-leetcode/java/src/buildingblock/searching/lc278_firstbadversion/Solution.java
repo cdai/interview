@@ -11,11 +11,14 @@ package buildingblock.searching.lc278_firstbadversion;
  */
 public class Solution extends VersionControl {
 
+    // My 2nd
+    // My 1st
     public int firstBadVersion(int n) {
-        /* MustBe(low,high) */
+        /* MustBe(0,n) */
         int low = 0, high = n;
 
-        /* MustBe(0,n) */
+        /* MustBe(low,high) */
+        // First bad version MustBe(low,high)
         while (low < high) { // low<=high -> low<=mid<=high below causing dead loop
             int mid = low + (high - low) / 2;
 
@@ -26,6 +29,8 @@ public class Solution extends VersionControl {
                 low = mid + 1;
             }
         }
+
+        /* MustBe(low,high) and low=high */
         return low;
     }
 
