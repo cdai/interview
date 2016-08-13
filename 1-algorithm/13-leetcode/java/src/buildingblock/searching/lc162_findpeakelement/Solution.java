@@ -10,23 +10,50 @@ package buildingblock.searching.lc162_findpeakelement;
  */
 public class Solution {
 
-    // O(logn)
+    // O(logN) solution from leetcode discuss
     public int findPeakElement(int[] nums) {
+        int low = 0, high = nums.length - 1;
+        while (low < high) {
+            int mid1 = low + (high - low) / 2;
+            int mid2 = mid1 + 1;
+
+            // "The key mindset is to climb the rising slope."
+            // It doesn't matter if you missed a peak
+            if (nums[mid1] < nums[mid2]) {
+                low = mid2;
+            } else{
+                high = mid1;
+            }
+        }
+        return low;
+    }
+
+    // My 2nd: sequential search with O(N) time
+    public int findPeakElement2(int[] nums) {
+        int i = 0;
+        for (; i < nums.length - 1 && nums[i] < nums[i + 1]; i++);
+
+        // Stop at i=len-1 or A[i]>=A[i+1]. In both cases, peak is i
+        return i;
+    }
+
+    // My 1st: O(logn)
+    public int findPeakElement1(int[] nums) {
         if (nums.length == 1) {
             return 0;
         }
-        return findPeakElement(nums, 0, nums.length - 1);
+        return findPeakElement1(nums, 0, nums.length - 1);
     }
 
-    public int findPeakElement(int[] nums, int low, int high) {
+    public int findPeakElement1(int[] nums, int low, int high) {
         if (low >= high) {
             return -1;
         }
 
         // What invariant? FindPeakElement return peak index or -1 if not exist?
         int mid = (low + high) / 2;
-        int peak1 = findPeakElement(nums, low, mid);
-        int peak2 = findPeakElement(nums, mid + 1, high);
+        int peak1 = findPeakElement1(nums, low, mid);
+        int peak2 = findPeakElement1(nums, mid + 1, high);
         if (peak1 == -1 && peak2 == -1) {
             // Two possible peak point in the middle
             return isPeak(nums, mid) ? mid : (isPeak(nums, mid + 1) ? mid + 1 : -1);

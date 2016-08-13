@@ -6,7 +6,7 @@ package buildingblock.searching.lc081_searchinrotatedsortedarray2;
  * Write a function to determine if a given target is in the array.
  */
 public class Solution {
-    
+
     // Solution from leetcode discuss: a little simpler than mine in if-condition
     // The key is to consider from one bound: mid and high OR mid and low
     public boolean search(int[] nums, int target) {
