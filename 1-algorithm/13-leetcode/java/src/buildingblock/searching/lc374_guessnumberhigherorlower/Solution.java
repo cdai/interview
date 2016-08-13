@@ -12,7 +12,25 @@ package buildingblock.searching.lc374_guessnumberhigherorlower;
  */
 public class Solution extends GuessGame {
 
+    // My 2nd: iterative solution
     public int guessNumber(int n) {
+        int low = 1, high = n;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            int result = guess(mid);
+            if (result == 1) {
+                low = mid + 1;
+            } else if (result == -1) {
+                high = mid - 1;
+            } else {
+                return mid;
+            }
+        }
+        return low;
+    }
+
+    // My 1st: recursive solution
+    public int guessNumber1(int n) {
         return doGuess(1, n);
     }
 
