@@ -14,7 +14,31 @@ package buildingblock.searching.lc074_searcha2dmatrix;
  */
 public class Solution {
 
+    // My 2nd: O(logN)
     public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int low = 0, high = m * n - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            int num = matrix[mid / n][mid % n];     // key: index translation
+            if (num > target) {
+                high = mid - 1;
+            } else if (num < target) {
+                low = mid + 1;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // My 1st: didn't think of binary search...
+    public boolean searchMatrix1(int[][] matrix, int target) {
         if (matrix.length == 0 || matrix[0].length == 0) {
             return false;
         }
