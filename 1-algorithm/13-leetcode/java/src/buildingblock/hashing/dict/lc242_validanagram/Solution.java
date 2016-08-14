@@ -13,7 +13,27 @@ import java.util.Map;
  */
 public class Solution {
 
+    // My 2nd: O(N) time, O(1) space (fixed 26 int array)
     public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+
+        int[] alphabet = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            alphabet[s.charAt(i) - 'a']++;
+            alphabet[t.charAt(i) - 'a']--;
+        }
+
+        for (int i : alphabet) {
+            if (i != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isAnagram1(String s, String t) {
         int[] dict = new int[26];
         for (char c : s.toCharArray()) {
             dict[c - 'a']++;
