@@ -23,8 +23,31 @@ import java.util.Map;
  */
 public class Solution {
 
-    // When dict is limited, using array as dict is much elegant and fast!!!
+    // My 2nd: O(N) time, O(1) space
     public String getHint(String secret, String guess) {
+        int[] nums = new int[10];
+
+        int bulls = 0, cows = 0;
+        for (int i = 0; i < secret.length(); i++) {
+            int s = secret.charAt(i) - '0';
+            int g = guess.charAt(i) - '0';
+            if (s == g) {
+                bulls++;
+            } else {
+                if (nums[s]++ < 0) { // Negative means there're guess number here
+                    cows++;
+                }
+                if (nums[g]-- > 0) { // Negative means there're secret number here
+                    cows++;
+                }
+            }
+        }
+        return bulls + "A" + cows + "B";
+    }
+
+    // My 1st
+    // When dict is limited, using array as dict is much elegant and fast!!!
+    public String getHint1(String secret, String guess) {
         int[] letters = new int[10];
         int bulls = 0;
         for (int i = 0; i < secret.length(); i++) {
