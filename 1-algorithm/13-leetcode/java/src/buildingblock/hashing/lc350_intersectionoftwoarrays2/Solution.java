@@ -18,6 +18,7 @@ import java.util.Map;
  */
 public class Solution {
 
+    // My 2nd
     // Solution1: extremely fast, maybe due to constant space used
     public int[] intersect(int[] nums1, int[] nums2) {
         Arrays.sort(nums1);
