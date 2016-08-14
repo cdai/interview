@@ -11,8 +11,32 @@ import java.util.Set;
  */
 public class Solution {
 
-    // TLE...
+    // Save one operation by using return value of add
     public boolean containsDuplicate(int[] nums) {
+        Set<Integer> numSet = new HashSet<>();
+        for (int num : nums) {
+            if (!numSet.add(num)) { // One operation: add() return false if element exists already
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // My 2nd: O(N) time, O(N) space, TLE...
+    // Note: Map is not necessary, since we exit if found a duplicate
+    public boolean containsDuplicate2(int[] nums) {
+        Set<Integer> numSet = new HashSet<>();
+        for (int num : nums) {
+            if (numSet.contains(num)) {
+                return true;
+            }
+            numSet.add(num);
+        }
+        return false;
+    }
+
+    // TLE...
+    public boolean containsDuplicate1(int[] nums) {
         if (nums.length == 0) {
             return false;
         }
@@ -26,7 +50,7 @@ public class Solution {
         return false;
     }
 
-    public boolean containsDuplicate2(int[] nums) {
+    public boolean containsDuplicate11(int[] nums) {
         Set<Integer> exist = new HashSet<>();
         for (int n : nums) {
             if (exist.contains(n)) {
