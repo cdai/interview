@@ -30,7 +30,56 @@ public class Solution {
         System.out.println(new Solution().copyRandomList(null));
     }
 
+    // Solution from programcreek, use 3 passes with O(1) space
+    // Much faster than HashMap solution
     public RandomListNode copyRandomList(RandomListNode head) {
+        // 1.Copy node as next of itself
+        for (RandomListNode cur = head; cur != null; cur = cur.next.next) {
+            RandomListNode copy = new RandomListNode(cur.label);
+            copy.next = cur.next;
+            cur.next = copy;    // cur.next = copy = not null
+        }
+
+        // 2.Set random pointer
+        for (RandomListNode cur = head; cur != null; cur = cur.next.next) {
+            if (cur.random != null) {
+                cur.next.random = cur.random.next; // This is the key!!!
+            }
+        }
+
+        // 3.Split into two lists
+        RandomListNode dummy = new RandomListNode(0);
+        RandomListNode prev = dummy;
+        for (RandomListNode cur = head; cur != null; cur = cur.next) {
+            prev.next = cur.next;
+            prev = prev.next;
+            cur.next = cur.next.next;   // must restore orginal list
+        }
+        return dummy.next;
+    }
+
+    // My 2nd: worse than 1st even... O(N) time O(N) space
+    public RandomListNode copyRandomList2(RandomListNode head) {
+
+        RandomListNode clones = new RandomListNode(0);
+        RandomListNode prev = clones;
+
+        Map<RandomListNode, RandomListNode> created = new HashMap<>();
+        while (head != null) {
+            RandomListNode clone = cloneIfNotExist(head, created);
+            if (head.random != null) {      // random could be null
+                clone.random = cloneIfNotExist(head.random, created);
+            }
+            prev.next = clone;
+
+            prev = prev.next;
+            head = head.next;
+        }
+        return clones.next;
+    }
+
+    // My 1st
+    public RandomListNode copyRandomList1(RandomListNode head) {
         RandomListNode dummy = new RandomListNode(-1);
         RandomListNode prev = dummy;
 
