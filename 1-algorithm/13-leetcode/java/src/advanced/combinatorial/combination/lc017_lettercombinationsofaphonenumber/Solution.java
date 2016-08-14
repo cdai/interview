@@ -24,7 +24,7 @@ public class Solution {
             queue.offer("");
         }
 
-        // For tree, there're only two possiblities: left and right child.
+        // For tree, there're only two possibilities: left and right child.
         // For this problem, there're many according to digits first char
         while (!queue.isEmpty() && !digits.isEmpty()) {
             int size = queue.size();
