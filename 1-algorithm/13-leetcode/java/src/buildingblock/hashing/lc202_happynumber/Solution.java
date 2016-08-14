@@ -18,7 +18,62 @@ import java.util.Set;
  */
 public class Solution {
 
+    // An interesting "find cycle in linked list" flavour solution
     public boolean isHappy(int n) {
+        int slow = n, fast = n;
+        // eg. 10, slow=1, fast=1, wrong!
+        /*while (slow != 1) {
+            slow = next(slow);
+            fast = next(next(fast));
+            if (slow == fast) {
+                return false;
+            }
+        }*/
+        do {
+            slow = next(slow);
+            fast = next(next(fast));
+        } while (slow != fast);
+        return slow == 1;
+    }
+
+    private int next(int n) {
+        int sum = 0;
+        while (n > 0) {
+            int d = (n % 10);
+            sum += d * d;
+            n /= 10;
+        }
+        return sum;
+    }
+
+    // My 2nd
+    public boolean isHappy2(int n) {
+        if (n <= 0) {
+            return false;
+        }
+
+        Set<Integer> nums = new HashSet<>();
+        while (n != 1) {
+            int sum = 0;
+            while (n > 0) {
+                int d = (n % 10);
+                sum += d * d;
+                n /= 10;
+            }
+            n = sum;
+
+            // Infinite dead loop
+            if (!nums.add(n)) {     // Simplied!
+                return false;
+            }
+        }
+
+        // n = 1
+        return true;
+    }
+
+    // My 1st
+    public boolean isHappy1(int n) {
         if (n <= 0) {
             return false;
         }
