@@ -15,6 +15,7 @@ import java.util.*;
  */
 public class Solution {
 
+    // My 2nd: it's still hard to come up with sort(chars) as key
     // k=s.length, O(n * klogk)
     public List<List<String>> groupAnagrams(String[] strs) {
         Map<String,List<String>> group = new HashMap<>();

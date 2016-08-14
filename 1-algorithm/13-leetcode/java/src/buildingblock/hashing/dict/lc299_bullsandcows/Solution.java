@@ -23,7 +23,7 @@ import java.util.Map;
  */
 public class Solution {
 
-    // My 2nd: O(N) time, O(1) space
+    // My 2nd: one pass in O(N) time, O(1) space
     public String getHint(String secret, String guess) {
         int[] nums = new int[10];
 
@@ -37,7 +37,7 @@ public class Solution {
                 if (nums[s]++ < 0) { // Negative means there're guess number here
                     cows++;
                 }
-                if (nums[g]-- > 0) { // Negative means there're secret number here
+                if (nums[g]-- > 0) { // Positive means there're secret number here
                     cows++;
                 }
             }
@@ -45,7 +45,7 @@ public class Solution {
         return bulls + "A" + cows + "B";
     }
 
-    // My 1st
+    // My 1st: two pass with counter array
     // When dict is limited, using array as dict is much elegant and fast!!!
     public String getHint1(String secret, String guess) {
         int[] letters = new int[10];
