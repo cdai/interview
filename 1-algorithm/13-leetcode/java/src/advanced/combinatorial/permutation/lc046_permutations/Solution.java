@@ -21,10 +21,37 @@ import java.util.Set;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        System.out.println(new Solution().permute(new int[]{1, 2, 3}));
+    }
+
+    // Recursive version without Set
+    // In fact, this is exactly the same as iterative one
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        doPermute(result, new ArrayList<>(), nums, 0);
+        return result;
+    }
+
+    private void doPermute(List<List<Integer>> result,
+                           List<Integer> path, int[] nums, int start) {
+        if (path.size() == nums.length) {
+            result.add(path);
+            return;
+        }
+
+        // i is insert position, start is the index of num
+        for (int i = 0; i <= path.size(); i++) {
+            List<Integer> per = new ArrayList<>(path);
+            per.add(i, nums[start]);
+            doPermute(result, per, nums, start + 1);
+        }
+    }
+
     // Iterative version: inspired by leetcode discuss
     // Don't use iterator, which can avoid exception and tmp list
     // O(N!) Beat 24%
-    public List<List<Integer>> permute(int[] nums) {
+    public List<List<Integer>> permute2(int[] nums) {
         Queue<List<Integer>> result = new LinkedList<>();
         result.add(new ArrayList<>());
         for (int num : nums) {
