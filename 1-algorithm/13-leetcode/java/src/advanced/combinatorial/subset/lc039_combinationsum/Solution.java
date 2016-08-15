@@ -18,7 +18,31 @@ import java.util.List;
  */
 public class Solution {
 
+    // My 2nd: O(N!) time, O(N) space
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        doCombineSum(result, new ArrayList<>(), candidates, target, 0);
+        return result;
+    }
+
+    private void doCombineSum(List<List<Integer>> result,
+                              List<Integer> path, int[] candidates, int target, int k) {
+        if (target <= 0) {
+            if (target == 0) {
+                result.add(new ArrayList<>(path));
+            }
+            return;
+        }
+
+        for (int i = k; i < candidates.length; i++) {
+            path.add(candidates[i]);
+            doCombineSum(result, path, candidates, target - candidates[i], i); // error: NOT k again!
+            path.remove(path.size() - 1);
+        }
+    }
+
+    // My 1st: too ugly...
+    public List<List<Integer>> combinationSum1(int[] candidates, int target) {
         List<List<Integer>> result = new ArrayList<>();
         int[] present = new int[candidates.length];
         subset(result, present, candidates, target, 0);
