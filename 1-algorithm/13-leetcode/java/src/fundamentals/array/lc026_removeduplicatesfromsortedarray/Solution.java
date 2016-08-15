@@ -10,7 +10,20 @@ package fundamentals.array.lc026_removeduplicatesfromsortedarray;
  * It doesn't matter what you leave beyond the new length.
  */
 public class Solution {
+
     public int removeDuplicates(int[] nums) {
+        // Invariant: [0,i] has no duplicates
+        int i = 0;
+        for (int j = 1; j < nums.length; j++) {
+            if (nums[i] != nums[j]) {
+                nums[++i] = nums[j];
+            }
+        }
+        return i + 1;   // error: length - 1 = maxIndex
+    }
+
+    // My 1st
+    public int removeDuplicates1(int[] nums) {
         if (nums.length == 0) {
             return 0;
         }
