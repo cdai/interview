@@ -21,7 +21,33 @@ import java.util.Set;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        System.out.println(new Solution().subsetsWithDup(new int[]{1, 2, 2, 2}));
+    }
+
+    // My 2nd from leetcode discuss - iterative DP solution
     public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        result.add(new ArrayList<>());
+        Arrays.sort(nums); // must sort for this problem
+
+        int size = 0;
+        for (int i = 0, j = 0; i < nums.length; i++) {
+            List<List<Integer>> tmp = new ArrayList<>();
+            j = (i > 0 && nums[i] == nums[i - 1]) ? size : 0;
+            size = result.size();
+            for ( ; j < result.size(); j++) {
+                List<Integer> newSub = new ArrayList<>(result.get(j));
+                newSub.add(nums[i]);
+                tmp.add(newSub);
+            }
+            result.addAll(tmp);
+        }
+        return result;
+    }
+
+    // My 1st: solution from <The Algorithm Design Manual>
+    public List<List<Integer>> subsetsWithDup1(int[] nums) {
         Set<List<Integer>> result = new HashSet<>();
         boolean[] presents = new boolean[nums.length];
         Arrays.sort(nums);
