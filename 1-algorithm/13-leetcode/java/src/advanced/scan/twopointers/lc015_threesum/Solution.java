@@ -10,7 +10,99 @@ import java.util.List;
  */
 public class Solution {
 
+    // Minor improvement on duplicates bypass from leetcode discuss
+    // A little faster than previous
     public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i - 1] == nums[i]) {  // Level-1: Bypass duplicate using this trick!
+                continue;
+            }
+            int lo = i + 1, hi = nums.length - 1, target = 0 - nums[i];
+            while (lo < hi) {
+                if (nums[lo] + nums[hi] < target) {
+                    lo++;
+                } else if (nums[lo] + nums[hi] > target) {
+                    hi--;
+                } else {
+                    result.add(Arrays.asList(nums[i], nums[lo++], nums[hi--]));
+                    while (lo < hi && nums[lo] == nums[lo - 1]) { // Level-2: skip!
+                        lo++;
+                    }
+                    while (lo < hi && nums[hi] == nums[hi + 1]) {
+                        hi--;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    // My 2nd: O(N^2) with normal 2Sum sweep
+    // You can find some similarity between this and combination version above
+    // See how this one iterate in the search space and why it's faster?
+    public List<List<Integer>> threeSum2(int[] nums) {
+        Arrays.sort(nums);
+
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i - 1] == nums[i]) {  // Common trick to bypass duplicate. Better than a nested while loop!
+                continue;                           // But it's quite annoying to bypass in nested loop. eg.[-2,0,0,2,2]
+            }
+            int target = 0 - nums[i];
+            int left = i + 1, right = nums.length - 1;
+            while (left < right) {
+                if (nums[left] + nums[right] < target || (left > i + 1 && nums[left - 1] == nums[left])) {
+                    left++;
+                } else if (nums[left] + nums[right] > target || (right < nums.length - 1 && nums[right] == nums[right + 1])) {
+                    right--;
+                } else {
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    left++;
+                    right--;
+                }
+            }
+        }
+        return result;
+    }
+
+    // My 2nd: combination with O(N*N-1*N-2)
+    // eg.[-2,0,0,1,2,2]
+    //      ---root----
+    //     /    |   |  \
+    //   -2     0   1  2
+    //  / | \ / | \  \
+    //  0 1 2 0 1 2   2
+    // /\\
+    // 012 ...
+    public List<List<Integer>> threeSum3(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
+        doThreeSum(result, new ArrayList<>(), nums, 0, 0);
+        return result;
+    }
+
+    private void doThreeSum(List<List<Integer>> result, List<Integer> path, int[] nums, int target, int start) {
+        if (path.size() == 3) {
+            if (target == 0) {
+                result.add(new ArrayList<>(path));
+            }
+            return;
+        }
+        for (int i = start; i < nums.length; i++) {
+            if (i > start && nums[i - 1] == nums[i]) {
+                continue;
+            }
+            path.add(nums[i]);
+            doThreeSum(result, path, nums, target - nums[i], i + 1);
+            path.remove(path.size() - 1);
+        }
+    }
+
+    // My 1st: ugly...
+    public List<List<Integer>> threeSum1(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         if (nums.length < 3) {
             return result;
@@ -35,7 +127,7 @@ public class Solution {
     }
 
     // Error: findInTheMiddle() should perform on i...j
-    public List<List<Integer>> threeSum2(int[] nums) {
+    public List<List<Integer>> threeSum1_2(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         Arrays.sort(nums);
 
