@@ -9,7 +9,21 @@ package fundamentals.array.lc027_removeelement;
  *  Your function should return length = 2, with the first two elements of nums being 2.
  */
 public class Solution {
+
+    // My 2nd: use two pointers to do in-place move
     public int removeElement(int[] nums, int val) {
+        // Invariant: [0,j) has no element of val
+        int j = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != val) {
+                nums[j++] = nums[i];
+            }
+        }
+        return j;
+    }
+
+    // My 1st
+    public int removeElement1(int[] nums, int val) {
         if (nums.length == 0) {
             return 0;
         }
