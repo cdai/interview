@@ -8,7 +8,44 @@ import java.util.Arrays;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        System.out.println(new Solution().threeSumClosest(new int[]{-1, 2, 1, 4}, 1));
+    }
+
+    // My 2nd: O(N^2), with duplicate bypass, performance is up from 44% to 54%
     public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int closest = Integer.MAX_VALUE;
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i - 1] == nums[i]) {
+                continue;
+            }
+            int lo = i + 1, hi = nums.length - 1;
+            while (lo < hi) {
+                int gap = target - nums[i] - nums[lo] - nums[hi];
+                if (gap > 0) {
+                    lo++;
+                    while (lo < hi && nums[lo] == nums[lo - 1]) { // This is optional
+                        lo++;
+                    }
+                } else if (gap < 0) {
+                    hi--;
+                    while (lo < hi && nums[hi] == nums[hi + 1]) {
+                        hi--;
+                    }
+                } else {    // For this problem, it's ok not to skip duplicate in these 3 branches if performance is fair
+                    return target;
+                }
+                if (Math.abs(closest) > Math.abs(gap)) {
+                    closest = gap;
+                }
+            }
+        }
+        return target - closest;
+    }
+
+    // My 1st
+    public int threeSumClosest1(int[] nums, int target) {
         assert nums.length > 2;
 
         Arrays.sort(nums);
