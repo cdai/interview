@@ -17,7 +17,39 @@ import java.util.Set;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        System.out.println(new Solution().permuteUnique(new int[]{1, 1, 2}));
+    }
+
+    // My 2nd: use boolean[] used + List path to replace LinkedHashSet
     public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
+        doPermuteUnique(result, new ArrayList<>(), new boolean[nums.length], nums);
+        return result;
+    }
+
+    private void doPermuteUnique(List<List<Integer>> result,
+                                 List<Integer> path, boolean[] used, int[] nums) {
+        if (path.size() == nums.length) {
+            result.add(new ArrayList<>(path));
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if ((i > 0 && nums[i] == nums[i - 1] && !used[i]) || used[i]) {
+                continue;
+            }
+            used[i] = true;
+            path.add(nums[i]);
+            doPermuteUnique(result, path, used, nums);
+            used[i] = false;
+            path.remove(path.size() - 1);
+        }
+    }
+
+    // My 1st
+    public List<List<Integer>> permuteUnique1(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         Set<Integer> path = new LinkedHashSet<>();
         Arrays.sort(nums);

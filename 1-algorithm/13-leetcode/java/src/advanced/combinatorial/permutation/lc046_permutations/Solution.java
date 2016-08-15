@@ -27,6 +27,7 @@ public class Solution {
 
     // Recursive version without Set
     // In fact, this is exactly the same as iterative one
+    // Honestly, I don't think...
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         doPermute(result, new ArrayList<>(), nums, 0);
