@@ -29,7 +29,7 @@ public class Solution {
         }
         return total + tank >= 0 ? start : -1; // error: don't forget last tank
     }
-    
+
     // My 1st
     public int canCompleteCircuit1(int[] gas, int[] cost) {
         if (gas.length == 0 || cost.length == 0 || gas.length != cost.length) {
