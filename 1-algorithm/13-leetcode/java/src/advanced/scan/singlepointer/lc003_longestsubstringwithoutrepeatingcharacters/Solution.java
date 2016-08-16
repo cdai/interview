@@ -13,7 +13,42 @@ import java.util.Map;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        System.out.println(new Solution().lengthOfLongestSubstring("abcabcbb"));
+    }
+
+    // Inspired by cbmbbz from leetcode discuss
+    // O(N) time, O(1) space if charset is fixed
+    // Idea: don't go back and it's ok "dirty" char remained out there
     public int lengthOfLongestSubstring(String s) {
+        Map<Character,Integer> map = new HashMap<>();
+        int max = 0, start = 0;
+        for (int i = 0; i < s.length(); i++) {
+            Integer pos = map.put(s.charAt(i), i);
+            if (pos != null && pos >= start) { // Only matters when repeated char is after "start"
+                max = Math.max(max, i - start);
+                start = pos + 1;
+            }
+        }
+        return Math.max(max, s.length() - start);
+    }
+
+    // My 2nd: start over from last occurence if repeated
+    public int lengthOfLongestSubstring2(String s) {
+        Map<Character,Integer> map = new HashMap<>();
+        int max = 0;
+        for (int i = 0; i < s.length(); i++) {
+            Integer pos = map.put(s.charAt(i), i);
+            if (pos != null) {
+                max = Math.max(max, map.size());
+                i = pos;
+                map.clear();
+            }
+        }
+        return Math.max(max, map.size());
+    }
+
+    public int lengthOfLongestSubstring1(String s) {
         Map<Character,Integer> chars = new HashMap<>();
         int maxLen = 0;
         for (int i = 0; i < s.length(); i++) {

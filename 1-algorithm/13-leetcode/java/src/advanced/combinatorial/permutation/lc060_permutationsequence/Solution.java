@@ -25,6 +25,7 @@ public class Solution {
     }
 
     // My 2nd: O(N) time. Note "fact /= n" must put first in case n becomes 0
+    // N is 9 at most, and 9! = 362880, so it's safe
     public String getPermutation(int n, int k) {
         // 1.Candidate numbers: 1~N
         List<Integer> nums = new LinkedList<>();
