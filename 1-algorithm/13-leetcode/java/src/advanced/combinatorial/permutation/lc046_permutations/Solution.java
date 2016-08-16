@@ -25,7 +25,7 @@ public class Solution {
         System.out.println(new Solution().permute(new int[]{1, 2, 3}));
     }
 
-    // My 2nd: this is the real recursion. O(N!) time
+    // My 2nd: this is the real recursion. O(N!) time, O(N) space
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         doPermute(result, new ArrayList<>(), new boolean[nums.length], nums);

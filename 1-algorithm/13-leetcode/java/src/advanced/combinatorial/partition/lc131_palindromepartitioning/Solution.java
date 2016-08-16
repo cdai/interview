@@ -16,7 +16,31 @@ import java.util.List;
  */
 public class Solution {
 
+    // My 2nd: O(2^N) time, O(N) space
     public List<List<String>> partition(String s) {
+        List<List<String>> result = new ArrayList<>();
+        doPartition(result, new ArrayList<>(), s, 0);
+        return result;
+    }
+
+    private void doPartition(List<List<String>> result,
+                             List<String> path, String s, int start) {
+        if (start == s.length()) {
+            result.add(new ArrayList<>(path));
+            return;
+        }
+        for (int i = start + 1; i <= s.length(); i++) {
+            String substr = s.substring(start, i);
+            if (isPalindrome(substr)) {
+                path.add(substr);
+                doPartition(result, path, s, i);
+                path.remove(path.size() - 1);
+            }
+        }
+    }
+
+    // My 1st
+    public List<List<String>> partition1(String s) {
         List<List<String>> result = new ArrayList<>();
         LinkedList<String> path = new LinkedList<>();
         partition(result, path, s);

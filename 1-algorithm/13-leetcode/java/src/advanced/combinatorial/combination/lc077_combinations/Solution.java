@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class Solution {
 
-    // My 2nd: much faster, beat 41%. O(N!) time O(K)
+    // My 2nd: much faster, beat 41%. O(N!) time O(K) space?
     public List<List<Integer>> combine(int n, int k) {
         List<List<Integer>> result = new ArrayList<>();
         doCombine(result, new ArrayList<>(), n, k);

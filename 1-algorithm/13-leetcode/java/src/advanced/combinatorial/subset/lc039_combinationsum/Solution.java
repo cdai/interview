@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class Solution {
 
-    // My 2nd: O(N!) time, O(N) space
+    // My 2nd: O(2^N) time, O(N) space
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> result = new ArrayList<>();
         doCombineSum(result, new ArrayList<>(), candidates, target, 0);
