@@ -24,7 +24,35 @@ public class Solution {
         System.out.println(new Solution().getPermutation(9, 101));
     }
 
+    // My 2nd: O(N) time. Note "fact /= n" must put first in case n becomes 0
     public String getPermutation(int n, int k) {
+        // 1.Candidate numbers: 1~N
+        List<Integer> nums = new LinkedList<>();
+        for (int i = 1; i <= n; i++) {
+            nums.add(i);
+        }
+
+        // 2.Factorial (N-1)!
+        int fact = 1;
+        for (int i = 2; i <= n; i++) {
+            fact *= i;
+        }
+
+        // 3.K starts from 1
+        k--;
+
+        // 4.Get to calculate
+        StringBuilder result = new StringBuilder();
+        for ( ; n > 0; n--) {
+            fact /= n;
+            result.append(nums.remove(k / fact));
+            k %= fact;
+        }
+        return result.toString();
+    }
+
+    // My 1st
+    public String getPermutation1(int n, int k) {
         // Candidate numbers
         List<Integer> nums = new LinkedList<>();
         for (int i = 1; i <= n; i++) {
