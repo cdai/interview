@@ -6,7 +6,67 @@ package advanced.scan.singlepointer.lc053_maximumsubarray;
  */
 public class Solution {
 
+    // Inspired from leetcode discuss, O(NlogN) solution
+    // The key is how to compute maxMiddle()
     public int maxSubArray(int[] nums) {
+        return maxSubArray(nums, 0, nums.length - 1);
+    }
+
+    private int maxSubArray(int[] nums, int low, int high) {
+        if (low == high) {
+            return nums[low];
+        }
+
+        int mid = low + (high - low) / 2;
+        int max1 = maxSubArray(nums, low, mid);
+        int max2 = maxSubArray(nums, mid + 1, high);
+        int max3 = maxMiddle(nums, low, mid, high);
+        return Math.max(max1, Math.max(max2, max3));
+    }
+
+    private int maxMiddle(int[] nums, int low, int mid, int high) {
+        int leftMax = Integer.MIN_VALUE;
+        for (int i = mid, sum = 0; i >= low; i--) {
+            sum += nums[i];
+            leftMax = Math.max(leftMax, sum);
+        }
+        int rightMax = Integer.MIN_VALUE;
+        for (int i = mid + 1, sum = 0; i <= high; i++) {
+            sum += nums[i];
+            rightMax = Math.max(rightMax, sum);
+        }
+        return leftMax + rightMax;
+    }
+
+    // My 2nd: it's easy to comes up this one
+    // sumEndHere < 0 means leave nums[i+1] itself alone
+    public int maxSubArray2(int[] nums) {
+        int maxSoFar = Integer.MIN_VALUE, sumEndHere = 0;
+        for (int num : nums) {
+            sumEndHere += num;
+            maxSoFar = Math.max(maxSoFar, sumEndHere);
+            if (sumEndHere < 0) {
+                sumEndHere = 0;
+            }
+        }
+        return maxSoFar;
+    }
+
+    // My 2nd: O(N) time, from <Programming Pearls>, but this one is hard to come up
+    public int maxSubArray3(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int maxSoFar = nums[0], maxEndHere = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            maxEndHere = Math.max(maxEndHere + nums[i], nums[i]);
+            maxSoFar = Math.max(maxSoFar, maxEndHere);
+        }
+        return maxSoFar;
+    }
+
+    // My 1st: hard to come up
+    public int maxSubArray1(int[] nums) {
         if (nums == null || nums.length == 0) {
             return 0;
         }
@@ -26,7 +86,7 @@ public class Solution {
         return fn;
     }
 
-    public int maxSubArray2(int[] nums) {
+    public int maxSubArray1_2(int[] nums) {
         // State f(n) means: largest sum of nums[0..n]
         // State transfers: f(n) = max(f(n), f(n) + tail + nums[i], nums[i])
         // Q: part of tail + nums[i] could be largest? [2,-1,1,10],f(2)=2,f(3)=11
