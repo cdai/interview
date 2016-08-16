@@ -11,6 +11,8 @@ package advanced.scan.singlepointer.lc334_increasingtripletsubsequence;
  */
 public class Solution {
 
+    // My 2nd: it's still very hard to come up...
+    // My 1st
     public boolean increasingTriplet(int[] nums) {
         int t1 = Integer.MAX_VALUE, t2 = Integer.MAX_VALUE;
         for (int num : nums) {
