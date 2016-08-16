@@ -25,10 +25,35 @@ public class Solution {
         System.out.println(new Solution().permute(new int[]{1, 2, 3}));
     }
 
+    // My 2nd: this is the real recursion. O(N!) time
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        doPermute(result, new ArrayList<>(), new boolean[nums.length], nums);
+        return result;
+    }
+
+    private void doPermute(List<List<Integer>> result,
+                           List<Integer> path, boolean[] used, int[] nums) {
+        if (path.size() == nums.length) {
+            result.add(new ArrayList<>(path));
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (used[i]) {
+                continue;
+            }
+            path.add(nums[i]);
+            used[i] = true;
+            doPermute(result, path, used, nums);
+            path.remove(path.size() - 1);
+            used[i] = false;
+        }
+    }
+
     // Recursive version without Set
     // In fact, this is exactly the same as iterative one
     // Honestly, I don't think...
-    public List<List<Integer>> permute(int[] nums) {
+    public List<List<Integer>> permute3(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         doPermute(result, new ArrayList<>(), nums, 0);
         return result;
