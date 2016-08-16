@@ -3,7 +3,9 @@ package advanced.combinatorial.permutation.lc047_permutations2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 /**
@@ -21,8 +23,33 @@ public class Solution {
         System.out.println(new Solution().permuteUnique(new int[]{1, 1, 2}));
     }
 
-    // My 2nd: use boolean[] used + List path to replace LinkedHashSet
+    // Iterative version: O(N^3 * N copy) ?!
     public List<List<Integer>> permuteUnique(int[] nums) {
+        Queue<List<Integer>> result = new LinkedList<>();
+        result.offer(new ArrayList<>());
+        for (int num : nums) {
+            int size = result.size();
+            while (size-- > 0) {
+                List<Integer> per = result.poll();
+                Integer prev = null;
+                for (int i = 0; i <= per.size(); i++) {
+                    Integer cur = i < per.size() ? per.get(i) : null;
+                    if (prev == null || !prev.equals(cur)) { // Wrong...
+                        List<Integer> newPer = new ArrayList<>(per);
+                        newPer.add(i, num);
+                        result.add(newPer);
+                    }
+                    prev = cur;
+                }
+            }
+        }
+        return (List<List<Integer>>) result;
+    }
+
+    // My 2nd: use boolean[] used + List path to replace LinkedHashSet
+    // But actually, use Set to remove duplicate is more straightforward
+    // O(N!)
+    public List<List<Integer>> permuteUnique2(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         Arrays.sort(nums);
         doPermuteUnique(result, new ArrayList<>(), new boolean[nums.length], nums);
@@ -36,8 +63,10 @@ public class Solution {
             return;
         }
 
+        // [1,1,2] if first 1 is used then second 1 should be considered
+        // But if first 1 is NOT used that means they're in the same recursion
         for (int i = 0; i < nums.length; i++) {
-            if ((i > 0 && nums[i] == nums[i - 1] && !used[i]) || used[i]) {
+            if ((i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) || used[i]) {
                 continue;
             }
             used[i] = true;
