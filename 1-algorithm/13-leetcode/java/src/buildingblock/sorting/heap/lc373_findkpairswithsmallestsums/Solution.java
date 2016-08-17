@@ -1,4 +1,4 @@
-package advanced.scan.index.lc373_findkpairswithsmallestsums;
+package buildingblock.sorting.heap.lc373_findkpairswithsmallestsums;
 
 import java.util.ArrayList;
 import java.util.List;

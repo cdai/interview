@@ -1,4 +1,4 @@
-package buildingblock.searching.lc378_kthsmallestelementinasortedmatrix;
+package buildingblock.sorting.heap.lc378_kthsmallestelementinasortedmatrix;
 
 import java.util.Collections;
 import java.util.PriorityQueue;
