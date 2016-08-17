@@ -5,7 +5,43 @@ package buildingblock.sorting.merge.lc014_longestcommonprefix;
  */
 public class Solution {
 
+    // Inspired by soulmachine: compare strs[0] with others
+    // Fairly faster than mine...
     public String longestCommonPrefix(String[] strs) {
+        if (strs.length == 0) {
+            return "";
+        }
+        for (int i = 0; i < strs[0].length(); i++) {
+            for (int j = 0; j < strs.length; j++) {
+                if (strs[j].length() <= i || strs[0].charAt(i) != strs[j].charAt(i)) {
+                    return strs[0].substring(0, i);
+                }
+            }
+        }
+        return strs[0];
+    }
+
+    // My 2nd: O(N^2) time
+    public String longestCommonPrefix_ugly(String[] strs) {
+        if (strs.length == 0) {
+            return "";
+        }
+
+        int length = 0;
+        while (strs[0].length() > length) { // Happens to put this check here!
+            for (int i = 1; i < strs.length; i++) {
+                if (strs[i].length() <= length
+                        || strs[i - 1].charAt(length) != strs[i].charAt(length)) {
+                    return strs[0].substring(0, length);
+                }
+            }
+            length++;
+        }
+        return strs[0];
+    }
+
+    // My 1st: as ugly as my 2nd...
+    public String longestCommonPrefix1(String[] strs) {
         if (strs.length == 0) {
             return "";
         }
