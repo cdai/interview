@@ -1,4 +1,4 @@
-package buildingblock.sorting.heap.lc215_kthlargestelementinanarray;
+package buildingblock.sorting.select.lc215_kthlargestelementinanarray;
 
 import java.util.Arrays;
 import java.util.PriorityQueue;

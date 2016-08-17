@@ -1,4 +1,4 @@
-package advanced.scan.index.lc264_uglynumber2;
+package buildingblock.sorting.merge.lc264_uglynumber2;
 
 import java.util.ArrayList;
 import java.util.List;

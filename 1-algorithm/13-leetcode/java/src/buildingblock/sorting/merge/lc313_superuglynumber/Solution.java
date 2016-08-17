@@ -1,4 +1,4 @@
-package advanced.scan.index.lc313_superuglynumber;
+package buildingblock.sorting.merge.lc313_superuglynumber;
 
 import java.util.ArrayList;
 import java.util.List;
