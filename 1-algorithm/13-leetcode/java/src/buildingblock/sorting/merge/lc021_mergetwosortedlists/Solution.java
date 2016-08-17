@@ -8,7 +8,41 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
+    // Recursive solution
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null || l2 == null) {
+            return l1 != null ? l1 : l2;
+        }
+        if (l1.val < l2.val) {
+            l1.next = mergeTwoLists(l1.next, l2);
+            return l1;
+        } else {
+            l2.next = mergeTwoLists(l1, l2.next);
+            return l2;
+        }
+    }
+
+    // My 2nd: common iterative solution
+    public ListNode mergeTwoLists_iterative(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(0);
+        ListNode prev = dummy;
+        while (l1 != null || l2 != null) {
+            int val1 = (l1 != null) ? l1.val : Integer.MAX_VALUE;
+            int val2 = (l2 != null) ? l2.val : Integer.MAX_VALUE;
+            if (val1 < val2) {
+                prev.next = l1;
+                l1 = l1.next;
+            } else {
+                prev.next = l2;
+                l2 = l2.next;
+            }
+            prev = prev.next;
+        }
+        return dummy.next;
+    }
+
+    // My 1st
+    public ListNode mergeTwoLists1(ListNode l1, ListNode l2) {
         ListNode first = new ListNode(-1);
         ListNode prev = first;
         while (l1 != null || l2 != null) {
