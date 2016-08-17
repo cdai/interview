@@ -18,27 +18,27 @@ public class Solution {
 
     // Inspired by leetcode discuss. Reduce unneccessary calculation.
     public int nthUglyNumber(int n) {
-        int[] nums = new int[n];
-        nums[0] = 1;
+        int[] ugly = new int[n];
+        ugly[0] = 1;
 
         //Uk+1 must be Min(L1 * 2, L2 * 3, L3 * 5).
         int i2 = 0, i3 = 0, i5 = 0;
         int u2 = 2, u3 = 3, u5 = 5;
         for (int i = 1; i < n; i++) {
             int min = Math.min(u2, Math.min(u3, u5));
-            nums[i] = min;
+            ugly[i] = min;
 
             if (min == u2) {
-                u2 = 2 * nums[++i2];
+                u2 = 2 * ugly[++i2];
             }
             if (min == u3) {
-                u3 = 3 * nums[++i3];
+                u3 = 3 * ugly[++i3];
             }
             if (min == u5) {
-                u5 = 5 * nums[++i5];
+                u5 = 5 * ugly[++i5];
             }
         }
-        return nums[n - 1];
+        return ugly[n - 1];
     }
 
     // My 2nd: use array to boost, but could be more concise

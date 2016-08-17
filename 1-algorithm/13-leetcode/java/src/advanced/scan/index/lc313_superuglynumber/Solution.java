@@ -16,7 +16,41 @@ import java.util.Queue;
  */
 public class Solution {
 
+    // My 2nd: try lambda, but too slow
     public int nthSuperUglyNumber(int n, int[] primes) {
+        if (n <= 0 || primes.length == 0) {
+            return 0;
+        }
+
+        int[] ugly = new int[n];
+        int[] index = new int[primes.length];
+        int[] candidate = new int[primes.length];
+        for (int i = 0; i < candidate.length; i++) {
+            candidate[i] = primes[i];
+        }
+
+        ugly[0] = 1;
+        for (int i = 1; i < n; i++) {
+            // Pick min of K candidates as next ugly number
+            //int min = Arrays.stream(candidate).min().getAsInt();
+            int min = Integer.MAX_VALUE;
+            for (int c : candidate) {
+                min = Math.min(min, c);
+            }
+            ugly[i] = min;
+
+            // Only re-compute candidate equals to picked min
+            for (int j = 0; j < candidate.length; j++) {
+                if (candidate[j] == min) {
+                    candidate[j] = primes[j] * ugly[++index[j]];
+                }
+            }
+        }
+        return ugly[n - 1];
+    }
+
+    // My 1st
+    public int nthSuperUglyNumber1(int n, int[] primes) {
         int[] uglyNums = new int[n];            // Optimize-1: replace ArrayList with int[], since length is known
         int[] pos = new int[primes.length];
 
