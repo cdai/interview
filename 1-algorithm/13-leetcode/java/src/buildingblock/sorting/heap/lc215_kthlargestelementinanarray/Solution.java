@@ -3,6 +3,7 @@ package buildingblock.sorting.heap.lc215_kthlargestelementinanarray;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Random;
 
 /**
  * Find the kth largest element in an unsorted array.
@@ -17,8 +18,10 @@ public class Solution {
 
     // Quick select solution from leetcode discuss.
     // O(N) average, O(N^2) worst. O(1) space.
+    // Shuffle boost performance from 24% to 74%!!!
     public int findKthLargest(int[] nums, int k) {
         k = nums.length - k;                // error1: Kth largest
+        shuffle(nums);
 
         // (N-K)th smallest MustBe(low,high)
         int low = 0, high = nums.length - 1;
@@ -41,6 +44,13 @@ public class Solution {
             }
         }
         return nums[low];
+    }
+
+    private void shuffle(int[] nums) {
+        Random rand = new Random();
+        for (int i = 0; i < nums.length; i++) {
+            swap(nums, i, rand.nextInt(nums.length));
+        }
     }
 
     private void swap(int[] nums, int a, int b) {
