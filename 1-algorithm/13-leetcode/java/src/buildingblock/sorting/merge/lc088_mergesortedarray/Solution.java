@@ -7,7 +7,24 @@ package buildingblock.sorting.merge.lc088_mergesortedarray;
  */
 public class Solution {
 
+    // Too crazy...
     public void merge(int[] nums1, int m, int[] nums2, int n) {
+        while (n > 0) {
+            nums1[m + n - 1] = (m == 0 || nums2[n - 1] > nums1[m - 1]) ? nums2[--n] : nums1[--m];
+        }
+    }
+
+    // My 2nd: idea is good, but it could have been simpler
+    public void merge2(int[] nums1, int m, int[] nums2, int n) {
+        for (int i = m - 1, j = n - 1, k = m + n - 1; k >= 0; k--) {
+            int n1 = (i >= 0) ? nums1[i] : Integer.MIN_VALUE;
+            int n2 = (j >= 0) ? nums2[j] : Integer.MIN_VALUE;
+            nums1[k] = (n1 > n2) ? nums1[i--] : nums2[j--];
+        }
+    }
+
+    // My 1st: not elegant
+    public void merge1(int[] nums1, int m, int[] nums2, int n) {
         int i = m - 1, j = n - 1, k = m + n - 1;
         while (i >= 0 && j >= 0) {
             nums1[k--] = (nums1[i] > nums2[j]) ? nums1[i--] : nums2[j--];
