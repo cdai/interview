@@ -18,7 +18,63 @@ import java.util.Queue;
  */
 public class Solution {
 
+    // General solution by heap. O(KlogK) time, O(logK) space.
     public List<int[]> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        if (nums1.length == 0 || nums2.length == 0 || k < 1) {
+            return new ArrayList<>();
+        }
+
+        // Use sum array as 4-tuple: 0-sum, 1-index in nums2, 2-num1, 3-num2
+        Queue<int[]> heap = new PriorityQueue<>((sum1, sum2) -> Integer.compare(sum1[0], sum2[0]));
+        for (int i = 0; i < k && i < nums1.length; i++) {
+            heap.offer(new int[] { nums1[i] + nums2[0], 0, nums1[i], nums2[0] });
+        }
+
+        List<int[]> result = new ArrayList<>();
+        while (result.size() < k && !heap.isEmpty()) {
+            int[] sum = heap.poll();
+            result.add(new int[] { sum[2], sum[3] });
+            if (sum[1] < nums2.length - 1) {
+                heap.offer(new int[] { sum[2] + nums2[sum[1] + 1], sum[1] + 1, sum[2], nums2[sum[1] + 1] });
+            }
+        }
+        return result;
+    }
+
+    // My 2nd: many troubles when you cache the sum. O(km) time
+    public List<int[]> kSmallestPairs_cache(int[] nums1, int[] nums2, int k) {
+        if (nums1.length == 0 || nums2.length == 0 || k < 1) {
+            return new ArrayList<>();
+        }
+
+        k = Math.min(k, nums1.length * nums2.length); // error2: "k > nums1.length * nums2.length return null" is wrong!
+
+        int[] index = new int[nums1.length];
+        int[] sum = new int[nums1.length];
+        for (int i = 0; i < sum.length; i++) {
+            sum[i] = nums1[i] + nums2[0];
+        }
+
+        List<int[]> result = new ArrayList<>();
+        while (result.size() < k) {
+            int min = Integer.MAX_VALUE;
+            for (int s : sum) {
+                min = Math.min(min, s);
+            }
+
+            for (int j = 0; j < sum.length && result.size() < k; j++) {     // error1: must check K since there maybe several candidates
+                if (sum[j] == min) {
+                    result.add(new int[] { nums1[j], nums2[index[j]] });
+                    sum[j] = index[j] < nums2.length - 1                    // error2: must check boundary, no next candidate if reach end
+                            ? nums1[j] + nums2[++index[j]] : Integer.MAX_VALUE;
+                }
+            }
+        }
+        return result;
+    }
+
+    // My 1st
+    public List<int[]> kSmallestPairs1(int[] nums1, int[] nums2, int k) {
         int len1 = nums1.length;
         int len2 = nums2.length;
 
