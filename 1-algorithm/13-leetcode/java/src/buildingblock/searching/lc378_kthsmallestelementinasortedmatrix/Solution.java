@@ -17,7 +17,30 @@ import java.util.Queue;
  */
 public class Solution {
 
+    // My 2nd: O(KlogK) time.
     public int kthSmallest(int[][] matrix, int k) {
+        if (matrix.length == 0 || matrix[0].length == 0 || k <= 0) {
+            return 0;
+        }
+
+        // 1.Build a min heap
+        Queue<int[]> heap = new PriorityQueue<>((t1, t2) -> Integer.compare(t1[2], t2[2]));
+        for (int i = 0; i < k && i < matrix[0].length; i++) {
+            heap.offer(new int[] { 0, i, matrix[0][i] });
+        }
+
+        // 2.Poll k-1 times, then next one is the Kth smallest
+        for (int i = 0; i < k - 1 && !heap.isEmpty(); i++) {
+            int[] tuple = heap.poll();
+            if (tuple[0] < matrix.length - 1) {
+                heap.offer(new int[] { tuple[0] + 1, tuple[1], matrix[tuple[0] + 1][tuple[1]] });
+            }
+        }
+        return heap.isEmpty() ? 0 : heap.poll()[2];
+    }
+
+    // My 1st: build heap with all elements. O(NlogK) time.
+    public int kthSmallest1(int[][] matrix, int k) {
         if (matrix.length == 0 || matrix[0].length == 0) {
             return 0;
         }
