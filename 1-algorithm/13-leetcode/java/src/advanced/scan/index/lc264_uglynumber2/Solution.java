@@ -16,7 +16,60 @@ import java.util.List;
  */
 public class Solution {
 
+    // Inspired by leetcode discuss. Reduce unneccessary calculation.
     public int nthUglyNumber(int n) {
+        int[] nums = new int[n];
+        nums[0] = 1;
+
+        //Uk+1 must be Min(L1 * 2, L2 * 3, L3 * 5).
+        int i2 = 0, i3 = 0, i5 = 0;
+        int u2 = 2, u3 = 3, u5 = 5;
+        for (int i = 1; i < n; i++) {
+            int min = Math.min(u2, Math.min(u3, u5));
+            nums[i] = min;
+
+            if (min == u2) {
+                u2 = 2 * nums[++i2];
+            }
+            if (min == u3) {
+                u3 = 3 * nums[++i3];
+            }
+            if (min == u5) {
+                u5 = 5 * nums[++i5];
+            }
+        }
+        return nums[n - 1];
+    }
+
+    // My 2nd: use array to boost, but could be more concise
+    public int nthUglyNumber2(int n) {
+        int[] nums = new int[n];
+        nums[0] = 1;
+
+        //Uk+1 must be Min(L1 * 2, L2 * 3, L3 * 5).
+        int i2 = 0, i3 = 0, i5 = 0;
+        for (int i = 1; i < n; i++) {
+            int u2 = nums[i2] * 2;
+            int u3 = nums[i3] * 3;
+            int u5 = nums[i5] * 5;
+            int min = Math.min(u2, Math.min(u3, u5));
+            nums[i] = min;
+
+            if (min == u2) { // error: must be independent "if", since u2=u3 or u3=u5
+                i2++;
+            }
+            if (min == u3) {
+                i3++;
+            }
+            if (min == u5) {
+                i5++;
+            }
+        }
+        return nums[n - 1];
+    }
+
+    // My 1st: ArrayList is too heavy
+    public int nthUglyNumber1(int n) {
         List<Integer> uglyNums = new ArrayList<>();
         uglyNums.add(1);
 
