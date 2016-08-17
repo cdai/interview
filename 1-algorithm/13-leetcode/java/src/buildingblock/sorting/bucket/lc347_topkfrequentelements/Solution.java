@@ -1,4 +1,4 @@
-package buildingblock.sorting.heap.lc347_topkfrequentelements;
+package buildingblock.sorting.bucket.lc347_topkfrequentelements;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,7 +16,39 @@ import java.util.Queue;
  */
 public class Solution {
 
+    // Inspired by leetcode solution. O(N)
     public List<Integer> topKFrequent(int[] nums, int k) {
+        if (nums.length == 0 || k <= 0) {
+            return new ArrayList<>();
+        }
+
+        // 1.Stat num frequency
+        Map<Integer,Integer> freq = new HashMap<>();
+        for (int num : nums) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
+
+        // 2.Put into bucket according to frequency
+        List<Integer>[] bucket = new List[nums.length + 1];
+        for (Map.Entry<Integer,Integer> e : freq.entrySet()) {
+            if (bucket[e.getValue()] == null) {
+                bucket[e.getValue()] = new ArrayList<>();
+            }
+            bucket[e.getValue()].add(e.getKey());
+        }
+
+        // 3.Get top frequency
+        List<Integer> result = new ArrayList<>();
+        for (int i = bucket.length - 1; i >= 0 && result.size() < k; i--) { // Nice with subList(0,k)!
+            if (bucket[i] != null) {
+                result.addAll(bucket[i]);
+            }
+        }
+        return result.subList(0, k);
+    }
+
+    // My 1st: use Heap in O(NlogK).
+    public List<Integer> topKFrequent1(int[] nums, int k) {
         if (nums.length == 0 || k > nums.length) {
             return null;
         }

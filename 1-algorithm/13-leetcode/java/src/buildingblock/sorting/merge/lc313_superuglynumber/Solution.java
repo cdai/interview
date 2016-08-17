@@ -1,6 +1,7 @@
 package buildingblock.sorting.merge.lc313_superuglynumber;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -24,10 +25,7 @@ public class Solution {
 
         int[] ugly = new int[n];
         int[] index = new int[primes.length];
-        int[] candidate = new int[primes.length];
-        for (int i = 0; i < candidate.length; i++) {
-            candidate[i] = primes[i];
-        }
+        int[] candidate = Arrays.copyOf(primes, primes.length);
 
         ugly[0] = 1;
         for (int i = 1; i < n; i++) {

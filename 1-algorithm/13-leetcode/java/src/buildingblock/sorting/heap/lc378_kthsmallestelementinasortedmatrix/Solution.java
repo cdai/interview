@@ -23,7 +23,7 @@ public class Solution {
             return 0;
         }
 
-        // 1.Build a min heap
+        // 1.Build a min heap: tuple 0-row 1-column 2-value
         Queue<int[]> heap = new PriorityQueue<>((t1, t2) -> Integer.compare(t1[2], t2[2]));
         for (int i = 0; i < k && i < matrix[0].length; i++) {
             heap.offer(new int[] { 0, i, matrix[0][i] });
