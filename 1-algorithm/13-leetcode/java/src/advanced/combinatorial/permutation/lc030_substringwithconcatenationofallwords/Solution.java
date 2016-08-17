@@ -16,12 +16,79 @@ public class Solution {
 
     public static void main(String[] args) {
         System.out.println(new Solution().findSubstring(
-                "barfoothefoobarman",
-                new String[]{"foo", "bar"}
+                "barfoofoobarthefoobarman",
+                new String[]{"foo", "bar", "the"}
+        ));
+        System.out.println(new Solution().findSubstring(
+                "wordgoodgoodgoodbestword",
+                new String[]{"word", "good", "best", "good"}
         ));
     }
 
+    // "lingmindraboofooowingdingbarrwingmonkeypoundcake"
+    // ["fooo","barr","wing","ding","wing"]
     public List<Integer> findSubstring(String s, String[] words) {
+        Map<String,Integer> target = new HashMap<>();
+        for (String w : words) {
+            increment(target, w);
+        }
+
+        Map<String,Integer> matched = new HashMap<>();
+        List<Integer> result = new ArrayList<>();
+        int total = words.length, wlen = words[0].length();
+        for (int i = 0, j = 0; i <= s.length() - wlen; i += wlen) {
+            String word = s.substring(i, i + wlen);
+
+            // Widen window if word exist in T
+            if (target.containsKey(word)) {
+                if (matched.getOrDefault(word, 0) >= target.get(word)) {// error1: cannot interleave even by itself. eg.[""]
+                    while (j < i) {                                     // error2: find first occurence of this word, start over there
+                        String substr = s.substring(j, j + wlen);
+                        decrement(matched, substr);
+                        total++;
+                        j += wlen;
+                        if (substr.equals(word)) {
+                            break;
+                        }
+                    }
+                }
+                increment(matched, word);
+                total--;
+
+                // Find a valid window, narrow it to see if smaller solution
+                if (total == 0) {
+                    result.add(j);
+                    decrement(matched, s.substring(j, j + wlen));
+                    total++;
+                    j += wlen;
+                }
+            } else {
+                // No interleave allowed, so reset all states
+                matched.clear();
+                total = words.length;
+                j = i + wlen;
+            }
+        }
+        return result;
+    }
+
+    private int increment(Map<String,Integer> map, String key) {
+        Integer val = map.get(key);
+        if (val == null) {
+            val = 0;
+        }
+        map.put(key, val + 1);
+        return val + 1;
+    }
+
+    private int decrement(Map<String,Integer> map, String key) {
+        int val = map.get(key);
+        map.put(key, val - 1);
+        return val - 1;
+    }
+
+    // My 1st
+    public List<Integer> findSubstring1(String s, String[] words) {
         List<Integer> result = new ArrayList<>();
         if (s.length() == 0 || words.length == 0) {
             return result;
