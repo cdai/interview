@@ -1,5 +1,8 @@
 package fundamentals.string.convert.lc151_reversewordsinastring;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * Given an input string, reverse the string word by word.
  * For example, given s = "the sky is blue", return "blue is sky the".
@@ -14,7 +17,36 @@ public class Solution {
         System.out.println(new Solution().reverseWords("   hello  world abc"));
     }
 
+    // 3-line built-in lib version
     public String reverseWords(String s) {
+        String[] words = s.trim().split("\\s+");    // must trim! otherwise, " a" -> ["", "a"]
+        Collections.reverse(Arrays.asList(words));  // Arrays.asList just a wrapper
+        return String.join(" ", words);
+    }
+
+    // My 2nd: not use built-in lib.
+    public String reverseWords_naive(String s) {
+        StringBuilder result = new StringBuilder();
+        s += " ";
+        boolean inWord = false;
+        for (int i = 0, j = 0; i < s.length(); i++) {
+            if (s.charAt(i) != ' ') {
+                if (!inWord) {
+                    j = i;
+                    inWord = true;
+                }
+            } else {
+                if (inWord) {
+                    result.insert(0, s.substring(j, i) + " ");
+                    inWord = false;
+                }
+            }
+        }
+        return result.length() == 0 ? "" : result.deleteCharAt(result.length() - 1).toString();
+    }
+
+    // My 1st
+    public String reverseWords1(String s) {
         StringBuilder result = new StringBuilder();
         int i = s.length() - 1;
         while (i >= 0) {
