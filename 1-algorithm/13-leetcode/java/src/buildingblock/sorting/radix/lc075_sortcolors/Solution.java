@@ -8,7 +8,28 @@ package buildingblock.sorting.radix.lc075_sortcolors;
  */
 public class Solution {
 
+    // Partition like quicksort/select, but with one more segment
     public void sortColors(int[] nums) {
+        // [0,zero) - red, [zero, one) - white, [one,N) - blue
+        int zero = 0, one = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                swap(nums, one, i);
+                swap(nums, zero++, one++);
+            } else if (nums[i] == 1) {
+                swap(nums, one++, i);
+            } /* two, leave it there */
+        }
+    }
+
+    private void swap(int[] A, int i, int j) {
+        int tmp = A[i];
+        A[i] = A[j];
+        A[j] = tmp;
+    }
+
+    // My 1st: easy radix sort
+    public void sortColors1(int[] nums) {
         if (nums == null || nums.length == 0) {
             return;
         }

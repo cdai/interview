@@ -9,7 +9,18 @@ package miscellaneous.math.arithmetic.lc268_missingnumber;
  */
 public class Solution {
 
+    // My 2nd
     public int missingNumber(int[] nums) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        // It should be (1 + N) * N / 2
+        return (1 + nums.length) * nums.length / 2 - sum;
+    }
+
+    // My 1st
+    public int missingNumber1(int[] nums) {
         int sum = 0;
         for (int n : nums) {
             sum += n;
