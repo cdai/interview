@@ -1,5 +1,6 @@
 package fundamentals.string.convert.lc345_reversevowelsofastring;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +12,32 @@ import java.util.Set;
  */
 public class Solution {
 
+    // My 2nd: O(N) time O(1) space
     public String reverseVowels(String s) {
+        Set<Character> vowels = new HashSet<>(
+                Arrays.asList(new Character[] { 'a','e','i','o','u','A','E','I','O','U' }));
+        char[] chars = s.toCharArray();
+        for (int i = 0, j = chars.length - 1; i < j; ) {
+            if (!vowels.contains(chars[i])) {
+                i++;
+            } else if (!vowels.contains(chars[j])) {
+                j--;
+            } else {
+                char tmp = chars[i];
+                chars[i++] = chars[j];
+                chars[j--] = tmp;
+            }
+        }
+        return new String(chars);
+    }
+
+    // Linear search is slow, but why Set is slower...
+    private boolean isVowel(char c) {
+        return "aeiouAEIOU".indexOf(c) >= 0;
+    }
+
+    // My 1st: could be better
+    public String reverseVowels1(String s) {
         Set<Character> vowels = new HashSet<>();
         vowels.add('a');
         vowels.add('e');
