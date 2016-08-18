@@ -14,7 +14,27 @@ public class Solution {
         System.out.println(new Solution().simplifyPath("//abc"));
     }
 
+    // My 2AC: split path
     public String simplifyPath(String path) {
+        StringBuilder result = new StringBuilder();
+        String[] comp = path.split("/");
+        int bypass = 0;
+        for (int i = comp.length - 1; i >= 0; i--) {
+            if (comp[i].equals("..")) {
+                bypass++;
+            } else if (!comp[i].isEmpty() && !comp[i].equals(".")) {
+                if (bypass > 0) {
+                    bypass--;
+                } else {
+                    result.insert(0, "/" + comp[i]);
+                }
+            } /*else comp[i] == "", "." */
+        }
+        return result.length() == 0 ? "/" : result.toString(); // error: result could be empty
+    }
+
+    // My 1AC: faster due to no split, but a little complex
+    public String simplifyPath1(String path) {
         if (!path.startsWith("/")) {
             path = "/" + path;
         }
