@@ -1,4 +1,4 @@
-package buildingblock.sorting.radix.lc041_firstmissingpositive;
+package buildingblock.sorting.bucket.lc041_firstmissingpositive;
 
 /**
  * Given an unsorted integer array, find the first missing positive integer.
