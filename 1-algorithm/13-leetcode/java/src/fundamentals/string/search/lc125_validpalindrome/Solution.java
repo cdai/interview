@@ -9,7 +9,28 @@ package fundamentals.string.search.lc125_validpalindrome;
  */
 public class Solution {
 
+    // My 2nd: use helpful Character method
     public boolean isPalindrome(String s) {
+        char[] c = s.toCharArray();
+
+        // Invariant: [0,i) and (j,N-1] are matched excluding whitespace
+        for (int i = 0, j = c.length - 1; i < j; ) {
+            if (!Character.isLetterOrDigit(c[i])) {     // error: isWhitespace is not applicable  eg.":,1"
+                i++;
+            } else if (!Character.isLetterOrDigit(c[j])) {
+                j--;
+            } else if (Character.toLowerCase(c[i]) != Character.toLowerCase(c[j])) {
+                return false;
+            } else {
+                i++;
+                j--;
+            }
+        }
+        return true;
+    }
+
+    // My 1st
+    public boolean isPalindrome1(String s) {
         int i = 0;
         int j = s.length() - 1;
         do {
