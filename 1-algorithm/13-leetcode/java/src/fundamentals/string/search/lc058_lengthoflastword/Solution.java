@@ -22,7 +22,7 @@ public class Solution {
 
     // My 2nd: obvious solution in O(N)
     public int lengthOfLastWord2(String s) {
-        // 1.Skip tailing space
+        // 1.Skip trailing space
         int i = s.length() - 1;
         for ( ; i >= 0 && s.charAt(i) == ' '; i--);
 
