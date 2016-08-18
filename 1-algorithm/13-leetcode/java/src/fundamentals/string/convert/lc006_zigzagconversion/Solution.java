@@ -14,6 +14,8 @@ import java.util.Arrays;
  */
 public class Solution {
 
+    // My 2nd: how can I come up with this...
+    // My 1st
     public String convert(String s, int numRows) {
         if (s.isEmpty() || numRows < 2) { // error1: div-by-zero
             return s;
@@ -22,6 +24,7 @@ public class Solution {
         String[] result = new String[numRows];
         Arrays.fill(result, "");
 
+        // Move numRows-1 times, then turn around
         int row = 0;
         for (int i = 0; i < s.length(); i++) {
             result[row] += s.charAt(i);
