@@ -29,6 +29,12 @@ public class Solution {
         return true;
     }
 
+    // Regex solution: remove all non-alpha eg." ,.:", but too slow
+    public boolean isPalindrome2(String s) {
+        s = s.toLowerCase().replaceAll("[^a-z0-9]", "");
+        return new StringBuilder(s).reverse().toString().equals(s);
+    }
+
     // My 1st
     public boolean isPalindrome1(String s) {
         int i = 0;
