@@ -1,4 +1,6 @@
-package buildingblock.sorting.merge.lc179_largestnumber;
+package buildingblock.sorting.quick.lc179_largestnumber;
+
+import java.util.Arrays;
 
 /**
  * Given a list of non negative integers, arrange them such that they form the largest number.
@@ -7,7 +9,27 @@ package buildingblock.sorting.merge.lc179_largestnumber;
  */
 public class Solution {
 
+    // My 2AC: use comparator
     public String largestNumber(int[] nums) {
+        // 1.Convert to Integer array since Arrays.sort(A,T) forces that
+        String[] strs = new String[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            strs[i] = String.valueOf(nums[i]);
+        }
+
+        // 2.Sort in descending order
+        Arrays.sort(strs, (s1, s2) -> ((s2 + s1).compareTo(s1 + s2)));
+
+        // 3.Append together and check final result
+        String result = String.join("", strs);
+        if (result.isEmpty() || result.charAt(0) == '0') { // error: eg.[], [0,0]
+            return "0";
+        }
+        return result;
+    }
+
+    // My 1AC: why bother...
+    public String largestNumber1(int[] nums) {
         if (nums.length == 0) {
             return "0";
         }
