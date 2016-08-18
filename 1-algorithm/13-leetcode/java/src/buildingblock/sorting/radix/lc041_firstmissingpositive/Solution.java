@@ -11,7 +11,30 @@ public class Solution {
         System.out.println(new Solution().firstMissingPositive(new int[]{3,4,-1,1}));
     }
 
+    // My 2nd: still hard to remember... O(N) time
     public int firstMissingPositive(int[] nums) {
+        // Radix sort in-place
+        for (int i = 0; i < nums.length; ) {
+            if (nums[i] <= 0 || nums[i] > nums.length) {
+                i++;
+            } else if (nums[nums[i] - 1] != nums[i]) {  // 1 <= A[i] <= N -> 0 <= A[i]-1 <= N-1
+                swap(nums, nums[i] - 1, i);             // Very nice! Swap and "spin", otherwise nested loop is required
+            } else {
+                i++;                                    // And it works for duplicates. eg.[2,2,2]. i++ if A[A[i]-1]=i, so no dead loop
+            }
+        }
+
+        // Find first missing number
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+        return nums.length + 1;     // error: nums[] includes 1..N, so missing is N+1
+    }
+
+    // My 1st
+    public int firstMissingPositive1(int[] nums) {
         // 1.Sort by radix
         for (int i = 0; i < nums.length; i++) {
             int target = nums[i] - 1;
