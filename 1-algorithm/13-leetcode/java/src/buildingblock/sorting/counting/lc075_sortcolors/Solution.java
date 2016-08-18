@@ -1,4 +1,4 @@
-package buildingblock.sorting.radix.lc075_sortcolors;
+package buildingblock.sorting.counting.lc075_sortcolors;
 
 /**
  * Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent,
