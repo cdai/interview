@@ -8,7 +8,32 @@ package fundamentals.string.search.lc058_lengthoflastword;
  */
 public class Solution {
 
+    // Use only i, a little cleaner perhaps
     public int lengthOfLastWord(String s) {
+        int i = s.length() - 1;
+        for ( ; i >= 0 && s.charAt(i) == ' '; i--);
+
+        int len = 0;
+        for ( ; i >= 0 && s.charAt(i) != ' '; i--) {
+            len++;
+        }
+        return len;
+    }
+
+    // My 2nd: obvious solution in O(N)
+    public int lengthOfLastWord2(String s) {
+        // 1.Skip tailing space
+        int i = s.length() - 1;
+        for ( ; i >= 0 && s.charAt(i) == ' '; i--);
+
+        // 2.Find last word (if s="" or "  ", then both i and j = -1)
+        int j = i;
+        for ( ; j >= 0 && s.charAt(j) != ' '; j--);
+        return i - j;
+    }
+
+    // My 1st: what was I thinking...
+    public int lengthOfLastWord1(String s) {
         if (s == null || s.length() == 0) {
             return 0;
         }
