@@ -1,4 +1,4 @@
-package fundamentals.string.search.lc165_compareversionnumbers;
+package buildingblock.sorting.merge.lc165_compareversionnumbers;
 
 import java.util.Arrays;
 
@@ -13,7 +13,24 @@ import java.util.Arrays;
  */
 public class Solution {
 
+    // My 2nd: solve in Two-way Merge way
     public int compareVersion(String version1, String version2) {
+        String[] nums1 = version1.split("\\.");
+        String[] nums2 = version2.split("\\.");
+        for (int i = 0, j = 0; i < nums1.length || j < nums2.length; i++, j++) {
+            int n1 = (i < nums1.length) ? Integer.valueOf(nums1[i]) : 0;
+            int n2 = (j < nums2.length) ? Integer.valueOf(nums2[j]) : 0;
+            if (n1 < n2) {
+                return -1;
+            } else  if (n1 > n2) {
+                return 1;
+            } /* else n1 == n2 then continue */
+        }
+        return 0;
+    }
+
+    // My 1st: too long... much simpler in two-way merge way.
+    public int compareVersion1(String version1, String version2) {
         int[] ver1 = parse(version1);
         int[] ver2 = parse(version2);
 
