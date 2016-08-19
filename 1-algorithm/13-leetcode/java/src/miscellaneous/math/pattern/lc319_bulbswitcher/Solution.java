@@ -15,7 +15,37 @@ package miscellaneous.math.pattern.lc319_bulbswitcher;
  */
 public class Solution {
 
+    // My 2nd: still don't remember how to count multiples
+    // N=6, after Nth round
+    // 1:   [1,1,1,1,1,1]
+    // 2:   [1,0,1,0,1,0]
+    // 3:   [1,0,0,0,1,1]
+    // 4:   [1,0,0,0,1,1]
+    // 5:   [1,0,0,0,0,1]
+    // 6:   [1,0,0,0,0,0]
+    // For ith bulb, #multiples of i will affect it
     public int bulbSwitch(int n) {
+        int count = 0;
+        for (int i = 1; i <= n; i++) {
+            if (isLightOn(i)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private boolean isLightOn(int n) {
+        int muls = 0;
+        for (int i = 1; i <= n; i++) { // Meaningless: "For the nth round, you only toggle the last bulb." = toggle every nth
+            if (n % i == 0) {
+                muls++;
+            }
+        }
+        return muls % 2 == 1;
+    }
+
+    // My 1AC: factors will appear in pair!
+    public int bulbSwitch1(int n) {
         // 1.Pattern:
         //  12: (1,12),(2,6),(3,4) bulb will be off (exclude 1)
         //  16: (1,16),(2,8),(4,4) bulb will be on due to round 4
