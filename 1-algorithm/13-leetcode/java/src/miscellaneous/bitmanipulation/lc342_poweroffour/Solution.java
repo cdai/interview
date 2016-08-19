@@ -7,7 +7,14 @@ package miscellaneous.bitmanipulation.lc342_poweroffour;
  */
 public class Solution {
 
+    // My 2AC: check even bit instead, same effect.
     public boolean isPowerOfFour(int num) {
+        // 0x55555555 = 01010101010101010101010101010101
+        // 0xAAAAAAAA = 10101010101010101010101010101010
+        return (num > 0) && ((num & (num - 1)) == 0) && ((num & 0xAAAAAAAA) == 0);
+    }
+
+    public boolean isPowerOfFour1(int num) {
         // Use 0x5555555555555555l to check if 1 is on odd bit:
         // 010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101
         return (num > 0) && ((num & (num - 1)) == 0)
