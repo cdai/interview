@@ -1,4 +1,4 @@
-package miscellaneous.math.arithmetic.add.lc258_adddigits;
+package miscellaneous.math.pattern.lc258_adddigits;
 
 /**
  * Given a non-negative integer num, repeatedly add all its digits until the result has only one digit.

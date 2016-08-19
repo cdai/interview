@@ -1,4 +1,4 @@
-package miscellaneous.math.number.lc292_nimgame;
+package miscellaneous.math.pattern.lc292_nimgame;
 
 /**
  * You are playing the following Nim Game with your friend:
