@@ -7,7 +7,21 @@ package miscellaneous.math.arithmetic.add.lc258_adddigits;
  */
 public class Solution {
 
+    // My 2AC: use loop
     public int addDigits(int num) {
+        while (num >= 10) {
+            int sum = 0;
+            while (num > 0) {
+                sum += num % 10;
+                num /= 10;
+            }
+            num = sum;
+        }
+        return num;
+    }
+
+    // My 1AC
+    public int addDigits1(int num) {
         return num - 9*((num-1)/9);
     }
 
