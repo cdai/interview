@@ -1,4 +1,4 @@
-package miscellaneous.math.number.lc319_bulbswitcher;
+package miscellaneous.math.pattern.lc319_bulbswitcher;
 
 /**
  * There are n bulbs that are initially off. You first turn on all the bulbs.

@@ -1,4 +1,4 @@
-package miscellaneous.math.number.lc343_integerbreak;
+package miscellaneous.math.pattern.lc343_integerbreak;
 
 /**
  * Given a positive integer n, break it into the sum of at least two positive integers and maximize the product of those integers.

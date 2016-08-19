@@ -1,4 +1,4 @@
-package miscellaneous.math.number.lc365_waterandjugproblem;
+package miscellaneous.math.pattern.lc365_waterandjugproblem;
 
 /**
  * You are given two jugs with capacities x and y litres.
