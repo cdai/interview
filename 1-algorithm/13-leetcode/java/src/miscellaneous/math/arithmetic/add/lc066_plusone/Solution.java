@@ -6,7 +6,44 @@ package miscellaneous.math.arithmetic.add.lc066_plusone;
  */
 public class Solution {
 
+    // Extremely simple and beautiful solution
     public int[] plusOne(int[] digits) {
+        for (int i = digits.length - 1; i >= 0; i--) {
+            if (digits[i] < 9) {
+                digits[i]++;                        // Use original array
+                return digits;                      // No carry then return immediately
+            }
+            digits[i] = 0;                          // No carry variable required.
+        }
+        int[] result = new int[digits.length + 1];
+        result[0] = 1;                              // Least significant digits are 0 default. No copy need. So smart!
+        return result;
+    }
+
+    // My 2AC: a little better but don't take advantage of plus one...
+    public int[] plusOne2(int[] digits) {
+        int[] result = new int[digits.length];
+        int carry = 1;      // Put that "plus one" here
+        for (int i = digits.length - 1; i >= 0; i--) {
+            int sum = digits[i] + carry;
+            carry = sum / 10;
+            result[i] = sum % 10;
+        }
+
+        // Deal with last carry (if digits is empty, this return [1] correctly)
+        if (carry > 0) {
+            int[] tmp = new int[result.length + 1];
+            tmp[0] = carry;
+            for (int i = 1; i < tmp.length; i++) {
+                tmp[i] = result[i - 1];
+            }
+            result = tmp;
+        }
+        return result;
+    }
+
+    // My 1AC
+    public int[] plusOne1(int[] digits) {
         if (digits.length == 0) {
             return new int[]{ 1 }; // the judge needs...
         }
