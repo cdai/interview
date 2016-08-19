@@ -1,4 +1,4 @@
-package miscellaneous.math.voting.lc169_majorityelement;
+package miscellaneous.math.statistics.lc169_majorityelement;
 
 /**
  * Given an array of size n, find the majority element.

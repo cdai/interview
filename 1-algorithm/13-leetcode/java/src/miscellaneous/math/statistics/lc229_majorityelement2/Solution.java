@@ -1,4 +1,4 @@
-package miscellaneous.math.voting.lc229_majorityelement2;
+package miscellaneous.math.statistics.lc229_majorityelement2;
 
 import java.util.ArrayList;
 import java.util.List;

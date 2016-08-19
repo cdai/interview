@@ -1,4 +1,4 @@
-package miscellaneous.math.arithmetic.lc223_rectanglearea;
+package miscellaneous.math.geometry.lc223_rectanglearea;
 
 /**
  * Find the total area covered by two rectilinear rectangles in a 2D plane.

@@ -1,4 +1,4 @@
-package miscellaneous.math.arithmetic.lc268_missingnumber;
+package miscellaneous.math.statistics.lc268_missingnumber;
 
 /**
  * Given an array containing n distinct numbers taken from 0, 1, 2, ..., n,

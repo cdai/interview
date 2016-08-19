@@ -1,4 +1,4 @@
-package miscellaneous.math.stat.lc287_findtheduplicatenumber;
+package miscellaneous.math.statistics.lc287_findtheduplicatenumber;
 
 /**
  * Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive),
@@ -20,7 +20,7 @@ public class Solution {
         int low = 1, high = nums.length - 1;
 
         // Note that low,mid,high have nothing with nums array
-        // nums array only provides stat info to locate that dup
+        // nums array only provides statistics info to locate that dup
         while (low <= high) {
             int mid = low + (high - low) / 2;
             int count = 0;

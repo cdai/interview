@@ -1,4 +1,4 @@
-package miscellaneous.math.convert.lc007_reverseinteger;
+package miscellaneous.math.arithmetic.convert.lc007_reverseinteger;
 
 /**
  * Reverse digits of an integer.

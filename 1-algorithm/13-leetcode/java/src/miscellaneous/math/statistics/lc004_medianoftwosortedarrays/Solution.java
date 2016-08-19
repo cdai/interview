@@ -1,4 +1,4 @@
-package miscellaneous.math.stat.lc004_medianoftwosortedarrays;
+package miscellaneous.math.statistics.lc004_medianoftwosortedarrays;
 
 /**
  * There are two sorted arrays nums1 and nums2 of size m and n respectively.
