@@ -20,6 +20,11 @@ public class Solution {
         return num;
     }
 
+    // eg. 66 % 9 = 3. 66 -> 12 -> 3. But why...
+    public int addDigits_pattern(int num) {
+        return num == 0 ? 0 : (num % 9 == 0 ? 9 : num % 9);
+    }
+
     // My 1AC
     public int addDigits1(int num) {
         return num - 9*((num-1)/9);
