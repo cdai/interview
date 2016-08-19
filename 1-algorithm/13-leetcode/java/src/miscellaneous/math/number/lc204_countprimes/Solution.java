@@ -9,8 +9,60 @@ public class Solution {
         System.out.println(new Solution().countPrimes(5));
     }
 
-    // Sieve of Eratosthenes: O(nloglogn)
+    // My 2AC: cannot remember optimizing skill...
     public int countPrimes(int n) {
+        // 1.Create table
+        boolean[] isNotPrime = new boolean[n];
+        for (int i = 2; i <= n / 2; i++) {
+            for (int j = 2; i * j < n; j++) {
+                isNotPrime[i * j] = true;
+            }
+        }
+
+        // 2.Count through the table
+        int count = 0;
+        for (int i = 2; i < n; i++) {
+            if (!isNotPrime[i]) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int countPrimes_optimize(int n) {
+        // 1.Create table
+        boolean[] isNotPrime = new boolean[n];
+        for (int i = 2; i * i < n; i++) {           // Optimize-3: i * i < n, since j < n
+            if (isNotPrime[i]) {                    // Optimize-1: skip those marked off already
+                continue;
+            }
+            for (int j = i * i; j < n; j += i) {    // Optimize-2: j=2 is slow, use j+=i rather than j*i
+                isNotPrime[j] = true;
+            }
+        }
+
+        // 2.Count through the table
+        int count = 0;
+        for (int i = 2; i < n; i++) {
+            if (!isNotPrime[i]) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int countPrimes_naive(int n) {
+        int count = 0;
+        for (int i = 2; i < n; i++) {
+            if (isPrime(i)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // Sieve of Eratosthenes: O(nloglogn)
+    public int countPrimes1(int n) {
         if (n <= 1) {
             return 0;
         }
