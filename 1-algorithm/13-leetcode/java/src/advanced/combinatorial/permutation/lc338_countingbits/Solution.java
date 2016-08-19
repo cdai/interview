@@ -10,7 +10,46 @@ package advanced.combinatorial.permutation.lc338_countingbits;
  */
 public class Solution {
 
+    // Just like Gray Code:
+    // Num - 1-Bit
+    //  0   -   0
+    // -----------
+    //  1   -   1
+    // -----------
+    //  2   -   1
+    //  3   -   2
+    // -----------
+    //  4   -   1
+    //  5   -   2
+    //  6   -   2
+    //  7   -   3
+    // -----------
+    //  8   -   2
+    //  9   -   3
+    // 10   -   3
+    // 11   -   4
+    // 12   -   2
+    // 13   -   3
+    // 14   -   3
+    // 15   -   4
+    // -----------
+    // [0] + 1 => [1]
+    // [0,1] + 1 => [2,3]
+    // [0,3] + 1 => [4,7]
+    // [0,7] + 1 => [8,15]...
     public int[] countBits(int num) {
+        int[] bit1s = new int[num + 1];
+        for (int i = 1, j = 1; i <= num; i++) {
+            if (i == j * 2) {
+                j <<= 1;
+            }
+            bit1s[i] = bit1s[i - j] + 1; // assert: i - j >= 0
+        }
+        return bit1s;
+    }
+
+    // My 1AC: no need to treat bits[0,1] specially
+    public int[] countBits1(int num) {
         if (num == 0) {
             return new int[] { 0 };
         }
