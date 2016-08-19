@@ -11,7 +11,7 @@ public class Solution {
         System.out.println(Math.abs(Integer.MIN_VALUE));
     }
 
-    // No need to abs at all
+    // we don't need to use Math.abs or special logic to handle '+' and '-', because the sign can be kept during calculating
     public int reverse(int x) {
         int ret = 0;
         while (x != 0) {    // error: != not > if deal with both pos and neg here
