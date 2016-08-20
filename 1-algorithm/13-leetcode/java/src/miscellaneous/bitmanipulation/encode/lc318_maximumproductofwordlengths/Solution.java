@@ -10,7 +10,27 @@ package miscellaneous.bitmanipulation.encode.lc318_maximumproductofwordlengths;
  */
 public class Solution {
 
+    // My 2AC: but shorter thanks to Stefan's "Reversed" loop
+    // Normal:   0-1,2,3   1-2,3   2,3
+    // Reversed: 0   1-0   2-0,1   3-0,1,2
     public int maxProduct(String[] words) {
+        int[] code = new int[words.length];
+        int max = 0;
+        for (int i = 0; i < words.length; i++) {
+            for (char c : words[i].toCharArray()) {
+                code[i] |= 1 << (c - 'a');
+            }
+            for (int j = 0; j < i; j++) {
+                if ((code[i] & code[j]) == 0) {
+                    max = Math.max(max, words[i].length() * words[j].length());
+                }
+            }
+        }
+        return max;
+    }
+
+    // My 1AC
+    public int maxProduct1(String[] words) {
         int[] encodes = new int[words.length];
         for (int i = 0; i < words.length; i++) {
             for (int j = 0; j < words[i].length(); j++) {
