@@ -1,4 +1,4 @@
-package miscellaneous.math.number.lc357_countnumberswithuniquedigits;
+package miscellaneous.math.counting.lc357_countnumberswithuniquedigits;
 
 /**
  * Given a non-negative integer n, count all numbers with unique digits, x, where 0 ≤ x < 10n.
