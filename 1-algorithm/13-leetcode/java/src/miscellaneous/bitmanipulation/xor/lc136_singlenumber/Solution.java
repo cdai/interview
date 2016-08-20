@@ -7,6 +7,7 @@ package miscellaneous.bitmanipulation.xor.lc136_singlenumber;
  */
 public class Solution {
 
+    // My 2AC
     public int singleNumber(int[] nums) {
         // Xor: https://en.wikipedia.org/wiki/Exclusive_or
         // Property-1: A^0=A (e.g. 0^1=0, 1^1=0)
