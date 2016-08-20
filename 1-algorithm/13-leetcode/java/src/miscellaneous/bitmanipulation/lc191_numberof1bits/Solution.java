@@ -17,12 +17,33 @@ public class Solution {
         System.out.println(Integer.toBinaryString(Integer.MIN_VALUE >> 1));
         System.out.println(Integer.toBinaryString(Integer.MIN_VALUE >>> 1));
 
+        // -1:          11111111111111111111111111111111
+        //  1:          00000000000000000000000000000001
+        // -1 & 1:      00000000000000000000000000000001
+        System.out.println(Integer.toBinaryString(-1));
+        System.out.println(Integer.toBinaryString(-3 & 1));
+        System.out.println(Integer.toBinaryString(-1 - 1));
+
         System.out.println(new Solution().hammingWeight(11));
         System.out.println(new Solution().hammingWeight(Integer.MIN_VALUE));
         System.out.println(new Solution().hammingWeight((int) 2147483648L));
     }
 
+    // -1:          11111111111111111111111111111111
+    //  1:          00000000000000000000000000000001
+    // -1 & 1:      00000000000000000000000000000001
+    // -1 - 1:      11111111111111111111111111111110
     public int hammingWeight(int n) {
+        int count = 0;
+        while (n != 0) {
+            n &= n-1;
+            count++;
+        }
+        return count;
+    }
+
+    // My 2AC
+    public int hammingWeight2(int n) {
         int count = 0;
         while (n != 0) {
             if ((n & 1) == 1) {
