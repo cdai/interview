@@ -21,7 +21,29 @@ public class Solution {
         roman.put('M', 1000);
     }
 
+    // My 2AC: much easier to understand now!
     public int romanToInt(String s) {
+        Map<Character,Integer> map = new HashMap<>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+
+        // Substract if less than prev, since IIV is impossible
+        int prev = 0, num = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            int cur = map.get(s.charAt(i));
+            num += (cur >= prev) ? cur : -cur;
+            prev = cur;
+        }
+        return num;
+    }
+
+    // My 1AC: bad dealing with cur and last
+    public int romanToInt1(String s) {
         if (s.isEmpty()) {
             return 0;
         }
