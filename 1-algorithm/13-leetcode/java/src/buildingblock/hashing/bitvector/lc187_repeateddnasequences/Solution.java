@@ -1,4 +1,4 @@
-package miscellaneous.bitmanipulation.encode.lc187_repeateddnasequences;
+package buildingblock.hashing.bitvector.lc187_repeateddnasequences;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package miscellaneous.bitmanipulation.encode.lc318_maximumproductofwordlengths;
+package buildingblock.hashing.bitvector.lc318_maximumproductofwordlengths;
 
 /**
  * Given a string array words, find the maximum value of length(word[i]) * length(word[j])
