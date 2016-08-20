@@ -9,6 +9,15 @@ public class Solution {
 
     // My 2AC
     public int singleNumber(int[] nums) {
+        int single = 0;
+        for (int num : nums) {
+            single ^= num;
+        }
+        return single;
+    }
+    
+    // My 1AC
+    public int singleNumber1(int[] nums) {
         // Xor: https://en.wikipedia.org/wiki/Exclusive_or
         // Property-1: A^0=A (e.g. 0^1=0, 1^1=0)
         int result = 0;
