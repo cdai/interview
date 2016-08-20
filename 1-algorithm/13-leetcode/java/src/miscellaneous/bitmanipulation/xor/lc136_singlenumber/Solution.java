@@ -15,7 +15,7 @@ public class Solution {
         }
         return single;
     }
-    
+
     // My 1AC
     public int singleNumber1(int[] nums) {
         // Xor: https://en.wikipedia.org/wiki/Exclusive_or

@@ -19,6 +19,17 @@ public class Solution {
         return (1 + nums.length) * nums.length / 2 - sum;
     }
 
+    // Bit operating solution: same as Single Number
+    // Eg.[1,3,4] ^ [1,2,3,4] = 2
+    public int missingNumber2(int[] nums) {
+        int missing = 0, all = nums.length;
+        for (int i = 0; i < nums.length; i++) {
+            missing ^= nums[i];
+            all ^= i;
+        }
+        return missing ^ all;
+    }
+
     // My 1st
     public int missingNumber1(int[] nums) {
         int sum = 0;
