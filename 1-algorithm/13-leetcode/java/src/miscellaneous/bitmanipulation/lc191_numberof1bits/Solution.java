@@ -20,9 +20,13 @@ public class Solution {
         // -1:          11111111111111111111111111111111
         //  1:          00000000000000000000000000000001
         // -1 & 1:      00000000000000000000000000000001
+        // -1 - 1:      11111111111111111111111111111110
+        // MIN - 1:     01111111111111111111111111111111
         System.out.println(Integer.toBinaryString(-1));
         System.out.println(Integer.toBinaryString(-3 & 1));
         System.out.println(Integer.toBinaryString(-1 - 1));
+        System.out.println(Integer.toBinaryString(Integer.MIN_VALUE - 1));
+
 
         System.out.println(new Solution().hammingWeight(11));
         System.out.println(new Solution().hammingWeight(Integer.MIN_VALUE));

@@ -18,8 +18,34 @@ public class Solution {
                 new Solution().singleNumber(new int[]{1, 2, 1, 3, 2, 5})));
     }
 
-    // Wow! This one beats 98.7% submission!
+    // My 2AC: no need to compute single2 from nums again
     public int[] singleNumber(int[] nums) {
+        // 1.Get single1 ^ single2
+        int two = 0;
+        for (int num : nums) {
+            two ^= num;
+        }
+
+        // 2.Find first different bit (1)
+        int diff = 1;
+        while ((two & diff) == 0) { // Not !=1, =0
+            diff <<= 1;
+        }
+
+        // 3.Divide into two parts accordingly
+        int single1 = 0, single2 = 0;
+        for (int num : nums) {
+            if ((num & diff) == 0) {
+                single1 ^= num;
+            } else {
+                single2 ^= num;
+            }
+        }
+        return new int[] { single1, single2 };
+    }
+
+    // Wow! This one beats 98.7% submission!
+    public int[] singleNumber1(int[] nums) {
         // 1.Get a^b
         int xor = 0;
         for (int n : nums) {
