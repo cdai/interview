@@ -8,7 +8,35 @@ package fundamentals.string.arithmetic.lc043_multiplystrings;
  */
 public class Solution {
 
+    // Elegant solution by yavinci from leetcode discuss
+    // num1 - 1234: i=0, charAt(3)
+    // num2 -  234: j=0, charAt(2)
+    // prod[6,1,,]: high=0, low=1
     public String multiply(String num1, String num2) {
+        int len1 = num1.length(), len2 = num2.length();
+        int[] prod = new int[len1 + len2];
+        for (int i = 0; i < len1; i++) {
+            for (int j = 0; j < len2; j++) {
+                int d1 = num1.charAt(len1 - 1 - i) - '0';
+                int d2 = num2.charAt(len2 - 1 - j) - '0';
+                int sum = prod[i + j] + d1 * d2;
+                prod[i + j + 1] += sum / 10;
+                prod[i + j] = sum % 10;
+            }
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (int i = prod.length - 1; i >= 0; i--) {
+            if (result.length() == 0 && prod[i] == 0) { // Ignore leading zero
+                continue;
+            }
+            result.append(prod[i]);
+        }
+        return (result.length() == 0) ? "0" : result.toString();
+    }
+
+    // My 1AC: not fine-grained, actually can only do 1-on-1 mul and add
+    public String multiply1(String num1, String num2) {
         if ("0".equals(num1) || "0".equals(num2)) {  // error1: 999*0, 0*999=000
             return "0";
         }
