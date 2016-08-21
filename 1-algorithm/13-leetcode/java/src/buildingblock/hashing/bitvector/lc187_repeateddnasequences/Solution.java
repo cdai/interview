@@ -36,8 +36,33 @@ public class Solution {
         return new ArrayList<>(repeated);
     }
 
+    // Inspired by solution from leetcode discuss
+    public List<String> findRepeatedDnaSequences_rollinghash(String s) {
+        Set<Integer> seen = new HashSet<>();
+        Set<String> repeated = new HashSet<>();
+        int dna = 0;
+        for (int i = 0; i <= s.length() - 10; i++) {
+            // Rolling hash
+            if (i == 0) {
+                for (int j = 0; j < 10; j++) {
+                    char c = s.charAt(i + j);
+                    int code = (c == 'A') ? 0 : (c == 'C' ? 1 : (c == 'G' ? 2 : 3));
+                    dna |= code << (j * 2);
+                }
+            } else {
+                char c = s.charAt(i + 9);
+                int code = (c == 'A') ? 0 : (c == 'C' ? 1 : (c == 'G' ? 2 : 3));
+                dna = (dna >> 2) | (code << 18);
+            }
+            if (!seen.add(dna)) {
+                repeated.add(s.substring(i, i + 10));
+            }
+        }
+        return new ArrayList<>(repeated);
+    }
+
     // Stefan solution: concise as usual but not fast
-    public List<String> findRepeatedDnaSequences2(String s) {
+    public List<String> findRepeatedDnaSequences_substring(String s) {
         Set<String> seen = new HashSet<>(), repeated = new HashSet<>(); // note: repeated must be Set instead of List
         for (int i = 0; i <= s.length() - 10; i++) {
             String dna = s.substring(i, i + 10);
@@ -49,7 +74,7 @@ public class Solution {
     }
 
     // My 2AC: O(N^2), second inner loop will cause TLE...
-    public List<String> findRepeatedDnaSequences3(String s) {
+    public List<String> findRepeatedDnaSequences_nsquare(String s) {
         Set<String> result = new HashSet<>();       // error3: duplicate eg.[AAAAAAAAAA AA]
         if (s.length() <= 10) {
             return new ArrayList<>(result);
