@@ -1,4 +1,4 @@
-package miscellaneous.math.arithmetic.mod.lc142_linkedlistcycle2;
+package miscellaneous.math.arithmetic.lc142_linkedlistcycle2;
 
 import fundamentals.list.ListNode;
 

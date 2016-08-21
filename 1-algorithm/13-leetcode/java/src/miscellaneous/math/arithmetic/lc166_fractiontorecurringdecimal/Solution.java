@@ -1,4 +1,4 @@
-package miscellaneous.math.arithmetic.div.lc166_fractiontorecurringdecimal;
+package miscellaneous.math.arithmetic.lc166_fractiontorecurringdecimal;
 
 import java.util.HashMap;
 import java.util.Map;

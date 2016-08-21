@@ -1,4 +1,4 @@
-package miscellaneous.math.arithmetic.add.lc002_addtwonumbers;
+package miscellaneous.math.arithmetic.lc002_addtwonumbers;
 
 import fundamentals.list.ListNode;
 
