@@ -10,7 +10,19 @@ public class Solution {
         System.out.println(new Solution().rangeBitwiseAnd(2147483647, 2147483647));
     }
 
+    // The least significant bit must be different if m != n. Eg. 6=[0110],7=[0111]
+    // That means it must be 0 if m & n.
     public int rangeBitwiseAnd(int m, int n) {
+        int i = 0;
+        for ( ; m != n; i++) {
+            m >>= 1;
+            n >>= 1;
+        }
+        return m << i;
+    }
+
+    // My 1AC
+    public int rangeBitwiseAnd1(int m, int n) {
         int result = 0, bit = 0;
         while (m >= 0 && n > 0) {
             // 1.Find if an even exists
