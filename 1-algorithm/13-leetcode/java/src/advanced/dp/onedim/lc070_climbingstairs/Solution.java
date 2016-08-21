@@ -22,7 +22,7 @@ public class Solution {
         }
         return fn1;
     }
-    
+
     // My 1AC
     private Map<Integer,Integer> cache = new HashMap<>();
 

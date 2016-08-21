@@ -7,7 +7,31 @@ package advanced.dp.twodim.lc064_minimumpathsum;
  */
 public class Solution {
 
+    // My 2AC: O(N) time and O(N) space
     public int minPathSum(int[][] grid) {
+        if (grid.length == 0 || grid[0].length == 0) {
+            return 0;
+        }
+
+        // 1.Init rolling DP state array
+        int[] sum = new int[grid[0].length];
+        sum[0] = grid[0][0];
+        for (int i = 1; i < sum.length; i++) {
+            sum[i] = sum[i - 1] + grid[0][i];
+        }
+
+        // 2.Compute state of each row
+        for (int i = 1; i < grid.length; i++) {
+            sum[0] += grid[i][0];
+            for (int j = 1; j < grid[i].length; j++) {
+                sum[j] = Math.min(sum[j - 1], sum[j]) + grid[i][j];
+            }
+        }
+        return sum[sum.length - 1];
+    }
+
+    // My 1AC
+    public int minPathSum1(int[][] grid) {
         if (grid.length == 0 || grid[0].length == 0) {
             return 0;
         }
