@@ -6,7 +6,43 @@ package miscellaneous.math.arithmetic.div.lc029_dividetwointegers;
  */
 public class Solution {
 
+    // Inspired from leetcode discuss
+    // Very handful using Long to handle overflow
     public int divide(int dividend, int divisor) {
+        boolean isNeg = (dividend < 0) ^ (divisor < 0); // Nice trick! Logical XOR!
+        long did = Math.abs((long) dividend);
+        long div = Math.abs((long) divisor);
+
+        long count = 0;
+        while (did >= div) {
+            for (long i = div, j = 1; i <= did; i <<= 1, j <<= 1) { // Faster than i+=i, j+=j
+                did -= i;
+                count += j;
+            }
+        }
+
+        count = isNeg ? -count : count;                 // Multiplication is not allowed, otherwise use sign as int for convenience
+        count = Math.min(count, Integer.MAX_VALUE);     // Nice! Be aware of overflow. MAX_MIN / -1.
+        count = Math.max(count, Integer.MIN_VALUE);
+        return (int) count;
+    }
+
+    // Doesn't work for negative
+    public int divide_pos(int dividend, int divisor) {
+        if (dividend < divisor) {
+            return 0;
+        }
+
+        long count = 0;
+        for (long i = divisor, j = 1; i <= dividend; i += i, j += j) {
+            dividend -= i;
+            count += j;
+        }
+        return (int) count + divide(dividend, divisor);
+    }
+
+    // My 1AC: correct thinking but too messy not using Long
+    public int divide1(int dividend, int divisor) {
         if (divisor == 0) { // avoid dead loop
             return 0;
         }
