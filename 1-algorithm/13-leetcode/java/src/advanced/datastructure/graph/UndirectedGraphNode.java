@@ -1,4 +1,4 @@
-package miscellaneous.graph;
+package advanced.datastructure.graph;
 
 import java.util.ArrayList;
 import java.util.List;

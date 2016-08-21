@@ -1,6 +1,6 @@
-package miscellaneous.graph.lc133_clonegraph;
+package advanced.datastructure.graph.lc133_clonegraph;
 
-import miscellaneous.graph.UndirectedGraphNode;
+import advanced.datastructure.graph.UndirectedGraphNode;
 
 import java.util.HashMap;
 import java.util.Map;

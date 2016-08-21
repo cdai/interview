@@ -1,4 +1,4 @@
-package advanced.fancy.trie.lc208_implementtrie;
+package advanced.datastructure.trie.lc208_implementtrie;
 
 import java.util.HashMap;
 import java.util.Map;

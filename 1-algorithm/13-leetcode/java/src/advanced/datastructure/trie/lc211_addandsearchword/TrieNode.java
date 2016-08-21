@@ -1,4 +1,4 @@
-package advanced.fancy.trie.lc211_addandsearchword;
+package advanced.datastructure.trie.lc211_addandsearchword;
 
 class TrieNode {
 
