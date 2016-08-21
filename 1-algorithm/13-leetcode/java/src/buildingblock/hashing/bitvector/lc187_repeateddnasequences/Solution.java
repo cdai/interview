@@ -13,7 +13,69 @@ import java.util.Set;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        System.out.println(new Solution().findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"));
+        System.out.println(new Solution().findRepeatedDnaSequences("AAAAAAAAAAA"));
+    }
+
+    // Inspired by solution from leetcode discuss
     public List<String> findRepeatedDnaSequences(String s) {
+        Set<Integer> seen = new HashSet<>();
+        Set<String> repeated = new HashSet<>();
+        for (int i = 0; i <= s.length() - 10; i++) {
+            int dna = 0;
+            for (int j = 0; j < 10; j++) {
+                char c = s.charAt(i + j);
+                int code = (c == 'A') ? 0 : (c == 'C' ? 1 : (c == 'G' ? 2 : 3));
+                dna |= code << (j * 2);
+            }
+            if (!seen.add(dna)) {
+                repeated.add(s.substring(i, i + 10));
+            }
+        }
+        return new ArrayList<>(repeated);
+    }
+
+    // Stefan solution: concise as usual but not fast
+    public List<String> findRepeatedDnaSequences2(String s) {
+        Set<String> seen = new HashSet<>(), repeated = new HashSet<>(); // note: repeated must be Set instead of List
+        for (int i = 0; i <= s.length() - 10; i++) {
+            String dna = s.substring(i, i + 10);
+            if (!seen.add(dna)) {
+                repeated.add(dna);
+            }
+        }
+        return new ArrayList<>(repeated);
+    }
+
+    // My 2AC: O(N^2), second inner loop will cause TLE...
+    public List<String> findRepeatedDnaSequences3(String s) {
+        Set<String> result = new HashSet<>();       // error3: duplicate eg.[AAAAAAAAAA AA]
+        if (s.length() <= 10) {
+            return new ArrayList<>(result);
+        }
+
+        int[] dna = new int[s.length() - 10 + 1];   // error2
+        for (int i = 0; i <= s.length() - 10; i++) {// error2: i <= s.length()-10, j<i => j+10 < s.length()
+            for (int j = 0; j < 10; j++) {
+                switch (s.charAt(i + j)) {          // error1: j must start from 0 not i
+                    case 'A': break;
+                    case 'C': dna[i] |= 1 << (j * 2); break;
+                    case 'G': dna[i] |= 2 << (j * 2); break;
+                    case 'T': dna[i] |= 3 << (j * 2); break;
+                }
+            }
+            for (int j = 0; j < i; j++) {
+                if (dna[i] == dna[j]) {
+                    result.add(s.substring(j, j + 10));
+                }
+            }
+        }
+        return new ArrayList<>(result);
+    }
+
+    // My 1AC
+    public List<String> findRepeatedDnaSequences1(String s) {
         if (s.length() < 10) {
             return new ArrayList<>();
         }
@@ -39,7 +101,7 @@ public class Solution {
         return new ArrayList<>(result);
     }
 
-    public List<String> findRepeatedDnaSequences2(String s) {
+    public List<String> findRepeatedDnaSequences1_2(String s) {
         Set<String> result = new HashSet<>();
         char[] chars = s.toCharArray();
         final int seqlen = 10;
