@@ -1,4 +1,4 @@
-package miscellaneous.bitmanipulation.xor.lc137_singlenumber2;
+package miscellaneous.bitmanipulation.lc137_singlenumber2;
 
 /**
  * Given an array of integers, every element appears three times except for one. Find that single one.
