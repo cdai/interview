@@ -10,9 +10,18 @@ public class Solution {
         System.out.println(new Solution().rangeBitwiseAnd(2147483647, 2147483647));
     }
 
+    // Brian Kernighan bits counting algorithm is applicable
+    // Just remove lower 1's bit one by one to check if n = m
+    public int rangeBitwiseAnd(int m, int n) {
+        while (n > m) {
+            n &= n - 1;
+        }
+        return n;
+    }
+
     // The least significant bit must be different if m != n. Eg. 6=[0110],7=[0111]
     // That means it must be 0 if m & n.
-    public int rangeBitwiseAnd(int m, int n) {
+    public int rangeBitwiseAnd2(int m, int n) {
         int i = 0;
         for ( ; m != n; i++) {
             m >>= 1;
