@@ -10,9 +10,23 @@ import java.util.Map;
  */
 public class Solution {
 
+    // My 2AC: O(N) time and O(1) space
+    // Each has 1 way from n-1 and n-2 to reach n
+    // So f(n) = f(n-1) + f(n-2). So basically it's a Fibonacci!
+    public int climbStairs(int n) {
+        int fn1 = 1, fn2 = 1;
+        for (int i = 2; i <= n; i++) {
+            int fn = fn1 + fn2;
+            fn2 = fn1;
+            fn1 = fn;
+        }
+        return fn1;
+    }
+    
+    // My 1AC
     private Map<Integer,Integer> cache = new HashMap<>();
 
-    public int climbStairs(int n) {
+    public int climbStairs1(int n) {
         if (n == 0) {
             return 1;
         }
