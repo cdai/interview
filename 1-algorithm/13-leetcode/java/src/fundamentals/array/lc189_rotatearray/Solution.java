@@ -1,4 +1,4 @@
-package miscellaneous.math.rotation.lc189_rotatearray;
+package fundamentals.array.lc189_rotatearray;
 
 /**
  * Rotate an array of n elements to the right by k steps.
@@ -8,7 +8,36 @@ package miscellaneous.math.rotation.lc189_rotatearray;
  */
 public class Solution {
 
-    public void rotate(int[] nums, int k) {
+    // Solution 1: just use extra space
+    // Solution 2: magical reverse! O(N)
+    public void rotate2(int[] nums, int k) {
+        k %= nums.length;
+        reverse(nums, 0, nums.length);
+        reverse(nums, 0, k);
+        reverse(nums, k, nums.length);
+    }
+
+    private void reverse(int[] nums, int start, int end) { // exclusive
+        for (int i = start, j = end - 1; i < j; i++, j--) {
+            int tmp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = tmp;
+        }
+    }
+
+    // Solution 3: Shift, of course TLE for large array. O(kN)
+    public void rotate3(int[] nums, int k) {
+        k %= nums.length;
+        while (k-- > 0) {
+            int last = nums[nums.length - 1];
+            for (int i = nums.length - 2; i >= 0; i--) {
+                nums[i + 1] = nums[i];
+            }
+            nums[0] = last;
+        }
+    }
+
+    public void rotate_old(int[] nums, int k) {
         if (nums.length == 0 || k < 0) {
             return;
         }
@@ -17,16 +46,16 @@ public class Solution {
         int pivot = n - (k % n);
 
         // 1.Reverse first half: [d,c,b,a,e,f,g]
-        reverse(nums, 0, pivot - 1);
+        reverse_old(nums, 0, pivot - 1);
 
         // 2.Reverse second half: [d,c,b,a,g,f,e]
-        reverse(nums, pivot, n - 1);
+        reverse_old(nums, pivot, n - 1);
 
         // 3.Reverse entire array: [e,f,g,a,b,c,d]
-        reverse(nums, 0, n - 1);
+        reverse_old(nums, 0, n - 1);
     }
 
-    private void reverse(int[] nums, int i, int j) {
+    private void reverse_old(int[] nums, int i, int j) {
         for ( ; i < j; i++, j--) {
             int tmp = nums[i];
             nums[i] = nums[j];
@@ -35,7 +64,7 @@ public class Solution {
     }
 
     // [1,2,3,4,5,6],k=2 totally wrong!
-    public void rotate2(int[] nums, int k) {
+    public void rotate_old2(int[] nums, int k) {
         if (nums.length == 0 || k < 0) {
             return;
         }
