@@ -10,12 +10,19 @@ public class Solution {
         System.out.println(new Solution().getSum(10, 1));
     }
 
+    // Result: 0+0=0,  0+1=1,  1+0=1,  1+1=0  This is Xor!
+    // Carry:  0+0->0, 0+1->0, 1+0->0, 1+1->1 This is And!
+    public int getSum(int a, int b) {
+        return b == 0 ? a : getSum(a ^ b, (a & b) << 1); // move carry to higher bit
+    }
+
+    // Wrong! Only works for positive
     // No carry: 0+0=0, 0+1=1, 1+0=1, 1+1=0. This is Xor!
     // With carry: 0+0+1=1, 0+1+1=0, 1+0+1=0, 1+1+1=1.
-    public int getSum(int a, int b) {
+    public int getSum_naive(int a, int b) {
         int sum = 0;
-        for (int carry = 0; a > 0 || b > 0 || carry > 0; a >>= 1, b >>= 1) {
-            sum = sum << 1 | ((a & 1) ^ (b & 1) ^ carry);
+        for (int i = 0, carry = 0; a != 0 || b != 0 || carry > 0; i++, a >>= 1, b >>= 1) {
+            sum |= (((a & 1) ^ (b & 1) ^ carry) << i);
             carry = carry == 0 ? (a & 1) & (b & 1) : (a & 1) | (b & 1);
         }
         return sum;
