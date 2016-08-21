@@ -10,7 +10,8 @@ public class Solution {
     public static void main(String[] args) {
         //      43261596    (00000010100101000001111010011100)
         // =>   964176192   (00111001011110000010100101000000)
-        System.out.println(new Solution().reverseBits(43261596));
+        System.out.println(Integer.toBinaryString(new Solution().reverseBits(7)));
+        System.out.println(Integer.toBinaryString(new Solution().reverseBits(43261596)));
 
         System.out.println(new Solution().reverseBits((int) 2147483648L));
 
@@ -18,10 +19,30 @@ public class Solution {
         System.out.println(new Solution().reverseBits((int) -2139062144));
     }
 
+    // Do in the same way as reverse integer.
+    // Do NOT try to set specific bit to final position. That's too hard!!!
+    public int reverseBits(int n) {
+        int ret = 0;
+        for (int i = 0; i < Integer.SIZE; i++) {
+            ret = (ret << 1) | (n & 1);
+            n >>>= 1;
+        }
+        return ret;
+    }
+
+    // you need treat n as an unsigned value
+    public int reverseBits_wrong(int n) {
+        int ret = 0;
+        for (int i = 0; i < Integer.SIZE - 1; i++) {
+            ret |= n & (1 << Integer.SIZE - 1 - i);
+        }
+        return ret;
+    }
+
     private Map<Byte,Integer> cache = new HashMap<>();
 
     // you need treat n as an unsigned value
-    public int reverseBits(int n) {
+    public int reverseBits1(int n) {
         int res = 0;
         for(int i = 0; i < 4; i++, n >>= 8){
             System.out.println("n: " + n + ", res: " + res);
