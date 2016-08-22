@@ -10,7 +10,19 @@ package advanced.dp.onedim.lc198_houserobber;
  */
 public class Solution {
 
+    // My 2AC: O(1) space, only care about fn-1 and fn-2
     public int rob(int[] nums) {
+        int money1 = 0, money2 = 0;
+        for (int num : nums) {
+            int money = Math.max(money1, money2 + num);
+            money2 = money1;
+            money1 = money;
+        }
+        return money1;
+    }
+
+    // My 1AC
+    public int rob1(int[] nums) {
         if (nums.length == 0) {
             return 0;
         }

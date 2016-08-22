@@ -15,7 +15,29 @@ public class Solution {
         System.out.println(new Solution().rob(new int[]{3, 5, 7, 1, 12, 10}));
     }
 
+    // My 2AC: not 100% understand why it is correct
     public int rob(int[] nums) {
+        if (nums.length == 1) { // error: Eg.[1] -> 0 which is wrong!
+            return nums[0];
+        }
+        return Math.max(
+                doRob(nums, 1, nums.length),
+                doRob(nums, 0, nums.length - 1)
+        );
+    }
+
+    private int doRob(int[] nums, int start, int end) {
+        int money1 = 0, money2 = 0;
+        for (int i = start; i < end; i++) {
+            int money = Math.max(money1, money2 + nums[i]);
+            money2 = money1;
+            money1 = money;
+        }
+        return money1;
+    }
+
+    // My 1AC: too many redundant check and edge case
+    public int rob1(int[] nums) {
         if (nums.length == 0) {
             return 0;
         }
