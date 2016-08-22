@@ -41,7 +41,27 @@ public class Solution {
         return result;
     }
 
+    // So briliant solution! No need to worry default 0 affect Math.min
+    //    [2],
+    //   [3,4],
+    //  [6,5,7],
+    // [4,1,8,3]
+    // i=3: [4,1,8,3,0]
+    // i=2: [7,1,8,3,0] -> [7,6,8,3,0] -> [7,6,10,3,0]
+    // i=1: [9,1,8,3,0] -> [9,10,8,3,0]
+    // i=0: [11,10,8,3,0]
     public int minimumTotal(List<List<Integer>> triangle) {
+        int[] sum = new int[triangle.size() + 1];
+        for (int i = triangle.size() - 1; i >= 0; i--) {
+            for (int j = 0; j <= i; j++) {
+                sum[j] = Math.min(sum[j], sum[j + 1]) + triangle.get(i).get(j);
+            }
+        }
+        return sum[0];
+    }
+
+    // Wrong! Since tri[i][n] relys on tri[i-1][n-1] and tri[i-1][n]. So tri[i-1][n-1] will be overriden if rolling
+    public int minimumTotal_wrongrollinghash(List<List<Integer>> triangle) {
         if (triangle.isEmpty() || triangle.get(0).isEmpty()) {
             return 0;
         }
@@ -58,7 +78,6 @@ public class Solution {
                 sum[j] = Math.min(sum[j - 1], sum[j]) + row.get(j);
             }
             sum[0] += row.get(0);               // First one is safe to update now
-            System.out.println(Arrays.toString(sum));
         }
 
         int min = Integer.MAX_VALUE;
