@@ -9,18 +9,14 @@ public class Solution {
 
     // My 2AC: O(N)
     public int maxProfit(int[] prices) {
-        if (prices.length == 0) {
-            return 0;
-        }
-
         // Update low if found lower point or
         // Try to update max if found higher point
-        int low = prices[0], max = 0;
-        for (int i = 1; i < prices.length; i++) {
-            if (low < prices[i]) {
-                max = Math.max(max, prices[i] - low);
+        int low = Integer.MAX_VALUE, max = 0;
+        for (int price : prices) {
+            if (low < price) {
+                max = Math.max(max, price - low);
             } else {
-                low = prices[i];
+                low = price;
             }
         }
         return max;
