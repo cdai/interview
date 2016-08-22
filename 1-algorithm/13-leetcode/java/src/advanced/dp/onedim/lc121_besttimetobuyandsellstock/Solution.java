@@ -7,7 +7,27 @@ package advanced.dp.onedim.lc121_besttimetobuyandsellstock;
  */
 public class Solution {
 
+    // My 2AC: O(N)
     public int maxProfit(int[] prices) {
+        if (prices.length == 0) {
+            return 0;
+        }
+
+        // Update low if found lower point or
+        // Try to update max if found higher point
+        int low = prices[0], max = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (low < prices[i]) {
+                max = Math.max(max, prices[i] - low);
+            } else {
+                low = prices[i];
+            }
+        }
+        return max;
+    }
+
+    // 1AC
+    public int maxProfit1(int[] prices) {
         // Max profit exists between low and high point followed
         // So find low and high, update low if find lower point
         // Update max if current gap = high - low is greater
