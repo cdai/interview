@@ -16,8 +16,36 @@ public class Solution {
         System.out.println(new Solution().largestDivisibleSubset(new int[]{8, 4, 1, 3}));
     }
 
-    // Use extra space to reconstruct path
+    // My 2AC: note sub(N) is optimal solution including num N, not global
     public List<Integer> largestDivisibleSubset(int[] nums) {
+        int[] sub = new int[nums.length];
+        int[] path = new int[nums.length];
+        Arrays.fill(sub, 1);                // must set to 1. it's ok to leave path 0.
+        Arrays.sort(nums);
+
+        int max = 0, maxIdx = 0;
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] % nums[j] == 0 && sub[j] + 1 > sub[i]) {
+                    sub[i] = sub[j] + 1;
+                    path[i] = j;
+                }
+            }
+            if (max < sub[i]) {
+                max = sub[i];
+                maxIdx = i;
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        for (int i = maxIdx; max-- > 0; i = path[i]) {
+            result.add(0, nums[i]);
+        }
+        return result;
+    }
+
+    // Use extra space to reconstruct path
+    public List<Integer> largestDivisibleSubset1(int[] nums) {
         int n = nums.length;
         int[] path = new int[n];
         int[] subsets = new int[n];
