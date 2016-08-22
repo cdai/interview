@@ -1,5 +1,6 @@
 package advanced.dp.twodim.lc120_triangle;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,16 +20,56 @@ public class Solution {
 
     public static void main(String[] args) {
         System.out.println(
+                new Solution().minimumTotal(
                 Arrays.asList(
                         Arrays.asList(2),
                         Arrays.asList(3, 4),
                         Arrays.asList(6, 5, 7),
                         Arrays.asList(4, 1, 8, 3)
-                )
+                ))
         );
+        System.out.println(new Solution().minimumTotal(
+                param(new Integer[][]{{-7},{-2,1},{-5,-5,9},{-4,-5,4,4},{-6,-6,2,-1,-5},{3,7,8,-3,7,-9}})
+        ));
+    }
+
+    private static List<List<Integer>> param(Integer[][] triangle) {
+        List<List<Integer>> result = new ArrayList<>();
+        for (Integer[] row : triangle) {
+            result.add(Arrays.asList(row));
+        }
+        return result;
     }
 
     public int minimumTotal(List<List<Integer>> triangle) {
+        if (triangle.isEmpty() || triangle.get(0).isEmpty()) {
+            return 0;
+        }
+
+        int[] sum = new int[triangle.size()];
+        sum[0] = triangle.get(0).get(0);
+
+        // Be careful to roll sum state
+        for (int i = 1; i < triangle.size(); i++) {
+            List<Integer> row = triangle.get(i);
+            int n = row.size() - 1;
+            sum[n] = sum[n - 1] + row.get(n);   // Update last one since N-1 is gonna be override soon and no one use N in this round
+            for (int j = 1; j < n; j++) {
+                sum[j] = Math.min(sum[j - 1], sum[j]) + row.get(j);
+            }
+            sum[0] += row.get(0);               // First one is safe to update now
+            System.out.println(Arrays.toString(sum));
+        }
+
+        int min = Integer.MAX_VALUE;
+        for (int s : sum) {
+            min = Math.min(min, s);
+        }
+        return min;
+    }
+
+    // My 1AC
+    public int minimumTotal1(List<List<Integer>> triangle) {
         if (triangle == null || triangle.isEmpty()) {
             return 0;
         }

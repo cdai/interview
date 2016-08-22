@@ -1,4 +1,4 @@
-package advanced.dp.tree.lc337_houserobber3;
+package advanced.dp.twodim.lc337_houserobber3;
 
 import fundamentals.tree.TreeNode;
 
@@ -22,6 +22,7 @@ import fundamentals.tree.TreeNode;
  */
 public class Solution {
 
+    // My 2AC: still made mistake on key point...
     public int rob(TreeNode root) {
         int[] max = doRob(root);
         return Math.max(max[0], max[1]);
@@ -32,9 +33,27 @@ public class Solution {
             return new int[] { 0, 0 };
         }
 
-        // int[0] includes root, int[1] do not.
         int[] leftMax = doRob(root.left);
         int[] rightMax = doRob(root.right);
+
+        int rob = leftMax[1] + rightMax[1] + root.val;
+        int noRob = Math.max(leftMax[0], leftMax[1]) + Math.max(rightMax[0], rightMax[1]); // Error: ...
+        return new int[] { rob, noRob };
+    }
+
+    public int rob1(TreeNode root) {
+        int[] max = doRob(root);
+        return Math.max(max[0], max[1]);
+    }
+
+    private int[] doRob1(TreeNode root) {
+        if (root == null) {
+            return new int[] { 0, 0 };
+        }
+
+        // int[0] includes root, int[1] do not.
+        int[] leftMax = doRob1(root.left);
+        int[] rightMax = doRob1(root.right);
 
         int[] rootMax = new int[2];
         rootMax[0] = leftMax[1] + rightMax[1] + root.val;                                   // error1: add rather than pick max between left and right
