@@ -15,7 +15,27 @@ import java.util.List;
  */
 public class Solution {
 
+    // My 2AC: Be aware for MIN problem, MIN, 0, -1... O(coins*N)
     public int coinChange(int[] coins, int amount) {
+        if (coins.length == 0 || amount < 0) {
+            return -1;
+        }
+
+        int[] fewest = new int[amount + 1];
+        for (int i = 1; i <= amount; i++) {
+            int min = Integer.MAX_VALUE;                        // Note!
+            for (int coin : coins) {
+                if (i - coin >= 0 && fewest[i - coin] != -1) {  // Note!
+                    min = Math.min(min, fewest[i - coin] + 1);
+                }
+            }
+            fewest[i] = (min == Integer.MAX_VALUE) ? -1 : min;  // Note!
+        }
+        return fewest[amount];
+    }
+
+    // My 1AC
+    public int coinChange1(int[] coins, int amount) {
         int[] mincnt = new int[amount + 1];
         Arrays.fill(mincnt, Integer.MAX_VALUE);
         mincnt[0] = 0;  // error: amount=0 -> cnt=0
