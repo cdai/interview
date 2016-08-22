@@ -19,7 +19,33 @@ package advanced.combinatorial.backtracking.dfs.lc200_numberofislands;
  */
 public class Solution {
 
+    // My 2AC: O(N^2) time, O(N) space
     public int numIslands(char[][] grid) {
+        int islands = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j] == '1') {
+                    dfsMark(grid, i, j);
+                    islands++;
+                }
+            }
+        }
+        return islands;
+    }
+
+    private void dfsMark(char[][] grid, int i, int j) {
+        if (i < 0 || i >= grid.length || j < 0 || j >= grid[i].length || grid[i][j] != '1') {
+            return;
+        }
+        grid[i][j] = 'X';
+        dfsMark(grid, i, j + 1);
+        dfsMark(grid, i + 1, j);
+        dfsMark(grid, i, j - 1);
+        dfsMark(grid, i - 1, j);
+    }
+
+    // My 1AC: not clear enough...
+    public int numIslands1(char[][] grid) {
         // Claim each island by marking number (start from 2 to make a difference from default 1)
         int seq = 2;
         for (int i = 0; i < grid.length; i++) {
