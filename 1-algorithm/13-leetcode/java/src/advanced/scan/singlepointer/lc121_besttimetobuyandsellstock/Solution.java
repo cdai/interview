@@ -1,4 +1,4 @@
-package advanced.dp.onedim.lc121_besttimetobuyandsellstock;
+package advanced.scan.singlepointer.lc121_besttimetobuyandsellstock;
 
 /**
  * Say you have an array for which the ith element is the price of a given stock on day i.
@@ -22,6 +22,18 @@ public class Solution {
             } else {
                 low = prices[i];
             }
+        }
+        return max;
+    }
+
+    // Solution from leetcode discuss
+    // A little slow, but really clear and short after getting rid of the If
+    // Since Math.min/max has their own If inside.
+    public int maxProfit_short(int[] prices) {
+        int low = Integer.MAX_VALUE, max = 0;
+        for (int price : prices) {
+            low = Math.min(low, price);
+            max = Math.max(max, price - low);
         }
         return max;
     }
