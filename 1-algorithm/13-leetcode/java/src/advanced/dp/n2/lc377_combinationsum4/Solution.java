@@ -19,7 +19,22 @@ package advanced.dp.n2.lc377_combinationsum4;
  */
 public class Solution {
 
+    // My 2AC: O(N^2) time
     public int combinationSum4(int[] nums, int target) {
+        int[] subsets = new int[target + 1];
+        subsets[0] = 1;
+        for (int i = 1; i <= target; i++) {
+            for (int num : nums) {
+                if (i - num >= 0) {
+                    subsets[i] += subsets[i - num];
+                }
+            }
+        }
+        return subsets[target];
+    }
+
+    // My 1AC
+    public int combinationSum4_old(int[] nums, int target) {
         int[] comb = new int[target + 1];
         comb[0] = 1; // sentinel: comb[i-num]=1
 
