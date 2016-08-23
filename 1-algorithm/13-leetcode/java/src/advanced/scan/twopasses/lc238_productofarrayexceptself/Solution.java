@@ -11,7 +11,22 @@ import java.util.Arrays;
  */
 public class Solution {
 
+    // My 2AC: O(N) time with a little improvement (no fill(1) ahead)
     public int[] productExceptSelf(int[] nums) {
+        int[] result = new int[nums.length];
+        for (int i = 0, prod = 1; i < nums.length; i++) {
+            result[i] = prod;
+            prod *= nums[i];
+        }
+        for (int i = nums.length - 1, prod = 1; i >= 0; i--) {
+            result[i] *= prod;
+            prod *= nums[i];
+        }
+        return result;
+    }
+
+    // My 1AC
+    public int[] productExceptSelf1(int[] nums) {
         int[] prod = new int[nums.length];
         Arrays.fill(prod, 1);
 
