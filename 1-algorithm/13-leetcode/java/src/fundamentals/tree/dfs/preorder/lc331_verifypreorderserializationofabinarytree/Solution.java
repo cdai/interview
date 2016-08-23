@@ -1,4 +1,4 @@
-package fundamentals.tree.validate.lc331_verifypreorderserializationofabinarytree;
+package fundamentals.tree.dfs.preorder.lc331_verifypreorderserializationofabinarytree;
 
 import java.util.Stack;
 
@@ -31,7 +31,39 @@ public class Solution {
         System.out.println(new Solution().isValidSerialization("9,3,4,#,#,1,#,#,2,#,6,#,#"));
     }
 
+    // Neat and smart solution from dietpepsi!
+    // Check if outdegree = indegree along the preorder path
+    // which means every subtree must follow that rule
     public boolean isValidSerialization(String preorder) {
+        int diff = 1;   // a "virtual" indegree for root
+        for (String node : preorder.split(",")) {
+            if (--diff < 0) {
+                return false;
+            }
+            diff += "#".equals(node) ? 0 : 2;
+        }
+        return diff == 0;
+    }
+
+    // My 2AC: use a variable stack (or called depth)
+    public boolean isValidSerialization2(String preorder) {
+        String[] nodes = preorder.split(",");
+        int stack = 0, i = 0;
+        for (; i < nodes.length; i++) {
+            if ("#".equals(nodes[i])) {
+                if (stack == 0) {
+                    break;
+                }
+                stack--;
+            } else {
+                stack++;
+            }
+        }
+        return stack == 0 && i == nodes.length - 1 && "#".equals(nodes[i]);
+    }
+
+    // My 1AC: a real stack is overkill here.
+    public boolean isValidSerialization1(String preorder) {
         Stack<String> stack = new Stack<>();
         String[] serial = preorder.split(",");
 
