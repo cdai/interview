@@ -13,6 +13,24 @@ public class Solution {
                         4, 2, 4, 4
                 })
         );
+        System.out.println(singleNumber5(new int[]{2,1,2,2,1,2,2,1,3,1,1}));
+    }
+
+    //    c b a num
+    // 0: 0 0 0  1
+    // 1: 0 0 1  1
+    // 2: 0 1 0  1
+    // 3: 0 1 1  1
+    // 4: 1 0 0  1
+    // 0: 0 0 0  1
+    public static int singleNumber5(int[] nums) {
+        int one = 0, two = 0, three = 0;
+        for (int num : nums) {
+            two = two ^ (one & num);
+            one = one ^ num ^ three;
+            three = three ^ (num & one & two);
+        }
+        return one;
     }
 
     // Each bit in ones and same bit in twos combinely means: number of 1's for all nums
