@@ -7,6 +7,8 @@ import java.util.Queue;
  * Implement the following operations of a stack using queues.
  * You must use only standard operations of a queue --
  * which means only push to back, peek/pop from front, size, and is empty operations are valid.
+ *
+ * My 1AC
  */
 public class MyStack_ON {
 

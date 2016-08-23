@@ -6,6 +6,8 @@ import java.util.Stack;
  * Stefan's amortized O(1) time solution
  * In my previous impl, either push() or pop() was O(N)
  * But now partial elements are in input and output moved only once.
+ *
+ * My 2AC
  */
 public class MyQueue_O1Amortized {
 

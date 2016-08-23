@@ -8,6 +8,8 @@ import java.util.Stack;
  * which means only push to top, peek/pop from top, size, and is empty operations are valid.
  * You may assume that all operations are valid (for example, no pop or peek operations will be
  * called on an empty queue).
+ *
+ * My 1AC
  */
 public class MyQueue_ON {
 
