@@ -1,10 +1,10 @@
 package fundamentals.stack.lc155_minstack;
 
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
-/**
+/*
  * Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
  *  push(x) -- Push element x onto stack.
  *  pop() -- Removes the element on top of the stack.
@@ -20,26 +20,38 @@ import java.util.Stack;
  *  minStack.top();      --> Returns 0.
  *  minStack.getMin();   --> Returns -2.
  */
-public class MinStack2 {
+public class MinStack_List {
 
     private Stack<Integer> stack;
 
-    private Queue<Integer> heap;
+    private List<Integer> minVals;
+
+    public static void main(String[] args) {
+        MinStack_List stack = new MinStack_List();
+        stack.push(-2);
+        stack.push(0);
+        stack.push(-3);
+        System.out.println(stack.getMin());
+        stack.pop();
+        System.out.println(stack.top());
+        System.out.println(stack.getMin());
+    }
 
     /** initialize your data structure here. */
-    public MinStack2() {
+    public MinStack_List() {
         this.stack = new Stack<>();
-        this.heap = new PriorityQueue<>();
+        this.minVals = new ArrayList<>();
     }
 
     public void push(int x) {
         stack.push(x);
-        heap.offer(x);
+        minVals.add(Math.min(getMin(), x));
     }
 
     public void pop() {
         if (!stack.isEmpty()) {
-            heap.remove(stack.pop());
+            stack.pop();
+            minVals.remove(minVals.size() - 1);
         }
     }
 
@@ -47,9 +59,11 @@ public class MinStack2 {
         return stack.peek();
     }
 
-    /* getMin() is O(1), but extractMin() is O(logn) */
     public int getMin() {
-        return heap.peek();
+        if (minVals.isEmpty()) {            // error: cause add() error
+            return Integer.MAX_VALUE;
+        }
+        return minVals.get(minVals.size() - 1);
     }
 
 }
