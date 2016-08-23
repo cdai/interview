@@ -12,13 +12,13 @@ import java.util.List;
  * Example 2: Given the list [1,[4,[6]]], By calling next repeatedly until hasNext returns false,
  *  the order of elements returned by next should be: [1,4,6].
  */
-public class NestedIterator implements Iterator<Integer> {
+public class NestedIterator1 implements Iterator<Integer> {
 
     private List<Integer> flatInts = new ArrayList<>();
 
     private int cur = 0;
 
-    public NestedIterator(List<NestedInteger> nestedList) {
+    public NestedIterator1(List<NestedInteger> nestedList) {
         convert(nestedList);
     }
 
