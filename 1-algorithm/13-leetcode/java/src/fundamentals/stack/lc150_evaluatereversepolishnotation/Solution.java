@@ -11,7 +11,36 @@ import java.util.Stack;
  */
 public class Solution {
 
+    // My 2AC: O(N) time and O(N) space. Assume the expression is valid.
+    // Illegal char "1a", bad format ["/", '1'], div-by-zero ["1","0","/"]
     public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+        for (String t : tokens) {
+            switch (t) { // Java 8!
+                case "+":
+                    stack.push(stack.pop() + stack.pop());
+                    break;
+                case "-":
+                    int sub = stack.pop();
+                    stack.push(stack.pop() - sub);
+                    break;
+                case "*":
+                    stack.push(stack.pop() * stack.pop());
+                    break;
+                case "/":
+                    int div = stack.pop();
+                    stack.push(stack.pop() / div);
+                    break;
+                default:
+                    stack.push(Integer.valueOf(t));
+                    break;
+            }
+        }
+        return stack.isEmpty() ? 0 : stack.pop();
+    }
+
+    // My 1AC: it's very dangerous to check '-' and '-1'. See nice string match in 2AC.
+    public int evalRPN1(String[] tokens) {
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < tokens.length; i++) {
             String token = tokens[i];
