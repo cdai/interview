@@ -9,10 +9,10 @@ import java.util.Stack;
  * You may assume that all operations are valid (for example, no pop or peek operations will be
  * called on an empty queue).
  */
-public class MyQueue {
+public class MyQueue_ON {
 
     public static void main(String[] args) {
-        MyQueue queue = new MyQueue();
+        MyQueue_ON queue = new MyQueue_ON();
         queue.push(1);
         queue.push(2);
         queue.push(3);

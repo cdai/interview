@@ -8,10 +8,10 @@ import java.util.Queue;
  * You must use only standard operations of a queue --
  * which means only push to back, peek/pop from front, size, and is empty operations are valid.
  */
-public class MyStack {
+public class MyStack_ON {
 
     public static void main(String[] args) {
-        MyStack stack = new MyStack();
+        MyStack_ON stack = new MyStack_ON();
         stack.push(1);
         stack.push(2);
         stack.push(3);
