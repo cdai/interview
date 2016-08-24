@@ -13,7 +13,17 @@ public class Solution {
                 1500000000, 0, 1500000001, 1));
     }
 
+    // My 2AC: still very hard for me...
+    // Idea: left=max(two left points), right=min(two right points).
+    // Overlap exists if left < right intuitively. So right=max(left, right) set right=left if no overlap
     public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        int left = Math.max(A, E), right = Math.max(Math.min(C, G), left);  // right = left if no overlap -> 0
+        int bottom = Math.max(B, F), top = Math.max(Math.min(D, H), bottom);
+        return (C - A) * (D - B) + (G - E) * (H - F) - (right - left) * (top - bottom);
+    }
+
+    // My 1AC
+    public int computeArea1(int A, int B, int C, int D, int E, int F, int G, int H) {
         int area1 = (C - A) * (D - B);
         int area2 = (G - E) * (H - F);
         return area1 + area2 - overrideLength(A, C, E, G) * overrideLength(B, D, F, H);
