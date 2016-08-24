@@ -24,8 +24,30 @@ public class Solution {
         //System.out.println(new Solution().deserialize("[-1]"));
     }
 
-    // Wrong next ] location...
+    // Elegant recursive solution
     public NestedInteger deserialize(String s) {
+        if (!s.contains("[")) return new NestedInteger(Integer.valueOf(s));
+
+        NestedInteger result = new NestedInteger();
+        int prev = 1;
+        for (int i = 1, cnt = 0; i < s.length() - 1; i++) { // Exclude outmost '[]'
+            if (s.charAt(i) == '[') {
+                cnt++;
+            } else if (s.charAt(i) == ']') {
+                cnt--;
+            } else if (s.charAt(i) == ',' && cnt == 0) {
+                result.add(deserialize(s.substring(prev, i)));
+                prev = i + 1;
+            }
+        }
+        if (prev < s.length() - 1) {
+            result.add(deserialize(s.substring(prev, s.length() - 1)));
+        }
+        return result;
+    }
+
+    // Wrong next ] location...
+    public NestedInteger deserialize_wrongrecursive(String s) {
         if (!s.contains("[")) return new NestedInteger(Integer.valueOf(s));
 
         NestedInteger result = new NestedInteger();
@@ -53,21 +75,25 @@ public class Solution {
         stack.push(new NestedInteger());        // Create outmost one, so iterate string [1,len-1]
 
         NestedInteger cur = null;
-        int sign = 1;
-        for (char c : s.substring(1, s.length() - 1).toCharArray()) {
-            if (c == '[') {                     // '[': Create new list linked with stack top
+        for (int i = 0, sign = 1; i < s.length() - 1; i++) {
+            char c = s.charAt(i);
+            if (c == '[') {                     // '[': New list linked with stack top
                 NestedInteger list = new NestedInteger();
-                stack.peek().getList().add(list);
+                if (!stack.isEmpty()) {
+                    stack.peek().add(list);
+                }
                 stack.push(list);
             } else if (c == '-') {
                 sign = -1;
-            } else if (Character.isDigit(c)) {  // '0~9': Create or update exist number
-                if (cur == null)
-                    stack.peek().getList().add(cur = new NestedInteger(0));
+            } else if ('0' <= c && c <= '9') {  // '0~9': Update cur number
+                if (cur == null) {
+                    stack.peek().add(cur = new NestedInteger(0));
+                }
                 cur.setInteger(cur.getInteger() * 10 + sign * (c - '0'));
-            } else {                            // ',' or ']': number or list ends
-                if (c == ']')
+            } else {                            // ',' or ']': number and list ends
+                if (c == ']') {
                     stack.pop();
+                }
                 cur = null;
                 sign = 1;
             }
