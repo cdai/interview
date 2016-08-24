@@ -1,4 +1,4 @@
-package fundamentals.stack.lc150_evaluatereversepolishnotation;
+package fundamentals.stack.evaluation.lc150_evaluatereversepolishnotation;
 
 import java.util.Stack;
 

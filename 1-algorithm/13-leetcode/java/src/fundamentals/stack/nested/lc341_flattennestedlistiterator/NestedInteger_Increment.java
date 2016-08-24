@@ -1,4 +1,4 @@
-package fundamentals.stack.lc341_flattennestedlistiterator;
+package fundamentals.stack.nested.lc341_flattennestedlistiterator;
 
 import java.util.Iterator;
 import java.util.List;

@@ -1,4 +1,4 @@
-package fundamentals.stack.lc227_basiccalculator2;
+package fundamentals.stack.evaluation.lc227_basiccalculator2;
 
 import java.util.Stack;
 

@@ -1,4 +1,4 @@
-package fundamentals.stack.lc020_validparentheses;
+package fundamentals.stack.validation.lc020_validparentheses;
 
 import java.util.Stack;
 
