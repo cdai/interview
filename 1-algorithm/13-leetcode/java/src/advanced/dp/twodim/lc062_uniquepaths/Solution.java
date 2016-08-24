@@ -1,4 +1,6 @@
-package advanced.combinatorial.backtracking.dfs.lc062_uniquepaths;
+package advanced.dp.twodim.lc062_uniquepaths;
+
+import java.util.Arrays;
 
 /**
  * A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
@@ -8,11 +10,28 @@ package advanced.combinatorial.backtracking.dfs.lc062_uniquepaths;
  */
 public class Solution {
 
+    // My 2AC: O(N^2) time and O(N) space
+    public int uniquePaths(int m, int n) {
+        if (m <= 0 || n <= 0) {
+            return -1;
+        }
+        int[] paths = new int[n];
+        Arrays.fill(paths, 1);
+
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                paths[j] += paths[j - 1];
+            }
+        }
+        return paths[n - 1];
+    }
+
     // Caveat: for problem that seems very simple
     //  Trap may be hidden in corner cases or implicit performance/space requirement
     //  So always open your eyes!
 
-    public int uniquePaths(int m, int n) {
+    // My 1AC: backtrack is overkill
+    public int uniquePaths1(int m, int n) {
         int[][] cache = new int[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
