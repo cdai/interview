@@ -1,4 +1,4 @@
-package fundamentals.tree.dfs.preorder.lc331_verifypreorderserializationofabinarytree;
+package fundamentals.stack.lc331_verifypreorderserializationofabinarytree;
 
 import java.util.Stack;
 
