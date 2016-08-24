@@ -1,4 +1,4 @@
-package fundamentals.tree.dfs.inorder.lc173_binarysearchtreeiterator;
+package fundamentals.tree.bst.lc173_binarysearchtreeiterator;
 
 import fundamentals.tree.TreeNode;
 

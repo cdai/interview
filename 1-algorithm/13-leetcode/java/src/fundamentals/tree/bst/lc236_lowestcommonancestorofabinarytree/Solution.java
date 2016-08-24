@@ -1,4 +1,4 @@
-package fundamentals.tree.separate.lc236_lowestcommonancestorofabinarytree;
+package fundamentals.tree.bst.lc236_lowestcommonancestorofabinarytree;
 
 import fundamentals.tree.TreeNode;
 

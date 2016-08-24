@@ -1,4 +1,4 @@
-package fundamentals.tree.separate.lc235_lowestcommonancestorofabinarysearchtree;
+package fundamentals.tree.bst.lc235_lowestcommonancestorofabinarysearchtree;
 
 import fundamentals.tree.TreeNode;
 
