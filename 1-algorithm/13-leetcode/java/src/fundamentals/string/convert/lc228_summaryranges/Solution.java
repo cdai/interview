@@ -1,4 +1,4 @@
-package fundamentals.array.lc228_summaryranges;
+package fundamentals.string.convert.lc228_summaryranges;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,24 @@ import java.util.List;
  */
 public class Solution {
 
+    // My 2AC: much simpler by handling last batch in same loop
     public List<String> summaryRanges(int[] nums) {
+        if (nums.length == 0) return new ArrayList<>();
+
+        List<String> result = new ArrayList<>();
+        for (int i = 0, begin = nums[0]; i < nums.length; i++) {
+            if (i == nums.length - 1 || nums[i] + 1 < nums[i + 1]) {
+                result.add(begin == nums[i] ? String.valueOf(nums[i]) : begin + "->" + nums[i]);
+                if (i < nums.length - 1) {
+                    begin = nums[i + 1];
+                }
+            }
+        }
+        return result;
+    }
+
+    // My 1AC
+    public List<String> summaryRanges1(int[] nums) {
         List<String> result = new ArrayList<>();
         if (nums.length == 0) {
             return result;
