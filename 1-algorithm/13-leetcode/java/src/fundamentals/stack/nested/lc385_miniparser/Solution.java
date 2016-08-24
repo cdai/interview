@@ -19,8 +19,32 @@ import java.util.Stack;
  */
 public class Solution {
 
-    // My intuitive approach: parsing one by one without recursion or lookahead
+    public static void main(String[] args) {
+        System.out.println(new Solution().deserialize("[5,[-31,12,[20]],-13]"));
+        //System.out.println(new Solution().deserialize("[-1]"));
+    }
+
+    // Wrong next ] location...
     public NestedInteger deserialize(String s) {
+        if (!s.contains("[")) return new NestedInteger(Integer.valueOf(s));
+
+        NestedInteger result = new NestedInteger();
+        for (int i = 1, end = 0; i < s.length() - 1; i = end + 1) { // Exclude outmost '[]' and Skip ',' if exist
+            if (s.charAt(i) == '[') {
+                end = s.lastIndexOf("]", s.length() - 2) + 1;       // Skip last ']'
+            } else {
+                end = s.indexOf(",", i);
+                if (end < 0) {
+                    end = s.length() - 1;                           // This is the last number
+                }
+            }
+            result.getList().add(deserialize(s.substring(i, end)));
+        }
+        return result;
+    }
+
+    // My intuitive approach: parsing one by one without recursion or lookahead
+    public NestedInteger deserialize_iterative(String s) {
         if (!s.contains("[")) {                 // Only number
             return new NestedInteger(Integer.valueOf(s));
         }

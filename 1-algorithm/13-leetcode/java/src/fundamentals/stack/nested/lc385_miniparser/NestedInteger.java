@@ -31,4 +31,9 @@ class NestedInteger {
     public List<NestedInteger> getList() {
         return list;
     }
+
+    @Override
+    public String toString() {
+        return "[" + integer + "," + list + "]";
+    }
 }
