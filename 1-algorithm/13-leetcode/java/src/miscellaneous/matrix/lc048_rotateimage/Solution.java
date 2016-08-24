@@ -24,7 +24,32 @@ public class Solution {
         System.out.println();
     }
 
+    // Amazing solution from crazy people!
     public void rotate(int[][] matrix) {
+        reverseRow(matrix);
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = i + 1; j < matrix[i].length; j++) {
+                swapByDiagonal(matrix, i, j);
+            }
+        }
+    }
+
+    private void reverseRow(int[][] matrix) {
+        for (int i = 0, j = matrix.length - 1; i < j; i++, j--) {
+            int[] tmp = matrix[i];
+            matrix[i] = matrix[j];
+            matrix[j] = tmp;
+        }
+    }
+
+    private void swapByDiagonal(int[][] matrix, int i, int j) {
+        int tmp = matrix[i][j];
+        matrix[i][j] = matrix[j][i];
+        matrix[j][i] = tmp;
+    }
+
+    // My 1AC: rotate one round by another
+    public void rotate1(int[][] matrix) {
         if (matrix.length == 0 || matrix[0].length == 0) {
             return;
         }
