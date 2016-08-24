@@ -2,6 +2,8 @@ package advanced.combinatorial.permutation.lc089_graycode;
 
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -16,7 +18,23 @@ import java.util.List;
  */
 public class Solution {
 
+    // My 2AC: DP incremental solution O(N) time.
     public List<Integer> grayCode(int n) {
+        LinkedList<Integer> result = new LinkedList<>();
+        result.add(0);
+        for (int i = 0; i < n; i++) {                           // Note that i means round not result size
+            Iterator<Integer> it = result.descendingIterator(); // Descending to keep only 1 bit diff
+            List<Integer> tmp = new ArrayList<>();
+            while (it.hasNext()) {
+                tmp.add(it.next() | (1 << i));
+            }
+            result.addAll(tmp);
+        }
+        return result;
+    }
+
+    // My 1AC
+    public List<Integer> grayCode1(int n) {
         List<Integer> result = new ArrayList<>();
         BitSet path = new BitSet(n);
         grayCode(result, path, n, 0);
