@@ -17,9 +17,37 @@ public class Solution {
 
     public static void main(String[] args) {
         System.out.println(new Solution().calculate("1 0 + 2 * 3 - 1 / 1 + 3"));
+        System.out.println(new Solution().calculate("3+5 / 2"));
     }
 
+    // My 2AC
     public int calculate(String s) {
+        Stack<Integer> stack = new Stack<>();
+        int result = 0;
+        for (int i = 0, num = 0, op = '+'; i < s.length(); i++) {   // op is last operator
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) {
+                num = num * 10 + (c - '0');
+            }
+            if ("+-*/".indexOf(c) >= 0 || i == s.length() - 1) {    // must be 'if' or i=len-1 won't reach here
+                if ("*/".indexOf(op) >= 0)                          // subtract top before mul/div
+                    result -= stack.peek();
+                switch (op) {
+                    case '+': stack.push(num); break;
+                    case '-': stack.push(-num); break;
+                    case '*': stack.push(stack.pop() * num); break; // only non-negative int, impossible '2*-1'
+                    case '/': stack.push(stack.pop() / num); break;
+                }
+                num = 0;
+                op = c;
+                result += stack.peek();
+            } /* else whitespace */
+        }
+        return result;
+    }
+
+    // My 1AC
+    public int calculate1(String s) {
         Stack<Integer> stack = new Stack<>();
         int num = 0;
         char sign = '+';
