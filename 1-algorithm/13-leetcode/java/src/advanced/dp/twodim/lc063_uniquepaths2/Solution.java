@@ -1,4 +1,4 @@
-package advanced.combinatorial.backtracking.dfs.lc063_uniquepaths2;
+package advanced.dp.twodim.lc063_uniquepaths2;
 
 /**
  * Follow up for "Unique Paths": Now consider if some obstacles are added to the grids. How many unique paths would there be? An obstacle and empty space is marked as 1 and 0 respectively in the grid.
@@ -13,7 +13,34 @@ package advanced.combinatorial.backtracking.dfs.lc063_uniquepaths2;
  */
 public class Solution {
 
+    // My 2AC: DP solution with O(N^2) time and O(N) space
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        if (obstacleGrid.length == 0 || obstacleGrid[0].length == 0) {
+            return 0;
+        }
+
+        // First column/row are special: if there is an obstacle, then path of following grid are all 0
+        int[] paths = new int[obstacleGrid[0].length];
+        paths[0] = (obstacleGrid[0][0] == 1) ? 0 : 1;
+        for (int i = 1; i < obstacleGrid[0].length; i++) {
+            paths[i] = (obstacleGrid[0][i] == 1 || paths[i - 1] == 0) ? 0 : 1;
+        }
+
+        for (int i = 1; i < obstacleGrid.length; i++) {
+            paths[0] = (obstacleGrid[i][0] == 1 || paths[0] == 0) ? 0 : 1;
+            for (int j = 1; j < obstacleGrid[i].length; j++) {
+                if (obstacleGrid[i][j] == 1) {
+                    paths[j] = 0;
+                } else {
+                    paths[j] += paths[j - 1];
+                }
+            }
+        }
+        return paths[paths.length - 1];
+    }
+
+    // My 1AC: same as I, backtracking is an overkill...
+    public int uniquePathsWithObstacles1(int[][] obstacleGrid) {
         if (obstacleGrid.length == 0) {
             return 0;
         }
