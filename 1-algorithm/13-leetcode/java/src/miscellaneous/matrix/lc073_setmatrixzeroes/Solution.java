@@ -22,6 +22,7 @@ public class Solution {
             }
         }
 
+        // Mark from bottom-up, since row0 stores 0 now
         for (int i = matrix.length - 1; i >= 0; i--) {
             for (int j = matrix[i].length - 1; j > 0; j--) {
                 if (matrix[i][0] == 0 || matrix[0][j] == 0) {
