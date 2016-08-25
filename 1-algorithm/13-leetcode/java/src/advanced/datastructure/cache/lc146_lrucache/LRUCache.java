@@ -1,4 +1,4 @@
-package advanced.design.lc146_lrucache;
+package advanced.datastructure.cache.lc146_lrucache;
 
 import java.util.HashMap;
 import java.util.LinkedList;

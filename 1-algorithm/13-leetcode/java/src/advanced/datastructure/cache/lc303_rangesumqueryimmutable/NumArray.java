@@ -1,4 +1,4 @@
-package advanced.design.lc303_rangesumqueryimmutable;
+package advanced.datastructure.cache.lc303_rangesumqueryimmutable;
 
 /**
  * Given an integer array nums, find the sum of the elements between indices i and j (i ≤ j), inclusive.

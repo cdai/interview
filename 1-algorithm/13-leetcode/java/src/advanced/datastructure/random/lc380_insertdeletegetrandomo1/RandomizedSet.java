@@ -1,4 +1,4 @@
-package advanced.design.lc380_insertdeletegetrandomo1;
+package advanced.datastructure.random.lc380_insertdeletegetrandomo1;
 
 import java.util.ArrayList;
 import java.util.HashSet;

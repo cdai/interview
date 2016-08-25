@@ -1,4 +1,4 @@
-package advanced.design.lc304_rangesumquery2dimmutable;
+package advanced.datastructure.cache.lc304_rangesumquery2dimmutable;
 
 /**
  * Given a 2D matrix matrix, find the sum of the elements inside the rectangle defined by its upper left corner (row1, col1) and lower right corner (row2, col2).

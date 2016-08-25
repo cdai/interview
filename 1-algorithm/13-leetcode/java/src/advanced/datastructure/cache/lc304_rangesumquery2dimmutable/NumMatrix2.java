@@ -1,4 +1,4 @@
-package advanced.design.lc304_rangesumquery2dimmutable;
+package advanced.datastructure.cache.lc304_rangesumquery2dimmutable;
 
 /**
  */
