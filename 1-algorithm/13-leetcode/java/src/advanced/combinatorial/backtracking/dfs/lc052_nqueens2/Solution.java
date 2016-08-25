@@ -6,7 +6,7 @@ package advanced.combinatorial.backtracking.dfs.lc052_nqueens2;
  */
 public class Solution {
 
-    // My 2AC
+    // My 2AC: O(N!*N) time and O(N) space
     public int totalNQueens(int n) {
         return doTotalNQueens(new int[n], 0);
     }

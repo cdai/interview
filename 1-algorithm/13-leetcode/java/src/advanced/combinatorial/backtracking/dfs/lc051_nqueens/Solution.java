@@ -28,6 +28,7 @@ public class Solution {
     //  "...Q",   queen[1]=3
     //  "Q...",   queen[2]=0
     //  "..Q."],  queen[0]=1
+    // O(N!*N) time and O(N) space
     public List<List<String>> solveNQueens(int n) {
         List<List<String>> result = new ArrayList<>();
         doSolveNQueens(result, new int[n], 0);
