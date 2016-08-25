@@ -8,7 +8,32 @@ package miscellaneous.matrix.lc073_setmatrixzeroes;
  */
 public class Solution {
 
+    // Solution from leetcode discuss
+    // Store col0 orginal state in boolean variable
+    // Let row0 original state be, since m[0][0] will take care in second phase
     public void setZeroes(int[][] matrix) {
+        boolean hasZeroInFirstCol = false;
+        for (int i = 0; i < matrix.length; i++) {
+            if (matrix[i][0] == 0) hasZeroInFirstCol = true;
+            for (int j = 1; j < matrix[i].length; j++) { // error: start at 1
+                if (matrix[i][j] == 0) {
+                    matrix[i][0] = matrix[0][j] = 0;
+                }
+            }
+        }
+
+        for (int i = matrix.length - 1; i >= 0; i--) {
+            for (int j = matrix[i].length - 1; j > 0; j--) {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+            if (hasZeroInFirstCol) matrix[i][0] = 0;
+        }
+    }
+
+    // My 1AC
+    public void setZeroes1(int[][] matrix) {
         if (matrix.length == 0 || matrix[0].length == 0) {
             return;
         }
