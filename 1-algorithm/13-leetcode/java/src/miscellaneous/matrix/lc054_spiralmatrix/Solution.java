@@ -36,7 +36,7 @@ public class Solution {
             for (int i = rowbegin; i <= rowend; i++) result.add(matrix[i][colend]);
             colend--;
 
-            if (rowbegin > rowend || colbegin > colend) break; // Without this If, no row will add col
+            if (rowbegin > rowend || colbegin > colend) break; // Must have for non square matrix
 
             // Move left and remove this row when finished
             for (int i = colend; i >= colbegin; i--) result.add(matrix[rowend][i]);
