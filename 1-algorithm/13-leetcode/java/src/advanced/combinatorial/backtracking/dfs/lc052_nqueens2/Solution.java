@@ -6,7 +6,37 @@ package advanced.combinatorial.backtracking.dfs.lc052_nqueens2;
  */
 public class Solution {
 
+    // My 2AC
     public int totalNQueens(int n) {
+        return doTotalNQueens(new int[n], 0);
+    }
+
+    private int doTotalNQueens(int[] queens, int row) {
+        if (row == queens.length) {
+            return 1;
+        }
+        int total = 0;
+        for (int col = 0; col < queens.length; col++) {
+            if (isValid(queens, col, row)) {
+                queens[row] = col;
+                total += doTotalNQueens(queens, row + 1);
+            }
+        }
+        return total;
+    }
+
+    private boolean isValid(int[] queens, int col1, int row1) {
+        for (int row2 = 0; row2 < row1; row2++) {
+            if (queens[row2] == col1 || row1 - row2 == Math.abs(col1 - queens[row2])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    // My 1AC
+    public int totalNQueens1(int n) {
         return doSolve(new int[n], 0);
     }
 
@@ -18,7 +48,7 @@ public class Solution {
         // Try each position
         int total = 0;
         for (int i = 0; i < queens.length; i++) {
-            if (isValid(queens, k, i)) {
+            if (isValid1(queens, k, i)) {
                 queens[k] = i;
                 total += doSolve(queens, k + 1);
             }
@@ -26,7 +56,7 @@ public class Solution {
         return total;
     }
 
-    private boolean isValid(int[] queens, int k, int i) {
+    private boolean isValid1(int[] queens, int k, int i) {
         // We want to set queen of k to position i,
         // So check all [0,k-1] queens to see if any conflict
         for (int j = 0; j < k; j++) {
