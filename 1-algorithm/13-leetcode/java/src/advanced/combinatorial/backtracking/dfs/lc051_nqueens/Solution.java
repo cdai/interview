@@ -23,14 +23,61 @@ import java.util.List;
  */
 public class Solution {
 
+    // My 2AC: understand queen[i] means put queen of ith row to queen[i] column
+    // [".Q..",   queen[0]=1
+    //  "...Q",   queen[1]=3
+    //  "Q...",   queen[2]=0
+    //  "..Q."],  queen[0]=1
     public List<List<String>> solveNQueens(int n) {
         List<List<String>> result = new ArrayList<>();
-        int[] queens = new int[n];      // This describes where to place i-th queen, since they must not share the same row
-        doSolve(result, queens, 0);     // It's much compressed than the whole chessboard!!!
+        doSolveNQueens(result, new int[n], 0);
         return result;
     }
 
-    private void doSolve(List<List<String>> result, int[] queens, int k) {
+    private void doSolveNQueens(List<List<String>> result, int[] queens, int row) {
+        if (row == queens.length) {
+            result.add(convert(queens));
+            return;
+        }
+        for (int col = 0; col < queens.length; col++) { // Start from 0 each time, so isValid needa check column conflict
+            if (isValid(queens, col, row)) {
+                queens[row] = col;
+                doSolveNQueens(result, queens, row + 1);
+            }
+        }
+    }
+
+    private List<String> convert(int[] queens) {
+        List<String> solution = new ArrayList<>();
+        for (int q : queens) {
+            char[] row = new char[queens.length];
+            Arrays.fill(row, '.');
+            row[q] = 'Q';
+            solution.add(new String(row));
+        }
+        return solution;
+    }
+
+    // Check position of queen from [0,row-1], see if we can set queens[row] = col
+    private boolean isValid(int[] queens, int col1, int row1) {
+        for (int row2 = 0; row2 < row1; row2++) {             // Only check [0,row-1], so no need to init queen[] to -1 or reset it
+            if (queens[row2] == col1 || row1 - row2 == Math.abs(col1 - queens[row2])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    // My 1AC
+    public List<List<String>> solveNQueens1(int n) {
+        List<List<String>> result = new ArrayList<>();
+        int[] queens = new int[n];      // This describes where to place i-th queen, since they must not share the same row
+        doSolve1(result, queens, 0);     // It's much compressed than the whole chessboard!!!
+        return result;
+    }
+
+    private void doSolve1(List<List<String>> result, int[] queens, int k) {
         if (k == queens.length) {
             result.add(convert(queens));
             return;
@@ -38,14 +85,14 @@ public class Solution {
 
         // Try each position
         for (int i = 0; i < queens.length; i++) {
-            if (isValid(queens, k, i)) {
+            if (isValid1(queens, k, i)) {
                 queens[k] = i;
-                doSolve(result, queens, k + 1);
+                doSolve1(result, queens, k + 1);
             }
         }
     }
 
-    private List<String> convert(int[] queens) {
+    private List<String> convert1(int[] queens) {
         List<String> solution = new ArrayList<>();
         for (int i = 0; i < queens.length; i++) {
             char[] row = new char[queens.length];
@@ -56,7 +103,7 @@ public class Solution {
         return solution;
     }
 
-    private boolean isValid(int[] queens, int k, int i) {
+    private boolean isValid1(int[] queens, int k, int i) {
         // We want to set queen of k to position i,
         // So check all [0,k-1] queens to see if any conflict
         for (int j = 0; j < k; j++) {
