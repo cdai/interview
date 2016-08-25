@@ -1,25 +1,21 @@
 package advanced.datastructure.trie.lc208_implementtrie;
 
-import java.util.HashMap;
-import java.util.Map;
-
-class TrieNode {
+public class TrieNode {
 
     boolean isWord;
 
     char val;
 
-    Map<Character, TrieNode> children;
+    TrieNode[] children;
 
     // Initialize your data structure here.
     public TrieNode() {
-        this.children = new HashMap<>();
-        this.isWord = false;
+        this.children = new TrieNode[26];
     }
 
-    public TrieNode(char c) {
+    public TrieNode(char val) {
         this();
-        this.val = c;
+        this.val = val;
     }
 
 }

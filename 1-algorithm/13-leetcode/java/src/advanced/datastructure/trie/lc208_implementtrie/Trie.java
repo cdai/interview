@@ -1,9 +1,5 @@
 package advanced.datastructure.trie.lc208_implementtrie;
 
-/**
- * Implement a trie with insert, search, and startsWith methods.
- * Note: You may assume that all inputs are consist of lowercase letters a-z.
- */
 public class Trie {
 
     public static void main(String[] args) {
@@ -23,44 +19,39 @@ public class Trie {
 
     // Inserts a word into the trie.
     public void insert(String word) {
-        TrieNode node = root;
+        TrieNode cur = root;
         for (char c : word.toCharArray()) {
-            if (node.children.containsKey(c)) {
-                node = node.children.get(c);
-            } else {
-                TrieNode newNode = new TrieNode(c);
-                node.children.put(c, newNode);
-                node = newNode;
+            if (cur.children[c - 'a'] == null) { // error1: create only if null
+                cur.children[c - 'a'] = new TrieNode(c);
             }
+            cur = cur.children[c - 'a'];
         }
-        node.isWord = true;
+        cur.isWord = true;
     }
 
     // Returns if the word is in the trie.
     public boolean search(String word) {
-        TrieNode node = root;
+        TrieNode cur = root;
         for (char c : word.toCharArray()) {
-            if (node.children.containsKey(c)) {
-                node = node.children.get(c);
-            } else {
+            cur = cur.children[c - 'a'];
+            if (cur == null) {
                 return false;
             }
         }
-        return node.isWord;
+        return cur.isWord;
     }
 
     // Returns if there is any word in the trie
     // that starts with the given prefix.
     public boolean startsWith(String prefix) {
-        TrieNode node = root;
+        TrieNode cur = root;
         for (char c : prefix.toCharArray()) {
-            if (node.children.containsKey(c)) {
-                node = node.children.get(c);
-            } else {
+            cur = cur.children[c - 'a'];
+            if (cur == null) {
                 return false;
             }
         }
-        return true;    // error: start with prefix, including prefix itself
+        return true; // error: no need to find one non-null child
     }
 
 }
