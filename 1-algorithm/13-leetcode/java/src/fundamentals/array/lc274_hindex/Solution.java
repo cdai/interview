@@ -16,7 +16,25 @@ import java.util.Arrays;
  */
 public class Solution {
 
+    // My 2AC:
+    // eg.   [0, 1, 3, 5, 6]
+    // cites  0  1  3  5  6
+    // papers 5  4  3  2  1
+    // hindex 0  1  3  2  1
+    // max = 3
     public int hIndex(int[] citations) {
+        Arrays.sort(citations);
+        int max = 0;
+        for (int i = 0; i < citations.length; i++) {
+            int cites = citations[i];
+            int papers = citations.length - i; // include itself since "at least h citations"
+            int hindex = Math.min(cites, papers);
+            max = Math.max(max, hindex);
+        }
+        return max;
+    }
+
+    public int hIndex1(int[] citations) {
         Arrays.sort(citations);
         int n = citations.length;
         int max = 0;
