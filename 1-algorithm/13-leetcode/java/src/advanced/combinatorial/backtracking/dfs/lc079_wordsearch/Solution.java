@@ -17,7 +17,36 @@ package advanced.combinatorial.backtracking.dfs.lc079_wordsearch;
  */
 public class Solution {
 
+    // My 2AC: O(mn*mn) time?
     public boolean exist(char[][] board, String word) {
+        if (board.length == 0 || board[0].length == 0)
+            return word.isEmpty();
+
+        for (int i = 0; i < board.length; i++)
+            for (int j = 0; j < board[i].length; j++)
+                if (isExist(board, word, i, j))
+                    return true;
+        return false;
+    }
+
+    private boolean isExist(char[][] board, String word, int row, int col) {
+        if (word.isEmpty())
+            return true;
+        if (row < 0 || row >= board.length || col < 0 || col >= board[0].length)
+            return false;
+        if (word.charAt(0) != board[row][col])
+            return false;
+
+        String substr = word.substring(1);
+        board[row][col] = ' ';
+        boolean result = (isExist(board, substr, row - 1, col) || isExist(board, substr, row, col + 1) ||
+                isExist(board, substr, row + 1, col) || isExist(board, substr, row, col - 1));
+        board[row][col] = word.charAt(0);
+        return result;
+    }
+
+    // My 1AC: use extra space besides call stack
+    public boolean exist1(char[][] board, String word) {
         if (board.length == 0 || word.length() == 0) {
             return false;
         }
