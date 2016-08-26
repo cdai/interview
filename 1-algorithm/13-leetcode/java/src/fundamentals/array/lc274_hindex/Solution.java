@@ -16,7 +16,7 @@ import java.util.Arrays;
  */
 public class Solution {
 
-    // My 2AC:
+    // My 2AC: O(NlogN)
     // eg.   [0, 1, 3, 5, 6]
     // cites  0  1  3  5  6
     // papers 5  4  3  2  1

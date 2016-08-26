@@ -11,7 +11,41 @@ import java.util.List;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        List<TreeNode> root = new Solution().generateTrees(4);
+        System.out.println(root);
+    }
+
+    // My 2AC: Time complexity TODO...
     public List<TreeNode> generateTrees(int n) {
+        if (n <= 0) {
+            return new ArrayList<>();
+        }
+        return doGenerateTrees(1, n);
+    }
+
+    private List<TreeNode> doGenerateTrees(int start, int end) {
+        if (start >= end) { // error: if Arrays.asList(null)
+            return start > end ? Arrays.asList(new TreeNode[]{null}) : Arrays.asList(new TreeNode(start));
+        }
+        List<TreeNode> trees = new ArrayList<>();
+        for (int i = start; i <= end; i++) {
+            List<TreeNode> left = doGenerateTrees(start, i - 1);
+            List<TreeNode> right = doGenerateTrees(i + 1, end);
+            for (TreeNode lchild : left) {
+                for (TreeNode rchild : right) {
+                    TreeNode root = new TreeNode(i);
+                    root.left = lchild;
+                    root.right = rchild;
+                    trees.add(root);
+                }
+            }
+        }
+        return trees;
+    }
+
+    // My 1AC
+    public List<TreeNode> generateTrees1(int n) {
         if (n == 0) {
             return new ArrayList<>();
         }
