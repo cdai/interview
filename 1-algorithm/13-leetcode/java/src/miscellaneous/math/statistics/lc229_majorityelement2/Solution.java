@@ -10,7 +10,40 @@ import java.util.List;
  */
 public class Solution {
 
+    // My 2AC: tweak of Boyer-Moore Majority Vote algorithm
     public List<Integer> majorityElement(int[] nums) {
+        Integer major1 = null, major2 = null, cnt1 = 0, cnt2 = 0;
+        for (Integer num : nums) {
+            if (num.equals(major1)) {
+                cnt1++;
+            } else if (num.equals(major2)) {
+                cnt2++;
+            } else if (cnt1 == 0) {
+                major1 = num;
+                cnt1 = 1;
+            } else if (cnt2 == 0) {
+                major2 = num;
+                cnt2 = 1;
+            } else {
+                cnt1--;
+                cnt2--;
+            }
+        }
+
+        cnt1 = cnt2 = 0;
+        for (Integer num : nums) {
+            if (num.equals(major1)) cnt1++;
+            else if (num.equals(major2)) cnt2++;
+        }
+
+        List<Integer> result = new ArrayList<>();
+        if (cnt1 > nums.length / 3) result.add(major1);
+        if (cnt2 > nums.length / 3) result.add(major2);
+        return result;
+    }
+
+    // My 1AC
+    public List<Integer> majorityElement1(int[] nums) {
         // Use two counters to save at most two majority num
         // The left elements at most [0,2/3) is unable to cancel off two counters
 
