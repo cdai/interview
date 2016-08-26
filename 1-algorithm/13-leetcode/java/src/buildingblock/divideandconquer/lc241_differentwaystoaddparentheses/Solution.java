@@ -1,7 +1,9 @@
 package buildingblock.divideandconquer.lc241_differentwaystoaddparentheses;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Given a string of numbers and operators, return all possible results
@@ -23,7 +25,38 @@ import java.util.List;
  */
 public class Solution {
 
+    private Map<String,List<Integer>> memo = new HashMap<>();
+
+    // Eg.2-1-1 -> 2-(1-1) It's ok! That's what this problem expect!
+    // Different from Unique Path II, sub-solution of this problem should be cached
     public List<Integer> diffWaysToCompute(String input) {
+        if (memo.containsKey(input)) {
+            return memo.get(input);
+        }
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < input.length(); i++) { // Suppose it's in well format
+            if ("+-*".indexOf(input.charAt(i)) < 0) continue;
+            List<Integer> lvals = diffWaysToCompute(input.substring(0, i));
+            List<Integer> rvals = diffWaysToCompute(input.substring(i + 1));
+            for (int lval : lvals) {
+                for (int rval : rvals) {
+                    switch (input.charAt(i)) {
+                        case '+': result.add(lval + rval); break;
+                        case '-': result.add(lval - rval); break;
+                        case '*': result.add(lval * rval); break;
+                    }
+                }
+            }
+        }
+        if (result.isEmpty()) {
+            result.add(Integer.valueOf(input));
+        }
+        memo.put(input, result);
+        return result;
+    }
+
+    // My 1AC
+    public List<Integer> diffWaysToCompute1(String input) {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
@@ -32,8 +65,8 @@ public class Solution {
             }
 
             // Pick operator at char[i]
-            List<Integer> left = diffWaysToCompute(input.substring(0, i));
-            List<Integer> right = diffWaysToCompute(input.substring(i + 1));
+            List<Integer> left = diffWaysToCompute1(input.substring(0, i));
+            List<Integer> right = diffWaysToCompute1(input.substring(i + 1));
 
             // Generate all combinations
             for (int j = 0; j < left.size(); j++) {
