@@ -1,4 +1,4 @@
-package fundamentals.array.lc274_hindex;
+package buildingblock.sorting.bucket.lc274_hindex;
 
 import java.util.Arrays;
 

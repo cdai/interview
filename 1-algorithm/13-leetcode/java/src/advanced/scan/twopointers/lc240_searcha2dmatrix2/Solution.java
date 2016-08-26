@@ -24,7 +24,24 @@ public class Solution {
         System.out.println(new Solution().searchMatrix(new int[][]{{-1, 3}}, 1));
     }
 
+    // My 2AC: O(M+N) time
+    // Integers in each row are sorted in ascending from left to right.
+    // Integers in each column are sorted in ascending from top to bottom.
     public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+        int row = 0, col = matrix[0].length - 1;
+        while (row < matrix.length && col >= 0) {
+            if (matrix[row][col] > target) col--;
+            else if (matrix[row][col] < target) row++;
+            else if (matrix[row][col] == target) return true;
+        }
+        return false;
+    }
+
+    // My 1AC
+    public boolean searchMatrix1(int[][] matrix, int target) {
         int n = matrix.length;
         if (n == 0 || matrix[0].length == 0) {
             return false;
