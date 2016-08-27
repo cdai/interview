@@ -70,10 +70,10 @@ public class Solution {
         if (!s.startsWith(path.toString())) return false;   // terminate early
         if (path.length() == s.length()) return true;
 
-        for (int i = 0; i < dict.length; i++) {
-            if (doBreak(s, path.append(dict[i]), dict))
+        for (String word : dict) {
+            if (doBreak(s, path.append(word), dict))
                 return true;
-            path.delete(path.length() - dict[i].length(), path.length());
+            path.delete(path.length() - word.length(), path.length());
         }
         return false;
     }
