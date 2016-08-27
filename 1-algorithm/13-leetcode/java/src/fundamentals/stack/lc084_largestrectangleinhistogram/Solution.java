@@ -1,11 +1,34 @@
 package fundamentals.stack.lc084_largestrectangleinhistogram;
 
+import java.util.Stack;
+
 /**
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        System.out.println(new Solution().largestRectangleArea(new int[]{3}));
+    }
+
+    public int largestRectangleArea(int[] height) {
+        int len = height.length;
+        Stack<Integer> s = new Stack<Integer>();
+        int maxArea = 0;
+        for(int i = 0; i <= len; i++){
+            int h = (i == len ? 0 : height[i]);
+            if(s.isEmpty() || h >= height[s.peek()]){
+                s.push(i);
+            }else{
+                int tp = s.pop();
+                maxArea = Math.max(maxArea, height[tp] * (s.isEmpty() ? i : i - 1 - s.peek()));
+                i--;
+            }
+        }
+        return maxArea;
+    }
+
     // Consider [5,1],[2,10],[6,10] but forget [2,1,2] where [1,1,1] is largest (part of last 2)
-    public int largestRectangleArea(int[] heights) {
+    public int largestRectangleArea1(int[] heights) {
         if (heights.length == 0) {
             return 0;
         }
