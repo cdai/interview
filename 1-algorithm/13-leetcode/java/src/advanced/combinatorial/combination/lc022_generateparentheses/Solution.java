@@ -2,7 +2,11 @@ package advanced.combinatorial.combination.lc022_generateparentheses;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 /**
  * Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
@@ -17,7 +21,26 @@ import java.util.List;
  */
 public class Solution {
 
+    // My 2AC: O(?)
     public List<String> generateParenthesis(int n) {
+        Queue<String> queue = new LinkedList<>();
+        Set<String> result = new HashSet<>();
+        queue.offer("");    // error1: start from () will error for n=1, since Set is empty
+        while (n-- > 0) {
+            result.clear(); // error2: don't forget clear
+            for (int size = queue.size(); size > 0; size--) {
+                String par = queue.poll();
+                for (int i = 0; i <= par.length(); i++) {
+                    String newpar = par.substring(0, i) + "()" + par.substring(i);
+                    if (result.add(newpar))
+                        queue.offer(newpar);
+                }
+            }
+        }
+        return new ArrayList<>(result);
+    }
+
+    public List<String> generateParenthesis1(int n) {
         if (n == 0) {
             return Arrays.asList("");
         }
