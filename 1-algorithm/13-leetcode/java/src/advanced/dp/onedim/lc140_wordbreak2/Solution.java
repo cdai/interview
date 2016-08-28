@@ -19,8 +19,8 @@ public class Solution {
     public static void main(String[] args) {
         System.out.println(
                 new Solution().wordBreak(
-                        "catsandabdog",
-                        new HashSet<>(Arrays.asList("cat","cats","and","sand","dog","a","b","ab"))
+                        "catsanddog",
+                        new HashSet<>(Arrays.asList("cat","cats","and","sand","dog"))
                 )
         );
         System.out.println(
@@ -31,7 +31,76 @@ public class Solution {
         );
     }
 
-    public List<String> wordBreak(String s, Set<String> wordDict) {
+    // My 2AC: O(N^2). Only save index, then recover by DFS
+    public List<String> wordBreak(String s, Set<String> dict) {
+        if (s.isEmpty() || dict.isEmpty()) return new ArrayList<>();
+        int max = 0;
+        for (String word : dict)
+            max = Math.max(max, word.length());
+        boolean[] matched = new boolean[s.length() + 1];
+        matched[0] = true;
+
+        List<Integer>[] path = new List[s.length() + 1];
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = Math.max(0, i - max); j < i; j++) {
+                if (!matched[j] || !dict.contains(s.substring(j, i))) continue;
+                matched[i] = true;
+                if (path[i] == null)
+                    path[i] = new ArrayList<>();
+                path[i].add(j);
+            }
+        }
+
+        List<String> result = new ArrayList<>();
+        recover(result, new StringBuilder(), s, path, s.length());
+        return result;
+    }
+
+    private void recover(List<String> result, StringBuilder cur, String s, List<Integer>[] path, int pos) {
+        if (pos == 0) {
+            result.add(cur.toString().trim());
+            return;
+        }
+        if (path[pos] == null) return;  // error: must put behind, since path[0] is null
+        for (int idx : path[pos]) {
+            String word = s.substring(idx, pos) + " ";
+            recover(result, cur.insert(0, word), s, path, idx);
+            cur.delete(0, word.length());
+        }
+    }
+
+    // Saving the path throughout the DP process is WRONG idea. Why?
+    // It's too slow to save all path (many of which cannot reach the end)
+    // Eg."aaa...b...aaa", ["a","aa",..."aaaaa"]
+    public List<String> wordBreak_path(String s, Set<String> wordDict) {
+        int max = 0;
+        for (String word : wordDict)
+            max = Math.max(max, word.length());                                     // prevent TLE
+        boolean[] matched = new boolean[s.length() + 1];
+        matched[0] = true;
+
+        List<String>[] sentence = new List[s.length() + 1];
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = Math.max(0, i - max); j < i; j++) {
+                if (!matched[j] || !wordDict.contains(s.substring(j, i))) continue;
+                matched[i] = true;
+                if (sentence[i] == null)
+                    sentence[i] = new ArrayList<>();
+
+                String word = s.substring(j, i);
+                if (j == 0)
+                    sentence[i].add(word);
+                else
+                    for (String sen : sentence[j])
+                        sentence[i].add(sen + " " + word);
+            }
+        }
+        return sentence[s.length()] == null ? new ArrayList<>() : sentence[s.length()]; // error1: wordDict is empty -> null
+    }
+
+
+    // My 1AC
+    public List<String> wordBreak1(String s, Set<String> wordDict) {
         // matched[n] = all substrings [?,N) that occurred in dict
         List<String>[] matched = new ArrayList[s.length() + 1];
         matched[0] = new ArrayList<>();
