@@ -107,7 +107,7 @@ public class Solution {
                 for (int j = 0; j < word.length(); j++) {
                     char[] letters = word.toCharArray(); // reuse this array in this round
                     for (char c = 'a'; c <= 'z'; c++) {
-                        letters[j] = c;
+                        letters[j] = c;                  // Miss a check if c == original letter
                         String next = new String(letters);
                         if (next.equals(endWord))
                             return i + 1;                // error: +1 for endWord
