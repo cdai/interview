@@ -25,6 +25,9 @@ import java.util.Set;
 public class Solution {
 
     public static void main(String[] args) {
+        System.out.println(new Solution().ladderLength("hit","hit",
+                new HashSet<>(Arrays.asList("hot"))));
+
         System.out.println(new Solution().ladderLength("hit","cog",
                 new HashSet<>(Arrays.asList("hot", "dot", "dog", "lot", "log"))));
 
@@ -65,7 +68,62 @@ public class Solution {
                         "zoe","amp","ale","bud","gee","pin","dun","pat","ten","mob"))));
     }
 
+    // Try double-end, but it doesn't work...
     public int ladderLength(String beginWord, String endWord, Set<String> wordList) {
+        Queue<String> queue = new LinkedList<>();
+        queue.offer(beginWord);
+        queue.offer(endWord);
+        for (int i = 2; !queue.isEmpty(); i += 2) {
+            int size = queue.size();
+            Set<String> meet = new HashSet<>();
+            while (size-- > 0) {
+                String word = queue.poll();
+                for (int j = 0; j < word.length(); j++) {
+                    char[] letters = word.toCharArray();
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        letters[j] = c;
+                        String next = new String(letters);
+                        if (!wordList.contains(next))
+                            continue;
+                        if (!meet.add(next)) // impossible to meet, since we remove wordList
+                            return i;
+                        queue.offer(next);
+                        wordList.remove(next);
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    // My 2AC: O(N) time (N = sizeof(wordList))
+    public int ladderLength_bfs(String beginWord, String endWord, Set<String> wordList) {
+        Queue<String> queue = new LinkedList<>();
+        queue.offer(beginWord);
+        for (int i = 1; !queue.isEmpty(); i++) {
+            int size = queue.size();
+            while (size-- > 0) {
+                String word = queue.poll();
+                for (int j = 0; j < word.length(); j++) {
+                    char[] letters = word.toCharArray(); // reuse this array in this round
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        letters[j] = c;
+                        String next = new String(letters);
+                        if (next.equals(endWord))
+                            return i + 1;                // error: +1 for endWord
+                        if (!wordList.contains(next))
+                            continue;
+                        queue.offer(next);
+                        wordList.remove(next);
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    // My 1AC
+    public int ladderLength1(String beginWord, String endWord, Set<String> wordList) {
         Queue<String> queue = new LinkedList<>();
         queue.offer(beginWord);
 

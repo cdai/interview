@@ -1,4 +1,4 @@
-package advanced.dp.n2.lc368_largestdivisiblesubset;
+package advanced.dp.path.lc368_largestdivisiblesubset;
 
 import java.util.ArrayList;
 import java.util.Arrays;
