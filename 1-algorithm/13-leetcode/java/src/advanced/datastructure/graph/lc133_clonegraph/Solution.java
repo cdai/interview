@@ -29,13 +29,34 @@ public class Solution {
     }
 
     public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if (node == null) return null;
+        return doClone(node, new HashMap<>());
+    }
+
+    private UndirectedGraphNode doClone(UndirectedGraphNode node,
+                                        Map<Integer,UndirectedGraphNode> visited) {
+
+        if (visited.containsKey(node.label)) return visited.get(node.label);
+
+        UndirectedGraphNode cloned = new UndirectedGraphNode(node.label);
+        visited.put(cloned.label, cloned);
+
+        for (UndirectedGraphNode neighbor : node.neighbors) {
+            UndirectedGraphNode clonedNeighbor = doClone(neighbor, visited);
+            cloned.neighbors.add(clonedNeighbor);
+        }
+        return cloned;
+    }
+
+    // My 1AC
+    public UndirectedGraphNode cloneGraph1(UndirectedGraphNode node) {
         if (node == null) {         // error1: OMG! OJ try null input at times...
             return null;
         }
         return doClone(node, new HashMap<>());
     }
 
-    private UndirectedGraphNode doClone(UndirectedGraphNode src,
+    private UndirectedGraphNode doClone1(UndirectedGraphNode src,
                                         Map<UndirectedGraphNode, UndirectedGraphNode> clones) {
         UndirectedGraphNode target = new UndirectedGraphNode(src.label);
         clones.put(src, target);
@@ -44,7 +65,7 @@ public class Solution {
             if (clones.containsKey(n)) {                // error2: still add to neighbors, just don't clone, don't miss it!
                 target.neighbors.add(clones.get(n));    // Could move to base case, but less recursion in this way
             } else {
-                target.neighbors.add(doClone(n, clones));
+                target.neighbors.add(doClone1(n, clones));
             }
         }
         return target;
