@@ -35,16 +35,13 @@ public class Solution {
 
     private UndirectedGraphNode doClone(UndirectedGraphNode node,
                                         Map<Integer,UndirectedGraphNode> visited) {
-
         if (visited.containsKey(node.label)) return visited.get(node.label);
 
         UndirectedGraphNode cloned = new UndirectedGraphNode(node.label);
         visited.put(cloned.label, cloned);
 
-        for (UndirectedGraphNode neighbor : node.neighbors) {
-            UndirectedGraphNode clonedNeighbor = doClone(neighbor, visited);
-            cloned.neighbors.add(clonedNeighbor);
-        }
+        for (UndirectedGraphNode neighbor : node.neighbors)
+            cloned.neighbors.add(doClone(neighbor, visited));
         return cloned;
     }
 
