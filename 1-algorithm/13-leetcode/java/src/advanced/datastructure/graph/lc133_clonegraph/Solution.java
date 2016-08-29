@@ -28,6 +28,7 @@ public class Solution {
         System.out.println(clone);
     }
 
+    // O(N) time
     public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
         if (node == null) return null;
         return doClone(node, new HashMap<>());
