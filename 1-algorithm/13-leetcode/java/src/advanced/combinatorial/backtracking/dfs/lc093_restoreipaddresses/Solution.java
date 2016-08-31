@@ -10,7 +10,28 @@ import java.util.List;
  */
 public class Solution {
 
+    // My 2AC: O(2^N)? without cutting
     public List<String> restoreIpAddresses(String s) {
+        List<String> result = new ArrayList<>();
+        doRestore(result, "", s, 0);
+        return result;
+    }
+
+    private void doRestore(List<String> result, String path, String s, int k) {
+        if (s.isEmpty() || k == 4) {
+            if (s.isEmpty() && k == 4)
+                result.add(path.substring(1));
+            return;
+        }
+        for (int i = 1; i <= (s.charAt(0) == '0' ? 1 : 3) && i <= s.length(); i++) { // Key: avoid corner case, like leading 0
+            String part = s.substring(0, i);
+            if (Integer.valueOf(part) <= 255)
+                doRestore(result, path + "." + part, s.substring(i), k + 1);
+        }
+    }
+
+    // My 1AC
+    public List<String> restoreIpAddresses1(String s) {
         List<String> result = new ArrayList<>();
         int[] path = new int[5]; // substring(p[0], p[1]), substring(p[1], p[2])...
         restore(result, path, s, 1);
