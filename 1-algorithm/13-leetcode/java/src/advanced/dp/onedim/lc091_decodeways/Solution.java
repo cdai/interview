@@ -11,7 +11,47 @@ package advanced.dp.onedim.lc091_decodeways;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        System.out.println(new Solution().numDecodings("1120"));
+    }
+
+    // way,way2,way1:
+    // 1/2,[0] -> way1
+    // 3~9,[0] -> 0 (way1)
+    // 1~26 -> way1 + way2
+    // 0,[0] -> 0
+    public int numDecodings_backward(String s) {
+        if (s.isEmpty()) return 0;
+        int way1 = 1, way2 = (s.charAt(s.length() - 1) == '0') ? 0 : 1;
+        for (int i = s.length() - 2; i >= 0; i--) {
+            int way = 0;
+            if (s.charAt(i) != '0')
+                way = (Integer.valueOf(s.substring(i, i + 2))) <= 26 ? way1 + way2 : way2;
+            way1 = way2;
+            way2 = way;
+        }
+        return way2;
+    }
+
+    // 1~9:   dp[i-1]
+    // 10~26: dp[i-1] + dp[i-2]
+    // 0,27~99: 0
     public int numDecodings(String s) {
+        if (s.isEmpty()) return 0;
+
+        int[] dp = new int[s.length() + 1];
+        dp[0] = 1;
+        dp[1] = (s.charAt(0) == '0') ? 0 : 1;
+        for (int i = 2; i <= s.length(); i++) {
+            int one = s.charAt(i - 1) - '0';
+            int ten = Integer.valueOf(s.substring(i - 2, i));
+            if (1 <= one && one <= 9) dp[i] += dp[i - 1];
+            if (10 <= ten && ten <= 26) dp[i] += dp[i - 2];
+        }
+        return dp[s.length()];
+    }
+
+    public int numDecodings1(String s) {
         if (s == null || s.length() == 0 || "0".equals(s)) {
             return 0;
         }
