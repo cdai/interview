@@ -27,7 +27,46 @@ public class Solution {
         System.out.println(root.right.right.val + " next: " + root.right.right.next);
     }
 
+    // My 2nd solution inspired from leetcode discuss.
+    // Very elegant solution using dummy head!
     public void connect(TreeLinkNode root) {
+        TreeLinkNode dummy = new TreeLinkNode(0), cur = root;
+        while (cur != null) {
+            TreeLinkNode prev = dummy;
+            for (; cur != null; cur = cur.next) {
+                if (cur.left != null)
+                    prev = prev.next = cur.left;
+                if (cur.right != null)
+                    prev = prev.next = cur.right;
+            }
+            cur = dummy.next;
+            dummy.next = null;
+        }
+    }
+
+    // Always do link in pair rather than alone...
+    public void connect2(TreeLinkNode root) {
+        TreeLinkNode cur = root;
+        while (cur != null) {                       // cur is current node on high level
+            TreeLinkNode head = null, prev = null;  // head/prev is first/previous node on low level
+            for (; cur != null; cur = cur.next) {
+                if (cur.left != null) {
+                    if (prev != null) prev.next = cur.left;
+                    else head = cur.left;
+                    prev = cur.left;
+                }
+                if (cur.right != null) {
+                    if (prev != null) prev.next = cur.right;
+                    else head = cur.right;
+                    prev = cur.right;
+                }
+            }
+            cur = head;
+            head = prev = null;
+        }
+    }
+
+    public void connect1(TreeLinkNode root) {
         // Traverse each level
         TreeLinkNode next = root;
         while (next != null) {
