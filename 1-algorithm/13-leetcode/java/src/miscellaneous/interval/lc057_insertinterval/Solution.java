@@ -14,7 +14,56 @@ import java.util.List;
  */
 public class Solution {
 
-    public List<Interval> insert(List<Interval> intervals, Interval newi) {
+    public List<Interval> insert_inplace(List<Interval> intervals, Interval newInterval) {
+        int i = 0;
+        for (; i < intervals.size() && intervals.get(i).end < newInterval.start; i++);
+        while (i < intervals.size() && intervals.get(i).start <= newInterval.end) { // DON'T move i
+            newInterval = new Interval(Math.min(intervals.get(i).start, newInterval.start),
+                    Math.max(intervals.get(i).end, newInterval.end));
+            intervals.remove(i);
+        }
+        intervals.add(i, newInterval); // Insert ith
+        return intervals;
+    }
+
+    // My 2AC: solution from leetcode discuss
+    public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+        List<Interval> result = new ArrayList<>();
+        int i = 0;
+        for (; i < intervals.size() && intervals.get(i).end < newInterval.start; i++)
+            result.add(intervals.get(i));
+
+        for (; i < intervals.size() && intervals.get(i).start <= newInterval.end; i++)
+            newInterval = new Interval(Math.min(intervals.get(i).start, newInterval.start),
+                    Math.max(intervals.get(i).end, newInterval.end));
+
+        result.add(newInterval);
+        result.addAll(intervals.subList(i, intervals.size()));
+        return result;
+    }
+
+    // Very hard to locate newInterval position and then merge in one pass...
+    public List<Interval> insert_unclean(List<Interval> intervals, Interval newInterval) {
+        int startIdx = -1, endIdx = -1;
+        for (int i = 0; i < intervals.size(); i++) {
+            if (isIn(intervals.get(i), newInterval.start)) startIdx = i;
+            if (isIn(intervals.get(i), newInterval.end)) endIdx = i;
+        }
+
+        List<Interval> result = new ArrayList<>();
+        if (startIdx == -1 && endIdx == -1);
+        else if (startIdx != -1 && endIdx == -1);
+        else if (startIdx == -1 && endIdx != -1);
+        else;
+        return result;
+    }
+
+    private boolean isIn(Interval interval, int val) {
+        return interval.start <= val && val <= interval.end;
+    }
+
+    // My 1AC
+    public List<Interval> insert1(List<Interval> intervals, Interval newi) {
         List<Interval> result = new ArrayList<>();
 
         for (Interval i : intervals) {
