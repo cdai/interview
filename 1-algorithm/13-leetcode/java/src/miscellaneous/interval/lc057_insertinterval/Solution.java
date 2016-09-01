@@ -26,7 +26,7 @@ public class Solution {
         return intervals;
     }
 
-    // My 2AC: solution from leetcode discuss
+    // My 2AC: solution from leetcode discuss. O(N)
     public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
         List<Interval> result = new ArrayList<>();
         int i = 0;
