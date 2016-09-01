@@ -16,7 +16,7 @@ public class Solution {
 
     // My 2AC: Avoid inplace remove and get(i)
     public List<Interval> merge(List<Interval> intervals) {
-        Collections.sort(intervals, (i1, i2) -> (Integer.compare(i1.start, i2.start)));
+        intervals.sort((i1, i2) -> (Integer.compare(i1.start, i2.start)));
         List<Interval> result = new ArrayList<>();
         for (Interval interval : intervals) {
             if (!result.isEmpty() && result.get(result.size() - 1).end >= interval.start) {
