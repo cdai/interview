@@ -45,7 +45,8 @@ public class Solution {
             Set<String> visited = new HashSet<>();
             int size = queue.size();
             while (size-- > 0) {
-                String ladder = queue.poll(), lastword = ladder.substring(ladder.length() - beginWord.length());
+                String ladder = queue.poll();
+                String lastword = ladder.substring(ladder.length() - beginWord.length());
                 if (lastword.equals(endWord)) {
                     result.add(Arrays.asList(ladder.split(",")));
                     isEnd = true;
@@ -55,7 +56,7 @@ public class Solution {
                 for (int i = 0; i < lastword.length(); i++) {
                     char[] chars = lastword.toCharArray();
                     for (char c = 'a'; (chars[i] = c) <= 'z'; c++) {
-                        if (c == lastword.charAt(i)) continue;
+                        //if (c == lastword.charAt(i)) continue;
                         String newword = new String(chars);
                         if (wordList.contains(newword)) {  // error: don't remove now, otherwise missing solution
                             queue.offer(ladder + "," + newword);
