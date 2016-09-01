@@ -13,10 +13,54 @@ package fundamentals.string.arithmetic.lc306_additivenumber;
 public class Solution {
 
     public static void main(String[] args) {
-        System.out.println(new Solution().isAdditiveNumber("211738"));
+        System.out.println(new Solution().isAdditiveNumber("112358"));
     }
 
+    // Use long or even BigInteger
     public boolean isAdditiveNumber(String num) {
+        int n = num.length();
+        for (int i = 0; i <= n / 2; i++) { // Optimize boundary
+            if (i > 0 && num.charAt(0) == '0') break;
+            for (int j = i + 1; Math.max(i, j - i + 1) <= n - j; j++) { // Sum length <= #remaining chars (n-(j+1)+1)=n-j
+                if (j > i + 1 && num.charAt(i + 1) == '0') break;
+                long n1 = Long.valueOf(num.substring(0, i + 1));
+                long n2 = Long.valueOf(num.substring(i + 1, j + 1));
+                if (isValid(num.substring(j + 1), n1, n2))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    // Tail recursion
+    private boolean isValid(String num, long n1, long n2) {
+        if (num.isEmpty()) return true;
+        return num.startsWith(String.valueOf(n1 + n2)) &&
+                isValid(num.substring(String.valueOf(n1 + n2).length()), n2, n1 + n2);
+    }
+
+    // My 2AC: O(N^2) time. overflow using int and forget to consider leading 0
+    // eg."0235813" even though result is correct but consume much time
+    public boolean isAdditiveNumber_strappend(String num) {
+        for (int i = 0; i < num.length() - 2; i++) {
+            for (int j = i + 1; j < num.length() - 1; j++) {
+                long n1 = Integer.valueOf(num.substring(0, i + 1));
+                long n2 = Integer.valueOf(num.substring(i + 1, j + 1));
+                StringBuilder str = new StringBuilder().append(n1).append(n2);
+                while (str.length() < num.length()) {
+                    long sum = n1 + n2;
+                    str.append(sum);
+                    n1 = n2;
+                    n2 = sum;
+                }
+                if (str.toString().equals(num))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isAdditiveNumber1(String num) {
         // Generate all possible first two number, meanwhile make sure no leading 0 and there is a third number
         for (int i = 1; i <= num.length() - 2; i++) {
             String first = num.substring(0, i);
