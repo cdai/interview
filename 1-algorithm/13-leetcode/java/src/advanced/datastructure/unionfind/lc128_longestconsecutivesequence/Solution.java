@@ -1,4 +1,4 @@
-package buildingblock.table.lc128_longestconsecutivesequence;
+package advanced.datastructure.unionfind.lc128_longestconsecutivesequence;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,31 @@ public class Solution {
         System.out.println(new Solution().longestConsecutive(new int[]{5, 7, 4, 6}));
     }
 
+    // My 2AC: inspired by leetcode discuss.
+    // Smart union to boost Union-Find performance
     public int longestConsecutive(int[] nums) {
+        Map<Integer,Integer> ranges = new HashMap<>();
+        int max = 0;
+        for (int num : nums) {
+            if (ranges.containsKey(num)) continue;
+
+            // 1.Find left and right num
+            int left = ranges.getOrDefault(num - 1, 0);
+            int right = ranges.getOrDefault(num + 1, 0);
+            int sum = left + right + 1;
+            max = Math.max(max, sum);
+
+            // 2.Union by only updating boundary
+            // Leave middle k-v dirty to avoid cascading update
+            ranges.put(num - left, sum);
+            ranges.put(num + right, sum);
+            ranges.put(num, sum); // Keep each number in Map to de-duplicate
+        }
+        return max;
+    }
+
+    // My 1AC
+    public int longestConsecutive1(int[] nums) {
         Map<Integer, Boolean> map = new HashMap<>();
         for (int n : nums) {
             map.put(n, false);
