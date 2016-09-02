@@ -14,11 +14,11 @@ public class Solution {
         System.out.println(new Solution().longestValidParentheses(")()())"));
     }
 
-    // Smart solution!
+    // Smart solution to push index on stack!
     // "The idea is simple, we only update the result (max) when we find a "pair".
     // If we find a pair. We throw this pair away and see how big the gap is between current and previous invalid.
     // The idea only update the result (max) when we find a "pair" and push -1 to stack first covered all edge cases."
-    public int longestValidParentheses(String s) {
+    public int longestValidParentheses_stack(String s) {
         Deque<Integer> stack = new LinkedList<>(); // error: TLE if using Stack
         stack.push(-1); // sentinel
         int max = 0;
@@ -30,6 +30,42 @@ public class Solution {
                 stack.push(i);
         }
         return max;
+    }
+
+    // DP solution: when matched ...dp[a],(,...dp[i-1],)
+    // dp[i] = dp[i - 1] + 2 + dp[before matched (]
+    public int longestValidParentheses(String s) {
+        int max = 0, opened = 0; // essentially, this is a stack!
+        int[] dp = new int[s.length() + 1];
+        for (int i = 1; i <= s.length(); i++) {
+            if (s.charAt(i - 1) == ')') {
+                if (--opened >= 0) {
+                    dp[i] = dp[i - 1] + 2;
+                    dp[i] += dp[i - dp[i]];
+                    max = Math.max(max, dp[i]);
+                } else opened = 0;
+            } else opened++;
+        }
+        return max;
+    }
+
+    // "()(()" wrong because of the middle "("
+    public int longestValidParentheses_wrong(String s) {
+        int stack = 0, cnt = 0, max = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                stack++;
+            } else {
+                stack--;
+                if (stack < 0) {
+                    stack = 0;
+                    max = Math.max(max, cnt);
+                    cnt = 0;
+                } else
+                    cnt += 2;
+            }
+        }
+        return Math.max(max, cnt);
     }
 
     // My 1AC
