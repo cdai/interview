@@ -1,4 +1,7 @@
-package advanced.dp.lc032_longestvalidparentheses;
+package fundamentals.stack.lc032_longestvalidparentheses;
+
+import java.util.Deque;
+import java.util.LinkedList;
 
 /**
  * Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
@@ -11,7 +14,26 @@ public class Solution {
         System.out.println(new Solution().longestValidParentheses(")()())"));
     }
 
+    // Smart solution!
+    // "The idea is simple, we only update the result (max) when we find a "pair".
+    // If we find a pair. We throw this pair away and see how big the gap is between current and previous invalid.
+    // The idea only update the result (max) when we find a "pair" and push -1 to stack first covered all edge cases."
     public int longestValidParentheses(String s) {
+        Deque<Integer> stack = new LinkedList<>(); // error: TLE if using Stack
+        stack.push(-1); // sentinel
+        int max = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == ')' && stack.size() > 1 && s.charAt(stack.peek()) == '(') {
+                stack.pop();
+                max = Math.max(max, i - stack.peek()); // actually, it's: i-(peek+1)+1, since peek+1 is the first valid char
+            } else
+                stack.push(i);
+        }
+        return max;
+    }
+
+    // My 1AC
+    public int longestValidParentheses1(String s) {
         if (s.length() == 0) {
             return 0;
         }
