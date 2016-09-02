@@ -1,5 +1,7 @@
 package advanced.scan.singlepointer.lc334_increasingtripletsubsequence;
 
+import java.util.Arrays;
+
 /**
  * Given an unsorted array return whether an increasing subsequence of length 3 exists or not in the array.
  * Formally the function should: Return true if there exists i, j, k
@@ -10,6 +12,20 @@ package advanced.scan.singlepointer.lc334_increasingtripletsubsequence;
  *  Given [5, 4, 3, 2, 1], return false.
  */
 public class Solution {
+
+    // A general K version
+    public boolean increasingTriplet_general(int[] nums) {
+        int[] triplet = new int[3];
+        int len = 0;
+        for (int num : nums) {
+            int i = Arrays.binarySearch(triplet, 0, len, num);
+            if (i < 0) i = -(i + 1);
+            triplet[i] = num;
+            if (i == len) len++;
+            if (len == 3) return true;
+        }
+        return false;
+    }
 
     // My 2nd: it's still very hard to come up...
     // My 1st

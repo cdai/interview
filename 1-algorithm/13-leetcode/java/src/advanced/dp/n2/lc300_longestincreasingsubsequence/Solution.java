@@ -15,7 +15,33 @@ public class Solution {
         System.out.println(new Solution().lengthOfLIS(new int[]{1, 3, 6, 7, 9, 4, 10, 5, 6}));
     }
 
+    // Very smart and general solution for this kinda problem
     public int lengthOfLIS(int[] nums) {
+        int[] dp = new int[nums.length];
+        int len = 0;
+        for (int num : nums) {
+            int i = Arrays.binarySearch(dp, 0, len, num); // exclusive
+            if (i < 0) i = -(i + 1);
+            dp[i] = num;            // replace with new incoming smaller num repeatly
+            if (len == i) len++;    // but only increase len if more numbers
+        }
+        return len;
+    }
+
+    public int lengthOfLIS_nsquare(int[] nums) {
+        int[] dp = new int[nums.length];
+        int max = 0;
+        for (int i = 0; i < nums.length; i++) {
+            dp[i] = 1;
+            for (int j = 0; j < i; j++)
+                if (nums[j] < nums[i])
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+            max = Math.max(max, dp[i]);
+        }
+        return max; // dp[i] is not global optimal
+    }
+
+    public int lengthOfLIS1(int[] nums) {
         if (nums.length == 0) {
             return 0;
         }
