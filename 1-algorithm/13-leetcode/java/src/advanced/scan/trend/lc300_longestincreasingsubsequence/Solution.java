@@ -1,4 +1,4 @@
-package advanced.dp.n2.lc300_longestincreasingsubsequence;
+package advanced.scan.trend.lc300_longestincreasingsubsequence;
 
 import java.util.Arrays;
 
