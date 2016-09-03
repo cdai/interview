@@ -10,9 +10,57 @@ public class Solution {
 
     public static void main(String[] args) {
         System.out.println(new Solution().longestPalindrome("aaabaaaa"));
+        System.out.println(new Solution().longestPalindrome("civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth"));
     }
 
+    // Much efficient than mine, since we start from small string
+    // O(N^2) in the worst case, but on average O(N*len)
     public String longestPalindrome(String s) {
+        int max = 0, idx = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = extend(s, i, i), len2 = extend(s, i, i + 1);         // try to extend in odd or even length
+            if (max < Math.max(len1, len2)) {
+                idx = (len1 > len2) ? (i - len1 / 2) : (i - len2 / 2 + 1);  // get starting idx according to center and length
+                max = Math.max(len1, len2);
+            }
+        }
+        return s.substring(idx, idx + max); // error: idx+max not idx...
+    }
+
+    private int extend(String s, int i, int j) {
+        for (; i >= 0 && j < s.length(); i--, j++)
+            if (s.charAt(i) != s.charAt(j))
+                break;
+        return j - i - 2 + 1; // 2 means current two unmatched char
+    }
+
+    // My 2AC: brute-force, accepted but very slow
+    public String longestPalindrome_bruteforce(String s) {
+        if (s.isEmpty()) return "";
+        int max = 1, idx = 0;
+        for (int i = 1; i < s.length(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (isPalindrome(s, j, i)) {
+                    if (max < (i - j + 1)) {
+                        max = (i - j + 1);
+                        idx = j;
+                    }
+                    break;
+                }
+            }
+        }
+        return s.substring(idx, idx + max);
+    }
+
+    private boolean isPalindrome(String s, int from, int to) {
+        for (int i = from, j = to; i < j; i++, j--)
+            if (s.charAt(i) != s.charAt(j))
+                return false;
+        return true;
+    }
+
+    // My 1AC
+    public String longestPalindrome1(String s) {
         int n = s.length();
         if (n < 2) {
             return s;
