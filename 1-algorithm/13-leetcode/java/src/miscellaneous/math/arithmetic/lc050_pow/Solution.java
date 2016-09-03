@@ -1,4 +1,4 @@
-package buildingblock.divideandconquer.lc050_pow;
+package miscellaneous.math.arithmetic.lc050_pow;
 
 /**
  * Implement pow(x, n).
@@ -10,6 +10,9 @@ public class Solution {
     }
 
     // Very nice iterative solution
+    // b      : 7 -> 3 -> 1
+    // ret(a^): 1    3    7
+    // pow(a^): 2    4    8
     public double myPow(double x, int n) {
         double ret = 1, pow = x;
         long absn = Math.abs((long) n);

@@ -12,7 +12,31 @@ public class Solution {
 
     private static final int MOD = 1337;
 
+    // My 2AC: O(N) time
     public int superPow(int a, int[] b) {
+        return superPow(a, b, b.length - 1);
+    }
+
+    // Handle one digit a time
+    // a^542 = (a^54)^10 * (a^2)
+    // a^54 = (a^5)^10 * (a^4)
+    private int superPow(int a, int[] b, int d) {
+        if (d == 0) return pow(a, b[0]);
+        return (pow(superPow(a, b, d - 1), 10) * pow(a, b[d])) % MOD;
+    }
+
+    // Don't use Pow approach for optimization. Be ware of overflow carefully at each step.
+    private int pow(int a, int b) {
+        if (a >= MOD) a %= MOD; // error: in case A is 2147483647 initially
+        int pow = 1;
+        for (int i = 0; i < b; i++) {
+            pow = (pow * a) % MOD;
+        }
+        return pow;
+    }
+
+    // My 1AC
+    public int superPow1(int a, int[] b) {
         if (isSafe(a, b)) {
             return a;
         }
