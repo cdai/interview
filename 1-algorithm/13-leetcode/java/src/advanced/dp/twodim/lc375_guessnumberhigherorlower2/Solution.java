@@ -15,7 +15,21 @@ package advanced.dp.twodim.lc375_guessnumberhigherorlower2;
  */
 public class Solution {
 
+    // Bottom-up from len=1~N
     public int getMoneyAmount(int n) {
+        int[][] dp = new int[n + 2][n + 2];
+        for (int len = 1; len < n; len++) {
+            for (int from = 1, to = from + len; to <= n; from++, to++) {
+                dp[from][to] = Integer.MAX_VALUE;
+                for (int k = from; k <= to; k++) // Note: k-1/+1 reach dp[0] and dp[n+1]
+                    dp[from][to] = Math.min(dp[from][to], k + Math.max(dp[from][k - 1], dp[k + 1][to]));
+            }
+        }
+        return dp[1][n];
+    }
+
+    // Since each position in "int[][] dp" be computed once, the time complexity is O(N^2)
+    public int getMoneyAmount_recusion(int n) {
         return minOfMaxCost(new int[n + 1][n + 1], 1, n);
     }
 
