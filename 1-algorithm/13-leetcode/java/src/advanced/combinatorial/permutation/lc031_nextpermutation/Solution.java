@@ -11,7 +11,29 @@ package advanced.combinatorial.permutation.lc031_nextpermutation;
  */
 public class Solution {
 
+    // My 2AC
+    // Eg.1243 -> i=>2, j=>3 -> 1342 -> 1324
+    // Test case: [1], [1,2], [1,2,3,4], [1,2,4,3]...
     public void nextPermutation(int[] nums) {
+        int i = nums.length - 2, j = nums.length - 1;
+
+        // 1.Find first number (i) which breaks descending order
+        for (; i >= 0 && nums[i] >= nums[i + 1]; i--);
+
+        // 2.Exchange this number with the least number that's greater than this number.
+        if (i >= 0) {
+            while (nums[i] >= nums[j]) j--;
+            swap(nums, i, j);
+        }
+
+        // 3.Reverse sort the numbers after the exchanged number
+        i++;
+        for (int k = nums.length - 1; i < k; i++, k--)
+            swap(nums, i, k);
+    }
+
+    // My 1AC
+    public void nextPermutation1(int[] nums) {
         if (nums == null || nums.length < 2) {
             return;
         }
