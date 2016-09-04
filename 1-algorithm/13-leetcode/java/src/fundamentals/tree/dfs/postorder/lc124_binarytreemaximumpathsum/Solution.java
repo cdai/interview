@@ -1,4 +1,4 @@
-package fundamentals.tree.dfs.leaf.lc124_binarytreemaximumpathsum;
+package fundamentals.tree.dfs.postorder.lc124_binarytreemaximumpathsum;
 
 import fundamentals.tree.TreeNode;
 
