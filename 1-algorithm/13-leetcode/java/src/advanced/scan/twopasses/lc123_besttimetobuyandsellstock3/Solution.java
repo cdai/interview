@@ -1,4 +1,4 @@
-package advanced.dp.twodim.lc123_besttimetobuyandsellstock3;
+package advanced.scan.twopasses.lc123_besttimetobuyandsellstock3;
 
 /**
  * Say you have an array for which the ith element is the price of a given stock on day i.
