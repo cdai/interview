@@ -18,20 +18,45 @@ public class Solution {
         System.out.println(new Solution().maxPathSum(root));
     }
 
-    private int maxSum = Integer.MIN_VALUE; // error1: init to MIN_VAL, not 0. eg.[-3] -> -3 not 0
+    private int max = Integer.MIN_VALUE;
 
     public int maxPathSum(TreeNode root) {
         doMaxPathSum(root);
+        return max;
+    }
+
+    public int doMaxPathSum(TreeNode root) {
+        if (root == null) return 0;         // Safe! Since we compare left+root, right+root and root
+        int left = doMaxPathSum(root.left);
+        int right = doMaxPathSum(root.right);
+        int ret = Math.max(Math.max(left, right), 0) + root.val;    // One-side (reused by upper level)
+        max = Math.max(max, Math.max(ret, left + root.val + right));// Two-side (could NOT be reused)
+        return ret;
+    }
+
+    public int doMaxPathSum_alternative(TreeNode root) {
+        if (root == null) return 0;
+        int left = Math.max(0, doMaxPathSum(root.left));
+        int right = Math.max(0, doMaxPathSum(root.right));
+        max = Math.max(max, left + root.val + right); // Two-side (could NOT be reused)
+        return Math.max(left, right) + root.val;
+    }
+
+    // My 1AC
+    private int maxSum = Integer.MIN_VALUE; // error1: init to MIN_VAL, not 0. eg.[-3] -> -3 not 0
+
+    public int maxPathSum1(TreeNode root) {
+        doMaxPathSum1(root);
         return maxSum;
     }
 
-    private int doMaxPathSum(TreeNode root) {
+    private int doMaxPathSum1(TreeNode root) {
         if (root == null) {
             return 0;   // error2: it's ok, since we compare root+left,root+right, never left or right alone
         }
 
-        int maxLeft = doMaxPathSum(root.left);
-        int maxRight = doMaxPathSum(root.right);
+        int maxLeft = doMaxPathSum1(root.left);
+        int maxRight = doMaxPathSum1(root.right);
 
         // Max path sum that is useable by parent: root, root+left, root+right
         int maxSumForParent = Math.max(root.val, root.val + maxLeft);
