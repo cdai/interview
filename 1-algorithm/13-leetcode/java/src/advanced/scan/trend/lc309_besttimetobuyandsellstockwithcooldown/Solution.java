@@ -14,11 +14,11 @@ public class Solution {
         System.out.println(new Solution().maxProfit(new int[]{1, 2, 3, 10, 2, 4}));
     }
 
-    // Replace N space with variable because of limited states
+    // O(N) time. Replace N space with variable because of limited states
     // dependency: sell[i-1] => buy[i-1] => rest[i-1] => sell[i-1] (use prev break cycle)
     public int maxProfit(int[] prices) {
         if (prices.length == 0) return 0;
-        int rest = 0, buy = -prices[0], sell = Integer.MIN_VALUE;
+        int rest = 0, buy = -prices[0], sell = 0; // Both 0 and MIN correct, but 0 is more natural for me
         for (int i = 1; i < prices.length; i++) {
             int prev = sell;
             sell = buy + prices[i];
@@ -28,7 +28,10 @@ public class Solution {
         return Math.max(rest, sell);
     }
 
-    // Brilliant understanding from state machine view
+    // Brilliant understanding from state machine views
+    // We run 3 instances (initial action: rest, buy, sell) on 1 state machine
+    // with 1 input tape (prices) at the same time.
+    // Meanwhile, they have data interaction during this process!
     public int maxProfit_statemachine(int[] prices) {
         if (prices.length == 0) return 0;
         int n = prices.length;
