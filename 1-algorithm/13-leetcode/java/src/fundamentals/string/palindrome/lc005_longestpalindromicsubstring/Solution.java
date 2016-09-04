@@ -1,4 +1,4 @@
-package advanced.dp.palindrome.lc005_longestpalindromicsubstring;
+package fundamentals.string.palindrome.lc005_longestpalindromicsubstring;
 
 import java.util.Arrays;
 

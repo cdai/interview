@@ -1,4 +1,4 @@
-package advanced.dp.palindrome.lc214_shortestpalindrome;
+package fundamentals.string.palindrome.lc214_shortestpalindrome;
 
 /**
  * Given a string S, you are allowed to convert it to a palindrome by adding characters in front of it.

@@ -1,4 +1,4 @@
-package advanced.dp.palindrome.lc132_palindromepartitioning2;
+package fundamentals.string.palindrome.lc132_palindromepartitioning2;
 
 import java.util.Arrays;
 
