@@ -25,7 +25,7 @@ public class Solution {
         System.out.println(new Solution().wiggleMaxLength(new int[]{3, 3, 3, 2, 5}));
     }
 
-    // 2AC: O(N) time and O(1) space
+    // 2AC: O(N) time and O(1) space. DP is magic!!!
     public int wiggleMaxLength(int[] nums) {
         if (nums.length == 0) return 0;
         int up = 1, down = 1;
