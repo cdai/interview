@@ -8,8 +8,18 @@ package advanced.scan.twopointers.lc011_containerwithmostwater;
  */
 public class Solution {
 
-    // O(n)
     public int maxArea(int[] height) {
+        int water = 0;
+        for (int l = 0, r = height.length - 1; l < r; ) {
+            water = Math.max(water, (r - l) * Math.min(height[l], height[r]));
+            if (height[l] < height[r]) l++;
+            else r--;
+        }
+        return water;
+    }
+
+    // O(n)
+    public int maxArea1(int[] height) {
         if (height.length < 2) {
             return 0;
         }
