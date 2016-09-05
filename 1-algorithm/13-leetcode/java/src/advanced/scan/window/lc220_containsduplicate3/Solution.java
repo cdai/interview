@@ -13,12 +13,50 @@ import java.util.TreeSet;
 public class Solution {
 
     public static void main(String[] args) {
-        System.out.println(new Solution().containsNearbyAlmostDuplicate(new int[]{1, 3, 6, 2}, 1, 2));
+        //System.out.println(new Solution().containsNearbyAlmostDuplicate(new int[]{1, 3, 6, 2}, 1, 2));
+        //System.out.println(new Solution().containsNearbyAlmostDuplicate(new int[]{9,3,15,31,25,15}, 2, 5));
+        //System.out.println(new Solution().containsNearbyAlmostDuplicate(new int[]{-1,-1}, 1, -1));
+        System.out.println(new Solution().containsNearbyAlmostDuplicate(new int[]{0, Integer.MAX_VALUE}, 1, Integer.MAX_VALUE));
     }
 
+    // Compare nums[i] with previous K elements in Set ahead
+    // So the duplicate case is handled implicitly
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        if (nums.length == 0 || k <= 0 || t < 0) return false;
+        TreeSet<Long> tree = new TreeSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            Long ceil = tree.ceiling((long) nums[i] - t);   // least num that >= num-t
+            Long floor = tree.floor((long) nums[i] + t);    // greatest num that <= num+t
+            if ((floor != null && floor >= nums[i]) || (ceil != null && ceil <= nums[i]))
+                return true;
+
+            if (tree.add((long) nums[i]) && i >= k)         // tree has K+1, remove one to keep K
+                tree.remove((long) nums[i - k]);
+        }
+        return false;
+    }
+
+    public boolean containsNearbyAlmostDuplicate_subset(int[] nums, int k, int t) {
+        if (nums.length == 0 || k <= 0 || t < 0) return false;  // error1: t < 0
+        TreeSet<Integer> tree = new TreeSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (tree.size() >= k + 1)                           // error2: at most k+1 nums
+                tree.remove(nums[i - k - 1]);
+            if (!tree.add(nums[i])) // Find duplicate in +/-k range
+                return true;
+            // error4: must use boolean API, since MAX+1 is impossible for exclusive API
+            int low = (nums[i] > Integer.MIN_VALUE + t) ? nums[i] - t : Integer.MIN_VALUE;
+            int high = (nums[i] < Integer.MAX_VALUE - t) ? nums[i] + t : Integer.MAX_VALUE;
+            if (tree.subSet(low, true, high, true).size() > 1)  // error3: include itself
+                return true;
+        }
+        return false;
+    }
+
+    // My 1AC
     // Totally wrong: [1,3,6,2] k=1, t=2
     // Arrays in Java don't provide hashCode() and equals(Object) methods, so they aren't appropriate as map keys.
-    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+    public boolean containsNearbyAlmostDuplicate1(int[] nums, int k, int t) {
         Set<List<Integer>> sorted = new TreeSet<>(new Comparator<List<Integer>>() {
             public int compare(List<Integer> list1, List<Integer> list2) {
                 int ret1 = list1.get(0).compareTo(list2.get(0));
