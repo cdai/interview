@@ -12,8 +12,25 @@ import java.util.TreeMap;
  */
 public class Solution {
 
-    // O(N) time in two passes.
+    // first search the maximal bar in the heights and then do two traverse -
+    // one from the leftmost bar to the highest bar and another one from the rightmost to the highest bar.
+    // This solution combine these three steps in a very clever way.
     public int trap(int[] height) {
+        int ltall = 0, rtall = 0, water = 0;
+        for (int l = 0, r = height.length - 1; l < r; ) {
+            if (height[l] < height[r]) {
+                if (ltall < height[l]) ltall = height[l];
+                else water += ltall - height[l++];
+            } else {
+                if (rtall < height[r]) rtall = height[r];
+                else water += rtall - height[r--];
+            }
+        }
+        return water;
+    }
+
+    // O(N) time in two passes.
+    public int trap_twopasses(int[] height) {
         if (height.length < 3) return 0;
         int tallest = 0;
         for (int i = 1; i < height.length; i++)
