@@ -12,7 +12,26 @@ import java.util.TreeMap;
  */
 public class Solution {
 
+    // O(N) time in two passes.
     public int trap(int[] height) {
+        if (height.length < 3) return 0;
+        int tallest = 0;
+        for (int i = 1; i < height.length; i++)
+            if (height[tallest] < height[i]) tallest = i;
+
+        int water = 0;
+        for (int i = 0, tall = 0; i < tallest; i++) {
+            if (tall < height[i]) tall = height[i];
+            else water += tall - height[i];
+        }
+        for (int i = height.length - 1, tall = 0; i > tallest; i--) {
+            if (tall < height[i]) tall = height[i];
+            else water += tall - height[i];
+        }
+        return water;
+    }
+
+    public int trap1(int[] height) {
         int n = height.length;
         if (n <= 2) { // error: at least 3, eg. [2,0,2]
             return 0;

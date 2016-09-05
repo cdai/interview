@@ -1,4 +1,4 @@
-package advanced.scan.trend.lc309_besttimetobuyandsellstockwithcooldown;
+package advanced.dp.statemac.lc309_besttimetobuyandsellstockwithcooldown;
 
 /**
  * Say you have an array for which the ith element is the price of a given stock on day i.
