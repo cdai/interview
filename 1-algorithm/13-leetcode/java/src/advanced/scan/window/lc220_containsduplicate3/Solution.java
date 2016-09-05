@@ -19,8 +19,8 @@ public class Solution {
         System.out.println(new Solution().containsNearbyAlmostDuplicate(new int[]{0, Integer.MAX_VALUE}, 1, Integer.MAX_VALUE));
     }
 
-    // Compare nums[i] with previous K elements in Set ahead
-    // So the duplicate case is handled implicitly
+    // My 2AC: O(NlogK) time and O(logK) space.
+    // Compare nums[i] with previous K elements in Set ahead, so the duplicate case is handled implicitly
     public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
         if (nums.length == 0 || k <= 0 || t < 0) return false;
         TreeSet<Long> tree = new TreeSet<>();

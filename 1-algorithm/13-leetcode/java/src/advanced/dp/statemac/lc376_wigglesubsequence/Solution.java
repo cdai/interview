@@ -1,4 +1,6 @@
-package advanced.greedy.lc376_wigglesubsequence;
+package advanced.dp.statemac.lc376_wigglesubsequence;
+
+import java.util.Arrays;
 
 /**
  * A sequence of numbers is called a wiggle sequence if the differences between successive numbers strictly alternate between positive and negative.
@@ -23,7 +25,55 @@ public class Solution {
         System.out.println(new Solution().wiggleMaxLength(new int[]{3, 3, 3, 2, 5}));
     }
 
+    // 2AC: O(N) time and O(1) space
     public int wiggleMaxLength(int[] nums) {
+        if (nums.length == 0) return 0;
+        int up = 1, down = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] < nums[i - 1]) down = up + 1;
+            else if (nums[i] > nums[i - 1]) up = down + 1;
+        }
+        return Math.max(up, down);
+    }
+
+    // O(N) time and O(N) space
+    public int wiggleMaxLength_dp(int[] nums) {
+        if (nums.length == 0) return 0;
+        int[] up = new int[nums.length], down = new int[nums.length];
+        up[0] = down[0] = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] < nums[i - 1]) {
+                down[i] = up[i - 1] + 1;
+                up[i] = up[i - 1];
+            } else if (nums[i] > nums[i - 1]) {
+                up[i] = down[i - 1] + 1;
+                down[i] = down[i - 1];
+            } else {
+                up[i] = up[i - 1];
+                down[i] = down[i - 1];
+            }
+        }
+        return Math.max(up[nums.length - 1], down[nums.length - 1]);
+    }
+
+    // "The first difference (if one exists) may be either positive or negative."
+    public int wiggleMaxLength_wrong(int[] nums) {
+        if (nums.length == 0) return 0;
+        int[] dp = new int[nums.length];
+        Arrays.fill(dp, 1);
+        int max = 0;
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < i; j++)
+                if ((dp[j] % 2 == 0 && nums[j] > nums[i])
+                        || (dp[j] % 2 == 1 && nums[j] < nums[i]))
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+            max = Math.max(max, dp[i]);
+        }
+        return max;
+    }
+
+    // My 1AC
+    public int wiggleMaxLength1(int[] nums) {
         int n = nums.length;
         if (n < 2) {
             return n;
