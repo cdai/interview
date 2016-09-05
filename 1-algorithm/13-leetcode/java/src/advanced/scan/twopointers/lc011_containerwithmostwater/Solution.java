@@ -8,6 +8,7 @@ package advanced.scan.twopointers.lc011_containerwithmostwater;
  */
 public class Solution {
 
+    // My 2AC: When left=right, move whatever will be ok
     public int maxArea(int[] height) {
         int water = 0;
         for (int l = 0, r = height.length - 1; l < r; ) {
@@ -18,7 +19,7 @@ public class Solution {
         return water;
     }
 
-    // O(n)
+    // My 1AC: O(n)
     public int maxArea1(int[] height) {
         if (height.length < 2) {
             return 0;
