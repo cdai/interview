@@ -20,6 +20,10 @@ import java.util.List;
  */
 public class Solution {
 
+    // O(mns4^w), where m & n are the board dimensions, s is the number of words in dict,
+    // and w is the maximum one of words’ length. (4 means try in 4 directions).
+    // Using Trie tree, build it in O(sw), search part become O(mnw4^w).
+    // When mostly w (max len) << s (#words in dict), using a trie would save lots of time.
     public List<String> findWords(char[][] board, String[] words) {
         List<String> result = new ArrayList<>();
         TrieNode trie = TrieNode.buildTree(words);
@@ -59,9 +63,8 @@ public class Solution {
                 TrieNode cur = root;
                 for (char c : word.toCharArray()) {
                     int idx = c - 'a';
-                    if (cur.next[idx] == null) {
+                    if (cur.next[idx] == null)
                         cur.next[idx] = new TrieNode();
-                    }
                     cur = cur.next[idx];
                 }
                 cur.word = word;
