@@ -13,11 +13,8 @@ public class Solution {
     public void moveZeroes(int[] nums) {
         // Invariant: [0,j) has no zero
         int j = 0;
-        for (int num : nums) {
-            if (num != 0) {
-                nums[j++] = num;
-            }
-        }
+        for (int num : nums)
+            if (num != 0) nums[j++] = num;
         Arrays.fill(nums, j, nums.length, 0); // arg "to" is exclusive
     }
 
