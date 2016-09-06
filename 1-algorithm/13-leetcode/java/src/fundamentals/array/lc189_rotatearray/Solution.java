@@ -30,9 +30,8 @@ public class Solution {
         k %= nums.length;
         while (k-- > 0) {
             int last = nums[nums.length - 1];
-            for (int i = nums.length - 2; i >= 0; i--) {
+            for (int i = nums.length - 2; i >= 0; i--)
                 nums[i + 1] = nums[i];
-            }
             nums[0] = last;
         }
     }

@@ -15,10 +15,24 @@ public class Solution {
 
     public static void main(String[] args) {
         System.out.println(new Solution().reverseWords("   hello  world abc"));
+        System.out.println(new Solution().reverseWords("a"));
+    }
+
+    // Process in reversed order to reduce insert(0,str) cost
+    // And use nested loop to get rid of flag variable
+    public String reverseWords(String s) {
+        StringBuilder result = new StringBuilder();
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s.charAt(i) == ' ') continue;
+            int j = i;
+            while (i >= 0 && s.charAt(i) != ' ') i--;
+            result.append(s.substring(i + 1, j + 1)).append(" ");
+        }
+        return result.toString().trim();
     }
 
     // 3-line built-in lib version
-    public String reverseWords(String s) {
+    public String reverseWords_builtin(String s) {
         String[] words = s.trim().split("\\s+");    // must trim! otherwise, " a" -> ["", "a"]
         Collections.reverse(Arrays.asList(words));  // Arrays.asList just a wrapper
         return String.join(" ", words);

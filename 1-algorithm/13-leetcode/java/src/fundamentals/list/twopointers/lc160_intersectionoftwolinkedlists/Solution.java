@@ -32,8 +32,25 @@ public class Solution {
         System.out.println(new Solution().getIntersectionNode(headA, headB).val);
     }
 
-    // Very smart solution from leetcode discuss!
+    // O(N) time + O(1) space
+    // 1.Get the length of the two lists.
+    // 2.Align them to the same start point.
+    // 3.Move them together until finding the intersection point, or the end null
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int lenA = length(headA), lenB = length(headB);
+        for (; lenA > lenB; lenA--) headA = headA.next;
+        for (; lenA < lenB; lenB--) headB = headB.next;
+        while (headA != headB) {
+            headA = headA.next;
+            headB = headB.next;
+        }
+        return headA;
+    }
+
+    // Very smart solution from leetcode discuss!
+    // O( lcm (m, n)). worst case is O( m*n)
+    // Think A: 1->2->3; B:4->5->6->3
+    public ListNode getIntersectionNode_crazy(ListNode headA, ListNode headB) {
         if (headA == null || headB == null) {
             return null;
         }
