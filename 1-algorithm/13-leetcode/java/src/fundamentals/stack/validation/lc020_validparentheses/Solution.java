@@ -15,15 +15,11 @@ public class Solution {
             if (c == '(' || c == '{' || c == '[') {
                 stack.push(c);
             } else {
-                if (stack.isEmpty()) {
-                    return false;
-                } else if (c == ')' && stack.pop() != '(') {
-                    return false;
-                } else if (c == '}' && stack.pop() != '{') {
-                    return false;
-                } else if (c == ']' && stack.pop() != '[') {
-                    return false;
-                } /* true */
+                if (stack.isEmpty()) return false;
+                else if (c == ')' && stack.pop() != '(') return false;
+                else if (c == '}' && stack.pop() != '{') return false;
+                else if (c == ']' && stack.pop() != '[') return false;
+                /* else true */
             }
         }
         return stack.isEmpty();

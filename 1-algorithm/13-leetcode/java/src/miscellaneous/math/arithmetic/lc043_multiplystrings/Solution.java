@@ -11,8 +11,31 @@ public class Solution {
     // Elegant solution by yavinci from leetcode discuss
     // num1 - 1234: i=0, charAt(3)
     // num2 -  234: j=0, charAt(2)
-    // prod[6,1,,]: high=0, low=1
+    // prod[,,1,6]
     public String multiply(String num1, String num2) {
+        int m = num1.length(), n = num2.length();
+        int[] prod = new int[m + n];
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                int mul = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
+                int sum = prod[i + j + 1] + mul;
+                prod[i + j] += sum / 10;
+                prod[i + j + 1] = sum % 10;
+            }
+        }
+
+        StringBuilder ret = new StringBuilder();
+        for (int p : prod)
+            if (!(ret.length() == 0 && p == 0)) // Ignore leading zero
+                ret.append(p);
+        return (ret.length() == 0) ? "0" : ret.toString();
+    }
+
+    // Elegant solution by yavinci from leetcode discuss
+    // num1 - 1234: i=0, charAt(3)
+    // num2 -  234: j=0, charAt(2)
+    // prod[6,1,,]: high=0, low=1
+    public String multiply_mydirection(String num1, String num2) {
         int len1 = num1.length(), len2 = num2.length();
         int[] prod = new int[len1 + len2];
         for (int i = 0; i < len1; i++) {

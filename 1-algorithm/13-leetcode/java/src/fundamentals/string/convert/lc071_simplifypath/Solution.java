@@ -14,21 +14,16 @@ public class Solution {
         System.out.println(new Solution().simplifyPath("//abc"));
     }
 
-    // My 2AC: split path
+    // My 2AC: split path and process backwards
     public String simplifyPath(String path) {
         StringBuilder result = new StringBuilder();
-        String[] comp = path.split("/");
-        int bypass = 0;
-        for (int i = comp.length - 1; i >= 0; i--) {
-            if (comp[i].equals("..")) {
-                bypass++;
-            } else if (!comp[i].isEmpty() && !comp[i].equals(".")) {
-                if (bypass > 0) {
-                    bypass--;
-                } else {
-                    result.insert(0, "/" + comp[i]);
-                }
-            } /*else comp[i] == "", "." */
+        String[] dirs = path.split("/");
+        for (int i = dirs.length - 1, skip = 0; i >= 0; i--) {
+            if (dirs[i].equals("..")) skip++;
+            else if (!dirs[i].isEmpty() && !dirs[i].equals(".")) {
+                if (skip > 0) skip--;
+                else result.insert(0, "/" + dirs[i]);
+            } /*else dirs[i] == "" or "." */
         }
         return result.length() == 0 ? "/" : result.toString(); // error: result could be empty
     }

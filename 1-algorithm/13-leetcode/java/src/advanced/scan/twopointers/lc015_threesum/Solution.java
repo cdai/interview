@@ -14,26 +14,17 @@ public class Solution {
     // A little faster than previous
     public List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
-
         List<List<Integer>> result = new ArrayList<>();
         for (int i = 0; i < nums.length - 2; i++) {
-            if (i > 0 && nums[i - 1] == nums[i]) {  // Level-1: Bypass duplicate using this trick!
-                continue;
-            }
-            int lo = i + 1, hi = nums.length - 1, target = 0 - nums[i];
+            if (i > 0 && nums[i - 1] == nums[i]) continue; // Bypass-1: skip duplicate using this trick!
+            int lo = i + 1, hi = nums.length - 1, target = -nums[i];
             while (lo < hi) {
-                if (nums[lo] + nums[hi] < target) {
-                    lo++;
-                } else if (nums[lo] + nums[hi] > target) {
-                    hi--;
-                } else {
+                if (nums[lo] + nums[hi] < target) lo++;
+                else if (nums[lo] + nums[hi] > target) hi--;
+                else {
                     result.add(Arrays.asList(nums[i], nums[lo++], nums[hi--]));
-                    while (lo < hi && nums[lo] == nums[lo - 1]) { // Level-2: skip!
-                        lo++;
-                    }
-                    while (lo < hi && nums[hi] == nums[hi + 1]) {
-                        hi--;
-                    }
+                    while (lo < hi && nums[lo] == nums[lo - 1]) lo++; // Bypass-2!
+                    while (lo < hi && nums[hi] == nums[hi + 1]) hi--;
                 }
             }
         }

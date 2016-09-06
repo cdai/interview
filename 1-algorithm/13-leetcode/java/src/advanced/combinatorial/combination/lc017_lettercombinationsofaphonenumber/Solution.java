@@ -15,32 +15,50 @@ import java.util.Queue;
  */
 public class Solution {
 
-    // BFS solution from leetcode discuss
+    // BFS solution from leetcode discuss. O(3^N) time.
     // DFS and BFS are uniformed between Tree and Combinatorial algorithm!
     public List<String> letterCombinations(String digits) {
         final String[] map = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
-        Queue<String> queue = new LinkedList<>();
-        if (!digits.isEmpty()) {
+        LinkedList<String> queue = new LinkedList<>();
+        if (!digits.isEmpty())
             queue.offer("");
-        }
 
-        // For tree, there're only two possibilities: left and right child.
-        // For this problem, there're many according to digits first char
+        // For tree, there're only two possiblities: left and right child.
+        // For this problem, there're many according to digit's first char
         while (!queue.isEmpty() && !digits.isEmpty()) {
             int size = queue.size();
             while (size-- > 0) {
                 String str = queue.poll();
-                for (char c : map[digits.charAt(0) - '0'].toCharArray()) {
+                for (char c : map[digits.charAt(0) - '0'].toCharArray())
                     queue.offer(str + c);
-                }
             }
             digits = digits.substring(1);
         };
-        return (List<String>) queue;
+        return queue;
+    }
+
+    private static final String[] map = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+
+    public List<String> letterCombinations_dfs(String digits) {
+        List<String> result = new ArrayList<>();
+        if (!digits.isEmpty())
+            doLetterCombinations(result, new char[digits.length()], digits);
+        return result;
+    }
+
+    private void doLetterCombinations(List<String> result, char[] path, String digits) {
+        if (digits.isEmpty()) {
+            result.add(new String(path));
+            return;
+        }
+        for (char c : map[digits.charAt(0) - '0'].toCharArray()) {
+            path[path.length - digits.length()] = c;
+            doLetterCombinations(result, path, digits.substring(1));
+        }
     }
 
     // My 2nd: this map could be replaced by string array
-    private static char[][] map = {
+    private static char[][] map2 = { // Deprecated!
             {},     // 0
             {},     // 1
             {'a', 'b', 'c'},
@@ -53,7 +71,7 @@ public class Solution {
             {'w', 'x', 'y', 'z'}
     };
 
-    public List<String> letterCombinations2(String digits) {
+    public List<String> letterCombinations_returnval(String digits) {
         if (digits.isEmpty()) {
             return new ArrayList<>();
         }
@@ -66,7 +84,7 @@ public class Solution {
         }
 
         List<String> result = new ArrayList<>();
-        for (char c : map[digits.charAt(0) - '0']) {
+        for (char c : map2[digits.charAt(0) - '0']) {
             path[path.length - digits.length()] = c;
             result.addAll(doLetterCombinations(path, digits.substring(1)));
         }

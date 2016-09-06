@@ -5,14 +5,19 @@ package buildingblock.searching.lc069_sqrt;
  */
 public class Solution {
 
-    // My 2nd: preserve invariant
+    // Newton method
     public int mySqrt(int x) {
-        if (x <= 1) {
-            return x;
-        }
+        if (x == 0) return 0;
+        long r = x;
+        while (r > x / r)
+            r = (r + x / r) / 2;
+        return (int) r;
+    }
 
+    // My 2nd: preserve invariant. O(logN) time.
+    public int mySqrt_binarysearch(int x) {
+        if (x <= 1) return x;
         int low = 1, high = x;
-
         // MustBe(low,high)
         while (low + 1 < high) {    // low+1=high -> low=mid will cause dead loop.
             int mid = low + (high - low) / 2;

@@ -20,8 +20,27 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
-    // My 2nd
     public ListNode reverseKGroup(ListNode head, int k) {
+        int n = 0;
+        for (ListNode i = head; i != null; i = i.next) n++;
+
+        ListNode dmy = new ListNode(0);
+        dmy.next = head;
+        for (ListNode prev = dmy; n >= k; n -= k) {
+            ListNode cur = prev.next;
+            for (int i = 1; i < k; i++) { // note only k-1 times
+                ListNode then = cur.next;
+                cur.next = then.next;
+                then.next = prev.next;
+                prev.next = then;
+            }
+            prev = cur;
+        }
+        return dmy.next;
+    }
+
+    // My 2nd
+    public ListNode reverseKGroup_utilmethod(ListNode head, int k) {
         if (head == null || k <= 1) {
             return head;
         }

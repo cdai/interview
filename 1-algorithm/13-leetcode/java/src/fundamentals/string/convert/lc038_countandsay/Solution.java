@@ -10,7 +10,29 @@ package fundamentals.string.convert.lc038_countandsay;
  */
 public class Solution {
 
+    // My 2AC. O(N^2) time
     public String countAndSay(int n) {
+        StringBuilder result = new StringBuilder();
+        result.append("1");
+        while (--n > 0) {   // error1: n starts from 1th
+            // Count and say: invariant is [0,i] char[i] is being counting or said
+            int count = 1;
+            for (int i = 0; i < result.length(); i++) {
+                if (i < result.length() - 1 && result.charAt(i) == result.charAt(i + 1)) { // error2: forget last batch
+                    count++;
+                } else {
+                    result.append(count).append(result.charAt(i));
+                    count = 1;
+                }
+            }
+            // Delete chars of last round
+            result.delete(0, result.length());
+        }
+        return result.toString();
+    }
+
+    // My 1AC
+    public String countAndSay1(int n) {
         if (n <= 1) {
             return "1";
         }

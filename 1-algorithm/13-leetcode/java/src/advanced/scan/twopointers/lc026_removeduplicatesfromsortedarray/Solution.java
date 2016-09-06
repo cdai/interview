@@ -11,14 +11,13 @@ package advanced.scan.twopointers.lc026_removeduplicatesfromsortedarray;
  */
 public class Solution {
 
+    // My 2AC
     public int removeDuplicates(int[] nums) {
         // Invariant: [0,i] has no duplicates
         int i = 0;
-        for (int j = 1; j < nums.length; j++) {
-            if (nums[i] != nums[j]) {
+        for (int j = 1; j < nums.length; j++)
+            if (nums[i] != nums[j])
                 nums[++i] = nums[j];
-            }
-        }
         return i + 1;   // error: length - 1 = maxIndex
     }
 

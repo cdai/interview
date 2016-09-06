@@ -17,11 +17,10 @@ import java.util.Queue;
 public class Solution {
 
     // Recursive solution, too many recursions causing StackOverflow
-    public ListNode mergeKLists(ListNode[] lists) {
+    public ListNode mergeKLists_recursive(ListNode[] lists) {
         // Deal with null or single list
-        if (lists.length < 2) {
-            return lists.length == 0 ? null : lists[0];
-        }
+        if (lists.length < 2) return lists.length == 0 ? null : lists[0];
+
         // Reuse merge two lists code
         if (lists.length == 2) {
             if (lists[0] == null || lists[1] == null) {
@@ -44,18 +43,16 @@ public class Solution {
 
     // My 2nd: use heap. O(NlogK)
     // It's totally wrong if you deal with K then fetch next K nodes
-    public ListNode mergeKLists_heap(ListNode[] lists) {
+    public ListNode mergeKLists(ListNode[] lists) {
         Queue<ListNode> heap = new PriorityQueue<>(
                 (n1, n2) -> Integer.compare(n1.val, n2.val));
         ListNode dummy = new ListNode(0);
         ListNode prev = dummy;
 
         // Intialize heap with K nodes
-        for (ListNode list : lists) {
-            if (list != null) {
+        for (ListNode list : lists)
+            if (list != null)
                 heap.offer(list);
-            }
-        }
 
         // Compare K min nodes
         while (!heap.isEmpty()) {
@@ -63,9 +60,8 @@ public class Solution {
             prev.next = node;
             prev = prev.next;
             // Fetch one more from just polled node
-            if (node.next != null) {
+            if (node.next != null)
                 heap.offer(node.next);
-            }
         }
         return dummy.next;
     }

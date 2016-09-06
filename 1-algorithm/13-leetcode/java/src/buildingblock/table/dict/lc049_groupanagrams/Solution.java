@@ -19,17 +19,17 @@ public class Solution {
     // k=s.length, O(n * klogk)
     public List<List<String>> groupAnagrams(String[] strs) {
         Map<String,List<String>> group = new HashMap<>();
-        for (String s : strs) {
-            char[] chars = s.toCharArray();
+        for (String str : strs) {
+            char[] chars = str.toCharArray();
             Arrays.sort(chars);
 
             String key = new String(chars);
-            List<String> g = group.get(key);
-            if (g == null) {
-                g = new ArrayList<>();
-                group.put(key, g);
+            List<String> anagrams = group.get(key);
+            if (anagrams == null) {
+                anagrams = new ArrayList<>();
+                group.put(key, anagrams);
             }
-            g.add(s);
+            anagrams.add(str);
         }
         return new ArrayList<>(group.values());
     }
