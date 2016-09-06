@@ -17,9 +17,7 @@ public class Solution {
     // My 2nd
     // Recursive version: reverseList(head) return new head
     public ListNode reverseList(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
-        }
+        if (head == null || head.next == null) return head;
 
         ListNode second = head.next;
         head.next = null;
@@ -32,9 +30,7 @@ public class Solution {
     // My 2nd
     // Iterative version
     public ListNode reverseList2(ListNode head) {
-        if (head == null) {
-            return null;
-        }
+        if (head == null) return null;
 
         // Note: at last, dummy<->first causes dead lock...
         //ListNode dummy = new ListNode(0);

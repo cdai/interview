@@ -26,6 +26,7 @@ public class Solution {
         System.out.println(new Solution().findOrder(2, new int[][]{{1, 0}}));
     }
 
+    // O(V + E) time, O(V) space
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         List<Integer>[] adj = new List[numCourses];
         for (int v = 0; v < numCourses; v++)

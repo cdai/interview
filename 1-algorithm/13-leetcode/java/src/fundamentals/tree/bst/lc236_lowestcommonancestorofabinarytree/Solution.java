@@ -13,17 +13,14 @@ public class Solution {
         root.right = new TreeNode(5);
     }
 
+    // Find one then return it. Find two then return root. Otherwise return null
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null || root == p || root == q) {   // Key: nice!!!
-            return root;
-        }
+        if (root == null || root == p || root == q) return root;   // Key: nice!!!
 
         TreeNode leftFound = lowestCommonAncestor(root.left, p, q);
         TreeNode rightFound = lowestCommonAncestor(root.right, p, q);
-
-        if (leftFound != null && rightFound != null) { // Input is TreeNode not val, no duplicate!!
+        if (leftFound != null && rightFound != null) // Input is TreeNode not val, no duplicate!!
             return root;
-        }
         return (leftFound == null) ? rightFound : leftFound;
     }
 

@@ -10,7 +10,22 @@ package advanced.scan.window.lc209_minimumsizesubarraysum;
  */
 public class Solution {
 
+    // My 2nd: simple nested loop better than one ugly loop
+    // At most 2n, so time is O(N)
     public int minSubArrayLen(int s, int[] nums) {
+        int min = Integer.MAX_VALUE;
+        for (int i = 0, j = 0, sum = 0; i < nums.length; i++) {
+            sum += nums[i];
+            while (sum >= s) { // Reduce window if already reach target, then go ahead
+                min = Math.min(min, i - j + 1);
+                sum -= nums[j++];
+            }
+        }
+        return (min == Integer.MAX_VALUE) ? 0 : min;
+    }
+
+    // My 1AC
+    public int minSubArrayLen1(int s, int[] nums) {
         if (nums.length == 0 || s <= 0) {
             return 0;
         }

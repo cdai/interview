@@ -84,17 +84,14 @@ public class Solution {
     }
 
     // O(N) space
-    public boolean isPalindrome2(ListNode head) {
+    public boolean isPalindrome_extraspace(ListNode head) {
         List<Integer> vals = new ArrayList<>();
-        for (ListNode cur = head; cur != null; cur = cur.next) {
+        for (ListNode cur = head; cur != null; cur = cur.next)
             vals.add(cur.val);
-        }
 
-        for (int i = 0, j = vals.size() - 1; i < j; i++, j--) {
-            if (!vals.get(i).equals(vals.get(j))) { // error: != is wrong, use equals...
+        for (int i = 0, j = vals.size() - 1; i < j; i++, j--)
+            if (!vals.get(i).equals(vals.get(j))) // error: != is wrong, use equals...
                 return false;
-            }
-        }
         return true;
     }
 

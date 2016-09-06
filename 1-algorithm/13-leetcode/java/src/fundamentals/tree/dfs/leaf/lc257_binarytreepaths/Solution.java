@@ -18,24 +18,21 @@ import java.util.List;
  */
 public class Solution {
 
-    // My 2nd: use return value to replace result argument
+    // My 2AC: O(N) time
     public List<String> binaryTreePaths(TreeNode root) {
-        return doFindPath(root, "");
+        List<String> result = new ArrayList<>();
+        doFindPath(result, root, "");
+        return result;
     }
 
-    private List<String> doFindPath(TreeNode root, String path) {
-        if (root == null) {
-            return Collections.emptyList();
-        }
-
-        List<String> result = new ArrayList<>();
+    private void doFindPath(List<String> result, TreeNode root, String path) {
+        if (root == null) return;
         if (root.left == null && root.right == null) {
             result.add(path + root.val);
         } else {
-            result.addAll(doFindPath(root.left, path + root.val + "->"));
-            result.addAll(doFindPath(root.right, path + root.val + "->"));
+            doFindPath(result, root.left, path + root.val + "->");
+            doFindPath(result, root.right, path + root.val + "->");
         }
-        return result;
     }
 
     // My 1st

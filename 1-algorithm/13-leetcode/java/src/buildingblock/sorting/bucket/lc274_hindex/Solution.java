@@ -34,6 +34,19 @@ public class Solution {
         return max;
     }
 
+    // O(N) solution with bucket sort
+    // hindex <= total papers, so take advantage of last bucket
+    public int hIndex_extraspace(int[] citations) {
+        int n = citations.length;
+        int[] paper = new int[n + 1];
+        for (int c : citations)
+            paper[Math.min(c, n)]++;
+
+        int hidx = n;
+        for (int sum = paper[n]; sum < hidx; sum += paper[--hidx]);
+        return hidx;
+    }
+
     public int hIndex1(int[] citations) {
         Arrays.sort(citations);
         int n = citations.length;

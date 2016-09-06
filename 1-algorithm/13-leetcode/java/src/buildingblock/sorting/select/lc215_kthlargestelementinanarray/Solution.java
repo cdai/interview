@@ -28,11 +28,9 @@ public class Solution {
         while (low < high) {
             // Partition invariant: T=A[lo], [lo,mid]<T, [mid,i)>=T, [i,hi] unknown
             int mid = low;
-            for (int i = low + 1; i <= high; i++) {
-                if (nums[i] < nums[low]) {
+            for (int i = low + 1; i <= high; i++)
+                if (nums[i] < nums[low])
                     swap(nums, i, ++mid);
-                }
-            }
             swap(nums, low, mid);
 
             if (k < mid) {                  // error2: compare with mid not mid-low+1
@@ -49,7 +47,7 @@ public class Solution {
     private void shuffle(int[] nums) {
         Random rand = new Random();
         for (int i = 0; i < nums.length; i++) {
-            swap(nums, i, rand.nextInt(nums.length));
+            swap(nums, i, rand.nextInt(nums.length - i));
         }
     }
 
@@ -61,9 +59,7 @@ public class Solution {
 
     // O(NlogN) based on quick sort. O(1) space, faster than heap.
     public int findKthLargest_sort(int[] nums, int k) {
-        if (k <= 0 || nums.length < k) {
-            return -1;
-        }
+        if (k <= 0 || nums.length < k) return -1;
         Arrays.sort(nums);
         return nums[nums.length - k];   // Nice!
     }
@@ -73,11 +69,10 @@ public class Solution {
         Queue<Integer> heap = new PriorityQueue<>();
         for (int num : nums) {
             heap.offer(num);
-            if (heap.size() > k) {
+            if (heap.size() > k)
                 heap.poll();
-            }
         }
-        return (heap.size() < k || heap.isEmpty()) ? -1 : heap.poll();
+        return (heap.size() < k) ? -1 : heap.poll();
     }
 
     // My 1st

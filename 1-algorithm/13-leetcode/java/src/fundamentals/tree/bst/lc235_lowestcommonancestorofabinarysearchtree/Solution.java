@@ -17,11 +17,9 @@ public class Solution {
         System.out.println(new Solution().lowestCommonAncestor(root, root, root.right).val);
     }
 
-    // My 2AC
+    // My 2AC: O(h) time and space
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null) {
-            return null;
-        }
+        if (root == null) return null;
         int min = Math.min(p.val, q.val);
         int max = Math.max(p.val, q.val);
         return min <= root.val && root.val <= max ? root : // must be '<=' if p or q is root
