@@ -27,11 +27,9 @@ public class Solution {
     // Amazing solution from crazy people!
     public void rotate(int[][] matrix) {
         reverseRow(matrix);
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = i + 1; j < matrix[i].length; j++) {
+        for (int i = 0; i < matrix.length; i++)
+            for (int j = i + 1; j < matrix[i].length; j++)
                 swapByDiagonal(matrix, i, j);
-            }
-        }
     }
 
     private void reverseRow(int[][] matrix) {

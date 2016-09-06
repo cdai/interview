@@ -32,16 +32,13 @@ public class Solution {
         return result;
     }
 
-    private void doPermute(List<List<Integer>> result,
-                           List<Integer> path, boolean[] used, int[] nums) {
+    private void doPermute(List<List<Integer>> result, List<Integer> path, boolean[] used, int[] nums) {
         if (path.size() == nums.length) {
             result.add(new ArrayList<>(path));
             return;
         }
         for (int i = 0; i < nums.length; i++) {
-            if (used[i]) {
-                continue;
-            }
+            if (used[i]) continue;
             path.add(nums[i]);
             used[i] = true;
             doPermute(result, path, used, nums);
@@ -75,10 +72,10 @@ public class Solution {
     }
 
     // Iterative version: inspired by leetcode discuss
-    // Don't use iterator, which can avoid exception and tmp list
+    // Don't use iterator, which will arise exception and tmp list
     // O(N!) Beat 24%
-    public List<List<Integer>> permute2(int[] nums) {
-        Queue<List<Integer>> result = new LinkedList<>();
+    public List<List<Integer>> permute_iterative(int[] nums) {
+        LinkedList<List<Integer>> result = new LinkedList<>();
         result.add(new ArrayList<>());
         for (int num : nums) {
             int size = result.size();
@@ -91,7 +88,7 @@ public class Solution {
                 }
             }
         }
-        return (List<List<Integer>>) result;
+        return result;
     }
 
     // My 1st: use Set to exclude picked candidates

@@ -2,6 +2,7 @@ package advanced.combinatorial.permutation.lc047_permutations2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,25 +26,22 @@ public class Solution {
 
     // Iterative version: O(N^3 * N copy) ?!
     public List<List<Integer>> permuteUnique(int[] nums) {
-        Queue<List<Integer>> result = new LinkedList<>();
+        LinkedList<List<Integer>> result = new LinkedList<>();
         result.offer(new ArrayList<>());
         for (int num : nums) {
+            Set<String> dup = new HashSet<>();
             int size = result.size();
             while (size-- > 0) {
                 List<Integer> per = result.poll();
-                Integer prev = null;
                 for (int i = 0; i <= per.size(); i++) {
-                    Integer cur = i < per.size() ? per.get(i) : null;
-                    if (prev == null || !prev.equals(cur)) { // Wrong...
-                        List<Integer> newPer = new ArrayList<>(per);
-                        newPer.add(i, num);
+                    List<Integer> newPer = new ArrayList<>(per);
+                    newPer.add(i, num);
+                    if (dup.add(newPer.toString()))
                         result.add(newPer);
-                    }
-                    prev = cur;
                 }
             }
         }
-        return (List<List<Integer>>) result;
+        return result;
     }
 
     // My 2nd: use boolean[] used + List path to replace LinkedHashSet
@@ -56,19 +54,16 @@ public class Solution {
         return result;
     }
 
-    private void doPermuteUnique(List<List<Integer>> result,
-                                 List<Integer> path, boolean[] used, int[] nums) {
+    private void doPermuteUnique(List<List<Integer>> result, List<Integer> path, boolean[] used, int[] nums) {
         if (path.size() == nums.length) {
             result.add(new ArrayList<>(path));
             return;
         }
-
         // [1,1,2] if first 1 is used then second 1 should be considered
         // But if first 1 is NOT used that means they're in the same recursion
         for (int i = 0; i < nums.length; i++) {
-            if ((i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) || used[i]) {
-                continue;
-            }
+            if (used[i]) continue;
+            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) continue;
             used[i] = true;
             path.add(nums[i]);
             doPermuteUnique(result, path, used, nums);

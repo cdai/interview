@@ -16,7 +16,6 @@ public class Solution {
         if (low == high) {
             return nums[low];
         }
-
         int mid = low + (high - low) / 2;
         int max1 = maxSubArray(nums, low, mid);
         int max2 = maxSubArray(nums, mid + 1, high);
@@ -45,18 +44,15 @@ public class Solution {
         for (int num : nums) {
             sumEndHere += num;
             maxSoFar = Math.max(maxSoFar, sumEndHere);
-            if (sumEndHere < 0) {
+            if (sumEndHere < 0)
                 sumEndHere = 0;
-            }
         }
         return maxSoFar;
     }
 
     // My 2nd: O(N) time, from <Programming Pearls>, but this one is hard to come up
-    public int maxSubArray3(int[] nums) {
-        if (nums.length == 0) {
-            return 0;
-        }
+    public int maxSubArray_pearls(int[] nums) {
+        if (nums.length == 0) return 0;
         int maxSoFar = nums[0], maxEndHere = nums[0];
         for (int i = 1; i < nums.length; i++) {
             maxEndHere = Math.max(maxEndHere + nums[i], nums[i]);

@@ -20,7 +20,7 @@ public class Solution {
     // invariant: nodes behind prev (inclusive) are swapped already
     public ListNode swapPairs(ListNode head) {
         if (head == null) return null;
-        ListNode dmy = new ListNode(-1), prev = dmy;
+        ListNode dmy = new ListNode(0), prev = dmy;
         dmy.next = head;
         while (prev.next != null && prev.next.next != null) {
             ListNode first = prev.next;
