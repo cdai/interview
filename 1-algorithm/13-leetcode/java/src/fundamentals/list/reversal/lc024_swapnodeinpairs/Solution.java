@@ -16,9 +16,25 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
+    // O(N): prev->first->second => prev->second->first, then move prev to first to maintain invariant
+    // invariant: nodes behind prev (inclusive) are swapped already
+    public ListNode swapPairs(ListNode head) {
+        if (head == null) return null;
+        ListNode dmy = new ListNode(-1), prev = dmy;
+        dmy.next = head;
+        while (prev.next != null && prev.next.next != null) {
+            ListNode first = prev.next;
+            prev.next = first.next;
+            first.next = first.next.next;
+            prev.next.next = first;
+            prev = prev.next.next;
+        }
+        return dmy.next;
+    }
+
     // My 2nd
     // O(N)
-    public ListNode swapPairs(ListNode head) {
+    public ListNode swapPairs2(ListNode head) {
         if (head == null) {
             return null;
         }
@@ -52,7 +68,7 @@ public class Solution {
     }
 
     // My 1st
-    public ListNode swapPairs2(ListNode head) {
+    public ListNode swapPairs1(ListNode head) {
         ListNode n1 = head, n2 = null, prev = null;
         while (n1 != null && n1.next != null) {
             n2 = n1.next;

@@ -22,6 +22,7 @@ public class Solution {
         System.out.println(new Solution().removeInvalidParentheses(")("));
     }
 
+    // BFS solution. T(n) = n x C(n,n) + (n-1) x C(n,n-1) + ... + 1 x C(n,1) = n x 2^(n-1)
     public List<String> removeInvalidParentheses(String s) {
         Queue<String> queue = new LinkedList<>();
         queue.add(s);
@@ -30,11 +31,11 @@ public class Solution {
         boolean isValid = false;
         while (!queue.isEmpty()) {
             s = queue.poll();
-            if (isValid(s)) {
+            if (isValid(s)) {       // Check if found solution
                 result.add(s);
                 isValid = true;
             }
-            if (isValid) continue;
+            if (isValid) continue;  // Very nice. "Steal" result if already found
             for (int i = 0; i < s.length(); i++)
                 if ("()".indexOf(s.charAt(i)) >= 0)
                     if (visited.add(s.substring(0, i) + s.substring(i + 1)))

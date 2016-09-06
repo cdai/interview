@@ -18,21 +18,17 @@ public class Solution {
         int i = 0, sign = 1, base = 0;
 
         // 1.Skip leading whitespace
-        while (i < c.length && Character.isWhitespace(c[i])) {
-            i++;
-        }
+        while (i < c.length && Character.isWhitespace(c[i])) i++;
 
         // 2.Get sign of number
-        if (i < c.length && (c[i] == '+' || c[i] == '-')) {
+        if (i < c.length && (c[i] == '+' || c[i] == '-'))
             sign = (c[i++] == '-') ? -1 : 1;
-        }
 
         // 3.Digit or letter
         while (i < c.length && Character.isDigit(c[i])) {
             if (base > Integer.MAX_VALUE / 10
-                    || (base == Integer.MAX_VALUE / 10 && c[i] - '0' > 7)) { // Nice check!!!
+                    || (base == Integer.MAX_VALUE / 10 && c[i] - '0' > 7)) // Nice check!!!
                 return (sign == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-            }
             base = base * 10 + (c[i++] - '0');
         }
         return base * sign;
