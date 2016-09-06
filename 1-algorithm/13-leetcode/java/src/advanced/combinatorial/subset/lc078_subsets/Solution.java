@@ -27,11 +27,8 @@ public class Solution {
         int size = 1 << nums.length;
         for (int i = 0; i < size; i++) {
             List<Integer> sub = new ArrayList<>();
-            for (int j = 0; j < nums.length; j++) {
-                if (((i >> j) & 1) == 1) {
-                    sub.add(nums[j]);
-                }
-            }
+            for (int j = 0; j < nums.length; j++)
+                if (((i >> j) & 1) == 1) sub.add(nums[j]);
             result.add(sub);
         }
         return result;

@@ -16,17 +16,13 @@ public class Solution {
     // Very nice recursive solution!
     // It's suprisingly fast using recusion in this kind of small problem
     public String convertToTitle(int n) {
-        if (n-- <= 0) {
-            return "";
-        }
+        if (n-- <= 0) return "";
         return convertToTitle(n / 26) + (char) ('A' + n % 26);
     }
 
     // My 2AC: negative, zero...
     public String convertToTitle2(int n) {
-        if (n <= 0) {
-            return "";
-        }
+        if (n <= 0) return "";
         StringBuilder result = new StringBuilder();
         while (n-- > 0) {
             result.insert(0, (char) ('A' + (n % 26)));

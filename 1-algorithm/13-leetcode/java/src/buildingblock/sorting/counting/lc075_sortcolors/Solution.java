@@ -28,23 +28,17 @@ public class Solution {
         A[j] = tmp;
     }
 
-    // My 1st: easy radix sort
+    // My 1st: easy counter sort
     public void sortColors1(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return;
-        }
+        if (nums == null || nums.length == 0) return;
 
         int[] count = new int[3];
-        for (int n : nums) {
-            count[n]++;
-        }
+        for (int num : nums)
+            count[num]++;
 
-        int i = 0;
-        for (int j = 0; j < count.length; j++) {
-            while (count[j]-- > 0) {
+        for (int i = 0, j = 0; j < count.length; j++)
+            while (count[j]-- > 0)
                 nums[i++] = j;
-            }
-        }
     }
 
 }

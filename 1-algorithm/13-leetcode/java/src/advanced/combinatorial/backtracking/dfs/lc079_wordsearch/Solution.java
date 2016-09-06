@@ -19,9 +19,7 @@ public class Solution {
 
     // My 2AC: O(mn*mn) time?
     public boolean exist(char[][] board, String word) {
-        if (board.length == 0 || board[0].length == 0)
-            return word.isEmpty();
-
+        if (board.length == 0 || board[0].length == 0) return word.isEmpty();
         for (int i = 0; i < board.length; i++)
             for (int j = 0; j < board[i].length; j++)
                 if (isExist(board, word, i, j))
@@ -30,12 +28,9 @@ public class Solution {
     }
 
     private boolean isExist(char[][] board, String word, int row, int col) {
-        if (word.isEmpty())
-            return true;
-        if (row < 0 || row >= board.length || col < 0 || col >= board[0].length)
-            return false;
-        if (word.charAt(0) != board[row][col])
-            return false;
+        if (word.isEmpty()) return true;
+        if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) return false;
+        if (word.charAt(0) != board[row][col]) return false;
 
         String substr = word.substring(1);
         board[row][col] = ' ';

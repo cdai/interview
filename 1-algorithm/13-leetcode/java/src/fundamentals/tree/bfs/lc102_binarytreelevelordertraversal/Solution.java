@@ -22,10 +22,7 @@ public class Solution {
     // My 2nd: O(N) time, O(width) space
     public List<List<Integer>> levelOrder(TreeNode root) {
         Queue<TreeNode> queue = new LinkedList<>();
-        if (root != null) {
-            queue.offer(root);
-        }
-
+        if (root != null) queue.offer(root);
         List<List<Integer>> result = new ArrayList<>();
         while (!queue.isEmpty()) {
             int size = queue.size();
@@ -33,12 +30,8 @@ public class Solution {
             while (size-- > 0) {
                 TreeNode node = queue.poll();
                 level.add(node.val);
-                if (node.left != null) {
-                    queue.offer(node.left);
-                }
-                if (node.right != null) {
-                    queue.offer(node.right);
-                }
+                if (node.left != null) queue.offer(node.left);
+                if (node.right != null) queue.offer(node.right);
             }
             result.add(level);
         }
@@ -54,13 +47,10 @@ public class Solution {
     }
 
     private void doLevelOrder(List<List<Integer>> result, TreeNode root, int height) {
-        if (root == null) {
-            return;
-        }
-
-        if (result.size() <= height) {
+        if (root == null) return;
+        if (result.size() <= height)
             result.add(new ArrayList<>());
-        }
+
         result.get(height).add(root.val);
         doLevelOrder(result, root.left, height + 1);
         doLevelOrder(result, root.right, height + 1);

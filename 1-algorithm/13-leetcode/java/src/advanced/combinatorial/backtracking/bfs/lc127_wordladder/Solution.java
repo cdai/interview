@@ -73,10 +73,8 @@ public class Solution {
                     for (char c = 'a'; c <= 'z'; c++) {
                         letters[j] = c;                  // Miss a check if c == original letter
                         String next = new String(letters);
-                        if (next.equals(endWord))
-                            return i + 1;                // error: +1 for endWord
-                        if (!wordList.contains(next))
-                            continue;
+                        if (next.equals(endWord)) return i + 1; // error: +1 for endWord
+                        if (!wordList.contains(next)) continue;
                         queue.offer(next);
                         wordList.remove(next);
                     }

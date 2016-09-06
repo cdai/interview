@@ -17,23 +17,21 @@ public class Solution {
     public String minWindow(String s, String t) {
         // Statistic for count of char in t
         int[] count = new int[255];
-        for (char c : t.toCharArray()) {
+        for (char c : t.toCharArray())
             count[c]++;
-        }
 
         // Move i as right boundary to find a valid window
         int min = Integer.MAX_VALUE, minLeft = 0, total = t.length();
         for (int i = 0, j = 0; i < s.length(); i++) {
             // S char exists in T
-            if (count[s.charAt(i)] > 0) {
+            if (count[s.charAt(i)] > 0)
                 total--;
-            }
 
             // If char are NOT in T, it will be negative for a moment (until window shrinks)
             // That means char appears in S much more than what we need to match it in T
             count[s.charAt(i)]--;
 
-            // Find a vallid window, move j to find a smaller one
+            // Find a valid window, move j to find a smaller one
             while (total == 0) {
                 // Update min since total=0 means they are matched now!
                 if (min > i - j + 1) {

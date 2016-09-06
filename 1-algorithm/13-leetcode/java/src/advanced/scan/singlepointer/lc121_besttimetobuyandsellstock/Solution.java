@@ -8,9 +8,8 @@ package advanced.scan.singlepointer.lc121_besttimetobuyandsellstock;
 public class Solution {
 
     // My 2AC: O(N)
+    // Update low if found lower point or update max if found higher point
     public int maxProfit(int[] prices) {
-        // Update low if found lower point or
-        // Try to update max if found higher point
         int low = Integer.MAX_VALUE, max = 0;
         for (int price : prices) {
             if (low < price) {

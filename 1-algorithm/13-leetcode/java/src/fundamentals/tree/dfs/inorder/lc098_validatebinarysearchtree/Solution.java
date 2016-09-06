@@ -28,9 +28,7 @@ public class Solution {
     }
 
     private boolean isValidBST(long low, TreeNode root, long high) {
-        if (root == null) {
-            return true;
-        }
+        if (root == null) return true;
         return (low < root.val && root.val < high)
                 && isValidBST(low, root.left, root.val)
                 && isValidBST(root.val, root.right, high);

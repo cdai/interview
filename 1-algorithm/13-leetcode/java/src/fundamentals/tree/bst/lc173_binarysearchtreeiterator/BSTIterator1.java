@@ -16,9 +16,7 @@ public class BSTIterator1 {
     private Stack<TreeNode> stack = new Stack<>();
 
     public BSTIterator1(TreeNode root) {
-        if (root != null) {
-            toLeftmost(root);
-        }
+        pushAllLeft(root);
     }
 
     /** @return whether we have a next smallest number */
@@ -26,22 +24,18 @@ public class BSTIterator1 {
         return !stack.isEmpty();
     }
 
+    // This is inorder traversal, each node is pushed onto stack once
+    // So it's O(1) on average, and stack is O(h)
     /** @return the next smallest number */
     public int next() {
-        TreeNode smallest = stack.pop();
-        if (smallest.right != null) {
-            toLeftmost(smallest.right);
-        }
-        return smallest.val;
+        TreeNode cur = stack.pop();
+        pushAllLeft(cur.right);
+        return cur.val;
     }
 
-    // This is inorder traversal actually
-    // Each node is pushed onto stack once
-    // So it's O(1) on average, and stack is O(h)
-    private void toLeftmost(TreeNode root) {
-        do {
+    private void pushAllLeft(TreeNode root) {
+        for (; root != null; root = root.left)
             stack.push(root);
-        } while ((root = root.left) != null);
     }
 
 }

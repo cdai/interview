@@ -13,24 +13,22 @@ public class Solution {
     public int removeDuplicates(int[] nums) {
         final int k = 2;
         int i = 0;
-        for (int num : nums) {
-            if (i < k || nums[i - k] < num) {
+        for (int num : nums)
+            if (i < k || nums[i - k] < num)
                 nums[i++] = num;
-            }
-        }
         return i;
     }
 
     // My 2nd: use counter to count duplicate times. O(N) time
+    // And Easy to extend to apply in general K case.
     public int removeDuplicates2(int[] nums) {
         // Invariant: elements in [0,j) appear at most K times
         final int k = 2;
         int j = 1, count = 1;
         for (int i = 1; i < nums.length; i++) {
             if (nums[i] == nums[i - 1]) {
-                if (++count <= k) {     // error: ++count, since nums[i] should be counted now
+                if (++count <= k)     // error: ++count, since nums[i] should be counted now
                     nums[j++] = nums[i];
-                }
             } else {
                 nums[j++] = nums[i];
                 count = 1;

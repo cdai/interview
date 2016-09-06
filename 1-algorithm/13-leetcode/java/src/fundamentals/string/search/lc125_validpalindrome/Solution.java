@@ -12,16 +12,12 @@ public class Solution {
     // My 2nd: use helpful Character method
     public boolean isPalindrome(String s) {
         char[] c = s.toCharArray();
-
         // Invariant: [0,i) and (j,N-1] are matched excluding whitespace
         for (int i = 0, j = c.length - 1; i < j; ) {
-            if (!Character.isLetterOrDigit(c[i])) {     // error: isWhitespace is not applicable  eg.":,1"
-                i++;
-            } else if (!Character.isLetterOrDigit(c[j])) {
-                j--;
-            } else if (Character.toLowerCase(c[i]) != Character.toLowerCase(c[j])) {
-                return false;
-            } else {
+            if (!Character.isLetterOrDigit(c[i])) i++; // error: isWhitespace is not applicable  eg.":,1"
+            else if (!Character.isLetterOrDigit(c[j])) j--;
+            else if (Character.toLowerCase(c[i]) != Character.toLowerCase(c[j])) return false;
+            else {
                 i++;
                 j--;
             }
