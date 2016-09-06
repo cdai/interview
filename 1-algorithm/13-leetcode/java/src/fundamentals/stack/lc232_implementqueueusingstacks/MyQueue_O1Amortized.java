@@ -23,21 +23,16 @@ public class MyQueue_O1Amortized {
     // Removes the element from in front of queue.
     public void pop() {
         peek();
-        if (!output.isEmpty()) {
-            output.pop();
-        }
+        if (!output.isEmpty()) output.pop();
     }
 
     // Get the front element.
     public int peek() {
-        if (output.isEmpty()) {
-            while (!input.isEmpty()) {
+        if (output.isEmpty())
+            while (!input.isEmpty())
                 output.push(input.pop());
-            }
-        }
-        if (output.isEmpty()) {
-            return 0;
-        }
+
+        if (output.isEmpty()) return 0;
         return output.peek();
     }
 

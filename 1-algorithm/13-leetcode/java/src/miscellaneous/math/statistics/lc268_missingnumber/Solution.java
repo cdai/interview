@@ -20,7 +20,7 @@ public class Solution {
     }
 
     // Bit operating solution: same as Single Number
-    // Eg.[1,3,4] ^ [1,2,3,4] = 2
+    // Eg.[0,1,3] ^ [0,1,2,4] = 2
     public int missingNumber2(int[] nums) {
         int missing = 0, all = nums.length;
         for (int i = 0; i < nums.length; i++) {

@@ -26,11 +26,10 @@ public class Solution {
         System.out.println();
     }
 
-    // My 2nd
+    // My 2nd: O(1) time
     public void deleteNode(ListNode node) {
-        if (node == null || node.next == null) { // impossible to delete tail
-            return;
-        }
+        // impossible to delete tail
+        if (node == null || node.next == null) return;
 
         // Copy val from next node ("then")
         ListNode then = node.next;

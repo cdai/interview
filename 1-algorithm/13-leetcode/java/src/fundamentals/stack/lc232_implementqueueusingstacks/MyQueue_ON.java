@@ -30,27 +30,22 @@ public class MyQueue_ON {
     // Push element x to the back of queue.
     public void push(int x) {
         // Keep first stack in queue order
-        while (!first.isEmpty()) {
+        while (!first.isEmpty())
             second.push(first.pop());
-        }
         second.push(x);
-        while (!second.isEmpty()) {
+        while (!second.isEmpty())
             first.push(second.pop());
-        }
     }
 
     // Removes the element from in front of queue.
     public void pop() {
-        if (!first.isEmpty()) {
+        if (!first.isEmpty())
             first.pop();
-        }
     }
 
     // Get the front element.
     public int peek() {
-        if (first.isEmpty()) {
-            return 0;
-        }
+        if (first.isEmpty()) return 0;
         return first.peek();
     }
 
