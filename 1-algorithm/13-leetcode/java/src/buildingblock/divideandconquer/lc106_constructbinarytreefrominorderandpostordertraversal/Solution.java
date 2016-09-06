@@ -16,17 +16,10 @@ public class Solution {
 
     public TreeNode doBuildTree(int[] inorder, int inStart, int inEnd,
                                 int[] postorder, int postStart, int postEnd) {
-        if (inStart > inEnd) {
-            return null;
-        }
-
+        if (inStart > inEnd) return null;
         int rootVal = postorder[postEnd];
         int i = inStart;
-        for (; i <= inEnd; i++) { // By changing to backward traversal it became ~1-2ms. It seems like the test cases are biased toward left subtrees being larger.
-            if (inorder[i] == rootVal) {
-                break;
-            }
-        }
+        for (; i <= inEnd && inorder[i] != rootVal; i++); // By changing to backward traversal it became ~1-2ms. It seems like the test cases are biased toward left subtrees being larger.
 
         TreeNode root = new TreeNode(rootVal);
         root.left = doBuildTree(inorder, inStart, i - 1, postorder, postStart, postStart + (i - inStart) - 1);

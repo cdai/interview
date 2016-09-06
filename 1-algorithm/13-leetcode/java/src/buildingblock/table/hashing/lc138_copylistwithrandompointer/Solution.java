@@ -41,54 +41,56 @@ public class Solution {
         }
 
         // 2.Set random pointer
-        for (RandomListNode cur = head; cur != null; cur = cur.next.next) {
-            if (cur.random != null) {
-                cur.next.random = cur.random.next; // This is the key!!!
-            }
-        }
+        for (RandomListNode cur = head; cur != null; cur = cur.next.next)
+            if (cur.random != null) cur.next.random = cur.random.next; // This is the key!!!
 
         // 3.Split into two lists
-        RandomListNode dummy = new RandomListNode(0);
-        RandomListNode prev = dummy;
+        RandomListNode dmy = new RandomListNode(0);
+        RandomListNode prev = dmy;
         for (RandomListNode cur = head; cur != null; cur = cur.next) {
             prev.next = cur.next;
             prev = prev.next;
             cur.next = cur.next.next;   // must restore orginal list
         }
-        return dummy.next;
+        return dmy.next;
     }
 
     // My 2nd: worse than 1st even... O(N) time O(N) space
     public RandomListNode copyRandomList2(RandomListNode head) {
-
         RandomListNode clones = new RandomListNode(0);
         RandomListNode prev = clones;
 
         Map<RandomListNode, RandomListNode> created = new HashMap<>();
         while (head != null) {
-            RandomListNode clone = cloneIfNotExist(head, created);
-            if (head.random != null) {      // random could be null
-                clone.random = cloneIfNotExist(head.random, created);
-            }
+            RandomListNode clone = createIfNotExist(created, head);
+            if (head.random != null)    // random could be null
+                clone.random = createIfNotExist(created, head.random);
             prev.next = clone;
-
             prev = prev.next;
             head = head.next;
         }
         return clones.next;
     }
 
+    private RandomListNode createIfNotExist(Map<RandomListNode, RandomListNode> created,
+                                            RandomListNode node) {
+        RandomListNode clone = created.get(node);
+        if (clone == null) {
+            clone = new RandomListNode(node.label);
+            created.put(node, clone);
+        }
+        return clone;
+    }
+
     // My 1st
     public RandomListNode copyRandomList1(RandomListNode head) {
-        RandomListNode dummy = new RandomListNode(-1);
+        RandomListNode dummy = new RandomListNode(0);
         RandomListNode prev = dummy;
-
         Map<RandomListNode,RandomListNode> clones = new HashMap<>();
         for (RandomListNode node = head; node != null; node = node.next) {
             RandomListNode clone = cloneIfNotExist(node, clones);
-            if (node.random != null) {
+            if (node.random != null) // random could be null
                 clone.random = cloneIfNotExist(node.random, clones);
-            }
             prev.next = clone;
             prev = clone;
         }

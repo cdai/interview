@@ -33,9 +33,7 @@ public class Solution {
     }
 
     private TreeNode doFlatten(TreeNode root, TreeNode prev) {
-        if (root == null) {
-            return prev;
-        }
+        if (root == null) return prev;
         prev = doFlatten(root.right, prev);
         prev = doFlatten(root.left, prev);
 
@@ -52,10 +50,7 @@ public class Solution {
     }
 
     private TreeNode doFlatten(TreeNode root) {
-        if (root == null) {
-            return null;
-        }
-
+        if (root == null) return null;
         TreeNode leftEnd = doFlatten(root.left);
         TreeNode rightEnd = doFlatten(root.right);
 

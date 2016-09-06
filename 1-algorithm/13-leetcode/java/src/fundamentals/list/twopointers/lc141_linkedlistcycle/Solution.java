@@ -9,14 +9,15 @@ import fundamentals.list.ListNode;
 public class Solution {
 
     // My 2nd
+    // Error: it's ok to put behind, since they will encounter anyway if cycle exists
     public boolean hasCycle(ListNode head) {
-        ListNode fast = head, slow = head;
+        if (head == null) return false;
+
+        ListNode slow = head, fast = head;
         while (fast != null && fast.next != null) { // no need to check slow
             slow = slow.next;
             fast = fast.next.next;
-            if (fast == slow) {     // Error: it's ok to put behind, since they will encounter anyway if cycle exists
-                return true;
-            }
+            if (slow == fast) return true;          // must put here!
         }
         return false;
     }

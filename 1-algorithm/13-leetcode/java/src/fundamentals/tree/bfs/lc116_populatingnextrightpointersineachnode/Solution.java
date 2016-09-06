@@ -43,11 +43,8 @@ public class Solution {
     }
 
     // O(N) time, O(1) space: key is to use "next" too!
-    public void connect(TreeLinkNode root) {
-        if (root == null) {
-            return;
-        }
-
+    public void connect_bfs(TreeLinkNode root) {
+        if (root == null) return;
         while (root.left != null) {
             TreeLinkNode first = root;              // error1: don't forget save first node, since we always move root
             while (root.next != null) {             // error2: if you stop here, don't forget the children of last node
@@ -61,20 +58,16 @@ public class Solution {
     }
 
     // DFS: key is to use "next". but DFS needs O(h) extra space.
-    public void connect2(TreeLinkNode root) {
-        if (root == null) {
-            return;
-        }
+    public void connect(TreeLinkNode root) {
+        if (root == null) return;
 
         // 1.Connect children for lower level use
-        if (root.left != null) {    // Assume perfect binary tree, but left is null for leaves
+        if (root.left != null)    // Assume perfect binary tree, but left is null for leaves
             root.left.next = root.right;
-        }
 
         // 2.Higher level must be handled already, so connect to sibling
-        if (root.right != null && root.next != null) {
+        if (root.right != null && root.next != null)
             root.right.next = root.next.left;
-        }
 
         connect(root.left);
         connect(root.right);

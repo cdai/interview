@@ -12,16 +12,13 @@ public class Solution {
 
     // My 2nd: recursive solution
     public boolean isSymmetric_recurisve(TreeNode root) {
-        if (root == null) {
-            return true;
-        }
+        if (root == null) return true;
         return isSymmetric(root.left, root.right);
     }
 
     private boolean isSymmetric(TreeNode root1, TreeNode root2) {
-        if (root1 == null || root2 == null) {
+        if (root1 == null || root2 == null)
             return root1 == null && root2 == null;
-        }
         return root1.val == root2.val
                 && isSymmetric(root1.left, root2.right)
                 && isSymmetric(root1.right, root2.left);
@@ -34,19 +31,15 @@ public class Solution {
             stack.push(root.right);
             stack.push(root.left);
         }
-
         while (!stack.isEmpty()) {
             TreeNode node1 = stack.pop();
             TreeNode node2 = stack.pop();
-
             if (node1 == null || node2 == null) {
-                if (node1 != null || node2 != null) {
+                if (node1 != null || node2 != null)
                     return false;
-                }
             } else {
-                if (node1.val != node2.val) {
+                if (node1.val != node2.val)
                     return false;
-                }
                 stack.push(node2.left);
                 stack.push(node1.right);
                 stack.push(node2.right);

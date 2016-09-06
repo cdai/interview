@@ -25,21 +25,23 @@ public class Solution {
         return max;
     }
 
+    // must have: ret <= left + root.val + right
     public int doMaxPathSum(TreeNode root) {
+        if (root == null) return 0; // Safe! Since we compare left+root, right+root and root
+        int left = Math.max(0, doMaxPathSum(root.left));
+        int right = Math.max(0, doMaxPathSum(root.right));
+        max = Math.max(max, left + root.val + right);   // Two-side (could NOT be reused)
+        return Math.max(left, right) + root.val;        // One-side (reused by upper level)
+    }
+
+    // must have: ret <= left + root.val + right
+    public int doMaxPathSum_mine(TreeNode root) {
         if (root == null) return 0;         // Safe! Since we compare left+root, right+root and root
         int left = doMaxPathSum(root.left);
         int right = doMaxPathSum(root.right);
         int ret = Math.max(Math.max(left, right), 0) + root.val;    // One-side (reused by upper level)
         max = Math.max(max, Math.max(ret, left + root.val + right));// Two-side (could NOT be reused)
         return ret;
-    }
-
-    public int doMaxPathSum_alternative(TreeNode root) {
-        if (root == null) return 0;
-        int left = Math.max(0, doMaxPathSum(root.left));
-        int right = Math.max(0, doMaxPathSum(root.right));
-        max = Math.max(max, left + root.val + right); // Two-side (could NOT be reused)
-        return Math.max(left, right) + root.val;
     }
 
     // My 1AC
