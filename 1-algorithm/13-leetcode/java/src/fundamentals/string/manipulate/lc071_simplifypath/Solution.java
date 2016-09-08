@@ -1,4 +1,4 @@
-package fundamentals.string.convert.lc071_simplifypath;
+package fundamentals.string.manipulate.lc071_simplifypath;
 
 /**
  * Given an absolute path for a file (Unix-style), simplify it.

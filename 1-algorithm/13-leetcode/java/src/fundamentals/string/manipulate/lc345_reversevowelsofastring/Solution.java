@@ -1,4 +1,4 @@
-package fundamentals.string.convert.lc345_reversevowelsofastring;
+package fundamentals.string.manipulate.lc345_reversevowelsofastring;
 
 import java.util.Arrays;
 import java.util.HashSet;

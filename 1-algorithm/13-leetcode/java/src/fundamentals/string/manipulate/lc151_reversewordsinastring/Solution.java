@@ -1,4 +1,4 @@
-package fundamentals.string.convert.lc151_reversewordsinastring;
+package fundamentals.string.manipulate.lc151_reversewordsinastring;
 
 import java.util.Arrays;
 import java.util.Collections;

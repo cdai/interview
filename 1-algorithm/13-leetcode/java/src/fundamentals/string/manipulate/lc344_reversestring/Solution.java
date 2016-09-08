@@ -1,4 +1,4 @@
-package fundamentals.string.convert.lc344_reversestring;
+package fundamentals.string.manipulate.lc344_reversestring;
 
 /**
  * Write a function that takes a string as input and returns the string reversed.
