@@ -21,9 +21,39 @@ public class Solution {
         System.out.println(new Solution().fractionToDecimal(1, 17));
     }
 
+    // Eg. 4 / 333
+    // ret="0."    i=2  num=4 (->40)   map=[4-2]
+    // ret="0.0"   i=3  num=40(->400)  map=[4-2,40-3]
+    // ret="0.01"  i=4  num=400(->67)  map=[4-2,40-3,400-4]
+    // ret="0.012" i=5  num=67(->4)    map=[4-2,40-3,400-4,67-5]
+    // num=4 terminates
+    public String fractionToDecimal(int numerator, int denominator) {
+        if (numerator == 0) return "0";     // error: 0/-5 -> -0. //if (denominator == 0) return "";
+        StringBuilder ret = new StringBuilder((numerator < 0) ^ (denominator < 0) ? "-" : "");
+        long num = Math.abs((long) numerator);
+        long denom = Math.abs((long) denominator);
+        ret.append(num / denom);                    // Integral part
+        num %= denom;
+        ret.append(num != 0 ? "." : "");
+
+        Map<Long,Integer> seen = new HashMap<>();
+        for (int i = ret.length(); num != 0; i++) { // Fractional part
+            Integer idx;
+            if ((idx = seen.put(num, i)) != null)
+                return ret.insert(idx, "(").append(")").toString();
+            num *= 10;
+            if (num >= denom) {
+                ret.append(num / denom);
+                num %= denom;
+            } else
+                ret.append(0);
+        }
+        return ret.toString();
+    }
+
     // Test case: positive, negative, no floating part, 0
     // Error: 1/11=0.(09), 1/90=0.0(1), 1/6=0.1(6), 1/17=0.(0588235294117647). Found pattern?
-    public String fractionToDecimal(int numerator, int denominator) {
+    public String fractionToDecimal1(int numerator, int denominator) {
         // 1.Divided by zero
         if (denominator == 0) {
             return "";
