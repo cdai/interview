@@ -12,8 +12,13 @@ public class Solution {
 
     // eg.[1,7,8,5,6,10,11,8] -> [1,x,x,5,6,x,x,8]
     // Key: idx stack=[0,3,4,7], height in gaps (1~2,5~6) MUST greater than left and right!
-    // Wiggle sort!!! h[0] < (h[1] < h[2]) > h[3] < h[4] < (h[5] < h[6]) > h[7].
-    public int largestRectangleArea(int[] heights) {
+    // At the end, the stack looks like [0,3,4,7], namely [1,7,8,5,6,10,11,8] -> [1,x,x,5,6,x,x,8].
+    // Does that ring a bell with you? Wiggle subsequence!!! h[0] < (h[1] < h[2]) > h[3] < h[4] < (h[5] < h[6]) > h[7].
+    //  1) It means that the height in the "gaps" must be taller than left and right.
+    //  2) Meanwhile, the height on stack itself is increasing subsequence.
+    // These two facts are the reason why it's safe to calculate area by height[j] * (i - 1 - s.peek())
+    // where left=s.peek() and right=i-1, since height of all rectangles between left and right must be >= height[j].
+    public int largestRectangleArea_leetcode(int[] heights) {
         Stack<Integer> idx = new Stack<>();
         int max = 0;
         for (int i = 0; i <= heights.length; i++) {
@@ -25,6 +30,19 @@ public class Solution {
                 max = Math.max(max, heights[j] * (idx.isEmpty() ? i : (i - 1 - idx.peek())));
                 i--;
             }
+        }
+        return max;
+    }
+
+    // My 2AC: more natural than i--. O(N) time
+    public int largestRectangleArea(int[] heights) {
+        Stack<Integer> s = new Stack<>();
+        int max = 0;
+        for (int i = 0; i <= heights.length; i++) {
+            int h = (i == heights.length) ? 0 : heights[i]; // Very nice to handle last batch!
+            while (!s.isEmpty() && h < heights[s.peek()])
+                max = Math.max(max, heights[s.pop()] * (s.isEmpty() ? i : (i - 1 - s.peek())));
+            s.push(i);
         }
         return max;
     }
