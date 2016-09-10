@@ -1,4 +1,4 @@
-package advanced.scan.trend.lc084_largestrectangleinhistogram;
+package advanced.scan.sequence.lc084_largestrectangleinhistogram;
 
 import java.util.Stack;
 

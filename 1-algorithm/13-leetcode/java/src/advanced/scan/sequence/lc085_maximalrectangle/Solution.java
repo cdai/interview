@@ -1,4 +1,4 @@
-package advanced.scan.trend.lc085_maximalrectangle;
+package advanced.scan.sequence.lc085_maximalrectangle;
 
 import java.util.Stack;
 

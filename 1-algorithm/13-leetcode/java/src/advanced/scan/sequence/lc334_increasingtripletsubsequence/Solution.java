@@ -1,4 +1,4 @@
-package advanced.scan.trend.lc334_increasingtripletsubsequence;
+package advanced.scan.sequence.lc334_increasingtripletsubsequence;
 
 import java.util.Arrays;
 

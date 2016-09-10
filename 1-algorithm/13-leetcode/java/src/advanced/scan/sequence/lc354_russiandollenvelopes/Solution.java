@@ -1,4 +1,4 @@
-package advanced.scan.trend.lc354_russiandollenvelopes;
+package advanced.scan.sequence.lc354_russiandollenvelopes;
 
 import java.util.Arrays;
 
