@@ -1,4 +1,4 @@
-package advanced.greedy.lc316_removeduplicateletters;
+package advanced.scan.sequence.lc316_removeduplicateletters;
 
 import java.util.Stack;
 
