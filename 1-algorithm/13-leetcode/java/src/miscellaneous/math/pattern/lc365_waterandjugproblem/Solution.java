@@ -15,6 +15,10 @@ package miscellaneous.math.pattern.lc365_waterandjugproblem;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        System.out.println(new Solution().canMeasureWater(6, 7, 2));
+    }
+
     // Model: z = m * x + n * y (Huge container, use two cups to fill (m/n positive) or empty(negative)) a jug of x or y
     // Then according to Bézout's identity, d = GCD(x, y), so it's true if z is multiple of d. Okay, kill me now...
     public boolean canMeasureWater(int x, int y, int z) {
