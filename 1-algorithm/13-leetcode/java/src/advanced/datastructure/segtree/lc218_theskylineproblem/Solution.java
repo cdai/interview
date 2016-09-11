@@ -19,6 +19,7 @@ public class Solution {
     private static final int R = 1;
     private static final int H = 2;
 
+    // O(N^2) time
     // Excellent explanation: https://briangordon.github.io/2014/08/the-skyline-problem.html
     // "Scan across the critical points from left to right:
     //   1) When we encounter the left edge of a rectangle, we add that rectangle to the heap with its height as the key.
@@ -39,7 +40,7 @@ public class Solution {
         int prev = 0;
         for (int[] bldg : heights) {
             if (bldg[1] < 0) q.offer(-bldg[1]);
-            else q.remove(bldg[1]);
+            else q.remove(bldg[1]); // slow!
 
             if (prev != q.peek()) {
                 skyline.add(new int[]{ bldg[L], q.peek() });
