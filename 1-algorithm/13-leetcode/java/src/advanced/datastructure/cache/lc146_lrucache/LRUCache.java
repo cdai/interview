@@ -1,79 +1,72 @@
 package advanced.datastructure.cache.lc146_lrucache;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
 
 /**
- * TLE...
  */
 public class LRUCache {
 
-    public static void main(String[] args) {
-        LRUCache cache = new LRUCache(2);
-        System.out.println("get(2): " + cache.get(2));
-        System.out.println(cache.data);
-        System.out.println(cache.freq);
-        System.out.println("set(2,6)");
-        cache.set(2, 6);
-        System.out.println(cache.data);
-        System.out.println(cache.freq);
-        System.out.println("get(1): " + cache.get(1));
-        System.out.println(cache.data);
-        System.out.println(cache.freq);
-        System.out.println("set(1,5)");
-        cache.set(1, 5);
-        System.out.println(cache.data);
-        System.out.println(cache.freq);
-        System.out.println("set(1,2)");
-        cache.set(1, 2);
-        System.out.println(cache.data);
-        System.out.println(cache.freq);
-        System.out.println("get(1): " + cache.get(1));
-        System.out.println(cache.data);
-        System.out.println(cache.freq);
-        System.out.println("get(2): " + cache.get(2));
-        System.out.println(cache.data);
-        System.out.println(cache.freq);
-    }
+    private Map<Integer,Node> cache = new HashMap<>();
 
-    private Map<Integer, Integer> data;
-
-    private Queue<Integer> freq;
+    private StatList stat = new StatList();
 
     private int capacity;
 
-    private int size;
-
     public LRUCache(int capacity) {
-        this.data = new HashMap<>();
-        this.freq = new LinkedList<>();
         this.capacity = capacity;
     }
 
     public int get(int key) {
-        if (!data.containsKey(key)) {
-            return -1;
-        }
-        freq.remove(key);
-        freq.offer(key);
-        return data.get(key);
+        if (!cache.containsKey(key)) return -1;
+        return stat.touch(cache.get(key)).val;
     }
 
-    public void set(int key, int value) {
-        if (data.containsKey(key)) { // Update an old k-v
-            freq.remove(key);
-            freq.offer(key);
-            data.put(key, value);
-        } else {                    // Insert a new k-v
-            if (size == capacity) {
-                data.remove(freq.poll());
-                size--;
-            }
-            freq.offer(key);
-            data.put(key, value);
-            size++;
+    public void set(int key, int val) {
+        if (cache.containsKey(key)) {
+            Node node = stat.touch(cache.get(key));
+            node.val = val;
+            cache.put(key, node);
+        } else {
+            cache.put(key, stat.addLast(new Node(key, val)));
+            if (cache.size() > capacity)
+                cache.remove(stat.removeFirst().key);
+        }
+    }
+
+    class StatList {
+        private Node head = new Node(0, 0);
+        private Node tail = head;
+
+        Node removeFirst() {
+            Node first = head.next;
+            head.next = first.next;
+            first.next.prev = head;
+            first.next = first.prev = null;
+            return first;
+        }
+
+        Node addLast(Node node) {
+            node.prev = tail;
+            node.next = null;
+            tail = tail.next = node;
+            return node;
+        }
+
+        Node touch(Node node) {
+            if (node == tail) return node;
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
+            return addLast(node);
+        }
+    }
+
+    class Node {
+        int key, val;
+        Node prev, next;
+        Node(int key, int val) {
+            this.key = key;
+            this.val = val;
         }
     }
 
