@@ -4,6 +4,7 @@ import fundamentals.tree.TreeNode;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
@@ -14,7 +15,30 @@ import java.util.Stack;
  */
 public class Solution {
 
+    //      1
+    //    /   \
+    //   2     5
+    //  / \   / \
+    // 3   4  6  7
+    // Pre-order:  1-2-3-4-5-6-7
+    // Post-order:   3-4-2-6-7-5-1
+    // root-left-right => left-right-root
     public List<Integer> postorderTraversal(TreeNode root) {
+        Stack<TreeNode> s = new Stack<>();
+        LinkedList<Integer> ret = new LinkedList<>();
+        while (!s.isEmpty() || root != null) {
+            if (root != null) {
+                ret.addFirst(root.val);     // Add root ahead but reversely
+                s.push(root);
+                root = root.right;          // Traverse in reversed pre-order!
+            } else
+                root = s.pop().left;
+        }
+        return ret;
+    }
+
+    // My 1AC using Set
+    public List<Integer> postorderTraversal_messy(TreeNode root) {
         List<Integer> result = new ArrayList<>();
         if (root == null) {
             return result;
