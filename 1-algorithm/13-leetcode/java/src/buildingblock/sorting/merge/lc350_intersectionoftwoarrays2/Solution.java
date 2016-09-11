@@ -3,11 +3,8 @@ package buildingblock.sorting.merge.lc350_intersectionoftwoarrays2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Given two arrays, write a function to compute their intersection.
@@ -22,17 +19,12 @@ import java.util.stream.Collectors;
 public class Solution {
 
     // My 2nd
-    // Why lambda is very slow...
-    public int[] intersection_lambda(int[] nums1, int[] nums2) {
-        Set<Integer> set = Arrays.stream(nums2).boxed().collect(Collectors.toSet());
-        return Arrays.stream(nums1).distinct().filter(set::contains).toArray();
-    }
-
-    public int[] intersection(int[] nums1, int[] nums2) {
+    // Solution1: extremely fast, maybe due to constant space used
+    public int[] intersect(int[] nums1, int[] nums2) {
         Arrays.sort(nums1);
         Arrays.sort(nums2);
 
-        Set<Integer> intersect = new HashSet<>();
+        List<Integer> intersect = new ArrayList<>();
         for (int i = 0, j = 0; i < nums1.length && j < nums2.length; ) {
             if (nums1[i] > nums2[j]) j++;
             else if (nums1[i] < nums2[j]) i++;

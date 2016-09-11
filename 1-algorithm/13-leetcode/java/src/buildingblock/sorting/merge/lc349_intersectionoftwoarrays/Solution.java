@@ -15,7 +15,7 @@ public class Solution {
     // Why lambda is very slow...
     public int[] intersection(int[] nums1, int[] nums2) {
         Set<Integer> set = Arrays.stream(nums2).boxed().collect(Collectors.toSet());
-        return Arrays.stream(nums1).distinct().filter(e-> set.contains(e)).toArray();
+        return Arrays.stream(nums1).distinct().filter(set::contains).toArray();
     }
 
     // My 2nd: O(NlogN) time, O(1) space
@@ -25,11 +25,9 @@ public class Solution {
 
         Set<Integer> intersect = new HashSet<>();
         for (int i = 0, j = 0; i < nums1.length && j < nums2.length; ) {
-            if (nums1[i] > nums2[j]) {
-                j++;
-            } else if (nums1[i] < nums2[j]) {
-                i++;
-            } else {
+            if (nums1[i] > nums2[j]) j++;
+            else if (nums1[i] < nums2[j]) i++;
+            else {
                 intersect.add(nums1[i]);
                 i++;
                 j++;
@@ -38,9 +36,7 @@ public class Solution {
 
         int[] result = new int[intersect.size()];
         int i = 0;
-        for (int num : intersect) {
-            result[i++] = num;
-        }
+        for (int num : intersect) result[i++] = num;
         return result;
     }
 
