@@ -14,8 +14,39 @@ public class Solution {
         System.out.println(new Solution().sortList(head));
     }
 
-    // What's people called: "Bottom-up merge sort"
+    // Clean but use O(logN) stack space
     public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) return head; // Codes below can handle 1,2,...nodes, but this could improve performance
+
+        ListNode mid = head, fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            mid = mid.next;
+            fast = fast.next.next;
+        }
+        ListNode head2 = mid.next;
+        mid.next = null;
+        return merge(sortList(head), sortList(head2));
+    }
+
+    private ListNode merge(ListNode list1, ListNode list2) {
+        ListNode dmy = new ListNode(0), prev = dmy;
+        while (list1 != null && list2 != null) {
+            if (list1.val < list2.val) {
+                prev.next = list1;
+                list1 = list1.next;
+            } else {
+                prev.next = list2;
+                list2 = list2.next;
+            }
+            prev = prev.next;
+        }
+        prev.next = (list1 != null) ? list1 : list2;
+        return dmy.next;
+    }
+
+
+    // What's people called: "Bottom-up merge sort"
+    public ListNode sortList_bottomup(ListNode head) {
         if (head == null || head.next == null) {
             return head;
         }
@@ -73,41 +104,6 @@ public class Solution {
     }
 
     // Clear but use O(logN) stack space
-    public ListNode sortList_recursion(ListNode head) {
-        if (head == null || head.next == null) { // Codes below can handle 1,2,...nodes, but this could improve performance
-            return head;
-        }
-
-        // 1.Find middle node and cut list into two halves
-        ListNode mid = head, fast = head;
-        while (fast.next != null && fast.next.next != null) {
-            mid = mid.next;
-            fast = fast.next.next;
-        }
-        ListNode half1 = head, half2 = mid.next;
-        mid.next = null;
-
-        // 2.Sort two halves
-        half1 = sortList(half1);
-        half2 = sortList(half2);
-
-        // 3.Two-way merge
-        ListNode dummy = new ListNode(0);
-        ListNode prev = dummy;
-        while (half1 != null || half2 != null) {
-            int val1 = (half1 != null) ? half1.val : Integer.MAX_VALUE;
-            int val2 = (half2 != null) ? half2.val : Integer.MAX_VALUE;
-            if (val1 < val2) {
-                prev.next = half1;
-                half1 = half1.next;
-            } else {
-                prev.next = half2;
-                half2 = half2.next;
-            }
-            prev = prev.next;
-        }
-        return dummy.next;
-    }
 
     // My 1st: Simplify base case
     public ListNode sortList1(ListNode head) {
@@ -153,7 +149,7 @@ public class Solution {
         return list2;
     }
 
-    private ListNode merge(ListNode list1, ListNode list2) {
+    private ListNode merge1(ListNode list1, ListNode list2) {
         ListNode dummy = new ListNode(Integer.MIN_VALUE);
         for (ListNode cur = dummy; list1 != null || list2 != null; cur = cur.next) {    // Optimize-3: use "for" to simplify "while"
             int val1 = (list1 != null) ? list1.val : Integer.MAX_VALUE;                 // Optimize-4: max node is not necessary
