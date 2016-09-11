@@ -23,7 +23,7 @@ public class Solution {
     }
 
     // My 2nd: morris traversal. O(n) time, O(1) space
-    public List<Integer> preorderTraversal(TreeNode root) {
+    public List<Integer> preorderTraversal_morris(TreeNode root) {
         List<Integer> result = new ArrayList<>();
         TreeNode cur = root;
         while (cur != null) {
@@ -50,6 +50,21 @@ public class Solution {
             }
         }
         return result;
+    }
+
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> ret = new ArrayList<>();
+        Stack<TreeNode> s = new Stack<>();
+        TreeNode p = root;
+        while (!s.isEmpty() || p != null) {
+            if (p != null) {
+                ret.add(p.val);
+                s.push(p);
+                p = p.left;
+            } else
+                p = s.pop().right;
+        }
+        return ret;
     }
 
     // My 2nd: iterative using stack. O(n) time, O(h) space

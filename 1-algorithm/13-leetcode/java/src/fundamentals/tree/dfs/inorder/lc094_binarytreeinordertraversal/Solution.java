@@ -17,20 +17,19 @@ public class Solution {
 
     // Iterative traversal: O(N) time, O(h) space
     public List<Integer> inorderTraversal(TreeNode root) {
-        Stack<TreeNode> stack = new Stack<>();
-        List<Integer> result = new ArrayList<>();
-        TreeNode cur = root;
-        while (!stack.isEmpty() || cur != null) {
-            if (cur != null) {
-                stack.push(cur);
-                cur = cur.left;
+        List<Integer> ret = new ArrayList<>();
+        Stack<TreeNode> s = new Stack<>();
+        TreeNode p = root;
+        while (!s.isEmpty() || p != null) {
+            if (p != null) {
+                s.push(p);
+                p = p.left;
             } else {
-                cur = stack.pop();
-                result.add(cur.val);
-                cur = cur.right;
+                ret.add(s.peek().val);
+                p = s.pop().right;
             }
         }
-        return result;
+        return ret;
     }
 
     // Morris traversal: O(N) time, O(1) space

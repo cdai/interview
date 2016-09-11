@@ -24,15 +24,16 @@ public class Solution {
     // Post-order:   3-4-2-6-7-5-1
     // root-left-right => left-right-root
     public List<Integer> postorderTraversal(TreeNode root) {
-        Stack<TreeNode> s = new Stack<>();
         LinkedList<Integer> ret = new LinkedList<>();
-        while (!s.isEmpty() || root != null) {
-            if (root != null) {
-                ret.addFirst(root.val);     // Add root ahead but reversely
-                s.push(root);
-                root = root.right;          // Traverse in reversed pre-order!
+        Stack<TreeNode> s = new Stack<>();
+        TreeNode p = root;
+        while (!s.isEmpty() || p != null) {
+            if (p != null) {
+                ret.addFirst(p.val);    // Add root ahead but reversely
+                s.push(p);
+                p = p.right;            // Traverse in reversed pre-order!
             } else
-                root = s.pop().left;
+                p = s.pop().left;
         }
         return ret;
     }
