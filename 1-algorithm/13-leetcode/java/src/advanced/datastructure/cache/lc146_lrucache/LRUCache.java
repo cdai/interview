@@ -22,7 +22,7 @@ public class LRUCache {
         return stat.touch(cache.get(key)).val;
     }
 
-    public void set(int key, int val) {
+    public void set(int key, int val) { // Note: keep Map and List consistent all the time!!!
         if (cache.containsKey(key)) {
             Node node = stat.touch(cache.get(key));
             node.val = val;
