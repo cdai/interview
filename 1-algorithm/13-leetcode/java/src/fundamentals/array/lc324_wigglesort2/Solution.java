@@ -15,7 +15,23 @@ import java.util.List;
  */
 public class Solution {
 
+    // My 2AC. O(NlogN) time + O(N) space.
+    //      n/2-1  vs.  (n-1)/2
+    // n=3    0            1     [1,2,3]
+    // n=4    1            1     [1,2,3,4]
+    // n=5    1            2     [1,2,3,4,5]
     public void wiggleSort(int[] nums) {
+        if (nums.length == 0) return;
+        Arrays.sort(nums);
+        int[] tmp = new int[nums.length];
+        int mid = (nums.length - 1) / 2, end = nums.length - 1;
+        for (int i = 0; i < tmp.length; i++)
+            tmp[i] = (i % 2 == 0) ? nums[mid--] : nums[end--];
+        System.arraycopy(tmp, 0, nums, 0, nums.length);
+    }
+
+    // My 1AC
+    public void wiggleSort1(int[] nums) {
         int n = nums.length;
         Arrays.sort(nums);
 
