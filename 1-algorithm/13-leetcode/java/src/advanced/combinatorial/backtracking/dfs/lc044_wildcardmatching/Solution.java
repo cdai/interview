@@ -5,7 +5,19 @@ package advanced.combinatorial.backtracking.dfs.lc044_wildcardmatching;
  */
 public class Solution {
 
+    // TLE: "aaabbbaabaaaaababaabaaabbabbbbbbbbaabababbabbbaaaaba"
+    //      "a*******b"
     public boolean isMatch(String s, String p) {
+        if (p.isEmpty()) return s.isEmpty();
+        if (p.charAt(0) == '*') /* star match zero or many (irrelevant to previous char) */
+            return isMatch(s, p.substring(1)) || (!s.isEmpty() && isMatch(s.substring(1), p));
+        if (p.charAt(0) == '?')
+            return !s.isEmpty() && isMatch(s.substring(1), p.substring(1));
+        return !s.isEmpty() && p.charAt(0) == s.charAt(0) && isMatch(s.substring(1), p.substring(1));
+    }
+
+    // My 1AC
+    public boolean isMatch1(String s, String p) {
         // Merge *
         StringBuilder ptrim = new StringBuilder();
         char last = 0;

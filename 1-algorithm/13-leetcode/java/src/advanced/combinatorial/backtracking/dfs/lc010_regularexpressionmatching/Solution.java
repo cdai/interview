@@ -22,7 +22,8 @@ public class Solution {
 //        System.out.println(new Solution().isMatch("a", ".*.."));
     }
 
-    // Must match zero (move p) first, otherwise it terminates early if s reach end
+    // My 2AC: O(M*N) time?
+    // Note: Must match zero (move p) first, otherwise it terminates early if s reach end
     // s="aaa", p="a*a"
     //  s=aaa, p=a*a
     //  s=aaa, p=a
