@@ -17,11 +17,61 @@ package advanced.combinatorial.backtracking.dfs.lc010_regularexpressionmatching;
 public class Solution {
 
     public static void main(String[] args) {
-        System.out.println(new Solution().isMatch("aab", "c*a*b"));
-        System.out.println(new Solution().isMatch("a", ".*.."));
+        System.out.println(new Solution().isMatch("aaa", "a*a"));
+//        System.out.println(new Solution().isMatch("aab", "c*a*b"));
+//        System.out.println(new Solution().isMatch("a", ".*.."));
     }
 
+    // Must match zero (move p) first, otherwise it terminates early if s reach end
+    // s="aaa", p="a*a"
+    //  s=aaa, p=a*a
+    //  s=aaa, p=a
+    //  s=aa, p=
+    //  s=aa, p=a*a
+    //  s=aa, p=a
+    //  s=a, p=
+    //  s=a, p=a*a
+    //  s=a, p=a
+    //  s=, p=
+    // true
     public boolean isMatch(String s, String p) {
+        if (p.isEmpty()) return s.isEmpty();
+
+        // encounter star: match zero or match one only if . or char matched
+        if (p.length() > 1 && p.charAt(1) == '*')
+            return isMatch(s, p.substring(2)) ||
+                    ((!s.isEmpty() && (p.charAt(0) == '.' || s.charAt(0) == p.charAt(0))) && isMatch(s.substring(1), p));
+
+        // encounter dot: match one letter
+        if (p.charAt(0) == '.')
+            return !s.isEmpty() && isMatch(s.substring(1), p.substring(1));
+
+        // just normal char
+        return !s.isEmpty() && s.charAt(0) == p.charAt(0) && isMatch(s.substring(1), p.substring(1));
+    }
+
+    // Must match zero first!!!
+    public boolean isMatch_wrong(String s, String p) {
+        System.out.println("s=" + s + ", p=" + p);
+        if (p.isEmpty()) return s.isEmpty();
+
+        // encounter star: match zero or match one only if . or char matched
+        if (p.length() > 1 && p.charAt(1) == '*') {
+            if (p.charAt(0) == '.' || (!s.isEmpty() && s.charAt(0) == p.charAt(0)))
+                return isMatch(s.substring(1), p);
+            return isMatch(s, p.substring(2));
+        }
+
+        // encounter dot: match one letter
+        if (p.charAt(0) == '.')
+            return !s.isEmpty() && isMatch(s.substring(1), p.substring(1));
+
+        // just normal char
+        return !s.isEmpty() && s.charAt(0) == p.charAt(0) && isMatch(s.substring(1), p.substring(1));
+    }
+
+    // My 1AC
+    public boolean isMatch1(String s, String p) {
         return isMatch(s, p, 0, 0);
     }
 

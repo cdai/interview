@@ -28,6 +28,7 @@ public class Twitter {
         this.relations = new HashMap<>();
     }
 
+    // O(M*NlogN) time - M=#follower, N=#tweet
     /** Compose a new tweet. */
     public void postTweet(int userId, int tweetId) {
         Tweet tw = new Tweet(tweetId);
@@ -38,6 +39,7 @@ public class Twitter {
         }
     }
 
+    // O(N) time
     /** Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent. */
     public List<Integer> getNewsFeed(int userId) {
         List<Integer> ret = new ArrayList<>();
@@ -49,6 +51,7 @@ public class Twitter {
         return ret;
     }
 
+    // O(M*NlogN) - M=#tweet
     /** Follower follows a followee. If the operation is invalid, it should be a no-op. */
     public void follow(int followerId, int followeeId) {
         if (followerId == followeeId) return;
