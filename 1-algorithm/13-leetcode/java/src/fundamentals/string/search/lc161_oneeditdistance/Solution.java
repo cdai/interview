@@ -16,6 +16,7 @@ public class Solution {
         System.out.println(!s.isOneEditDistance("aXcXef", "abcdef"));
     }
 
+    // My solution
     public boolean isOneEditDistance(String s, String t) {
         if (s.length() == t.length()) {
             for (int i = 0, diff = 0; i < s.length(); i++)
