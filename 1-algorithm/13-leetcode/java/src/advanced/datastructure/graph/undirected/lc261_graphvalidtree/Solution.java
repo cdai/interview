@@ -13,7 +13,7 @@ import java.util.Queue;
  */
 public class Solution {
 
-    // My old-school solution. O(N) time.
+    // My old-school solution. O(E + V) time.
     // A tree is an acyclic connected graph.
     public boolean validTree(int n, int[][] edges) {
         List<Integer>[] adj = new List[n];
