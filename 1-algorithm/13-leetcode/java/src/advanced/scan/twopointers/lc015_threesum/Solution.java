@@ -17,14 +17,13 @@ public class Solution {
         List<List<Integer>> result = new ArrayList<>();
         for (int i = 0; i < nums.length - 2; i++) {
             if (i > 0 && nums[i - 1] == nums[i]) continue; // Bypass-1: skip duplicate using this trick!
-            int lo = i + 1, hi = nums.length - 1, target = -nums[i];
-            while (lo < hi) {
-                if (nums[lo] + nums[hi] < target) lo++;
-                else if (nums[lo] + nums[hi] > target) hi--;
+            for (int l = i + 1, r = nums.length - 1; l < r; ) {
+                if (nums[i] + nums[l] + nums[r] < 0) l++;
+                else if (nums[i] + nums[l] + nums[r] > 0) r--;
                 else {
-                    result.add(Arrays.asList(nums[i], nums[lo++], nums[hi--]));
-                    while (lo < hi && nums[lo] == nums[lo - 1]) lo++; // Bypass-2!
-                    while (lo < hi && nums[hi] == nums[hi + 1]) hi--;
+                    result.add(Arrays.asList(nums[i], nums[l++], nums[r--]));
+                    while (l < r && nums[l] == nums[l - 1]) l++; // Bypass-2!
+                    while (l < r && nums[r] == nums[r + 1]) r--;
                 }
             }
         }

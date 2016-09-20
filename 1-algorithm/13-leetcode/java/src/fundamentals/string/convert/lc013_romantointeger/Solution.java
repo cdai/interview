@@ -21,8 +21,32 @@ public class Solution {
         roman.put('M', 1000);
     }
 
-    // My 2AC: much easier to understand now!
+    // My 3AC: map is overkill, switch is adequate!
     public int romanToInt(String s) {
+        int prev = 0, num = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            int cur = r2i(s.charAt(i));
+            num += (cur >= prev) ? cur : -cur;
+            prev = cur;
+        }
+        return num;
+    }
+
+    private int r2i(char c) {
+        switch (c) {
+            case 'I': return 1;
+            case 'V': return 5;
+            case 'X': return 10;
+            case 'L': return 50;
+            case 'C': return 100;
+            case 'D': return 500;
+            case 'M': return 1000;
+            default: return 0; // assume never happen
+        }
+    }
+
+    // My 2AC: much easier to understand now!
+    public int romanToInt2(String s) {
         Map<Character,Integer> map = new HashMap<>();
         map.put('I', 1);
         map.put('V', 5);
@@ -32,11 +56,11 @@ public class Solution {
         map.put('D', 500);
         map.put('M', 1000);
 
-        // Substract if less than prev, since IIV is impossible
+        // Subtract if less than prev, since IIV is impossible
         int prev = 0, num = 0;
         for (int i = s.length() - 1; i >= 0; i--) {
             int cur = map.get(s.charAt(i));
-            num += (cur >= prev) ? cur : -cur;
+            num += (cur >= prev) ? cur : -cur;  // Nice -cur! Note >=
             prev = cur;
         }
         return num;
