@@ -16,6 +16,35 @@ import java.util.Queue;
  */
 public class Solution {
 
+    // My 3AC
+    public ListNode mergeKLists(ListNode[] lists) {
+        return doMergeK(new LinkedList<>(Arrays.asList(lists)));
+    }
+
+    private ListNode doMergeK(List<ListNode> lists) {
+        if (lists.isEmpty()) return null;
+        if (lists.size() == 1) return lists.get(0);
+        if (lists.size() == 2) return doMergeTwo(lists.get(0), lists.get(1));
+        return doMergeTwo(doMergeK(lists.subList(0, lists.size() / 2)),
+                doMergeK(lists.subList(lists.size() / 2, lists.size())));
+    }
+
+    private ListNode doMergeTwo(ListNode list1, ListNode list2) {
+        ListNode dmy = new ListNode(0), prev = dmy;
+        while (list1 != null && list2 != null) {
+            if (list1.val < list2.val) {
+                prev.next = list1;
+                list1 = list1.next;
+            } else {
+                prev.next = list2;
+                list2 = list2.next;
+            }
+            prev = prev.next;
+        }
+        prev.next = (list1 != null) ? list1 : list2;
+        return dmy.next;
+    }
+
     // Recursive solution, too many recursions causing StackOverflow
     public ListNode mergeKLists_recursive(ListNode[] lists) {
         // Deal with null or single list
@@ -43,7 +72,7 @@ public class Solution {
 
     // My 2nd: use heap. O(NlogK)
     // It's totally wrong if you deal with K then fetch next K nodes
-    public ListNode mergeKLists(ListNode[] lists) {
+    public ListNode mergeKLists_heap(ListNode[] lists) {
         Queue<ListNode> heap = new PriorityQueue<>(
                 (n1, n2) -> Integer.compare(n1.val, n2.val));
         ListNode dummy = new ListNode(0);
