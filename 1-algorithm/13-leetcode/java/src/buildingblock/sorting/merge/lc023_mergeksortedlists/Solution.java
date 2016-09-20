@@ -66,6 +66,27 @@ public class Solution {
         return dummy.next;
     }
 
+    // My 3AC: O(NlogK) time + O(K) space
+    public ListNode mergeKLists3(ListNode[] lists) {
+        Queue<ListNode> h = new PriorityQueue<>(
+                (n1, n2) -> Integer.compare(n1.val, n2.val));
+
+        // Intialize heap with K nodes
+        for (ListNode n : lists)
+            if (n != null) h.offer(n);
+
+        // Compare K min nodes
+        ListNode dmy = new ListNode(0), prev = dmy;
+        while (!h.isEmpty()) {
+            ListNode n = h.poll();
+            prev = prev.next = n;
+            // Fetch one more from just polled node
+            if (n.next != null)
+                h.offer(n.next);
+        }
+        return dmy.next;
+    }
+
     // My 1st
     public ListNode mergeKLists1(ListNode[] lists) {
         if (lists == null || lists.length == 0) {

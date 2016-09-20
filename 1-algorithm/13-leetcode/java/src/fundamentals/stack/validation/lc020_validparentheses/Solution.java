@@ -8,8 +8,25 @@ import java.util.Stack;
  */
 public class Solution {
 
+    // My 3AC: simplified further!
+    public boolean isValid(String str) {
+        Stack<Character> s = new Stack<>();
+        for (char c : str.toCharArray()) {
+            if (c == '(' || c == '{' || c == '[') {
+                s.push(c);
+            } else {
+                if (s.isEmpty() ||
+                        (c == ')' && s.pop() != '(') ||
+                        (c == '}' && s.pop() != '{') ||
+                        (c == ']' && s.pop() != '['))
+                    return false;
+            }
+        }
+        return s.isEmpty();
+    }
+
     // A Simple one!
-    public boolean isValid(String s) {
+    public boolean isValid_simple(String s) {
         Stack<Character> stack = new Stack<>();
         for (char c : s.toCharArray()) {
             if (c == '(' || c == '{' || c == '[') {
