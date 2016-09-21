@@ -7,9 +7,26 @@ package buildingblock.searching.lc081_searchinrotatedsortedarray2;
  */
 public class Solution {
 
+    // My 3AC: O(N) worst
+    public boolean search(int[] A, int t) {
+        int l = 0, r = A.length - 1;
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+            if (A[m] == t) return true;
+            if (A[l] < A[m]) {          // left half is sorted
+                if (A[l] <= t && t < A[m]) r = m - 1;
+                else l = m + 1;         // right half: [7,1,4,5,6] or all the same eg.[4,3,4,4,4]
+            } else if (A[l] > A[m]) {   // right half MUST be sorted or same. Note: DON'T use A[m] < A[r]
+                if (A[m] < t && t <= A[r]) l = m + 1;
+                else r = m - 1;
+            } else l++;                 // A[l] == A[m], so it's safe to shrink
+        }
+        return false;
+    }
+
     // Solution from leetcode discuss: a little simpler than mine in if-condition
     // The key is to consider from one bound: mid and high OR mid and low
-    public boolean search(int[] nums, int target) {
+    public boolean search21(int[] nums, int target) {
         int low = 0, high = nums.length - 1;
         while (low <= high) {
             int mid = low + (high - low) / 2;

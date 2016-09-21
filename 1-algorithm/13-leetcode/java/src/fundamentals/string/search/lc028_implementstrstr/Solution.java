@@ -6,9 +6,29 @@ package fundamentals.string.search.lc028_implementstrstr;
  */
 public class Solution {
 
+    // My 3AC: O(MN) time
+    public int strStr(String s, String t) {
+        if (t.isEmpty()) return 0; // error1: "",""=>0  "a",""=>0
+        for (int i = 0; i <= s.length() - t.length(); i++) { // error2: <=
+            for (int j = 0; j < t.length(); j++) {
+                if (s.charAt(i + j) != t.charAt(j)) break;
+                if (j == t.length() - 1) return i;
+            }
+        }
+        return -1;
+    }
+
+    public int strStr_shorter(String s, String t) {
+        if (t.isEmpty()) return 0;
+        for (int i = 0; i <= s.length() - t.length(); i++)
+            for (int j = 0; j < t.length() && s.charAt(i + j) == t.charAt(j); j++)
+                if (j == t.length() - 1) return i;
+        return -1;
+    }
+
     // Elegant brute force solution from leetcode discuss
     // JDK String.indexOf() is also brute force. O(MN) time.
-    public int strStr(String haystack, String needle) {
+    public int strStr2(String haystack, String needle) {
         for (int i = 0; ; i++) {
             for (int j = 0; ; j++) {
                 if (j == needle.length()) return i; // Nice! Or j=len needs to be checked outside loop which is a mess
