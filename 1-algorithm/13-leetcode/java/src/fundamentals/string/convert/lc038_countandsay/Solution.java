@@ -10,7 +10,24 @@ package fundamentals.string.convert.lc038_countandsay;
  */
 public class Solution {
 
-
+    // My 3AC: O(N^2) time
+    public String countAndSay(int n) {
+        String ret = "1";
+        while (n-- > 1) {
+            StringBuilder tmp = new StringBuilder();
+            int cnt = 1;
+            for (int i = 1; i < ret.length(); i++) {
+                if (ret.charAt(i) == ret.charAt(i - 1)) cnt++;
+                else {
+                    tmp.append(cnt).append(ret.charAt(i - 1));
+                    cnt = 1;
+                }
+            }
+            tmp.append(cnt).append(ret.charAt(ret.length() - 1));
+            ret = tmp.toString();
+        }
+        return ret;
+    }
 
     // My 2AC. O(N^2) time
     public String countAndSay2(int n) {

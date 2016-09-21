@@ -18,7 +18,7 @@ public class Solution {
         for (int i = m - 1; i >= 0; i--) {
             for (int j = n - 1; j >= 0; j--) {
                 int mul = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
-                int sum = prod[i + j + 1] + mul;
+                int sum = prod[i + j + 1] + mul;// total m+n, this is i+j+1
                 prod[i + j] += sum / 10;
                 prod[i + j + 1] = sum % 10;
             }
@@ -26,7 +26,7 @@ public class Solution {
 
         StringBuilder ret = new StringBuilder();
         for (int p : prod)
-            if (!(ret.length() == 0 && p == 0)) // Ignore leading zero
+            if (!(ret.length() == 0 && p == 0)) // Nice! Ignore leading zero
                 ret.append(p);
         return (ret.length() == 0) ? "0" : ret.toString();
     }

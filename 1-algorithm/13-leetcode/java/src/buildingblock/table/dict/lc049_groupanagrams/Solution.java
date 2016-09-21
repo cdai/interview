@@ -15,9 +15,24 @@ import java.util.*;
  */
 public class Solution {
 
+    // My 3AC
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String,List<String>> group = new HashMap<>();
+        for (String str : strs) {
+            char[] chars = str.toCharArray();
+            Arrays.sort(chars);
+
+            String key = new String(chars);
+            if (!group.containsKey(key))
+                group.put(key, new ArrayList<>());
+            group.get(key).add(str);
+        }
+        return new ArrayList<>(group.values());
+    }
+
     // My 2nd: it's still hard to come up with sort(chars) as key
     // k=s.length, O(n * klogk)
-    public List<List<String>> groupAnagrams(String[] strs) {
+    public List<List<String>> groupAnagrams2(String[] strs) {
         Map<String,List<String>> group = new HashMap<>();
         for (String str : strs) {
             char[] chars = str.toCharArray();
@@ -35,7 +50,7 @@ public class Solution {
     }
 
     // O(n*n)
-    public List<List<String>> groupAnagrams2(String[] strs) {
+    public List<List<String>> groupAnagrams1(String[] strs) {
         List<List<String>> result = new ArrayList<>();
         List<String> strlist = new LinkedList<>(Arrays.asList(strs));
         while (!strlist.isEmpty()) {
