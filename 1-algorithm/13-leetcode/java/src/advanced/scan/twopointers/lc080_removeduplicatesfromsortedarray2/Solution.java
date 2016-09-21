@@ -8,9 +8,18 @@ package advanced.scan.twopointers.lc080_removeduplicatesfromsortedarray2;
  */
 public class Solution {
 
+    // My 3AC
+    public int removeDuplicates(int[] nums) {
+        int i = 0;
+        for (int num : nums)
+            if (i < 2 || nums[i - 2] < num)
+                nums[i++] = num;
+        return i;
+    }
+
     // Beautiful solution from stefan
     // Idea: keep num if it's different from num[i-k]
-    public int removeDuplicates(int[] nums) {
+    public int removeDuplicates_general(int[] nums) {
         final int k = 2;
         int i = 0;
         for (int num : nums)

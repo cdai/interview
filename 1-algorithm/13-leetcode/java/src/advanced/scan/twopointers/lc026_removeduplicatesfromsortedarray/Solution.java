@@ -11,8 +11,17 @@ package advanced.scan.twopointers.lc026_removeduplicatesfromsortedarray;
  */
 public class Solution {
 
-    // My 2AC
+    // Invariant: [0,i-1] has no duplicates
     public int removeDuplicates(int[] nums) {
+        int i = 0;
+        for (int n : nums)
+            if (i < 1 || n != nums[i - 1])
+                nums[i++] = n;
+        return i;
+    }
+
+    // My 2AC
+    public int removeDuplicates2(int[] nums) {
         // Invariant: [0,i] has no duplicates
         int i = 0;
         for (int j = 1; j < nums.length; j++)
