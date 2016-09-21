@@ -7,11 +7,33 @@ package buildingblock.searching.lc153_findminimuminrotatedsortedarray;
  */
 public class Solution {
 
+    // My 3AC: O(logN) time
+    public int findMin(int[] A) {
+        int l = 0, r = A.length - 1;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (A[m] > A[r]) l = m + 1;
+            else r = m; /* A[m] <= A[r], m could be min */
+        }
+        return A[l];
+    }
+
+    // Totally wrong, A[l] <= A[m] says nothing...
+    public int findMin_wrong(int[] A) {
+        int l = 0, r = A.length - 1;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (A[l] > A[m]) r = m;
+            else l = m + 1;
+        }
+        return A[l];
+    }
+
     // My 2nd: without bunch of asserts, just open eyes on key points
     // 1) Initialization: invariant definition and init value
     // 2) Preservation: make invariant hold
     // 3) Termination: range shrinks all the way so it must terminate, then return -1, index or value
-    public int findMin(int[] nums) {
+    public int findMin2(int[] nums) {
         int low = 0, high = nums.length - 1;
 
         // Min element MustBe(low,high)
@@ -67,7 +89,7 @@ public class Solution {
     }
 
     /* Very casual version without solid thought of correctness */
-    public int findMin2(int[] nums) {
+    public int findMin12(int[] nums) {
         int low = 0, high = nums.length - 1;
         while (low < high) {
             int mid = (low + high) / 2;

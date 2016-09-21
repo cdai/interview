@@ -10,8 +10,10 @@ package fundamentals.string.convert.lc038_countandsay;
  */
 public class Solution {
 
+
+
     // My 2AC. O(N^2) time
-    public String countAndSay(int n) {
+    public String countAndSay2(int n) {
         StringBuilder result = new StringBuilder();
         result.append("1");
         while (--n > 0) {   // error1: n starts from 1th
@@ -37,7 +39,7 @@ public class Solution {
             return "1";
         }
 
-        char[] pre = countAndSay(n-1).toCharArray();
+        char[] pre = countAndSay1(n-1).toCharArray();
         String str = "";
 
         // Invariant:
