@@ -9,7 +9,7 @@ public class Solution {
         System.out.println(new Solution().myPow(2, 5));
     }
 
-    // My 3AC
+    // My 3AC. O(logN) time.
     public double myPow(double x, int n) {
         double ret = 1, pow = x;            // n != 0 doesn't work due to sign
         for (long absn = Math.abs((long) n); absn > 0; absn >>= 1) {

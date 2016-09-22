@@ -14,8 +14,27 @@ import java.util.TreeMap;
  */
 public class Solution {
 
-    // My 2AC: Avoid inplace remove and get(i)
+    // My 3AC. Longer but more clean and efficient using for-each.
+    // O(NlogN) time due to sorting.
     public List<Interval> merge(List<Interval> intervals) {
+        intervals.sort((i1, i2) -> Integer.compare(i1.start, i2.start));
+        List<Interval> ret = new ArrayList<>();
+        Interval prev = null;
+        for (Interval cur : intervals) {
+            if (prev == null || prev.end < cur.start) { // merge if = too!
+                if (prev != null) ret.add(prev);
+                prev = new Interval(cur.start, cur.end);
+            } else {
+                prev.start = Math.min(prev.start, cur.start);
+                prev.end = Math.max(prev.end, cur.end);
+            }
+        }
+        if (prev != null) ret.add(prev);
+        return ret;
+    }
+
+    // My 2AC: Avoid inplace remove and get(i)
+    public List<Interval> merge21(List<Interval> intervals) {
         intervals.sort((i1, i2) -> (Integer.compare(i1.start, i2.start)));
         List<Interval> result = new ArrayList<>();
         for (Interval interval : intervals) {
@@ -45,7 +64,7 @@ public class Solution {
     }
 
     // O(N^2) but exteremly fast
-    public List<Interval> merge2(List<Interval> intervals) {
+    public List<Interval> merge22(List<Interval> intervals) {
         List<Interval> result = new ArrayList<>();
         for (Interval interval : intervals)
             doMergeOne(result, interval);
