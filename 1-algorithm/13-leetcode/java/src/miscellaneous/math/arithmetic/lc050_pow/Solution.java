@@ -9,11 +9,21 @@ public class Solution {
         System.out.println(new Solution().myPow(2, 5));
     }
 
+    // My 3AC
+    public double myPow(double x, int n) {
+        double ret = 1, pow = x;            // n != 0 doesn't work due to sign
+        for (long absn = Math.abs((long) n); absn > 0; absn >>= 1) {
+            if ((absn & 1) == 1) ret *= pow;// avoid sign affect. don't use %
+            pow *= pow;
+        }
+        return n > 0 ? ret : 1 / ret;
+    }
+
     // Very nice iterative solution
     // b      : 7 -> 3 -> 1
+    // pow(a^): 1    2    4
     // ret(a^): 1    3    7
-    // pow(a^): 2    4    8
-    public double myPow(double x, int n) {
+    public double myPow2(double x, int n) {
         double ret = 1, pow = x;
         long absn = Math.abs((long) n);
         while (absn > 0) {      // n != 0 doesn't work due to sign
