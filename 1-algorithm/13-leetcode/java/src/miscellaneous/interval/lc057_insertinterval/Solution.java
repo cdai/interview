@@ -14,6 +14,25 @@ import java.util.List;
  */
 public class Solution {
 
+    // My 3AC
+    public List<Interval> insert(List<Interval> intervals, Interval insert) {
+        List<Interval> ret = new ArrayList<>();
+        for (Interval cur : intervals) {
+            if (cur.end >= insert.start) break; // Note: first cur overlap insert. insert.end >= cur.start wrong!
+            ret.add(cur);
+        }
+        insert = new Interval(insert.start, insert.end);
+        ret.add(insert);
+        for (Interval cur : intervals.subList(ret.size() - 1, intervals.size())) {
+            if (insert.end < cur.start) ret.add(cur);
+            else {
+                insert.start = Math.min(insert.start, cur.start);
+                insert.end = Math.max(insert.end, cur.end);
+            }
+        }
+        return ret;
+    }
+
     public List<Interval> insert_inplace(List<Interval> intervals, Interval newInterval) {
         int i = 0;
         for (; i < intervals.size() && intervals.get(i).end < newInterval.start; i++);
@@ -27,7 +46,7 @@ public class Solution {
     }
 
     // My 2AC: solution from leetcode discuss. O(N)
-    public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+    public List<Interval> insert2(List<Interval> intervals, Interval newInterval) {
         List<Interval> result = new ArrayList<>();
         int i = 0;
         for (; i < intervals.size() && intervals.get(i).end < newInterval.start; i++)

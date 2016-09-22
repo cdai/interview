@@ -6,8 +6,22 @@ package miscellaneous.math.arithmetic.lc067_addbinary;
  */
 public class Solution {
 
-    // My 2AC: emulate elegant template code
+    // My 3AC: O(max(M,N)) time. Avoid insert from front repeatly.
     public String addBinary(String a, String b) {
+        StringBuilder ret = new StringBuilder();
+        int i = a.length() - 1, j = b.length() - 1, carry = 0;
+        while (i >= 0 || j >= 0 || carry > 0) {
+            int n1 = (i >= 0) ? a.charAt(i--) - '0' : 0;
+            int n2 = (j >= 0) ? b.charAt(j--) - '0' : 0;
+            int sum = n1 + n2 + carry;
+            ret.append(sum % 2);
+            carry = sum / 2;
+        }
+        return ret.length() == 0 ? "0" : ret.reverse().toString();
+    }
+
+    // My 2AC: emulate elegant template code
+    public String addBinary2(String a, String b) {
         StringBuilder result = new StringBuilder();
         int i = a.length() - 1, j = b.length() - 1;
         int carry = 0;
