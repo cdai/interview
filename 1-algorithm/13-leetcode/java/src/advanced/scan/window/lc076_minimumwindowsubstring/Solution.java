@@ -8,13 +8,32 @@ package advanced.scan.window.lc076_minimumwindowsubstring;
  */
 public class Solution {
 
+    // My 3AC. O(N) time.
+    public String minWindow(String s, String t) {
+        int[] cnt = new int[256];
+        for (char c : t.toCharArray()) cnt[c]++;
+
+        int min = Integer.MAX_VALUE, from = 0, total = t.length();
+        for (int i = 0, j = 0; i < s.length(); i++) {
+            if (cnt[s.charAt(i)]-- > 0) total--;
+            while (total == 0) {                    // total=0 means valid window
+                if (i - j + 1 < min) {
+                    min = i - j + 1;
+                    from = j;
+                }
+                if (++cnt[s.charAt(j++)] > 0) total++;
+            }
+        }
+        return (min == Integer.MAX_VALUE) ? "" : s.substring(from, from + min);
+    }
+
     // Thanks to zjh08177's template, beat 85.58%!
     // eg. S="abcabba", T="aab"
     // i=0: count=[2,1], total=3
     // i=3: count=[0,0,-1], total=0 -> j=1: count=[1,0,-1], total=1
     // i=5: count=[1,-2,-1], total=1
     // i=6: count=[0,-2,-1], total=0 -> j=4, count=[1,-1,0], total=1
-    public String minWindow(String s, String t) {
+    public String minWindow2(String s, String t) {
         // Statistic for count of char in t
         int[] count = new int[255];
         for (char c : t.toCharArray())
