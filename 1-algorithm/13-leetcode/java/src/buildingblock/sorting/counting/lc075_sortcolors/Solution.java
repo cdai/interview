@@ -8,8 +8,20 @@ package buildingblock.sorting.counting.lc075_sortcolors;
  */
 public class Solution {
 
-    // Partition like quicksort/select, but with one more segment
+    // r = where next red to store (A[r]=0 when r==i or A[r]=1 after first 1 occurs)
+    // b = where next blue to store (unknown value)
+    //       r   i     b
+    // 0 0 0 1 1 ? ... ? 2 2 2
     public void sortColors(int[] nums) {
+        int r = 0, b = nums.length - 1;
+        for (int i = 0; i <= b; i++) {
+            if (nums[i] == 0) swap(nums, r++, i);
+            else if (nums[i] == 2) swap(nums, b--, i--); // Continue to handle i after swap, since we don't know what it(A[b]) is
+        }
+    }
+
+    // Partition like quicksort/select, but with one more segment
+    public void sortColors2(int[] nums) {
         // [0,zero) - red, [zero, one) - white, [one,N) - blue
         int zero = 0, one = 0;
         for (int i = 0; i < nums.length; i++) {
