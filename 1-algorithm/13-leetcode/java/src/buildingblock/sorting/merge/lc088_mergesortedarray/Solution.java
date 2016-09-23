@@ -7,15 +7,22 @@ package buildingblock.sorting.merge.lc088_mergesortedarray;
  */
 public class Solution {
 
-    // Too crazy...
+    // My 3AC. O(max(M,N)) time. Terminate early if nums2 reach end.
+    // Otherwise, pick nums2 if nums1 reach end or nums2 is larger.
     public void merge(int[] nums1, int m, int[] nums2, int n) {
+        for (int i = m - 1, j = n - 1, k = m + n - 1; k >= 0 && j >= 0; k--)
+            nums1[k] = (i < 0 || nums1[i] < nums2[j]) ? nums2[j--] : nums1[i--];
+    }
+
+    // Too crazy...
+    public void merge22(int[] nums1, int m, int[] nums2, int n) {
         while (n > 0) {
             nums1[m + n - 1] = (m == 0 || nums2[n - 1] > nums1[m - 1]) ? nums2[--n] : nums1[--m];
         }
     }
 
     // My 2nd: idea is good, but it could have been simpler
-    public void merge2(int[] nums1, int m, int[] nums2, int n) {
+    public void merge21(int[] nums1, int m, int[] nums2, int n) {
         for (int i = m - 1, j = n - 1, k = m + n - 1; k >= 0; k--) {
             int n1 = (i >= 0) ? nums1[i] : Integer.MIN_VALUE;
             int n2 = (j >= 0) ? nums2[j] : Integer.MIN_VALUE;
