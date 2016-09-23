@@ -17,8 +17,32 @@ package advanced.combinatorial.backtracking.dfs.lc079_wordsearch;
  */
 public class Solution {
 
-    // My 2AC: O(mn*mn) time?
+    // My 3AC. Avoid substring() cost.
+    // O(mn*mn) or more precisely O(mn*4^len(w)).
     public boolean exist(char[][] board, String word) {
+        if (board.length == 0 || board[0].length == 0) return word.isEmpty();
+        for (int i = 0; i < board.length; i++)
+            for (int j = 0; j < board[i].length; j++)
+                if (isExist(board, word, i, j, 0)) return true;
+        return false;
+    }
+
+    private boolean isExist(char[][] board, String word, int i, int j, int start) {
+        if (word.length() == start) return true;
+        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length) return false;
+        if (word.charAt(start) != board[i][j]) return false;
+
+        board[i][j] = ' ';
+        boolean result = (isExist(board, word, i - 1, j, start + 1) ||
+                isExist(board, word, i, j + 1, start + 1) ||
+                isExist(board, word, i + 1, j, start + 1) ||
+                isExist(board, word, i, j - 1, start + 1));
+        board[i][j] = word.charAt(start);
+        return result;
+    }
+
+    // My 2AC: O(mn*mn) time?
+    public boolean exist2(char[][] board, String word) {
         if (board.length == 0 || board[0].length == 0) return word.isEmpty();
         for (int i = 0; i < board.length; i++)
             for (int j = 0; j < board[i].length; j++)
