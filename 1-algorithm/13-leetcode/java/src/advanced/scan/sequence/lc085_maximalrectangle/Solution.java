@@ -22,15 +22,15 @@ public class Solution {
     // Consider each level of matrix as a histogram! O(N^2) time.
     public int maximalRectangle(char[][] matrix) {
         if (matrix.length == 0 || matrix[0].length == 0) return 0;
-        int[] height = new int[matrix[0].length + 1];
+        int[] h = new int[matrix[0].length + 1];
         int max = 0;
         for (char[] row : matrix) {
-            Stack<Integer> idx = new Stack<>();
+            Stack<Integer> s = new Stack<>();
             for (int i = 0; i <= row.length; i++) {
-                if (i < row.length) height[i] = (row[i] == '1') ? height[i] + 1 : 0;
-                while (!idx.isEmpty() && height[i] < height[idx.peek()]) // Very nice! height is N+1 length
-                    max = Math.max(max, height[idx.pop()] * (idx.isEmpty() ? i : (i - 1 - idx.peek())));
-                idx.push(i);
+                if (i < row.length) h[i] = (row[i] == '1') ? h[i] + 1 : 0;
+                while (!s.isEmpty() && h[i] < h[s.peek()]) // Very nice! height is N+1 length
+                    max = Math.max(max, h[s.pop()] * (s.isEmpty() ? i : (i - 1 - s.peek())));
+                s.push(i);
             }
         }
         return max;
