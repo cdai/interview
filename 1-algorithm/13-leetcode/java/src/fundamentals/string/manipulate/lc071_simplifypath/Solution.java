@@ -1,5 +1,7 @@
 package fundamentals.string.manipulate.lc071_simplifypath;
 
+import java.util.Stack;
+
 /**
  * Given an absolute path for a file (Unix-style), simplify it.
  * For example, path = "/home/", => "/home". path = "/a/./b/../../c/", => "/c".
@@ -14,8 +16,20 @@ public class Solution {
         System.out.println(new Solution().simplifyPath("//abc"));
     }
 
-    // My 2AC: split path and process backwards
+    // My 3AC. O(N) time without cost of insert(0,X).
     public String simplifyPath(String path) {
+        Stack<String> s = new Stack<>();
+        for (String p : path.split("/")) {
+            if (p.isEmpty() || ".".equals(p)) continue;
+            if ("..".equals(p)) {
+                if (!s.isEmpty()) s.pop();
+            } else s.push(p);
+        }
+        return "/" + String.join("/", s);
+    }
+
+    // My 2AC: split path and process backwards
+    public String simplifyPath2(String path) {
         StringBuilder result = new StringBuilder();
         String[] dirs = path.split("/");
         for (int i = dirs.length - 1, skip = 0; i >= 0; i--) {

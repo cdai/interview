@@ -5,8 +5,20 @@ package buildingblock.searching.lc069_sqrt;
  */
 public class Solution {
 
-    // Newton method
+    // My 3AC. O(logN) time.
     public int mySqrt(int x) {
+        if (x <= 1) return x;
+        int l = 0, h = x;
+        while (l + 1 < h) {
+            int m = l + (h - l) / 2;
+            if (m <= x / m) l = m;
+            else h = m;
+        }
+        return l;
+    }
+
+    // Newton method
+    public int mySqrt_newton(int x) {
         if (x == 0) return 0;
         long r = x;
         while (r > x / r)
@@ -58,17 +70,6 @@ public class Solution {
 
         // low > high and MustBe(low,high)
         return high;            // error1: high not low, but it violates the invariant
-    }
-
-    // Newton method
-    public int mySqrt3(int x) {
-        if (x <= 1) {
-            return x;
-        }
-        long r = x;
-        while (r*r > x)
-            r = (r + x/r) / 2;
-        return (int) r;
     }
 
     // My 1st
