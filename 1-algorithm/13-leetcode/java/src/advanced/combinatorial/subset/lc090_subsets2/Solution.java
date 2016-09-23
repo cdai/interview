@@ -25,8 +25,32 @@ public class Solution {
         System.out.println(new Solution().subsetsWithDup(new int[]{1, 2, 2, 2}));
     }
 
-    // My 2nd from leetcode discuss - iterative DP solution
+    // Recursive solution, inspired from 40-Combination Sum II
     public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);                          // error: forget to sort...
+        doSubset(result, new ArrayList<>(), nums, 0);
+        return result;
+    }
+
+    private void doSubset(List<List<Integer>> result,
+                          List<Integer> path, int[] nums, int start) {
+        if (path.size() == nums.length) {
+            result.add(new ArrayList<>(path));
+            return;
+        }
+
+        result.add(new ArrayList<>(path));
+        for (int i = start; i < nums.length; i++) {
+            if (i > start && nums[i] == nums[i - 1]) continue; // Bypass duplicates
+            path.add(nums[i]);
+            doSubset(result, path, nums, i + 1);
+            path.remove(path.size() - 1);
+        }
+    }
+
+    // My 2nd from leetcode discuss - iterative DP solution
+    public List<List<Integer>> subsetsWithDup_iterative(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         result.add(new ArrayList<>());
         Arrays.sort(nums); // must sort for this problem
