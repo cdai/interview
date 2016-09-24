@@ -22,8 +22,26 @@ public class Solution {
         System.out.println(new Solution().isValidBST(root));
     }
 
-    // Correct recursive version from leetcode discuss
+    // My 3AC. Simplify variable name and s.peek()
     public boolean isValidBST(TreeNode root) {
+        Stack<TreeNode> s = new Stack<>();
+        TreeNode p = root, prev = null;
+        while (!s.isEmpty() || p != null) {
+            if (p != null) {
+                s.push(p);
+                p = p.left;
+            } else {
+                if (prev != null && prev.val >= s.peek().val)
+                    return false;
+                prev = s.pop();
+                p = prev.right;
+            }
+        }
+        return true;
+    }
+
+    // Correct recursive version from leetcode discuss
+    public boolean isValidBST2(TreeNode root) {
         return isValidBST(Long.MIN_VALUE, root, Long.MAX_VALUE);
     }
 
