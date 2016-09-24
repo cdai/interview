@@ -30,17 +30,15 @@ public class Solution {
     // My 2nd solution inspired from leetcode discuss.
     // Very elegant solution using dummy head!
     public void connect(TreeLinkNode root) {
-        TreeLinkNode dummy = new TreeLinkNode(0), cur = root;
-        while (cur != null) {
-            TreeLinkNode prev = dummy;
-            for (; cur != null; cur = cur.next) {
-                if (cur.left != null)
-                    prev = prev.next = cur.left;
-                if (cur.right != null)
-                    prev = prev.next = cur.right;
+        TreeLinkNode dmy = new TreeLinkNode(0), par = root;
+        while (par != null) {
+            TreeLinkNode prev = dmy;
+            for (; par != null; par = par.next) {
+                if (par.left != null) prev = prev.next = par.left;
+                if (par.right != null) prev = prev.next = par.right;
             }
-            cur = dummy.next;
-            dummy.next = null;
+            par = dmy.next;
+            dmy.next = null;
         }
     }
 
