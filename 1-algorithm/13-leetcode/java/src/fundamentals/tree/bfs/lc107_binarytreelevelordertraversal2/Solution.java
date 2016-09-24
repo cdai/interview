@@ -20,50 +20,41 @@ import java.util.Queue;
  */
 public class Solution {
 
+    // My 3AC: Don't forget to use LinkedList
     // DFS solution inspired by solution from leetcode discuss
-    public List<List<Integer>> levelOrderBottom_dfs(TreeNode root) {
-        List<List<Integer>> result = new ArrayList<>();
+    public List<List<Integer>> levelOrderBottom_bfs(TreeNode root) {
+        List<List<Integer>> result = new LinkedList<>();
         doLevelOrderBottom(result, root, 1);
         return result;
     }
 
-    private void doLevelOrderBottom(List<List<Integer>> result, TreeNode root, int height) {
-        if (root == null) {
-            return;
-        }
+    private void doLevelOrderBottom(List<List<Integer>> result, TreeNode root, int depth) {
+        if (root == null) return;
+        if (result.size() < depth) result.add(0, new ArrayList<>());
 
-        if (result.size() < height) {
-            result.add(0, new ArrayList<>());
-        }
-        result.get(result.size() - height).add(root.val);   // Note that: size() - height
-        doLevelOrderBottom(result, root.left, height + 1);
-        doLevelOrderBottom(result, root.right, height + 1);
+        result.get(result.size() - depth).add(root.val);   // Note that: size() - height
+        doLevelOrderBottom(result, root.left, depth + 1);
+        doLevelOrderBottom(result, root.right, depth + 1);
     }
 
+    // My 3AC: Don't forget to use LinkedList
     // My 2nd: BFS solution with only one line changed
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
-        Queue<TreeNode> queue = new LinkedList<>();
-        if (root != null) {
-            queue.offer(root);
-        }
-
-        List<List<Integer>> result = new ArrayList<>();
-        while (!queue.isEmpty()) {
-            int size = queue.size();
+        Queue<TreeNode> q = new LinkedList<>();
+        if (root != null) q.offer(root);
+        List<List<Integer>> ret = new LinkedList<>();
+        while (!q.isEmpty()) {
+            int size = q.size();
             List<Integer> level = new ArrayList<>(size);
             while (size-- > 0) {
-                TreeNode node = queue.poll();
-                level.add(node.val);
-                if (node.left != null) {
-                    queue.offer(node.left);
-                }
-                if (node.right != null) {
-                    queue.offer(node.right);
-                }
+                TreeNode n = q.poll();
+                level.add(n.val);
+                if (n.left != null) q.offer(n.left);
+                if (n.right != null) q.offer(n.right);
             }
-            result.add(0, level); // Only difference!!!
+            ret.add(0, level); // Only difference!!!
         }
-        return result;
+        return ret;
     }
 
     // My 1st

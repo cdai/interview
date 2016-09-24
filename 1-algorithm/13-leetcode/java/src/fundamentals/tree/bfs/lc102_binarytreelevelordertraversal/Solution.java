@@ -21,21 +21,21 @@ public class Solution {
 
     // My 2nd: O(N) time, O(width) space
     public List<List<Integer>> levelOrder(TreeNode root) {
-        Queue<TreeNode> queue = new LinkedList<>();
-        if (root != null) queue.offer(root);
-        List<List<Integer>> result = new ArrayList<>();
-        while (!queue.isEmpty()) {
-            int size = queue.size();
+        Queue<TreeNode> q = new LinkedList<>();
+        if (root != null) q.offer(root);
+        List<List<Integer>> ret = new ArrayList<>();
+        while (!q.isEmpty()) {
+            int size = q.size();
             List<Integer> level = new ArrayList<>(size);
             while (size-- > 0) {
-                TreeNode node = queue.poll();
-                level.add(node.val);
-                if (node.left != null) queue.offer(node.left);
-                if (node.right != null) queue.offer(node.right);
+                TreeNode n = q.poll();
+                level.add(n.val);
+                if (n.left != null) q.offer(n.left);
+                if (n.right != null) q.offer(n.right);
             }
-            result.add(level);
+            ret.add(level);
         }
-        return result;
+        return ret;
     }
 
     // Interesting DFS solution from leetcode discuss
@@ -46,14 +46,14 @@ public class Solution {
         return result;
     }
 
-    private void doLevelOrder(List<List<Integer>> result, TreeNode root, int height) {
+    private void doLevelOrder(List<List<Integer>> result, TreeNode root, int depth) {
         if (root == null) return;
-        if (result.size() <= height)
+        if (result.size() <= depth)
             result.add(new ArrayList<>());
 
-        result.get(height).add(root.val);
-        doLevelOrder(result, root.left, height + 1);
-        doLevelOrder(result, root.right, height + 1);
+        result.get(depth).add(root.val);
+        doLevelOrder(result, root.left, depth + 1);
+        doLevelOrder(result, root.right, depth + 1);
     }
 
     // My 1st
