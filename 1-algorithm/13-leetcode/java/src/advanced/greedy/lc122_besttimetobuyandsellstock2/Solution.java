@@ -8,6 +8,16 @@ package advanced.greedy.lc122_besttimetobuyandsellstock2;
  */
 public class Solution {
 
+    // My 3AC: accumulate if cur > prev (low)
+    public int maxProfit(int[] prices) {
+        int profit = 0, low = Integer.MAX_VALUE;
+        for (int price : prices) {
+            if (price > low) profit += price - low;
+            low = price;
+        }
+        return profit;
+    }
+
     // My 2AC: form [low,high] a increasing window
     // Eg-1: 1 3 9 2 8
     // low : 1     2
@@ -17,7 +27,7 @@ public class Solution {
     // low : 7 6 5 4 3
     // high: 7 6 5 4 3
     // prof:            0
-    public int maxProfit(int[] prices) {
+    public int maxProfit2(int[] prices) {
         int profit = 0, low = Integer.MAX_VALUE, high = Integer.MAX_VALUE;
         for (int price : prices) {
             if (price < high) {
