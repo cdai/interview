@@ -3,6 +3,7 @@ package fundamentals.tree.bfs.lc314_binarytreeverticalordertraversal;
 import fundamentals.tree.TreeNode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -32,10 +33,33 @@ public class Solution {
         root.right.right.left = new TreeNode(14);
         root.right.right.right = new TreeNode(15);
         System.out.println(new Solution().verticalOrder(root));
+        // [[8], [4], [2, 9, 10, 12], [1, 5, 6], [3, 11, 13, 14], [7], [15]]
     }
 
     // O(N) time.
     public List<List<Integer>> verticalOrder(TreeNode root) {
+        Map<Integer,List<Integer>> colNode = new HashMap<>();
+        Queue<Pair> q = new LinkedList<>();
+        if (root != null) q.offer(new Pair(0, root));
+        int min = 0, max = 0;
+        while (!q.isEmpty()) {
+            Pair p = q.poll();
+            if (!colNode.containsKey(p.col))
+                colNode.put(p.col, new ArrayList<>());
+            colNode.get(p.col).add(p.node.val);
+            min = Math.min(min, p.col);
+            max = Math.max(max, p.col);
+
+            if (p.node.left != null) q.offer(new Pair(p.col - 1, p.node.left));
+            if (p.node.right != null) q.offer(new Pair(p.col + 1, p.node.right));
+        }
+        List<List<Integer>> ret = new ArrayList<>();
+        for (int i = min; i <= max; i++) ret.add(colNode.get(i));
+        return ret;
+    }
+
+    // O(NlogN) time.
+    public List<List<Integer>> verticalOrder_treemap(TreeNode root) {
         Map<Integer,List<Integer>> ret = new TreeMap<>();
         Queue<Pair> q = new LinkedList<>();
         if (root != null) q.offer(new Pair(0, root));
