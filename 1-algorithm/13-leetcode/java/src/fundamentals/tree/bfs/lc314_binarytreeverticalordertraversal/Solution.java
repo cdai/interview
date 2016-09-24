@@ -36,26 +36,26 @@ public class Solution {
 
     // O(N) time.
     public List<List<Integer>> verticalOrder(TreeNode root) {
-        Map<Integer,List<Integer>> idxNode = new TreeMap<>();
+        Map<Integer,List<Integer>> ret = new TreeMap<>();
         Queue<Pair> q = new LinkedList<>();
         if (root != null) q.offer(new Pair(0, root));
         while (!q.isEmpty()) {
             Pair p = q.poll();
-            if (!idxNode.containsKey(p.idx))
-                idxNode.put(p.idx, new ArrayList<>());
-            idxNode.get(p.idx).add(p.node.val);
+            if (!ret.containsKey(p.col))
+                ret.put(p.col, new ArrayList<>());
+            ret.get(p.col).add(p.node.val);
 
-            if (p.node.left != null) q.offer(new Pair(p.idx - 1, p.node.left));
-            if (p.node.right != null) q.offer(new Pair(p.idx + 1, p.node.right));
+            if (p.node.left != null) q.offer(new Pair(p.col - 1, p.node.left));
+            if (p.node.right != null) q.offer(new Pair(p.col + 1, p.node.right));
         }
-        return new ArrayList<>(idxNode.values());
+        return new ArrayList<>(ret.values());
     }
 
     class Pair {
-        int idx;
+        int col;
         TreeNode node;
-        public Pair(int idx, TreeNode node) {
-            this.idx = idx;
+        public Pair(int col, TreeNode node) {
+            this.col = col;
             this.node = node;
         }
     }

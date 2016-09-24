@@ -20,26 +20,42 @@ import java.util.Queue;
  */
 public class Solution {
 
-    // My 3AC: Don't forget to use LinkedList
-    // DFS solution inspired by solution from leetcode discuss
-    public List<List<Integer>> levelOrderBottom_bfs(TreeNode root) {
-        List<List<Integer>> result = new LinkedList<>();
-        doLevelOrderBottom(result, root, 1);
+    // My 3AC
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        doLevelOrderBottom(result, root, 0);
+        Collections.reverse(result);
         return result;
     }
 
     private void doLevelOrderBottom(List<List<Integer>> result, TreeNode root, int depth) {
         if (root == null) return;
-        if (result.size() < depth) result.add(0, new ArrayList<>());
+        if (result.size() <= depth) result.add(new ArrayList<>());
 
-        result.get(result.size() - depth).add(root.val);   // Note that: size() - height
+        result.get(depth).add(root.val);
         doLevelOrderBottom(result, root.left, depth + 1);
         doLevelOrderBottom(result, root.right, depth + 1);
     }
 
+    // DFS solution inspired by solution from leetcode discuss
+    public List<List<Integer>> levelOrderBottom_dfswithissue(TreeNode root) {
+        List<List<Integer>> result = new LinkedList<>();
+        doLevelOrderBottom(result, root, 1);
+        return result;
+    }
+
+    private void doLevelOrderBottom2(List<List<Integer>> result, TreeNode root, int depth) {
+        if (root == null) return;
+        if (result.size() < depth) result.add(0, new ArrayList<>());
+
+        result.get(result.size() - depth).add(root.val);   // Note that: size() - height. Warning! O(N) to locate for LinkedList!!!
+        doLevelOrderBottom2(result, root.left, depth + 1);
+        doLevelOrderBottom2(result, root.right, depth + 1);
+    }
+
     // My 3AC: Don't forget to use LinkedList
     // My 2nd: BFS solution with only one line changed
-    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+    public List<List<Integer>> levelOrderBottom_bfs(TreeNode root) {
         Queue<TreeNode> q = new LinkedList<>();
         if (root != null) q.offer(root);
         List<List<Integer>> ret = new LinkedList<>();

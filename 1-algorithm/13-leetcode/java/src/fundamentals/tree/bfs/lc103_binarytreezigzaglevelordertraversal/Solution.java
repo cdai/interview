@@ -22,21 +22,20 @@ public class Solution {
 
     // My 2nd: BFS with height to determine insert order
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        Queue<TreeNode> queue = new LinkedList<>();
-        if (root != null) queue.offer(root);
-        List<List<Integer>> result = new ArrayList<>();
-        for (int height = 0; !queue.isEmpty(); height++) {
-            int size = queue.size();
-            List<Integer> level = new ArrayList<>(size);
-            while (size-- > 0) {
-                TreeNode node = queue.poll();
-                level.add((height % 2 == 0 ? level.size() : 0), node.val);
-                if (node.left != null) queue.offer(node.left);
-                if (node.right != null) queue.offer(node.right);
+        Queue<TreeNode> q = new LinkedList<>();
+        if (root != null) q.offer(root);
+        List<List<Integer>> ret = new ArrayList<>();
+        for (boolean zigzag = false; !q.isEmpty(); zigzag = !zigzag) {
+            List<Integer> level = new LinkedList<>();
+            for (int size = q.size(); size > 0; size--) {
+                TreeNode n = q.poll();
+                level.add((zigzag ? 0 : level.size()), n.val);
+                if (n.left != null) q.offer(n.left);
+                if (n.right != null) q.offer(n.right);
             }
-            result.add(level);
+            ret.add(level);
         }
-        return result;
+        return ret;
     }
 
     // DFS solution inspired from leetcode discuss
@@ -47,12 +46,12 @@ public class Solution {
     }
 
     // must be height-1 if height starts from 1 instead 0
-    private void doZigzagLevelOrder(List<List<Integer>> result, TreeNode root, int height) {
+    private void doZigzagLevelOrder(List<List<Integer>> result, TreeNode root, int depth) {
         if (root == null) return;
-        if (result.size() <= height) result.add(new ArrayList<>());
-        result.get(height).add((height % 2 == 0) ? result.get(height).size() : 0, root.val);
-        doZigzagLevelOrder(result, root.left, height + 1);
-        doZigzagLevelOrder(result, root.right, height + 1);
+        if (result.size() <= depth) result.add(new LinkedList<>());
+        result.get(depth).add((depth % 2 == 0) ? result.get(depth).size() : 0, root.val);
+        doZigzagLevelOrder(result, root.left, depth + 1);
+        doZigzagLevelOrder(result, root.right, depth + 1);
     }
 
     // My 1st
