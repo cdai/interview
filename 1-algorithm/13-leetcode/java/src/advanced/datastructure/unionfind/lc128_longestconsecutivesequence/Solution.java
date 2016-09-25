@@ -18,6 +18,7 @@ public class Solution {
 
     // My 2AC: inspired by leetcode discuss.
     // Smart union to boost Union-Find performance
+    // Only 3 cases: left-[2,1], right-[1,2], middle-[1,2,4,5,3]
     public int longestConsecutive(int[] nums) {
         Map<Integer,Integer> ranges = new HashMap<>();
         int max = 0;
@@ -32,8 +33,8 @@ public class Solution {
 
             // 2.Union by only updating boundary
             // Leave middle k-v dirty to avoid cascading update
-            ranges.put(num - left, sum);
-            ranges.put(num + right, sum);
+            if (left > 0) ranges.put(num - left, sum);
+            if (right > 0) ranges.put(num + right, sum);
             ranges.put(num, sum); // Keep each number in Map to de-duplicate
         }
         return max;
