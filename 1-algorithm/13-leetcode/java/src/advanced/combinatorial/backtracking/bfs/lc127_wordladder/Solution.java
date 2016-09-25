@@ -32,8 +32,30 @@ public class Solution {
                 new HashSet<>(Arrays.asList("hot", "dot", "dog", "lot", "log"))));
     }
 
+    // My 3AC. O(N) time where N is #words in dict.
+    public int ladderLength(String begin, String end, Set<String> dict) {
+        Queue<String> q = new LinkedList<>();
+        q.offer(begin);
+        dict.add(end);                      // add end word to dict to make it reachable in loop below
+        for (int i = 1; !q.isEmpty(); i++) {// start from 1 since we need entire ladder length
+            for (int size = q.size(); size > 0; size--) {
+                String w = q.poll();
+                if (w.equals(end)) return i;
+                for (int j = 0; j < w.length(); j++) {
+                    char[] c = w.toCharArray();
+                    for (char k = 'a'; k <= 'z'; k++) {
+                        c[j] = k;
+                        String next = new String(c);
+                        if (dict.remove(next)) q.offer(next);
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
     // Try double-end, but it doesn't work...
-    public int ladderLength(String beginWord, String endWord, Set<String> wordList) {
+    public int ladderLength_twoend(String beginWord, String endWord, Set<String> wordList) {
         Queue<String> queue = new LinkedList<>();
         queue.offer(beginWord);
         queue.offer(endWord);
