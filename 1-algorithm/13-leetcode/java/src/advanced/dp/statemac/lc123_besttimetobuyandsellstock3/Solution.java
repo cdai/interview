@@ -12,7 +12,7 @@ public class Solution {
         System.out.println(new Solution().maxProfit(new int[]{1, 2, 5, 0, 3, 1, 10}));
     }
 
-    // Draw a state machine with four states: buy1, sell1, buy2, sell2
+    // My 3AC. Draw a state machine with four states: buy1, sell1, buy2, sell2
     // which indicate the profit under four states. Then draw the transition.
     public int maxProfit(int[] prices) {
         int buy1 = Integer.MIN_VALUE, sell1 = 0, buy2 = Integer.MIN_VALUE, sell2 = 0;

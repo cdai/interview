@@ -9,8 +9,20 @@ package fundamentals.string.search.lc125_validpalindrome;
  */
 public class Solution {
 
-    // My 2nd: use helpful Character method
+    // My 3AC. O(N) time.
     public boolean isPalindrome(String s) {
+        char[] c = s.toCharArray();
+        for (int i = 0, j = c.length - 1; i < j; ) {
+            if (!Character.isLetterOrDigit(c[i])) i++; // error: isWhitespace is not applicable  eg.":,1"
+            else if (!Character.isLetterOrDigit(c[j])) j--;
+            else if (Character.toLowerCase(c[i++]) != Character.toLowerCase(c[j--]))
+                return false;
+        }
+        return true;
+    }
+
+    // My 2nd: use helpful Character method
+    public boolean isPalindrome21(String s) {
         char[] c = s.toCharArray();
         // Invariant: [0,i) and (j,N-1] are matched excluding whitespace
         for (int i = 0, j = c.length - 1; i < j; ) {
@@ -26,7 +38,7 @@ public class Solution {
     }
 
     // Regex solution: remove all non-alpha eg." ,.:", but too slow
-    public boolean isPalindrome2(String s) {
+    public boolean isPalindrome22(String s) {
         s = s.toLowerCase().replaceAll("[^a-z0-9]", "");
         return new StringBuilder(s).reverse().toString().equals(s);
     }
