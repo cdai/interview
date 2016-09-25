@@ -1,4 +1,4 @@
-package advanced.scan.twopasses.lc123_besttimetobuyandsellstock3;
+package advanced.dp.statemac.lc123_besttimetobuyandsellstock3;
 
 /**
  * Say you have an array for which the ith element is the price of a given stock on day i.
@@ -12,8 +12,21 @@ public class Solution {
         System.out.println(new Solution().maxProfit(new int[]{1, 2, 5, 0, 3, 1, 10}));
     }
 
-    // My 2AC: O(N) time, two passes
+    // Draw a state machine with four states: buy1, sell1, buy2, sell2
+    // which indicate the profit under four states. Then draw the transition.
     public int maxProfit(int[] prices) {
+        int buy1 = Integer.MIN_VALUE, sell1 = 0, buy2 = Integer.MIN_VALUE, sell2 = 0;
+        for (int price : prices) {
+            buy1 = Math.max(buy1, -price);
+            sell1 = Math.max(sell1, buy1 + price);
+            buy2 = Math.max(buy2, sell1 - price);
+            sell2 = Math.max(sell2, buy2 + price);
+        }
+        return sell2;
+    }
+
+    // My 2AC: O(N) time, two passes
+    public int maxProfit2(int[] prices) {
         int n = prices.length;
         if (n == 0) {
             return 0;
@@ -42,7 +55,7 @@ public class Solution {
     }
 
     // Wrong! Eg.[1,2,4,2,5,7,2,4,9,0] -> [1,7],[2,9] not [2,7],[2,9]
-    public int maxProfit2(int[] prices) {
+    public int maxProfit_wrong(int[] prices) {
         int profit1 = 0, profit2 = 0;
         int low = Integer.MAX_VALUE, high = Integer.MAX_VALUE;
         for (int price : prices) {
