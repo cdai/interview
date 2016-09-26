@@ -3,7 +3,9 @@ package advanced.datastructure.graph.undirected.lc133_clonegraph;
 import advanced.datastructure.graph.UndirectedGraphNode;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 /**
  * Clone an undirected graph. Each node in the graph contains a label and a list of its neighbors.
@@ -28,8 +30,30 @@ public class Solution {
         System.out.println(clone);
     }
 
-    // O(N) time
+    // My 3AC. BFS solution
     public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if (node == null) return null;
+        Queue<UndirectedGraphNode> q = new LinkedList<>();
+        Map<Integer,UndirectedGraphNode> visit = new HashMap<>();
+        q.offer(node);
+        visit.put(node.label, new UndirectedGraphNode(node.label));
+        while (!q.isEmpty()) {
+            UndirectedGraphNode org = q.poll();
+            for (UndirectedGraphNode ng : org.neighbors) { // Must handle neighbor in this round!
+                UndirectedGraphNode clone = visit.get(ng.label);
+                if (clone == null) { // Note: If not visited, create, visit and add to queue
+                    clone = new UndirectedGraphNode(ng.label);
+                    visit.put(clone.label, clone);
+                    q.offer(ng);
+                }
+                visit.get(org.label).neighbors.add(clone);
+            }
+        }
+        return visit.get(node.label);
+    }
+
+    // O(N) time
+    public UndirectedGraphNode cloneGraph_dfs(UndirectedGraphNode node) {
         if (node == null) return null;
         return doClone(node, new HashMap<>());
     }
