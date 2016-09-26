@@ -31,8 +31,27 @@ public class Solution {
         );
     }
 
-    // My 2AC: O(N^2). Only save index, then recover by DFS
+    // My 3AC.
+    private Map<String,List<String>> memo = new HashMap<>();
+
     public List<String> wordBreak(String s, Set<String> dict) {
+        List<String> ret = new ArrayList<>();
+        if (s.isEmpty()) return ret;
+        if (memo.containsKey(s)) return memo.get(s);
+        if (dict.contains(s)) ret.add(s);
+
+        for (int i = 1; i < s.length(); i++) { // Break from "a"-"bcd" to "abc"-"d"
+            String t = s.substring(i);
+            if (!dict.contains(t)) continue;
+            for (String w : wordBreak(s.substring(0, i), dict))
+                ret.add(w + " " + t);
+        }
+        memo.put(s, ret);
+        return ret;
+    }
+
+    // My 2AC: O(N^2). Only save index, then recover by DFS
+    public List<String> wordBreak2(String s, Set<String> dict) {
         if (s.isEmpty() || dict.isEmpty()) return new ArrayList<>();
         int max = 0;
         for (String word : dict)
@@ -145,7 +164,7 @@ public class Solution {
     }
 
     // TLE...
-    public List<String> wordBreak2(String s, Set<String> wordDict) {
+    public List<String> wordBreak21(String s, Set<String> wordDict) {
         Map<String,Integer> matched = new HashMap<>();
         for (int i = 1; i <= s.length(); i++) {
             Map<String,Integer> newMatched = new HashMap<>();

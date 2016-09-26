@@ -13,8 +13,18 @@ import java.util.Set;
  */
 public class Solution {
 
-    // O(N^2) but very concise DP solution.
+    // My 3AC. I assume it's more efficient to compare from shorter string. Beat 80%.
     public boolean wordBreak(String s, Set<String> wordDict) {
+        boolean[] dp = new boolean[s.length() + 1];
+        dp[0] = true;
+        for (int i = 1; i <= s.length(); i++)
+            for (int j = i - 1; j >= 0 && !dp[i]; j--)
+                dp[i] = dp[j] && wordDict.contains(s.substring(j, i));
+        return dp[s.length()];
+    }
+
+    // O(N^2) but very concise DP solution. Only beat 20% ~ 30%.
+    public boolean wordBreak_forward(String s, Set<String> wordDict) {
         boolean[] dp = new boolean[s.length() + 1];
         dp[0] = true;
         for (int i = 1; i <= s.length(); i++)
