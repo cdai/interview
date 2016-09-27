@@ -16,7 +16,7 @@ import java.util.*;
 public class Solution {
 
     // My 3AC
-    public List<List<String>> groupAnagrams(String[] strs) {
+    public List<List<String>> groupAnagrams_quicksort(String[] strs) {
         Map<String,List<String>> group = new HashMap<>();
         for (String str : strs) {
             char[] chars = str.toCharArray();
@@ -28,6 +28,31 @@ public class Solution {
             group.get(key).add(str);
         }
         return new ArrayList<>(group.values());
+    }
+
+    // O(MNlogN) time using quicksort. O(MN) using counting sort.
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String,List<String>> group = new HashMap<>();
+        for (String str : strs) {
+            char[] chars = str.toCharArray();
+            //Arrays.sort(chars);
+            sort(chars);
+
+            String key = new String(chars);
+            if (!group.containsKey(key))
+                group.put(key, new ArrayList<>());
+            group.get(key).add(str);
+        }
+        return new ArrayList<>(group.values());
+    }
+
+    private void sort(char[] chars) {
+        int[] cnt = new int[26];
+        for (char c : chars) cnt[c - 'a']++;
+        for (int i = 0, j = 0; i < chars.length && j < 26; ) {
+            if (cnt[j]-- > 0) chars[i++] = (char) ('a' + j);
+            else j++;
+        }
     }
 
     // My 2nd: it's still hard to come up with sort(chars) as key
