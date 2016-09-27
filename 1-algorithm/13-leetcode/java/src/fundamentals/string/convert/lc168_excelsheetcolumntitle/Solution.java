@@ -20,6 +20,17 @@ public class Solution {
         return convertToTitle(n / 26) + (char) ('A' + n % 26);
     }
 
+    // My 3AC. Avoid insert from head.
+    public String convertToTitle3(int n) {
+        if (n <= 0) return "";
+        StringBuilder ret = new StringBuilder();
+        while (n-- > 0) { // Note: decrement by 1 each iteration!
+            ret.append((char) ('A' + (n % 26)));
+            n /= 26;
+        }
+        return ret.reverse().toString();
+    }
+
     // My 2AC: negative, zero...
     public String convertToTitle2(int n) {
         if (n <= 0) return "";
