@@ -14,9 +14,20 @@ public class Solution {
         System.out.println(new Solution().reverseList(head));
     }
 
+    // My 3AC
+    public ListNode reverseList(ListNode node) {
+        if (node == null || node.next == null) return node;
+
+        ListNode next = node.next;
+        ListNode head = reverseList(next);
+        next.next = node;
+        node.next = null;
+        return head;
+    }
+
     // My 2nd
     // Recursive version: reverseList(head) return new head
-    public ListNode reverseList(ListNode head) {
+    public ListNode reverseList2_recursive(ListNode head) {
         if (head == null || head.next == null) return head;
 
         ListNode second = head.next;
