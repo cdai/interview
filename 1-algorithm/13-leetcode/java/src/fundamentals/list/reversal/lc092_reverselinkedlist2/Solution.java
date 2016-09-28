@@ -11,9 +11,28 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
+    // My 3AC. Start from m, reverse n-m-1 times.
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        if (head == null) return null;
+
+        ListNode dmy = new ListNode(0), prev = dmy;
+        dmy.next = head;
+        for (int i = 1; i < m; i++) prev = prev.next;
+
+        // Head-insert: prev->...->cur->then->... => prev->then...->cur->...
+        ListNode cur = prev.next;
+        for (int i = m; i < n && cur != null && cur.next != null; i++) { // For safe
+            ListNode then = cur.next;
+            cur.next = then.next;
+            then.next = prev.next;
+            prev.next = then;
+        }
+        return dmy.next;
+    }
+
     // My 2nd: from leetcode discuss and soulmachine
     // Alternative for list reversal. Elegant!
-    public ListNode reverseBetween(ListNode head, int m, int n) {
+    public ListNode reverseBetween2(ListNode head, int m, int n) {
         if (head == null) {
             return head;
         }
@@ -41,7 +60,7 @@ public class Solution {
     }
 
     // My 1st: ugly...
-    public ListNode reverseBetween2(ListNode head, int m, int n) {
+    public ListNode reverseBetween1(ListNode head, int m, int n) {
         if (!(head != null && 1 <= m && m <= n) || m == n) { // error1: corner-case1 m=n
             return head;
         }
