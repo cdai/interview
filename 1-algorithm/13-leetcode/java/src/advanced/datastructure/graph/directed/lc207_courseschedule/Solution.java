@@ -19,8 +19,32 @@ import java.util.Queue;
  */
 public class Solution {
 
+    // My 3AC. Use adjacent list. O(V + E).
+    public boolean canFinish(int num, int[][] prereq) {
+        if (prereq.length == 0 || prereq[0].length == 0) return true;
+
+        List<Integer>[] adj = new List[num];
+        int[] indegree = new int[num];
+        for (int i = 0; i < num; i++) adj[i] = new ArrayList<>();
+        for (int[] req : prereq) {
+            adj[req[1]].add(req[0]);
+            indegree[req[0]]++;
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < num; i++)
+            if (indegree[i] == 0) q.offer(i);
+
+        int cnt = 0;
+        for (; !q.isEmpty(); cnt++) {
+            for (int crs : adj[q.poll()])
+                if (--indegree[crs] == 0) q.offer(crs);
+        }
+        return cnt == num;
+    }
+
     // Topological sort
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
+    public boolean canFinish2_adjmatrix(int numCourses, int[][] prerequisites) {
         // Adjacent matrix is convenient for exist check, but waste a lot
         int[] indegree = new int[numCourses];
         boolean[][] adj = new boolean[numCourses][numCourses];
