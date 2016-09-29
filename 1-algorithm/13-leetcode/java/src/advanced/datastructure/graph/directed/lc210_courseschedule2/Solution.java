@@ -26,8 +26,31 @@ public class Solution {
         System.out.println(new Solution().findOrder(2, new int[][]{{1, 0}}));
     }
 
+    public int[] findOrder(int num, int[][] prereq) {
+        List<Integer>[] adj = new List[num];
+        int[] indegree = new int[num];
+        for (int i = 0; i < num; i++) adj[i] = new ArrayList<>();
+        for (int[] req : prereq) {
+            adj[req[1]].add(req[0]);
+            indegree[req[0]]++;
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < num; i++)
+            if (indegree[i] == 0) q.offer(i);
+
+        int cnt = 0;
+        int[] order = new int[num];
+        for (; !q.isEmpty(); cnt++) {
+            order[cnt] = q.poll();
+            for (int crs : adj[order[cnt]])
+                if (--indegree[crs] == 0) q.offer(crs);
+        }
+        return (cnt == num) ? order : new int[0]; // must check if can finish
+    }
+
     // O(V + E) time, O(V) space
-    public int[] findOrder(int numCourses, int[][] prerequisites) {
+    public int[] findOrder2(int numCourses, int[][] prerequisites) {
         List<Integer>[] adj = new List[numCourses];
         for (int v = 0; v < numCourses; v++)
             adj[v] = new ArrayList<>();

@@ -36,10 +36,9 @@ public class Solution {
             if (indegree[i] == 0) q.offer(i);
 
         int cnt = 0;
-        for (; !q.isEmpty(); cnt++) {
+        for (; !q.isEmpty(); cnt++)
             for (int crs : adj[q.poll()])
                 if (--indegree[crs] == 0) q.offer(crs);
-        }
         return cnt == num;
     }
 
