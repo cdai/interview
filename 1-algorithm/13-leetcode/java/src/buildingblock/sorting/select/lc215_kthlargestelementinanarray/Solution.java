@@ -16,10 +16,27 @@ public class Solution {
         System.out.println(new Solution().findKthLargest(new int[]{1, 5, 2, 3, 10, 7, 11}, 2));
     }
 
+    // My 3AC. Simplify variable names.
+    public int findKthLargest(int[] A, int k) {
+        k = A.length - k;
+        int l = 0, h = A.length - 1;
+        while (l < h) {
+            int m = l; // m must be last smaller num instead of first larger
+            for (int i = l + 1; i <= h; i++)
+                if (A[i] < A[l]) swap(A, i, ++m);
+            swap(A, l, m);
+
+            if (k < m) h = m - 1;
+            else if (k > m) l = m + 1;
+            else return A[m];
+        }
+        return A[l];
+    }
+
     // Quick select solution from leetcode discuss.
     // O(N) average, O(N^2) worst. O(1) space.
     // Shuffle boost performance from 24% to 74%!!!
-    public int findKthLargest(int[] nums, int k) {
+    public int findKthLargest_shuffle(int[] nums, int k) {
         k = nums.length - k;                // error1: Kth largest
         shuffle(nums);
 
