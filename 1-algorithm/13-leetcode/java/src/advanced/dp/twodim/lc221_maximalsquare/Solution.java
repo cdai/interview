@@ -22,9 +22,29 @@ public class Solution {
                 }));
     }
 
+    // My 3AC. dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])
+    // Now in rolling dp: dp[i-1] -> dp[i-1][j], dp[i] -> dp[i][j-1], prev -> dp[i-1][j-1]
+    public int maximalSquare(char[][] A) {
+        if (A.length == 0 || A[0].length == 0) return 0;
+        int[] dp = new int[A[0].length + 1];
+        int max = 0, prev = 0;
+        for (char[] row : A) {
+            for (int i = 1; i <= row.length; i++) {
+                int tmp = dp[i];
+                if (row[i - 1] == '0') dp[i] = 0;
+                else {
+                    dp[i] = Math.min(prev, Math.min(dp[i - 1], dp[i])) + 1;
+                    max = Math.max(max, dp[i]);
+                }
+                prev = tmp;
+            }
+        }
+        return max * max;
+    }
+
     // O(N^2) time. dp[i][j] denotes the max length of a square of 1's whose bottom-right is at i-1,j-1
     // Thus we save the trouble of boundary initialization.
-    public int maximalSquare(char[][] matrix) {
+    public int maximalSquare2(char[][] matrix) {
         if (matrix.length == 0 || matrix[0].length == 0) return 0;
 
         int[][] dp = new int[matrix.length + 1][matrix[0].length + 1];
