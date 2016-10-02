@@ -17,8 +17,24 @@ public class Solution {
         System.out.println(new Solution().lowestCommonAncestor(root, root, root.right).val);
     }
 
-    // My 2AC: O(h) time and space
+    // My 3AC. Nice iterative solution with O(N) time and O(1) space.
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        while (true) { // assume root,p,q are non-null
+            if (root.val > p.val && root.val > q.val) root = root.left;
+            else if (root.val < p.val && root.val < q.val) root = root.right;
+            else return root;
+        }
+    }
+
+    // Improve recursive solution. get rid of min and max
+    public TreeNode lowestCommonAncestor_recursive(TreeNode root, TreeNode p, TreeNode q) {
+        if (root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
+        if (root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q);
+        return root;
+    }
+
+    // My 2AC: O(h) time and space
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null) return null;
         int min = Math.min(p.val, q.val);
         int max = Math.max(p.val, q.val);
