@@ -11,8 +11,18 @@ package advanced.scan.twopointers.lc167_twosum2;
  */
 public class Solution {
 
-    // My 2AD: O(N) scan algorithm
+    // My 3AC
     public int[] twoSum(int[] nums, int target) {
+        for (int i = 0, j = nums.length - 1; i < j; ) {
+            if (nums[i] + nums[j] < target) i++;
+            else if (nums[i] + nums[j] > target) j--;
+            else return new int[] { i + 1, j + 1 };
+        }
+        return new int[] { -1, -1 };
+    }
+
+    // My 2AD: O(N) scan algorithm
+    public int[] twoSum2(int[] nums, int target) {
         for (int i = 0, j = nums.length - 1; i < j; ) {
             if (nums[i] + nums[j] < target) {
                 i++;

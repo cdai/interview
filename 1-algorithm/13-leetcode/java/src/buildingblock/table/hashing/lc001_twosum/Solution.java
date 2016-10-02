@@ -11,9 +11,20 @@ import java.util.Map;
  */
 public class Solution {
 
+    // My 3AC.
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer,Integer> valIdx = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (valIdx.containsKey(target - nums[i]))
+                return new int[] { valIdx.get(target - nums[i]), i };
+            valIdx.put(nums[i], i);
+        }
+        return new int[] { -1, -1 };
+    }
+
     // My 2nd: O(N) time and space
     // It works even duplicates exist like eg.[2,2,2,3] target=4
-    public int[] twoSum(int[] nums, int target) {
+    public int[] twoSum2(int[] nums, int target) {
         Map<Integer,Integer> numPos = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
             Integer j = numPos.get(target - nums[i]);
