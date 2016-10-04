@@ -20,8 +20,35 @@ import java.util.Queue;
  */
 public class Solution {
 
-    // Optimize using StringBuilder. This works well for DFS.
     public List<String> binaryTreePaths(TreeNode root) {
+        Queue<Pair> q = new LinkedList<>();
+        List<String> ret = new ArrayList<>();
+        if (root != null) q.offer(new Pair(root, String.valueOf(root.val)));
+        while (!q.isEmpty()) {
+            Pair p = q.poll();
+            if (p.node.left == null && p.node.right == null) {
+                ret.add(p.path);
+                continue;
+            }
+            if (p.node.left != null)
+                q.offer(new Pair(p.node.left, p.path + "->" + p.node.left.val));
+            if (p.node.right != null)
+                q.offer(new Pair(p.node.right, p.path + "->" + p.node.right.val));
+        }
+        return ret;
+    }
+
+    class Pair {
+        TreeNode node;
+        String path;
+        Pair(TreeNode node, String path) {
+            this.node = node;
+            this.path = path;
+        }
+    }
+
+    // Optimize using StringBuilder. This works well for DFS.
+    public List<String> binaryTreePaths_dfs(TreeNode root) {
         List<String> result = new ArrayList<>();
         doFindPath(result, root, new StringBuilder());
         return result;
@@ -67,33 +94,6 @@ public class Solution {
             }
         }
         return ret;
-    }
-
-    public List<String> binaryTreePaths_wrapper(TreeNode root) {
-        List<String> ret = new ArrayList<>();
-        Queue<NodePath> q = new LinkedList<>();
-        if (root != null) q.offer(new NodePath(root, String.valueOf(root.val)));
-        while (!q.isEmpty()) {
-            NodePath np = q.poll();
-            if (np.node.left == null && np.node.right == null) {
-                ret.add(np.path);
-            } else {
-                if (np.node.left != null)
-                    q.offer(new NodePath(np.node.left, np.path + "->" + np.node.left.val));
-                if (np.node.right != null)
-                    q.offer(new NodePath(np.node.right, np.path + "->" + np.node.right.val));
-            }
-        }
-        return ret;
-    }
-
-    class NodePath {
-        TreeNode node;
-        String path;
-        NodePath(TreeNode node, String path) {
-            this.node = node;
-            this.path = path;
-        }
     }
 
     // My 2AC: O(N) time
