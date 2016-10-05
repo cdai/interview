@@ -13,7 +13,35 @@ import java.util.Queue;
  */
 public class Solution {
 
-    public int minMeetingRooms(Interval[] intervals) {
+    public static void main(String[] args) {
+        System.out.println(new Solution().minMeetingRooms(new Interval[]{
+                new Interval(0, 10),
+                new Interval(2, 12),
+                new Interval(5, 6),
+                new Interval(8, 10)
+        }));
+    }
+
+    // My 3AC. Essentially, solution is max depth. O(N) time in one pass.
+    // [-------] e2         : rooms++, offer(e2)
+    //   [-------] e3       : rooms++, offer(e3)
+    //     [---] e1         : rooms++, offer(e1)
+    //          [----] e4   : compatible with e1 (q.peek())
+    //                        replace e1 with e4
+    public int minMeetingRooms(Interval[] meetings) {
+        if (meetings == null || meetings.length == 0) return 0;
+        Arrays.sort(meetings, (m1, m2) -> Integer.compare(m1.start, m2.start));
+        Queue<Integer> q = new PriorityQueue<>();
+        int rooms = 0;
+        for (Interval m : meetings) {
+            if (q.isEmpty() || m.start < q.peek()) rooms++;
+            else q.poll();
+            q.offer((m.end));
+        }
+        return rooms;
+    }
+
+    public int minMeetingRooms2(Interval[] intervals) {
         if (intervals.length == 0) return 0;
         Arrays.sort(intervals, (a, b) -> Integer.compare(a.start, b.start));
         Queue<Interval> q = new PriorityQueue<>((a, b) -> Integer.compare(a.end, b.end));

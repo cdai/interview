@@ -20,6 +20,7 @@ import java.util.Queue;
  */
 public class Solution {
 
+    // My 3AC.
     public List<String> binaryTreePaths(TreeNode root) {
         Queue<Pair> q = new LinkedList<>();
         List<String> ret = new ArrayList<>();
