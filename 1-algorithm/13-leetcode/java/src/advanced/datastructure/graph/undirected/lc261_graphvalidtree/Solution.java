@@ -13,9 +13,40 @@ import java.util.Queue;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        System.out.println(new Solution().validTree(2, new int[][]{{0, 1}}));
+        System.out.println(new Solution().validTree(2, new int[][]{{0, 1}, {1, 0}}));
+        System.out.println(new Solution().validTree(3, new int[][]{{0, 1}, {2, 0}}));
+        System.out.println(new Solution().validTree(5, new int[][]{{0, 1}, {2, 0}, {3,4}}));
+    }
+
+    public boolean validTree(int n, int[][] edges) {
+        List<Integer>[] adj = new List[n];
+        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();
+        for (int[] e : edges) {
+            adj[e[0]].add(e[1]);
+            adj[e[1]].add(e[0]);
+        }
+
+        boolean[] visit = new boolean[n];
+        if (hasCycle(adj, visit, 0, -1)) return false;
+
+        for (boolean vis : visit)
+            if (!vis) return false;
+        return true;
+    }
+
+    private boolean hasCycle(List<Integer>[] adj, boolean[] visit, int v, int par) {
+        if (visit[v]) return true;
+        visit[v] = true;
+        for (int nb : adj[v])
+            if (nb != par && hasCycle(adj, visit, nb, v)) return true;
+        return false;
+    }
+
     // My old-school solution. O(E + V) time.
     // A tree is an acyclic connected graph.
-    public boolean validTree(int n, int[][] edges) {
+    public boolean validTree2(int n, int[][] edges) {
         List<Integer>[] adj = new List[n];
         for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();
         for (int[] e : edges) {

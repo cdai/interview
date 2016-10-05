@@ -36,7 +36,7 @@ public class Solution {
         for (Interval m : meetings) {
             if (q.isEmpty() || m.start < q.peek()) rooms++;
             else q.poll();
-            q.offer((m.end));
+            q.offer(m.end);
         }
         return rooms;
     }
