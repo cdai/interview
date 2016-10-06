@@ -18,8 +18,26 @@ public class Solution {
         System.out.println(new Solution().minCostII(new int[][]{{14,2,11}, {11,14,5}, {14,3,10}}));
     }
 
-    // O(NK)
+    // My 3AC. use foreach for conciseness
     public int minCostII(int[][] costs) {
+        if (costs.length == 0 || costs[0].length == 0) return 0;
+        int min1 = 0, min2 = 0, color = -1; // Nice!
+        for (int[] cost : costs) {
+            int min1i = Integer.MAX_VALUE, min2i = min1i, colori = 0;
+            for (int i = 0; i < cost.length; i++) {
+                int c = cost[i] + (i != color ? min1 : min2);
+                if (c < min1i) {
+                    min2i = min1i; min1i = c; colori = i;
+                } else if (c < min2i)
+                    min2i = c;
+            }
+            min1 = min1i; min2 = min2i; color = colori;
+        }
+        return min1;
+    }
+
+    // O(NK)
+    public int minCostII2(int[][] costs) {
         if (costs.length == 0 || costs[0].length == 0) return 0;
         int min1 = 0, min2 = 0, idx = -1; // Nice!
         for (int i = 0; i < costs.length; i++) {
