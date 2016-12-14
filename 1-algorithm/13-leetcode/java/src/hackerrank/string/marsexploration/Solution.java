@@ -13,11 +13,19 @@ public class Solution {
         System.out.println(numOfLetterAltered(S, "SOS"));
     }
 
+    // No need to use another index J
     private static int numOfLetterAltered(String s, String sos) {
+        int cnt = 0;
+        for (int i = 0; i < s.length(); i++)
+            if (s.charAt(i) != sos.charAt(i % sos.length())) cnt++;
+        return cnt;
+    }
+
+    private static int numOfLetterAltered2(String s, String sos) {
         int cnt = 0;
         for (int i = 0, j = 0; i < s.length(); i++, j = (j + 1) % sos.length())
             if (s.charAt(i) != sos.charAt(j)) cnt++;
         return cnt;
     }
-    
+
 }
