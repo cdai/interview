@@ -16,6 +16,9 @@ public class Solution {
                 cnt++;
 
         System.out.println(cnt);
+
+        // Solution-2: one-liner
+        System.out.println(s.chars().filter(Character::isUpperCase).count() + 1);
     }
 
 }
