@@ -24,7 +24,7 @@ public class Solution {
                     edges[i] = new int[] { in.nextInt(), in.nextInt() };
 
                 int s = Integer.parseInt(in.nextLine().trim());
-                int[] dist = shortestReach(nVert, edges, s);
+                int[] dist = shortestReachByBfs(nVert, edges, s);
                 for (int i = 1; i < dist.length; i++)
                     if (i != s) System.out.print(dist[i] + " ");
                 System.out.println();
@@ -33,7 +33,7 @@ public class Solution {
     }
 
     @SuppressWarnings("unchecked")
-    private static int[] shortestReach(int nVert, int[][] edges, int s) {
+    private static int[] shortestReachByBfs(int nVert, int[][] edges, int s) {
         List<Integer>[] adj = new List[nVert + 1]; // Vertex 0 is no use
         for (int i = 1; i <= nVert; i++)
             adj[i] = new ArrayList<>();
