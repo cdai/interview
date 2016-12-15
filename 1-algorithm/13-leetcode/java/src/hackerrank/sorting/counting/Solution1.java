@@ -3,6 +3,7 @@ package hackerrank.sorting.counting;
 import java.util.Scanner;
 
 /**
+ * Just counting
  */
 public class Solution1 {
 
