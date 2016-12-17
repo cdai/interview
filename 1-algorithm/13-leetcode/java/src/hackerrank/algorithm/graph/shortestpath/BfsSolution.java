@@ -1,4 +1,4 @@
-package hackerrank.algorithm.graph.shortestreach;
+package hackerrank.algorithm.graph.shortestpath;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
  */
-public class Solution {
+public class BfsSolution {
 
     public static void main(String[] args) {
         try (Scanner in = new Scanner(System.in)) {
