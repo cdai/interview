@@ -6,7 +6,7 @@ import java.util.Scanner;
 /**
  * Analyze time complexity of insertion time
  */
-public class AnalyzeTime {
+public class RunningTimeAnalysis {
 
     public static void main(String[] args) {
         try (Scanner in = new Scanner(new BufferedInputStream(System.in))) {
