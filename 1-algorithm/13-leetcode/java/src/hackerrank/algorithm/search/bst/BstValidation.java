@@ -1,4 +1,4 @@
-package hackerrank.datastructure.tree.bst;
+package hackerrank.algorithm.search.bst;
 
 /**
  * Validate if it's valid BST
