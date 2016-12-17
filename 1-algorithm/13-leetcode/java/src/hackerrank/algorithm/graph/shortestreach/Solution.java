@@ -1,4 +1,4 @@
-package hackerrank.graph.shortestreach;
+package hackerrank.algorithm.graph.shortestreach;
 
 import java.util.ArrayList;
 import java.util.Arrays;

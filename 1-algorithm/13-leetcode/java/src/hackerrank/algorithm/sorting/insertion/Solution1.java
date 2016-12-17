@@ -1,4 +1,4 @@
-package hackerrank.sorting.insertion;
+package hackerrank.algorithm.sorting.insertion;
 
 /**
  * Insert only one number (rightmost) to the correct position

@@ -1,4 +1,4 @@
-package hackerrank.sorting.bucket;
+package hackerrank.algorithm.sorting.bucket;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
