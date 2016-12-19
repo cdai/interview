@@ -1,12 +1,13 @@
-package advanced.datastructure.graph.directed.lc277_findthecelebrity;
+package advanced.scan.twopasses.lc277_findthecelebrity;
 
 /**
+ *
  */
 public class Solution {
 
     public static void main(String[] args) {
         Solution sol = new Solution();
-        System.out.println(sol.findCelebrity(new int[]{1, 2, 3, 4}));
+        System.out.println(sol.findCelebrity(4));
     }
 
     public int findCelebrity(int n) {
@@ -15,6 +16,8 @@ public class Solution {
             if (knows(celebrity, i))
                 celebrity = i;
 
+        /* for people < celebrity, they cannot be candidate because they know someone before them
+         * for people > celebrity, they cannot be candidate because celebrity knows all of them */
         for (int i = 0; i < n; i++) {
             if (i < celebrity && (knows(celebrity, i) || !knows(i, celebrity)))
                 return -1;
