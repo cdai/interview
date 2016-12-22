@@ -21,8 +21,32 @@ import java.util.Set;
  */
 public class Solution {
 
-    // My 2AC: O(?)
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(sol.generateParenthesis(3));
+    }
+
+    // 3AC
     public List<String> generateParenthesis(int n) {
+        List<String> ret = new ArrayList<>();
+        //generate(ret, "", n, 0);
+        generate(ret, "", 0, 0, n);
+        return ret;
+    }
+
+    private void generate(List<String> ret, String par, int open, int close, int max) {
+        for (int i = 0; i < par.length(); i++) System.out.print("\t");
+        System.out.printf("open=%d close=%d par=%s\n", open, close, par);
+        if (par.length() == max * 2) {
+            ret.add(par);
+            return;
+        }
+        if (open < max) generate(ret, par + "(", open + 1, close, max);
+        if (close < open) generate(ret, par + ")", open, close + 1, max);
+    }
+
+    // My 2AC: O(?)
+    public List<String> generateParenthesis2(int n) {
         Queue<String> queue = new LinkedList<>();
         Set<String> result = new HashSet<>();
         queue.offer("");    // error1: start from () will error for n=1, since Set is empty
