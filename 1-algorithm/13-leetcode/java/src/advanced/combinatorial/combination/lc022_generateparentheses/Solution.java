@@ -26,23 +26,26 @@ public class Solution {
         System.out.println(sol.generateParenthesis(3));
     }
 
-    // 3AC
     public List<String> generateParenthesis(int n) {
         List<String> ret = new ArrayList<>();
-        //generate(ret, "", n, 0);
-        generate(ret, "", 0, 0, n);
+        generate(ret, new char[n * 2], 0, 0, n, 0);
         return ret;
     }
 
-    private void generate(List<String> ret, String par, int open, int close, int max) {
-        for (int i = 0; i < par.length(); i++) System.out.print("\t");
-        System.out.printf("open=%d close=%d par=%s\n", open, close, par);
-        if (par.length() == max * 2) {
-            ret.add(par);
+    private void generate(List<String> ret, char[] str, int left, int right, int max, int i) {
+        if (left == max && right == left) {
+            ret.add(String.valueOf(str));
             return;
         }
-        if (open < max) generate(ret, par + "(", open + 1, close, max);
-        if (close < open) generate(ret, par + ")", open, close + 1, max);
+
+        if (left < max) {
+            str[i] = '(';
+            generate(ret, str, left + 1, right, max, i + 1);
+        }
+        if (right < left) {
+            str[i] = ')';
+            generate(ret, str, left, right + 1, max, i + 1);
+        }
     }
 
     // My 2AC: O(?)
