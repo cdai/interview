@@ -6,10 +6,10 @@ import java.util.Stack;
  * Store the gap and try to restore it upon pop()
  */
 public class MinStack {
+    
+    private Stack<Long> stack;
 
-    private Stack<Integer> stack;
-
-    private int min;
+    private long min;
 
     public MinStack() {
         this.stack = new Stack<>();
@@ -18,7 +18,7 @@ public class MinStack {
 
     public void push(int num) {
         if (stack.isEmpty()) {
-            stack.push(0);
+            stack.push(0L);
             min = num;
         } else {
             // Case-1: num is smallest => stack.push(neg-gap), (new-)min = num
@@ -30,16 +30,16 @@ public class MinStack {
     }
 
     public int pop() {
-        int gap = stack.pop();
+        long gap = stack.pop();
         if (gap > 0)
-            return min + gap;
+            return (int) (min + gap);
 
-        int num = min;
+        int num = (int) min;
         min -= gap;
         return num;
     }
 
     public int min() {
-        return min;
+        return (int) min;
     }
 }
