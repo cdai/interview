@@ -15,9 +15,9 @@ public class Solution {
             }
             digits[i] = 0;                          // No carry variable required.
         }
-        int[] result = new int[digits.length + 1];
-        result[0] = 1;                              // Least significant digits are 0 default. No copy need. So smart!
-        return result;
+        digits = new int[digits.length + 1];
+        digits[0] = 1;                              // Least significant digits are 0 default. No copy need. So smart!
+        return digits;
     }
 
     // My 2AC: a little better but don't take advantage of plus one...
