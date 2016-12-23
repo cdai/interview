@@ -9,8 +9,19 @@ package advanced.datastructure.kmp.lc214_shortestpalindrome;
  */
 public class Solution {
 
-    // Brute force approach: O(N^2)
+    // Another brute force approach from stephan.
+    // Check s="abcde" and rev="edcba", check when s.startsWith rev[i,len)
+    // Namely, s[0,len-i) is a palindrome.
     public String shortestPalindrome(String s) {
+        String rev = new StringBuilder(s).reverse().toString();
+        for (int i = 0; i < s.length(); i++)
+            if (s.startsWith(rev.substring(i))) // s[0,len-i] == rev[i,len),
+                return rev.substring(0, i) + s;
+        return s; // Never reach here except empty string
+    }
+
+    // Brute force approach: O(N^2)
+    public String shortestPalindrome_bruteforce(String s) {
         if (s.isEmpty()) return s;
         StringBuilder ret = new StringBuilder();
         for (int i = (s.length() - 1) / 2; i >= 0; i--) {
