@@ -6,7 +6,7 @@ import java.util.Stack;
  * Store the gap and try to restore it upon pop()
  */
 public class MinStack {
-    
+
     private Stack<Long> stack;
 
     private long min;
