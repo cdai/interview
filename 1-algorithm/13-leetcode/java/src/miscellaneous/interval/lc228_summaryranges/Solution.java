@@ -1,4 +1,4 @@
-package fundamentals.string.convert.lc228_summaryranges;
+package miscellaneous.interval.lc228_summaryranges;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,25 @@ import java.util.List;
  */
 public class Solution {
 
-    // My 2AC: much simpler by handling last batch in same loop
+    // My 3AC: check from/prev backward at nums[i]
+    // from: start point of range, prev: previous num for consecutive check
     public List<String> summaryRanges(int[] nums) {
+        if (nums.length == 0) return new ArrayList<>();
+
+        List<String> ranges = new ArrayList<>();
+        int from = nums[0], prev = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (prev < nums[i] - 1) {
+                ranges.add(from == prev ? String.valueOf(from) : String.format("%d->%d", from, prev));
+                from = prev = nums[i];
+            } else prev = nums[i];
+        }
+        ranges.add(from == prev ? String.valueOf(from) : String.format("%d->%d", from, prev));
+        return ranges;
+    }
+
+    // My 2AC: much simpler by handling last batch in same loop
+    public List<String> summaryRanges2(int[] nums) {
         if (nums.length == 0) return new ArrayList<>();
 
         List<String> result = new ArrayList<>();
