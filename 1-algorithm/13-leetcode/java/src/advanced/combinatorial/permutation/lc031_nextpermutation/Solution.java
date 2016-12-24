@@ -11,10 +11,27 @@ package advanced.combinatorial.permutation.lc031_nextpermutation;
  */
 public class Solution {
 
+    public void nextPermutation(int[] nums) {
+        int i = nums.length - 2, j = nums.length - 1;
+
+        // Find backwards the num that breaks decreasing order
+        while (i >= 0 && nums[i] >= nums[i + 1]) i--;
+
+        // Swap it with the cloeset bigger (skip same to avoid duplicate next permutation) num located after it
+        if (i >= 0) {
+            while (nums[i] >= nums[j]) j--;
+            swap(nums, i, j);
+        }
+
+        // Reverse all the nums after it
+        for (int start = i + 1, end = nums.length - 1; start < end; start++, end--)
+            swap(nums, start, end);
+    }
+
     // My 2AC
     // Eg.1243 -> i=>2, j=>3 -> 1342 -> 1324
     // Test case: [1], [1,2], [1,2,3,4], [1,2,4,3]...
-    public void nextPermutation(int[] nums) {
+    public void nextPermutation2(int[] nums) {
         int i = nums.length - 2, j = nums.length - 1;
 
         // 1.Find first number (i) which breaks descending order
