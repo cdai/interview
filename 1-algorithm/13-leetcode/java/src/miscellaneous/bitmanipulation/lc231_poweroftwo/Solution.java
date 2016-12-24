@@ -5,6 +5,7 @@ package miscellaneous.bitmanipulation.lc231_poweroftwo;
  */
 public class Solution {
 
+    // My 3AC
     // Math.pow(n,a) = a^n, speaking "2 power n"
     // Power of two = 2^n: 2^1, 2^2, 2^3...
     // My 2AC: still don't remember trick: n&(n-1)==0
