@@ -16,8 +16,58 @@ import java.util.Stack;
 public class Solution {
 
     public static void main(String[] args) {
-        System.out.println(new Solution().calculate("1 0 + 2 * 3 - 1 / 1 + 3"));
-        System.out.println(new Solution().calculate("3+5 / 2"));
+        //System.out.println(new Solution().calculate("1 0 + 2 * 3 - 1 / 1 + 3"));
+        //System.out.println(new Solution().calculate("3+5 / 2"));
+        System.out.println(new Solution().calculate("1 0 - 2 * 3 / 2 * 2 - 3"));
+    }
+
+    public int calculate_mulfirst_addlater(String str) {
+        Stack<Integer> s = new Stack<>();
+        char[] c = str.toCharArray();
+        int n1 = 0, sign = 1;
+        for (int i = 0; i < c.length; i++) {
+            switch (c[i]) {
+                case ' ': break;
+                case '+':
+                case '-': // Save single num or product with its sign on stack. Reset sign and num.
+                    s.push(n1 * sign);
+                    sign = (c[i] == '+') ? 1 : -1;
+                    n1 = 0;
+                    break;
+                case '*':
+                case '/': // Compute with next number
+                    int n2 = 0, op = i;
+                    for (; i + 1 < c.length && (c[i + 1] == ' ' || Character.isDigit(c[i + 1])); i++)
+                        if (c[i + 1] != ' ')
+                            n2 = n2 * 10 + (c[i + 1] - '0');
+                    n1 = (c[op] == '*') ? n1 * n2 : n1 / n2;
+                    break;
+                default: n1 = n1 * 10 + (c[i] - '0');
+            }
+        }
+        s.push(n1 * sign);
+
+        int ret = 0;
+        for (int num : s) ret += num;
+        return ret;
+    }
+
+    // Correct but overflow.
+    public int calculate_recursion(String s) {
+        System.out.println(s);
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '+')
+                return calculate(s.substring(0, i)) + calculate(s.substring(i + 1));
+            if (s.charAt(i) == '-')
+                return calculate(s.substring(0, i)) + calculate(s.substring(i)); // Treat subtract as negative addition
+        }
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '*')
+                return calculate(s.substring(0, i)) * calculate(s.substring(i + 1));
+            if (s.charAt(i) == '/')
+                return calculate(s.substring(0, i)) / calculate(s.substring(i + 1));
+        }
+        return Integer.parseInt(s.replace(" ", ""));
     }
 
     // My 2AC
