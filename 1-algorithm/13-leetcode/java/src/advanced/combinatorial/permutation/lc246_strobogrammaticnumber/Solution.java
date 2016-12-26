@@ -1,4 +1,4 @@
-package advanced.combinatorial.permutation.lc248_strobogrammaticnumber;
+package advanced.combinatorial.permutation.lc246_strobogrammaticnumber;
 
 import java.util.HashMap;
 import java.util.Map;
