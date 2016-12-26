@@ -21,6 +21,30 @@ public class Solution {
         System.out.println(new Solution().calculate("1 0 - 2 * 3 / 2 * 2 - 3"));
     }
 
+    // The idea is to perform multiplication and division first (they are on the lower level in the expression tree), then subtract and addition.
+    // So basically this is the bottom-up apporach to evaluate the implicit expression tree.
+    public int calculate(String str) {
+        Stack<Integer> s = new Stack<>();
+        for (int i = 0, n = 0, op = '+'; i < str.length(); i++) {//n=last num, op=last operator
+            char c = str.charAt(i);
+            if (Character.isDigit(c))
+                n = n * 10 + (c - '0');
+            if ("+-*/".indexOf(c) >= 0 || i == str.length() - 1) {
+                switch (op) { // Handle last operator if we found another operator here
+                    case '+': s.push(n); break;
+                    case '-': s.push(-n); break;
+                    case '*': s.push(s.pop() * n); break;
+                    case '/': s.push(s.pop() / n); break;
+                }
+                op = c;
+                n = 0;
+            }
+        }
+        int ret = 0;
+        for (int n : s) ret += n;
+        return ret;
+    }
+
     public int calculate_mulfirst_addlater(String str) {
         Stack<Integer> s = new Stack<>();
         char[] c = str.toCharArray();
@@ -71,7 +95,7 @@ public class Solution {
     }
 
     // My 2AC
-    public int calculate(String s) {
+    public int calculate2(String s) {
         Stack<Integer> stack = new Stack<>();
         int result = 0;
         for (int i = 0, num = 0, op = '+'; i < s.length(); i++) {   // op is last operator
