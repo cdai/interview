@@ -14,8 +14,14 @@ import java.util.Stack;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        //System.out.println(sol.calculate("2-1 + 2 "));
+    }
+
+
     // Inspired by solution from leetcode discuss
-    public int calculate(String s) {
+    public int calculate1(String s) {
         Stack<Integer> stack = new Stack<>();
         stack.push(0);                          // Always keep most recent sum at top
         for (int i = 0, sign = 1; i < s.length(); i++) {

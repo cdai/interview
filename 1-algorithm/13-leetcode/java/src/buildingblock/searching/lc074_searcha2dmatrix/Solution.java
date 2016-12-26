@@ -14,8 +14,22 @@ package buildingblock.searching.lc074_searcha2dmatrix;
  */
 public class Solution {
 
+    // 3AC
+    public boolean searchMatrix(int[][] A, int target) {
+        if (A.length == 0 || A[0].length == 0) return false;
+        int m = A.length, n = A[0].length;
+        int l = 0, r = m * n - 1;
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            if (A[mid / n][mid % n] == target) return true;
+            if (A[mid / n][mid % n] < target) l = mid + 1;
+            else r = mid - 1;
+        }
+        return false;
+    }
+
     // My 2nd: O(logN)
-    public boolean searchMatrix(int[][] matrix, int target) {
+    public boolean searchMatrix2(int[][] matrix, int target) {
         if (matrix.length == 0 || matrix[0].length == 0) {
             return false;
         }

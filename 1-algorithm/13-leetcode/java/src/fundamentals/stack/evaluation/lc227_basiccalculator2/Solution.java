@@ -16,8 +16,8 @@ import java.util.Stack;
 public class Solution {
 
     public static void main(String[] args) {
-        //System.out.println(new Solution().calculate("1 0 + 2 * 3 - 1 / 1 + 3"));
-        //System.out.println(new Solution().calculate("3+5 / 2"));
+        System.out.println(new Solution().calculate("1 0 + 2 * 3 - 1 / 1 + 3"));
+        System.out.println(new Solution().calculate("3+5 / 2"));
         System.out.println(new Solution().calculate("1 0 - 2 * 3 / 2 * 2 - 3"));
     }
 
@@ -78,14 +78,15 @@ public class Solution {
 
     // Correct but overflow.
     public int calculate_recursion(String s) {
-        System.out.println(s);
-        for (int i = 0; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); i++)
             if (s.charAt(i) == '+')
                 return calculate(s.substring(0, i)) + calculate(s.substring(i + 1));
+
+        for (int i = 0; i < s.length(); i++) // '-' must be performed with two closest numbers, eg.2+3 - 4+1=1 not 0
             if (s.charAt(i) == '-')
-                return calculate(s.substring(0, i)) + calculate(s.substring(i)); // Treat subtract as negative addition
-        }
-        for (int i = 0; i < s.length(); i++) {
+                return calculate(s.substring(0, i)) - calculate(s.substring(i + 1));
+
+        for (int i = s.length() - 1; i >= 0; i--) { // must perform in order
             if (s.charAt(i) == '*')
                 return calculate(s.substring(0, i)) * calculate(s.substring(i + 1));
             if (s.charAt(i) == '/')
@@ -158,7 +159,7 @@ public class Solution {
 
     // This version is correct now, but TLE...
     // "1 0 + 2 * 3 - 1 / 1 + 3": Wrong when evaluating 2*3-1/1+3=2
-    public int calculate2(String s) {
+    public int calculate0(String s) {
         // Perform + last
         int sub = 0, mulDiv = 0;
         for (int i = 0; i < s.length(); i++) {
