@@ -27,7 +27,7 @@ public class Solution {
 
     // O(N) with counter in two passes
     public boolean isPalindrome_counter(String str) {
-        char[] freq = new char[256];
+        int[] freq = new int[256];
         for (char c : str.toCharArray())
             freq[c]++;
 
