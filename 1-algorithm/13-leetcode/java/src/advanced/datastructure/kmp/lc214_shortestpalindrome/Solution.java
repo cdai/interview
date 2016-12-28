@@ -9,10 +9,35 @@ package advanced.datastructure.kmp.lc214_shortestpalindrome;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(sol.shortestPalindrome("abcd"));
+        System.out.println(sol.shortestPalindrome("aacecaaa"));
+    }
+
+    public String shortestPalindrome(String s) {
+        String p = s + "#" + new StringBuilder(s).reverse().toString();
+        int[] dfa = preprocess(p.toCharArray());
+        String max = s.substring(dfa[dfa.length - 1]);
+        return new StringBuilder(max).reverse().append(s).toString();
+    }
+
+    private int[] preprocess(char[] p) {
+        int[] dfa = new int[p.length];
+        for (int i = 1, j = 0; i < p.length; i++) {
+            while (j > 0 && p[j] != p[i])
+                j = dfa[j - 1];
+            if (p[j] == p[i])
+                j++;
+            dfa[i] = j;
+        }
+        return dfa;
+    }
+
     // Another brute force approach from stephan.
     // Check s="abcde" and rev="edcba", check when s.startsWith rev[i,len)
     // Namely, s[0,len-i) is a palindrome.
-    public String shortestPalindrome(String s) {
+    public String shortestPalindrome_bruteforce(String s) {
         String rev = new StringBuilder(s).reverse().toString();
         for (int i = 0; i < s.length(); i++)
             if (s.startsWith(rev.substring(i))) // s[0,len-i] == rev[i,len),
@@ -21,7 +46,7 @@ public class Solution {
     }
 
     // Brute force approach: O(N^2)
-    public String shortestPalindrome_bruteforce(String s) {
+    public String shortestPalindrome_bruteforce2(String s) {
         if (s.isEmpty()) return s;
         StringBuilder ret = new StringBuilder();
         for (int i = (s.length() - 1) / 2; i >= 0; i--) {
