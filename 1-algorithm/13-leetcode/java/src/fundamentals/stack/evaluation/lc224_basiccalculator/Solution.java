@@ -16,9 +16,36 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution sol = new Solution();
-        //System.out.println(sol.calculate("2-1 + 2 "));
+        System.out.println(sol.calculate("2-1 + 2 "));
     }
 
+    // Num: read ahead or each digit by each
+    // Sum: use var or store at the top of stack or sum upon ')'
+
+    // Nice solution: think parenthesis as context
+    // Only store sign of current context on stack
+    // Start from +1 sign and scan s from left to right;
+    //  3.if c == '+': Add num to result before this sign; This sign = Last context sign * 1; clear num;
+    //  4.if c == '-': Add num to result before this sign; This sign = Last context sign * -1; clear num;
+    //  5.if c == '(': Push this context sign to stack;
+    //  6.if c == ')': Pop this context and we come back to last context;
+    //  7.Add the last num. This is because we only add number after '+' / '-'.
+    public int calculate(String str) {
+        Stack<Integer> s = new Stack<>();
+        int sum = 0, num = 0, sign = 1;
+        for (char c : str.toCharArray()) {
+            if (Character.isDigit(c)) num = num * 10 + (c - '0');
+            else if (c == '(') s.push(sign);
+            else if (c == ')') s.pop();
+            else if (c == '+' || c == '-') {
+                sum += sign * num;
+                num = 0;
+                sign = (s.isEmpty() ? 1 : s.peek()) * (c == '+' ? 1 : -1);
+            }
+        }
+        sum += sign * num;
+        return sum;
+    }
 
     // Inspired by solution from leetcode discuss
     public int calculate1(String s) {
