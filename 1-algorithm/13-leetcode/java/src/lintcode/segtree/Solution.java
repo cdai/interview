@@ -62,6 +62,31 @@ public class Solution {
                 query(root.right, start, end));
     }
 
+    // Segment Tree Query II
+    public int query2(SegmentTreeNode root, int start, int end) {
+        if (root == null || start > end || root.end < start || end < root.start) return 0;
+        if (root.start == root.end) return root.count;
+
+        int mid = root.start + (root.end - root.start) / 2;
+        if (end <= mid) return query(root.left, start, end);
+        if (mid < start) return query(root.right, start, end);
+        return query(root.left, start, end) + query(root.right, start, end);
+    }
+
+    // Segment Tree Modify
+    public void modify(SegmentTreeNode root, int index, int value) {
+        if (root == null || index < root.start || root.end < index) return;
+        if (root.start == root.end) {
+            root.max = value;
+            return;
+        }
+
+        int mid = root.start + (root.end - root.start) / 2;
+        if (index <= mid) modify(root.left, index, value);
+        else modify(root.right, index, value);
+        root.max = Math.max(root.left.max, root.right.max);
+    }
+
     private static void print(SegmentTreeNode root) {
         if (root == null) return;
         System.out.printf("[%d, %d]", root.start, root.end);
