@@ -10,26 +10,22 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution sol = new Solution();
-        System.out.println(sol.longestSubstr("eceba"));
-        System.out.println(sol.longestSubstr("ecebeefff"));
+        System.out.println(sol.lengthOfLongestSubstringTwoDistinct("eceba")); // 3
+        System.out.println(sol.lengthOfLongestSubstringTwoDistinct("ecebeefff")); // 5
     }
 
-    public int longestSubstr(String s) {
-        Map<Character, Integer> cntmap = new HashMap<>();
+    public int lengthOfLongestSubstringTwoDistinct(String s) {
+        Map<Character, Integer> cnt = new HashMap<>();
         char[] c = s.toCharArray();
         int from = 0, max = 0;
         for (int i = 0; i < s.length(); i++) {
-            cntmap.put(c[i], cntmap.getOrDefault(c[i], 0) + 1);
-            if (cntmap.size() <= 2) {
-                max = Math.max(max, i - from + 1);
-            } else {
-                while (cntmap.size() > 2) {
-                    if (!cntmap.remove(c[from], 1)) {
-                        cntmap.put(c[from], cntmap.get(c[from]) - 1);
-                    }
-                    from++;
-                }
+            cnt.put(c[i], cnt.getOrDefault(c[i], 0) + 1);
+            while (cnt.size() > 2) {
+                if (!cnt.remove(c[from], 1))
+                    cnt.put(c[from], cnt.get(c[from]) - 1);
+                from++;
             }
+            max = Math.max(max, i - from + 1);
         }
         return max;
     }

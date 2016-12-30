@@ -6,11 +6,11 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution sol = new Solution();
-        System.out.println(sol.longestSubstr("eceba", 3));
+        System.out.println(sol.lengthOfLongestSubstringKDistinct("eceba", 3));
     }
 
-    public int longestSubstr(String s, int k) {
-        int[] cnt = new int[255];
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        int[] cnt = new int[256];
         int max = 0, from = 0, size = 0;
         for (int i = 0; i < s.length(); i++) {
             if (cnt[s.charAt(i)]++ == 0) size++;
