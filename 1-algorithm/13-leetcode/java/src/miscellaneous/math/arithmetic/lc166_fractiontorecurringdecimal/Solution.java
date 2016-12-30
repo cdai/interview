@@ -18,7 +18,34 @@ import java.util.Map;
 public class Solution {
 
     public static void main(String[] args) {
+        System.out.println(new Solution().fractionToDecimal(Integer.MIN_VALUE, -1));
+        System.out.println(new Solution().fractionToDecimal(-10, 3));
+        System.out.println(new Solution().fractionToDecimal(-1, 111));
+        System.out.println(new Solution().fractionToDecimal2(-1, 111));
         System.out.println(new Solution().fractionToDecimal(1, 17));
+        System.out.println(new Solution().fractionToDecimal2(1, 17));
+    }
+
+    public String fractionToDecimal(int numerator, int denominator) {
+        if (numerator == 0) return "0";
+        if (denominator == 0) return "";
+
+        StringBuilder ret = new StringBuilder((numerator < 0) ^ (denominator < 0) ? "-" : "");
+        long num = Math.abs((long) numerator);
+        long denom = Math.abs((long) denominator);
+        ret.append(num / denom);
+        if (num % denom == 0) return ret.toString();
+        else ret.append(".");
+
+        Map<Long,Integer> map = new HashMap<>(); // intp lost sign, eg.-1/3=0, 0/-1=0
+        for (int i = ret.length(); num % denom != 0; i++) {
+            num = (num % denom) * 10;
+            long frac = num / denom;
+            if (map.putIfAbsent(num, i) != null)
+                return ret.insert(map.get(num), "(").append(")").toString();
+            ret.append(frac);
+        }
+        return ret.toString();
     }
 
     // Eg. 4 / 333
@@ -27,7 +54,7 @@ public class Solution {
     // ret="0.01"  i=4  num=400(->67)  map=[4-2,40-3,400-4]
     // ret="0.012" i=5  num=67(->4)    map=[4-2,40-3,400-4,67-5]
     // num=4 terminates
-    public String fractionToDecimal(int numerator, int denominator) {
+    public String fractionToDecimal2(int numerator, int denominator) {
         if (numerator == 0) return "0";     // error: 0/-5 -> -0. //if (denominator == 0) return "";
         StringBuilder ret = new StringBuilder((numerator < 0) ^ (denominator < 0) ? "-" : "");
         long num = Math.abs((long) numerator);
