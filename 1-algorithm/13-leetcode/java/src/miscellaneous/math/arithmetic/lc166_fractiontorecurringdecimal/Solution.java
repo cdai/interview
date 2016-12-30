@@ -27,25 +27,24 @@ public class Solution {
     }
 
     public String fractionToDecimal(int numerator, int denominator) {
-        if (numerator == 0) return "0";
-        if (denominator == 0) return "";
-
-        StringBuilder ret = new StringBuilder((numerator < 0) ^ (denominator < 0) ? "-" : "");
         long num = Math.abs((long) numerator);
         long denom = Math.abs((long) denominator);
-        ret.append(num / denom);
-        if (num % denom == 0) return ret.toString();
-        else ret.append(".");
+        String integral = String.valueOf(num / denom);
+        if ((numerator != 0) && ((numerator < 0) ^ (denominator < 0)))
+            integral = "-" + integral;
 
-        Map<Long,Integer> map = new HashMap<>(); // intp lost sign, eg.-1/3=0, 0/-1=0
-        for (int i = ret.length(); num % denom != 0; i++) {
+        StringBuilder frac = new StringBuilder();
+        Map<Long,Integer> map = new HashMap<>();
+        for (int i = 0; num % denom != 0; i++) {
             num = (num % denom) * 10;
-            long frac = num / denom;
-            if (map.putIfAbsent(num, i) != null)
-                return ret.insert(map.get(num), "(").append(")").toString();
-            ret.append(frac);
+            if (map.putIfAbsent(num, i) != null) {
+                frac.insert(map.get(num), "(").append(")");
+                break;
+            }
+            frac.append(num / denom);
         }
-        return ret.toString();
+        if (frac.length() == 0) return integral;
+        return integral + "." + frac.toString();
     }
 
     // Eg. 4 / 333
