@@ -20,26 +20,27 @@ public class MedianFinder {
         }
     }
 
-    private Queue<Integer> min = new PriorityQueue<>();
+    // max heap for first half
+    private Queue<Integer> small = new PriorityQueue<>(Comparator.reverseOrder());
 
-    private Queue<Integer> max = new PriorityQueue<>(Comparator.reverseOrder());
+    // min heap for last half
+    private Queue<Integer> large = new PriorityQueue<>();
 
-    // Maintain abs(|min| - |max|) <= 1
+    // Maintain: 1) two heaps represent two halves; 2) abs(|large| - |small|) <= 1
     public void addNum(int num) {
-        Queue<Integer> h1 = (max.isEmpty() || num > max.peek()) ? min : max;
-        Queue<Integer> h2 = (h1 == min) ? max : min;
+        Queue<Integer> h1 = (!small.isEmpty() && num > small.peek()) ? large : small;
+        Queue<Integer> h2 = (h1 == large) ? small : large;
 
         h1.offer(num);
         if (h1.size() - h2.size() > 1)
             h2.offer(h1.poll());
     }
 
-    // Median = min or max or (min + max) / 2;
+    // Median = large or small or (large + small) / 2;
     public double findMedian() {
-        //if (min.isEmpty() && max.isEmpty()) return 0;
-        return min.size() > max.size() ? min.peek() :
-                min.size() < max.size() ? max.peek() :
-                        (min.peek() + max.peek()) / 2.0;
+        return large.size() > small.size() ? large.peek() :
+                large.size() < small.size() ? small.peek() :
+                        (large.peek() + small.peek()) / 2.0;
     }
 
 }
