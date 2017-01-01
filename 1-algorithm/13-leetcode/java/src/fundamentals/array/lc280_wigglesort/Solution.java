@@ -15,6 +15,7 @@ public class Solution {
     }
 
     // O(N) solution: swap prev and cur if odd idx and prev>cur or even idx and prev<cur. Why?
+    // Invariant: [0,i) is wiggly. Holds when i=1. Holds in each iteration.
     // Case-1:  A[i-2]>=A[i-1]>A[i] -> A[i-2] >= A[i] < A[i-1]
     // (i=odd)  or A[i-2]>=A[i-1]<=A[i-1]
     // Case-2:  A[i-2]<=A[i-1]<=A[i] -> A[i-2] <= A[i] >= A[i-1]

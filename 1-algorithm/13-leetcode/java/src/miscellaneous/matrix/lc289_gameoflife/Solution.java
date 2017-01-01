@@ -14,9 +14,30 @@ package miscellaneous.matrix.lc289_gameoflife;
  */
 public class Solution {
 
+    // Exploit every bit: save state of next gen in higher bit of each cell,since it could either be 0 or 1 only.
+    public void gameOfLife(int[][] board) {
+        if (board.length == 0 || board[0].length == 0) return;
+        int m = board.length, n = board[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int lives = -(board[i][j] & 1); // subtract 1 first if A[i,j]=1
+                for (int k = Math.max(0, i - 1); k < Math.min(m, i + 2); k++)
+                    for (int l = Math.max(0, j - 1); l < Math.min(n, j + 2); l++)
+                        lives += board[k][l] & 1;
+
+                if ((board[i][j] == 1 && (lives == 2 || lives == 3)) || (board[i][j] == 0 && lives == 3))
+                    board[i][j] |= (1 << 1); // Store at second least significant bit
+            }
+        }
+
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                board[i][j] >>= 1;
+    }
+
     // Exploit every bit: save state of next gen in higher bit of each cell,
     // Since it could either be 0 or 1.
-    public void gameOfLife(int[][] board) {
+    public void gameOfLife2(int[][] board) {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 int live = getLiveNeighbor(board, i, j);
