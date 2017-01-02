@@ -2,6 +2,7 @@ package buildingblock.sorting.merge.lc313_superuglynumber;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -17,8 +18,36 @@ import java.util.Queue;
  */
 public class Solution {
 
-    // My 2nd: try lambda, but too slow
+    // O(NlogK) heap solution.
     public int nthSuperUglyNumber(int n, int[] primes) {
+        Queue<Pair> q = new PriorityQueue<>(Comparator.comparingInt(p -> p.num)); // (p1,p2)->Integer.compare(p1.num,p2.num)
+        for (int prm : primes)
+            q.offer(new Pair(prm, prm, 1));
+
+        int[] ugly = new int[n + 1];
+        ugly[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            ugly[i] = q.peek().num;
+            while (q.peek().num == ugly[i]) { // q is not empty
+                Pair p = q.poll();
+                p.num = ugly[++p.idx] * p.prm;
+                q.offer(p);
+            }
+        }
+        return ugly[n];
+    }
+
+    class Pair {
+        int num, prm, idx;
+        Pair(int num, int prm, int idx) {
+            this.num = num;
+            this.prm = prm;
+            this.idx = idx;
+        }
+    }
+
+    // My 2nd: try lambda, but too slow
+    public int nthSuperUglyNumber2(int n, int[] primes) {
         if (n <= 0 || primes.length == 0) {
             return 0;
         }
@@ -69,7 +98,7 @@ public class Solution {
         return uglyNums[n - 1];
     }
 
-    public int nthSuperUglyNumber2(int n, int[] primes) {
+    public int nthSuperUglyNumber_12(int n, int[] primes) {
         int[] uglyNums = new int[n];            // Optimize-1: replace ArrayList with int[], since length is known
         int[] pos = new int[primes.length];
         int[] candidates = new int[primes.length]; // Optimize-2:
