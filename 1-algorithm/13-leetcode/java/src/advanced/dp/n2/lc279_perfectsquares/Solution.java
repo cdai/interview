@@ -2,7 +2,11 @@ package advanced.dp.n2.lc279_perfectsquares;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 /**
  * Given a positive integer n, find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...) which sum to n.
@@ -11,12 +15,30 @@ import java.util.List;
 public class Solution {
 
     public static void main(String[] args) {
+        System.out.println(new Solution().numSquares(1));
         System.out.println(new Solution().numSquares(1339900));
     }
 
     private static List<Integer> leastNum = new ArrayList<>();
     static {
         leastNum.add(0);
+    }
+
+    // BFS: iterate sub-problem like graph
+    public int numSquares_bfs(int n) {
+        Set<Integer> vis = new HashSet<>();
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(n);
+        for (int level = 0; !q.isEmpty(); level++) {
+            for (int i = q.size(); i > 0; i--) {
+                int num = q.poll();
+                if (num == 0) return level;
+                for (int j = 1; j * j <= num; j++)
+                    if (vis.add(num - j * j))
+                        q.offer(num - j * j);
+            }
+        }
+        return 0;
     }
 
     // Classic dp using O(N) space.
@@ -43,7 +65,7 @@ public class Solution {
     }
 
     // My 2AC: cache perfect square. O(Nsqrt(N)) time, O(N) space
-    public int numSquares_dp(int n) {
+    public int numSquares2(int n) {
         // 1.Get usable perfect square
         int[] sqr = new int[(int) Math.sqrt(n) + 1];
         for (int i = 1, j = 1; i < sqr.length; i++, j = i * i) {
