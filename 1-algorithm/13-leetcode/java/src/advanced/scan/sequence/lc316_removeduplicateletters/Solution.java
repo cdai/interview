@@ -1,5 +1,7 @@
 package advanced.scan.sequence.lc316_removeduplicateletters;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -15,6 +17,26 @@ public class Solution {
         System.out.println(new Solution().removeDuplicateLetters("cbbba"));
     }
 
+    public String removeDuplicateLetters(String str) {
+        int[] freq = new int[256];
+        for (char c : str.toCharArray()) freq[c]++;
+
+        Set<Character> vis = new HashSet<>(); // character on stack by now
+        Stack<Character> s = new Stack<>();
+        for (char c : str.toCharArray()) {
+            freq[c]--; // remaining characters of c
+            if (vis.contains(c)) continue; // Still on stack
+            while (!s.isEmpty() && c < s.peek() && freq[s.peek()] > 0)
+                vis.remove(s.pop());
+            s.push(c);
+            vis.add(c);
+        }
+
+        StringBuilder ret = new StringBuilder();
+        for (char c : s) ret.append(c);
+        return ret.toString();
+    }
+
     // Intuitive idea: when you found a smaller char, try to remove previous char if they're duplicates
     // Given "bcabc", when you see a 'b', keep it and continue with the search, then keep the following 'c',
     // then we see an 'a'. Now we get a chance to get a smaller lexi order, you can check if after 'a', there is still 'b' and 'c' or not.
@@ -22,7 +44,7 @@ public class Solution {
     // pre: stack holding previous char
     // post: how many char left after cur position
     // dup: if char is already on stack (in result)
-    public String removeDuplicateLetters(String s) {
+    public String removeDuplicateLetters2(String s) {
         int[] post = new int[256];  // All lowercase, but for clarity
         for (char c : s.toCharArray()) post[c]++;
 
