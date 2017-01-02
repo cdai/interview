@@ -1,8 +1,13 @@
 package advanced.datastructure.graph.undirected.lc310_minimumheighttrees;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 /**
  * For a undirected graph with tree characteristics, we can choose any node as the root. The result graph is then a rooted tree. Among all possible rooted trees, those with minimum height are called minimum height trees (MHTs). Given such a graph, write a function to find all the MHTs and return a list of their root labels.
@@ -33,6 +38,35 @@ public class Solution {
                 4, new int[][]{{0, 1}, {1, 2}, {1, 3}}));
         System.out.println(new Solution().findMinHeightTrees(
                 6, new int[][]{{0, 1}, {0, 2}, {0, 3}, {3, 4}, {4, 5}}));
+        System.out.println(new Solution().findMinHeightTrees(
+                6, new int[][]{{0, 3}, {1, 3}, {2, 3}, {3, 4}, {4, 5}}));
+    }
+
+    // 3AC, more like Topo-sort
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        if (n <= 1) return Arrays.asList(0);
+        Set<Integer>[] adj = new Set[n];
+        for (int i = 0; i < n; i++) adj[i] = new HashSet<>();
+        for (int[] e : edges) {
+            adj[e[0]].add(e[1]);
+            adj[e[1]].add(e[0]);
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < n; i++)
+            if (adj[i].size() == 1) q.offer(i); // outdegree = 1 (leaf node)
+
+        while (n > 2) {
+            n -= q.size();
+            for (int i = q.size(); i > 0; i--) {
+                int v = q.poll();
+                int nv = adj[v].iterator().next();
+                adj[nv].remove(v);
+                if (adj[nv].size() == 1) // Only enter once for each node, eg.0-1, 1-2, 1-3
+                    q.offer(nv);
+            }
+        }
+        return q.size() == 1 ? Arrays.asList(q.poll()) : Arrays.asList(q.poll(), q.poll());
     }
 
     // Thanks to dietpepsi. O(N) solution.
@@ -42,7 +76,7 @@ public class Solution {
     // We start from every end, by end we mean vertex of degree 1 (aka leaves). We let the pointers move the same speed.
     // When two pointers meet, we keep only one of them, until the last two pointers meet or one step away we then find the roots.
     // It is easy to see that the last two pointers are from the two ends of the longest path in the graph."
-    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+    public List<Integer> findMinHeightTrees2(int n, int[][] edges) {
         if (n == 1) return Collections.singletonList(0);
         // 1.Group non-duplicate edges by vertex to form a adjacent list
         // (Array is more efficient than Map, List is enough for non-duplicate edges)

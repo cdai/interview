@@ -19,8 +19,7 @@ public class Solution {
         Deque<Integer> q = new LinkedList<>();
         int[] max = new int[nums.length - k + 1];
         for (int i = 0, j = 0; i < nums.length; i++) {
-            //print(i, nums, q);
-            while (!q.isEmpty() && q.peek() < i - k + 1) q.poll(); // remove elt out of win from front
+            while (!q.isEmpty() && i - q.peek() >= k) q.poll(); // remove elt out of win from front
             while (!q.isEmpty() && nums[q.peekLast()] < nums[i]) q.pollLast(); // remove smaller elt from back
             q.offer(i);
             if (i >= k - 1) max[j++] = nums[q.peek()];
