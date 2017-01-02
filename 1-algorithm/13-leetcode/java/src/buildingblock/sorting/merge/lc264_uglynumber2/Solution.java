@@ -34,7 +34,7 @@ public class Solution {
         return ugly[n];
     }
 
-    // Inspired by leetcode discuss. Reduce unneccessary calculation.
+    // Inspired by leetcode discuss. Reduce unnecessary calculation.
     public int nthUglyNumber3(int n) {
         int[] ugly = new int[n];
         ugly[0] = 1;

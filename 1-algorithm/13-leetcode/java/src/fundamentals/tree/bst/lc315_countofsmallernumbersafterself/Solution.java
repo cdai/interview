@@ -9,7 +9,44 @@ import java.util.TreeSet;
  */
 public class Solution {
 
+    // Order-statistic tree with size field to calculate rank of value.
     public List<Integer> countSmaller(int[] nums) {
+        if (nums.length == 0) return new ArrayList<>();
+        int n = nums.length;
+        Integer[] ret = new Integer[n];
+        ret[n - 1] = 0;
+
+        Node root = new Node(nums[n - 1]);
+        for (int i = n - 2; i >= 0; i--) {
+            int rank = 0;
+            Node par = root;
+            for (Node cur = root; cur != null; ) {
+                par = cur;
+                par.size++;
+                if (nums[i] < cur.val) { // left subtree contains only smaller num, it's safe to add to rank!
+                    cur = cur.left;
+                } else {
+                    if (cur.left != null) rank += cur.left.size; // size of left subtree
+                    if (cur.val < nums[i]) rank++; // check duplicate to decide if count parent as smaller
+                    cur = cur.right;
+                }
+            }
+            if (nums[i] < par.val) par.left = new Node(nums[i]);
+            else par.right = new Node(nums[i]);
+            ret[i] = rank;
+        }
+        return Arrays.asList(ret);
+    }
+
+    class Node {
+        int val, size = 1; // itself
+        Node left, right;
+        Node(int val) {
+            this.val = val;
+        }
+    }
+
+    public List<Integer> countSmaller2(int[] nums) {
         if (nums.length == 0) return new ArrayList<>();
 
         BSTNode root = new BSTNode(nums[nums.length - 1]);
@@ -53,7 +90,7 @@ public class Solution {
 
     // My 2AC: correct idea, but TLE since headSet() is too slow, we only the size
     // Treat duplicate as greater (existing a is smaller than new b) to avoid being counted
-    public List<Integer> countSmaller2(int[] nums) {
+    public List<Integer> countSmaller21(int[] nums) {
         Integer[] counter = new Integer[nums.length];
         TreeSet<Integer> tree = new TreeSet<>(
                 (a, b) -> (Integer.compare(a, b) == 0) ? -1 : Integer.compare(a, b));
