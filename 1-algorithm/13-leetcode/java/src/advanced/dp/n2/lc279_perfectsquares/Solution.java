@@ -19,8 +19,18 @@ public class Solution {
         leastNum.add(0);
     }
 
-    // Stefan's "static" DP solution. Beat 95.88%
+    // Classic dp using O(N) space.
     public int numSquares(int n) {
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, 1, dp.length, Integer.MAX_VALUE);
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j * j <= i; j++)
+                dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
+        return dp[n];
+    }
+
+    // Stefan's "static" DP solution. Beat 95.88%
+    public int numSquares_static(int n) {
         for (int m = leastNum.size(); m <= n; m++) {
             int min = Integer.MAX_VALUE;
             for (int i = 1; i * i <= m; i++) {
