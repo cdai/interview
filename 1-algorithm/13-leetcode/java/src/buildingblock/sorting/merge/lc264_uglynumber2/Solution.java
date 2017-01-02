@@ -16,8 +16,26 @@ import java.util.List;
  */
 public class Solution {
 
-    // Inspired by leetcode discuss. Reduce unneccessary calculation.
+    public static void main(String[] args) {
+        System.out.println(new Solution().nthUglyNumber(41));
+        System.out.println(new Solution().nthUglyNumber3(41));
+    }
+
     public int nthUglyNumber(int n) {
+        if (n <= 0) return 0;
+        int[] ugly = new int[n + 1];
+        ugly[1] = 1;
+        for (int i = 2, i2 = 1, i3 = 1, i5 = 1; i <= n; i++) {
+            ugly[i] = Math.min(ugly[i2] * 2, Math.min(ugly[i3] * 3, ugly[i5] * 5));
+            if (ugly[i] == ugly[i2] * 2) i2++; // Move all to avoid duplication
+            if (ugly[i] == ugly[i3] * 3) i3++;
+            if (ugly[i] == ugly[i5] * 5) i5++;
+        }
+        return ugly[n];
+    }
+
+    // Inspired by leetcode discuss. Reduce unneccessary calculation.
+    public int nthUglyNumber3(int n) {
         int[] ugly = new int[n];
         ugly[0] = 1;
 
@@ -27,6 +45,7 @@ public class Solution {
         for (int i = 1; i < n; i++) {
             int min = Math.min(u2, Math.min(u3, u5));
             ugly[i] = min;
+            System.out.println((i + 1) + " - " + min);
 
             if (min == u2) {
                 u2 = 2 * ugly[++i2];

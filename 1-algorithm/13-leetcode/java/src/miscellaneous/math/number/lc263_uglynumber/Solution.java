@@ -8,8 +8,16 @@ package miscellaneous.math.number.lc263_uglynumber;
  */
 public class Solution {
 
-    // My 2nd: extract helper method. O(N) time?
     public boolean isUgly(int num) {
+        if (num <= 0) return false;
+        while (num % 2 == 0) num /= 2;
+        while (num % 3 == 0) num /= 3;
+        while (num % 5 == 0) num /= 5;
+        return num == 1;
+    }
+
+    // My 2nd: extract helper method. O(N) time?
+    public boolean isUgly2(int num) {
         if (num <= 0) { // 0 will cause TLE...
             return false;
         }
