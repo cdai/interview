@@ -19,7 +19,24 @@ public class Solution {
         System.out.println(sol.maxCoins(new int[]{8,2,6,8,9,8,1,4,1,5,3,0,7,7,0,4,2}));
     }
 
+    // Why dp[l][r] = max(...)
+    // Why start from l + 1 to r - 1?
     public int maxCoins(int[] A) {
+        int n = A.length + 2;
+        int[] nums = new int[n];
+        nums[0] = nums[n - 1] = 1;
+        System.arraycopy(A, 0, nums, 1, A.length);
+
+        int[][] dp = new int[n][n];
+        for (int len = 2; len < n; len++)
+            for (int l = 0; l < n - len; l++)
+                for (int i = l + 1, r = l + len; i < r; i++)
+                    dp[l][r] = Math.max(dp[l][r], dp[l][i] + nums[l] * nums[i] * nums[r] + dp[i][r]);
+        return dp[0][n - 1];
+    }
+
+    // TLE
+    public int maxCoins3(int[] A) {
         int[] nums = new int[A.length + 2];
         nums[0] = nums[A.length + 1] = 1;
         System.arraycopy(A, 0, nums, 1, A.length);
