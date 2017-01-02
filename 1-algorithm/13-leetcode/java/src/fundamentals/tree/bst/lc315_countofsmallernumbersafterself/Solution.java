@@ -18,6 +18,7 @@ public class Solution {
 
         Node root = new Node(nums[n - 1]);
         for (int i = n - 2; i >= 0; i--) {
+            // Find insert position meanwhile computing rank
             int rank = 0;
             Node par = root;
             for (Node cur = root; cur != null; ) {
@@ -31,6 +32,7 @@ public class Solution {
                     cur = cur.right;
                 }
             }
+            // Insert new node and save rank
             if (nums[i] < par.val) par.left = new Node(nums[i]);
             else par.right = new Node(nums[i]);
             ret[i] = rank;
