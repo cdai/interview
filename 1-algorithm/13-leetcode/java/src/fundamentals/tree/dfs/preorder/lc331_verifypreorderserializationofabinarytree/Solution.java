@@ -31,10 +31,37 @@ public class Solution {
         System.out.println(new Solution().isValidSerialization("9,3,4,#,#,1,#,#,2,#,6,#,#"));
     }
 
+    // 1) non-null node contributes 2 outdegree and 1 indegree (2 children and 1 parent), except root
+    // 2) all null node contributes 0 outdegree and 1 indegree (0 child and 1 parent).
+    // If a serialization is correct, diff should never be negative and diff will be zero when finished
+    public boolean isValidSerialization(String preorder) {
+        int diff = 1; // a "virtual" indegree for root
+        for (String node : preorder.split(",")) {
+            if (--diff < 0) return false;
+            if (!"#".equals(node)) diff += 2;
+        }
+        return diff == 0;
+    }
+
+    // 3AC still use stack
+    public boolean isValidSerialization_stack(String preorder) {
+        String[] tree = preorder.split(",");
+        int i = 0, stack = 0;
+        for (; i < tree.length - 1; i++) {
+            if ("#".equals(tree[i])) {
+                if (stack == 0) break;
+                stack--;
+            } else {
+                stack++;
+            }
+        }
+        return stack == 0 && i == tree.length - 1 && "#".equals(tree[i]);
+    }
+
     // Neat and smart solution from dietpepsi!
     // Check if outdegree = indegree along the preorder path
     // which means every subtree must follow that rule
-    public boolean isValidSerialization(String preorder) {
+    public boolean isValidSerialization_degree(String preorder) {
         int diff = 1;   // a "virtual" indegree for root
         for (String node : preorder.split(",")) {
             if (--diff < 0) {
