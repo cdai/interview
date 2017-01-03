@@ -1,5 +1,8 @@
 package buildingblock.table.bitvector.lc318_maximumproductofwordlengths;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Given a string array words, find the maximum value of length(word[i]) * length(word[j])
  * where the two words do not share common letters.
@@ -10,10 +13,51 @@ package buildingblock.table.bitvector.lc318_maximumproductofwordlengths;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(sol.maxProduct(new String[]{"eae", "ea", "aaf", "bda", "fcf", "dc", "ac", "ce", "cefde", "dabae"}));
+    }
+
+    // O(N^2) using bit vector as dictionary. And trick for combining into one loop.
+    public int maxProduct(String[] words) {
+        int[] dict = new int[words.length];
+        int max = 0;
+        for (int i = 0; i < words.length; i++) {
+            for (char c : words[i].toCharArray())
+                dict[i] |= 1 << (c - 'a');
+
+            for (int j = 0; j < i; j++)
+                if ((dict[i] & dict[j]) == 0)
+                    max = Math.max(max, words[i].length() * words[j].length());
+        }
+        return max;
+    }
+
+    // My 3AC: Set wastes much space and TLE...
+    public int maxProduct_set(String[] words) {
+        if (words.length == 0) return 0;
+        Set<Character>[] dict = new HashSet[words.length];
+        for (int i = 0; i < dict.length; i++) dict[i] = new HashSet<>();
+        for (int i = 0; i < words.length; i++)
+            for (char c : words[i].toCharArray())
+                dict[i].add(c);
+
+        int max = 0;
+        for (int i = 0; i < dict.length; i++) {
+            for (int j = i + 1; j < dict.length; j++) {
+                Set<Character> intersect = new HashSet<>(dict[i]);
+                intersect.retainAll(dict[j]);
+                if (intersect.isEmpty()) // Two disjoint words
+                    max = Math.max(max, words[i].length() * words[j].length());
+            }
+        }
+        return max;
+    }
+
     // My 2AC: but shorter thanks to Stefan's "Reversed" loop
     // Normal:   0-1,2,3   1-2,3   2,3
     // Reversed: 0   1-0   2-0,1   3-0,1,2
-    public int maxProduct(String[] words) {
+    public int maxProduct2(String[] words) {
         int[] code = new int[words.length];
         int max = 0;
         for (int i = 0; i < words.length; i++) {
