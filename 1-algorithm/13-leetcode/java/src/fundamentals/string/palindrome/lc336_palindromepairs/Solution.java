@@ -13,6 +13,7 @@ import java.util.Map;
 public class Solution {
 
     // From naive O(nnk) to O(nkk) time.
+    // Edge case: ["a, ""]
     public List<List<Integer>> palindromePairs(String[] words) {
         Map<String, Integer> map = new HashMap<>();
         for (int i = 0; i < words.length; i++) map.put(words[i], i);
@@ -25,7 +26,7 @@ public class Solution {
                     String t = new StringBuilder(s2).reverse().toString();
                     if (map.getOrDefault(t, i) != i) ret.add(Arrays.asList(map.get(t), i));
                 }
-                if (isPalindrome(s2) && !s2.isEmpty()) { // s1 + s2 + word2 is palindrome (avoid duplicate if s2="": try only w2+s1 nor s1+w2, leave it for w2)
+                if (isPalindrome(s2) && !s2.isEmpty()) { // s1 + s2 + word2 is palindrome (avoid duplicate if s2="": try only w2+s1 nor s1+w2)
                     String t = new StringBuilder(s1).reverse().toString();
                     if (map.getOrDefault(t, i) != i) ret.add(Arrays.asList(i, map.get(t)));
                 }
