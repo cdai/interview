@@ -29,9 +29,62 @@ import java.util.TreeSet;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(sol.findItinerary(new String[][]{
+                {"JFK", "SFO"}, {"JFK", "ATL"}, {"SFO", "ATL"}, {"ATL", "JFK"}, {"ATL", "SFO"}}));
+        System.out.println(sol.findItinerary(new String[][]{
+                {"EZE", "AXA"}, {"TIA", "ANU"}, {"ANU", "JFK"}, {"JFK", "ANU"}, {"ANU", "EZE"}, {"TIA", "ANU"},
+                {"AXA", "TIA"}, {"TIA", "JFK"}, {"ANU", "TIA"}, {"JFK", "TIA"}}));
+    }
+
+    // Find Eulerian path in O(E) time.
+    public List<String> findItinerary(String[][] tickets) {
+        Map<String, Queue<String>> adj = new HashMap<>();
+        for (String[] t : tickets) {
+            if (!adj.containsKey(t[0])) adj.put(t[0], new PriorityQueue<>());
+            adj.get(t[0]).offer(t[1]);
+        }
+        return dfs(adj, new LinkedList<>(), "JFK");
+    }
+
+    private List<String> dfs(Map<String, Queue<String>> adj, LinkedList<String> path, String airport) {
+        Queue<String> q = adj.get(airport);
+        while (q != null && !q.isEmpty())
+            dfs(adj, path, q.poll());
+        path.addFirst(airport); // add node or merge blocked path to main path
+        return path;
+    }
+
+    // NOTE: duplicate edges incident from node
+    public List<String> findItinerary_slowdfs(String[][] tickets) {
+        Map<String,List<String>> adj = new HashMap<>();
+        for (String[] t : tickets) {
+            if (!adj.containsKey(t[0])) adj.put(t[0], new ArrayList<>());
+            adj.get(t[0]).add(t[1]);
+        }
+        List<String> path = new ArrayList<>();
+        path.add("JFK");
+        return dfs(adj, path, "JFK", tickets.length + 1);
+    }
+
+    private List<String> dfs(Map<String, List<String>> adj, List<String> path, String city, int length) {
+        if (path.size() == length) return path;
+        if (!adj.containsKey(city)) return null;
+        for (String dest : new TreeSet<>(adj.get(city))) {
+            adj.get(city).remove(dest); // Slow...
+            path.add(dest);
+            List<String> ret = dfs(adj, path, dest, length);
+            if (ret != null) return ret;
+            path.remove(path.size() - 1);
+            adj.get(city).add(dest);
+        }
+        return null;
+    }
+
     // Stefan solution: Eulerian path/circuit + Greedy DFS, building the route backwards when retreating. O(|E|) time.
     // Note: both TreeSet removes duplicate and hard to remove elements, but PriorityQueue (Heap) won't.
-    public List<String> findItinerary(String[][] tickets) {
+    public List<String> findItinerary2(String[][] tickets) {
         Map<String,Queue<String>> adj = new HashMap<>();
         for (String[] t : tickets)
             adj.computeIfAbsent(t[0], k -> new PriorityQueue<>()).add(t[1]); // Nice but slow!
