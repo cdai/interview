@@ -16,8 +16,23 @@ import java.util.Queue;
  */
 public class Solution {
 
-    // My 3AC
     public ListNode mergeKLists(ListNode[] lists) {
+        Queue<ListNode> q = new PriorityQueue<>(Comparator.comparingInt(n -> n.val));
+        for (ListNode n : lists)
+            if (n != null) q.offer(n);
+
+        ListNode dmy = new ListNode(0), pre = dmy;
+        while (!q.isEmpty()) {
+            ListNode n = q.poll();
+            pre = pre.next = n;
+            if (n.next != null)
+                q.offer(n.next);
+        }
+        return dmy.next;
+    }
+
+    // My 3AC
+    public ListNode mergeKLists32(ListNode[] lists) {
         return doMergeK(new LinkedList<>(Arrays.asList(lists)));
     }
 
