@@ -6,13 +6,26 @@ package fundamentals.string.convert.lc012_integertoroman;
  */
 public class Solution {
 
-    // Extremely simple and straightforward solution
     public String intToRoman(int num) {
-        String M[] = {"", "M", "MM", "MMM"};
-        String C[] = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
-        String X[] = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
-        String I[] = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
-        return M[num / 1000] + C[(num % 1000) / 100] + X[(num % 100) / 10] + I[num % 10];
+        int[] ints = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+        String[] rom = { "M", "CM", "D", "CD", "C", "XC", "L", "LX", "X", "IX", "V", "IV", "I" };
+        StringBuilder ret = new StringBuilder();
+        for (int i = 0; i < ints.length && num > 0; i++) { // terminate early
+            while (num >= ints[i]) {
+                ret.append(rom[i]);
+                num -= ints[i];
+            }
+        }
+        return ret.toString();
+    }
+
+    // Extremely simple and straightforward solution
+    public String intToRoman3(int n) {
+        String[] M = { "", "M", "MM", "MMM" };
+        String[] C = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" };
+        String[] X = { "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" };
+        String[] I = { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
+        return M[n / 1000] + C[n % 1000 / 100] + X[n % 100 / 10] + I[n % 10];
     }
 
     private String[] syms = {

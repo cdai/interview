@@ -9,6 +9,26 @@ import java.util.Map;
  */
 public class Solution {
 
+    // 4AC
+    public int romanToInt(String s) {
+        Map<Character, Integer> r2i = new HashMap<>();
+        r2i.put('I', 1);
+        r2i.put('V', 5);
+        r2i.put('X', 10);
+        r2i.put('L', 50);
+        r2i.put('C', 100);
+        r2i.put('D', 500);
+        r2i.put('M', 1000);
+
+        int num = 0, n = s.length();
+        for (int i = n - 1; i >= 0; i--) {
+            if (i < n - 1 && r2i.get(s.charAt(i)) < r2i.get(s.charAt(i + 1)))
+                num -= r2i.get(s.charAt(i));
+            else num += r2i.get(s.charAt(i));
+        }
+        return num;
+    }
+
     private static Map<Character,Integer> roman = new HashMap<>();
 
     static {
@@ -22,7 +42,7 @@ public class Solution {
     }
 
     // My 3AC: map is overkill, switch is adequate!
-    public int romanToInt(String s) {
+    public int romanToInt3(String s) {
         int prev = 0, num = 0;
         for (int i = s.length() - 1; i >= 0; i--) {
             int cur = r2i(s.charAt(i));

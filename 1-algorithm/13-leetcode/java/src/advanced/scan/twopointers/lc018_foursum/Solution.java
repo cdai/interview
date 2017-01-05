@@ -2,7 +2,9 @@ package advanced.scan.twopointers.lc018_foursum;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Given an array S of n integers, are there elements a, b, c, and d in S such that a + b + c + d = target?
@@ -11,8 +13,24 @@ import java.util.List;
  */
 public class Solution {
 
-    // My 2nd: O(N^3)
     public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        Set<List<Integer>> ret = new HashSet<>();
+        for (int i = 0; i < nums.length - 3; i++) {
+            for (int j = i + 1; j < nums.length - 2; j++) {
+                for (int m = j + 1, n = nums.length - 1; m < n; ) {
+                    int sum = nums[i] + nums[j] + nums[m] + nums[n];
+                    if (sum < target) m++;
+                    else if (sum > target) n--;
+                    else ret.add(Arrays.asList(nums[i], nums[j], nums[m++], nums[n--]));
+                }
+            }
+        }
+        return new ArrayList<>(ret);
+    }
+
+    // My 2nd: O(N^3)
+    public List<List<Integer>> fourSum2(int[] nums, int target) {
         Arrays.sort(nums);
         List<List<Integer>> result = new ArrayList<>();
         for (int i = 0; i < nums.length - 3; i++) {

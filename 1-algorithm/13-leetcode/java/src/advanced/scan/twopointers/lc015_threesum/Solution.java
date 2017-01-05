@@ -13,7 +13,8 @@ public class Solution {
     // Also work...
     // 1.Sort first
     // 2.Stop at len-2
-    // 3.Check duplicate (j++ avoid dead loop)
+    // 3.Check duplicate
+    // 4.Dead loop when found solution or duplicate
     public List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
         List<List<Integer>> ret = new ArrayList<>();
