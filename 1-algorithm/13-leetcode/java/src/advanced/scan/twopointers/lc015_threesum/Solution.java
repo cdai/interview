@@ -10,9 +10,28 @@ import java.util.List;
  */
 public class Solution {
 
+    // Also work...
+    // 1.Sort first
+    // 2.Stop at len-2
+    // 3.Check duplicate (j++ avoid dead loop)
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> ret = new ArrayList<>();
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i - 1] == nums[i]) continue;
+            for (int j = i + 1, k = nums.length - 1; j < k; ) {
+                if (j > i + 1 && nums[j - 1] == nums[j]) j++; // work not to check duplicate at k
+                else if (nums[i] + nums[j] + nums[k] < 0) j++;
+                else if (nums[i] + nums[j] + nums[k] > 0) k--;
+                else ret.add(Arrays.asList(nums[i], nums[j++], nums[k--]));
+            }
+        }
+        return ret;
+    }
+
     // Minor improvement on duplicates bypass from leetcode discuss
     // A little faster than previous
-    public List<List<Integer>> threeSum(int[] nums) {
+    public List<List<Integer>> threeSum3(int[] nums) {
         Arrays.sort(nums);
         List<List<Integer>> result = new ArrayList<>();
         for (int i = 0; i < nums.length - 2; i++) {
@@ -67,7 +86,7 @@ public class Solution {
     //  0 1 2 0 1 2   2
     // /\\
     // 012 ...
-    public List<List<Integer>> threeSum3(int[] nums) {
+    public List<List<Integer>> threeSum22(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         Arrays.sort(nums);
         doThreeSum(result, new ArrayList<>(), nums, 0, 0);

@@ -19,6 +19,7 @@ import java.util.List;
  */
 public class Solution {
 
+    // i=bit position, j=position in ret
     public List<Integer> grayCode(int n) {
         List<Integer> ret = new ArrayList<>(Arrays.asList(0));
         for (int i = 0; i < n; i++) {

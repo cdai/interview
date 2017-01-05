@@ -12,8 +12,23 @@ public class Solution {
         System.out.println(new Solution().threeSumClosest(new int[]{-1, 2, 1, 4}, 1));
     }
 
-    // My 2nd: O(N^2), with duplicate bypass, performance is up from 44% to 54%
+    // O(N^2) time. No need to check duplicate.
     public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int min = Integer.MAX_VALUE; // min diff
+        for (int i = 0; i < nums.length - 2; i++) {
+            for (int j = i + 1, k = nums.length - 1; j < k; ) {
+                int diff = target - nums[i] - nums[j] - nums[k];
+                if (Math.abs(diff) < Math.abs(min)) min = diff;
+                if (diff > 0) j++;
+                else k--;
+            }
+        }
+        return target - min;
+    }
+
+    // My 2nd: O(N^2), with duplicate bypass, performance is up from 44% to 54%
+    public int threeSumClosest2(int[] nums, int target) {
         Arrays.sort(nums);
         int closest = Integer.MAX_VALUE;
         for (int i = 0; i < nums.length - 2; i++) {
