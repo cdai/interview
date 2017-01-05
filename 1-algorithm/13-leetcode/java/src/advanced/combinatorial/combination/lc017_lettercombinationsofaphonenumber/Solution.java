@@ -15,9 +15,45 @@ import java.util.Queue;
  */
 public class Solution {
 
+    // 3AC
+    public List<String> letterCombinations(String digits) {
+        List<String> ret = new ArrayList<>();
+        if (!digits.isEmpty()) // Otherwise, return [""] which is wrong!
+            dfs(ret, new char[digits.length()], digits, 0);
+        return ret;
+    }
+
+    private void dfs(List<String> ret, char[] path, String digits, int k) {
+        if (k == digits.length()) {
+            ret.add(String.valueOf(path));
+            return;
+        }
+        for (char c : map[digits.charAt(k) - '0'].toCharArray()) {
+            path[k] = c;
+            dfs(ret, path, digits, k + 1);
+        }
+    }
+
+    // 3AC
+    // 1) Stop if we find top str in queue is of length as digits
+    // 2) Decide which digit to map by length of str in queue
+    public List<String> letterCombinations_iterate(String digits) {
+        if (digits.isEmpty()) return new ArrayList<>();
+        String[] map = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+        LinkedList<String> q = new LinkedList<>();
+        q.offer("");
+        while (!q.isEmpty()) {
+            if (q.peek().length() == digits.length()) break;
+            String s = q.poll();
+            for (char c : map[digits.charAt(s.length()) - '0'].toCharArray())
+                q.offer(s + c);
+        }
+        return q;
+    }
+
     // BFS solution from leetcode discuss. O(3^N) time.
     // DFS and BFS are uniformed between Tree and Combinatorial algorithm!
-    public List<String> letterCombinations(String digits) {
+    public List<String> letterCombinations2(String digits) {
         final String[] map = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
         LinkedList<String> queue = new LinkedList<>();
         if (!digits.isEmpty())
