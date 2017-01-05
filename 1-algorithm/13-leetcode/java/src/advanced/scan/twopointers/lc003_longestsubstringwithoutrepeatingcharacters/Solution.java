@@ -1,7 +1,10 @@
 package advanced.scan.twopointers.lc003_longestsubstringwithoutrepeatingcharacters;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Given a string, find the length of the longest substring without repeating characters.
@@ -14,13 +17,51 @@ import java.util.Map;
 public class Solution {
 
     public static void main(String[] args) {
+        System.out.println(new Solution().lengthOfLongestSubstring("bb"));
         System.out.println(new Solution().lengthOfLongestSubstring("abcabcbb"));
+    }
+
+    // Save index not count
+    public int lengthOfLongestSubstring(String s) {
+        int[] idx = new int[256];
+        Arrays.fill(idx, -1);
+        int max = 0;
+        for (int i = 0, from = 0; i < s.length(); i++) { /* [from,i) has no repeating str */
+            if (idx[s.charAt(i)] >= from) // Since we never clear idx after init, must >= from for validity
+                from = idx[s.charAt(i)] + 1;
+            idx[s.charAt(i)] = i;
+            max = Math.max(max, i - from + 1); /* Fix invariant. [from,i] has no neither */
+        }
+        return max;
+    }
+
+    public int lengthOfLongestSubstring3_set(String s) {
+        Set<Character> seen = new HashSet<>();
+        int max = 0;
+        for (int i = 0, from = 0; i < s.length(); i++) {
+            while (!seen.add(s.charAt(i))) // Repeat char in window
+                seen.remove(s.charAt(from++));
+            max = Math.max(max, seen.size());
+        }
+        return max;
+    }
+
+    public int lengthOfLongestSubstring3_array(String s) {
+        int[] seen = new int[256];
+        int max = 0;
+        for (int i = 0, from = 0; i < s.length(); i++) {
+            while (seen[s.charAt(i)] > 0)
+                seen[s.charAt(from++)]--;
+            seen[s.charAt(i)]++;
+            max = Math.max(max, i - from + 1);
+        }
+        return max;
     }
 
     // Inspired by cbmbbz from leetcode discuss
     // O(N) time, O(1) space if charset is fixed
     // Idea: don't go back and it's ok "dirty" char remained out there
-    public int lengthOfLongestSubstring(String s) {
+    public int lengthOfLongestSubstring21(String s) {
         Map<Character,Integer> map = new HashMap<>();
         int max = 0, start = 0;
         for (int i = 0; i < s.length(); i++) {
