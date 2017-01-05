@@ -13,8 +13,20 @@ import java.util.Map;
  */
 public class Solution {
 
-    // My 2nd: O(N) time, O(1) space (fixed 26 int array)
     public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length()) return false;
+        int[] diff = new int[256];
+        for (int i = 0; i < s.length(); i++) {
+            diff[s.charAt(i)]++;
+            diff[t.charAt(i)]--;
+        }
+        for (int d : diff)
+            if (d != 0) return false;
+        return true;
+    }
+
+    // My 2nd: O(N) time, O(1) space (fixed 26 int array)
+    public boolean isAnagram2(String s, String t) {
         if (s.length() != t.length()) {
             return false;
         }
@@ -52,7 +64,7 @@ public class Solution {
     }
 
     // Fairly slow...
-    public boolean isAnagram2(String s, String t) {
+    public boolean isAnagram11(String s, String t) {
         if (s == null || t == null || s.length() != t.length()) {
             return false;
         }
