@@ -8,8 +8,24 @@ package buildingblock.searching.lc033_searchinrotatedsortedarray;
  */
 public class Solution {
 
+    public int search(int[] A, int target) {
+        int l = 0, r = A.length - 1;
+        while (l <= r) { /* invariant: target in [l,r] */
+            int m = l + (r - l) / 2;
+            if (A[m] == target) return m;
+            if (A[l] < A[m]) {
+                if (A[l] <= target && target < A[m]) r = m - 1;
+                else l = m + 1;
+            } else { /* must at least one half is not rotated */
+                if (A[m] < target && target <= A[r]) l = m + 1;
+                else r = m - 1;
+            }
+        }
+        return -1;
+    }
+
     // Inspired from leetcode discuss
-    public int search2(int[] nums, int target) {
+    public int search21(int[] nums, int target) {
         int n = nums.length;
 
         // 1.Find pivot (smallest element position)
@@ -43,7 +59,7 @@ public class Solution {
     }
 
     // My 2nd: O(logN)
-    public int search(int[] nums, int target) {
+    public int search2(int[] nums, int target) {
         // target must be [0,n-1] or doesn't exist in array
         int low = 0, high = nums.length - 1;
 
