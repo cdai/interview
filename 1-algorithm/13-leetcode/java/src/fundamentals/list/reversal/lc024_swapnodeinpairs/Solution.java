@@ -16,9 +16,23 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
+    // pre->1->2(suc)->3 => pre->2->1->3...
+    public ListNode swapPairs(ListNode head) {
+        ListNode dmy = new ListNode(0), pre = dmy;
+        dmy.next = head;
+        while (pre.next != null && pre.next.next != null) {
+            ListNode suc = pre.next.next;
+            pre.next.next = suc.next;
+            suc.next = pre.next;
+            pre.next = suc;
+            pre = pre.next.next;
+        }
+        return dmy.next;
+    }
+
     // O(N): prev->first->second => prev->second->first, then move prev to first to maintain invariant
     // invariant: nodes behind prev (inclusive) are swapped already
-    public ListNode swapPairs(ListNode head) {
+    public ListNode swapPairs3(ListNode head) {
         if (head == null) return null;
         ListNode dmy = new ListNode(0), prev = dmy;
         dmy.next = head;
