@@ -14,8 +14,35 @@ public class Solution {
         System.out.println(new Solution().reverseList(head));
     }
 
+    // 4AC
+    // pre cur->suc => pre<-cur suc...
+    // invariant: [0...pre] is reversed
+    public ListNode reverseList(ListNode head) {
+        if (head == null) return null;
+        ListNode pre = null, cur = head;
+        while (cur != null) {
+            ListNode suc = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = suc;
+        }
+        return pre;
+    }
+
+    // 4AC tail recursion
+    public ListNode reverse(ListNode head) {
+        return rev(head, null);
+    }
+
+    private ListNode rev(ListNode cur, ListNode pre) {
+        if (cur == null) return pre;
+        ListNode suc = cur.next;
+        cur.next = pre;
+        return rev(suc, cur);
+    }
+
     // My 3AC
-    public ListNode reverseList(ListNode node) {
+    public ListNode reverseList3(ListNode node) {
         if (node == null || node.next == null) return node;
 
         ListNode next = node.next;
@@ -60,7 +87,7 @@ public class Solution {
     }
 
     // My 1st
-    public ListNode reverseList3(ListNode head) {
+    public ListNode reverseList1(ListNode head) {
         if (head == null) {
             return head;
         }
