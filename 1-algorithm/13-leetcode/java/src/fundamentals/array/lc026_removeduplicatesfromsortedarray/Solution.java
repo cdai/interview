@@ -1,4 +1,4 @@
-package advanced.scan.twopointers.lc026_removeduplicatesfromsortedarray;
+package fundamentals.array.lc026_removeduplicatesfromsortedarray;
 
 /**
  * Given a sorted fundamentals.array, remove the duplicates in place such that each element appear only once
@@ -11,8 +11,16 @@ package advanced.scan.twopointers.lc026_removeduplicatesfromsortedarray;
  */
 public class Solution {
 
-    // Invariant: [0,i-1] has no duplicates
+    // 4AC
     public int removeDuplicates(int[] nums) {
+        int i = 0;
+        for (int num : nums)
+            if (i < 1 || nums[i - 1] != num) nums[i++] = num;
+        return i;
+    }
+
+    // Invariant: [0,i-1] has no duplicates
+    public int removeDuplicates3(int[] nums) {
         int i = 0;
         for (int n : nums)
             if (i < 1 || n != nums[i - 1])

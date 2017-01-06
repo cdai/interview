@@ -1,4 +1,4 @@
-package advanced.scan.twopointers.lc080_removeduplicatesfromsortedarray2;
+package fundamentals.array.lc080_removeduplicatesfromsortedarray2;
 
 /**
  * Follow up for "Remove Duplicates": What if duplicates are allowed at most twice?
@@ -8,8 +8,17 @@ package advanced.scan.twopointers.lc080_removeduplicatesfromsortedarray2;
  */
 public class Solution {
 
-    // My 3AC
+    // invariant: elts in [0,i] are all distinct
     public int removeDuplicates(int[] nums) {
+        int i = -1;
+        for (int num : nums)
+            if (i < 1 || num != nums[i - 1])
+                nums[++i] = num;
+        return i + 1;
+    }
+
+    // My 3AC
+    public int removeDuplicates3(int[] nums) {
         int i = 0;
         for (int num : nums)
             if (i < 2 || nums[i - 2] < num)
@@ -48,7 +57,7 @@ public class Solution {
 
     // My 2nd: copy current and also next number if duplicate
     // but it is hard to extend for K times situation
-    public int removeDuplicates3(int[] nums) {
+    public int removeDuplicates21(int[] nums) {
         // Invariant: elements in [0,j) appear at most twice.
         int j = 0;
         for (int i = 0; i < nums.length; i++) {     // error: i and j must start from 0. eg.[1,1]
