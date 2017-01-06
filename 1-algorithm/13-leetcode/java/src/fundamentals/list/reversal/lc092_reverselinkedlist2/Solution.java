@@ -11,8 +11,28 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
+    // pre->...->cur->suc => pre->suc->...->cur->...
+    public ListNode reverseBetween(ListNode head, int m , int n) {
+        ListNode dmy = new ListNode(0), pre = dmy;
+        dmy.next = head;
+        for (int i = 1; i < m && pre != null; i++)
+            pre = pre.next;
+
+        if (pre == null) return head;
+
+        ListNode cur = pre.next;
+        for (int i = m; i < n && cur != null && cur.next != null; i++) {
+            ListNode suc = cur.next;
+            cur.next = suc.next;
+            suc.next = pre.next;
+            pre.next = suc;
+            //cur = cur.next;
+        }
+        return dmy.next;
+    }
+
     // My 3AC. Start from m, reverse n-m-1 times.
-    public ListNode reverseBetween(ListNode head, int m, int n) {
+    public ListNode reverseBetween3(ListNode head, int m, int n) {
         if (head == null) return null;
 
         ListNode dmy = new ListNode(0), prev = dmy;
