@@ -1,4 +1,4 @@
-package advanced.scan.twopointers.lc027_removeelement;
+package fundamentals.array.lc027_removeelement;
 
 /**
  * Given an fundamentals.array and a value, remove all instances of that value in place and return the new length.
@@ -10,8 +10,15 @@ package advanced.scan.twopointers.lc027_removeelement;
  */
 public class Solution {
 
+    public int removeElement(int[] A, int elem) {
+        int i = 0; /* invariant: [0,i) not contain elem */
+        for (int a : A)
+            if (a != elem) A[i++] = a;
+        return i;
+    }
+
     // My 2nd: use two pointers to do in-place move
-    public int removeElement(int[] nums, int val) {
+    public int removeElement3(int[] nums, int val) {
         // Invariant: [0,j) has no element of val
         int j = 0;
         for (int i = 0; i < nums.length; i++) {
