@@ -12,8 +12,22 @@ package buildingblock.searching.lc035_searchinsertposition;
  */
 public class Solution {
 
+    public int searchInsert(int[] A, int target) {
+        int l = 0, r = A.length - 1;
+        while (l <= r) { /* invariant: target in [l,r] */
+            int m = l + (r - l) / 2;
+            if (A[m] == target) return m;
+            if (A[m] < target) l = m + 1;
+            else r = m - 1;
+        }
+        // Last round l==r:
+        // 1) target < A[m]: l=m, r=mid-1, low is the insert position
+        // 2) target > A[m], r=m, l=mid+1, low is the insert position too!
+        return l; /* [r,l] */
+    }
+
     // My 2nd: O(logN) with detailed assertion
-    public int searchInsert(int[] nums, int target) {
+    public int searchInsert2(int[] nums, int target) {
         if (nums.length == 0) {
             return 0;
         }

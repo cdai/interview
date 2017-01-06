@@ -1,5 +1,7 @@
 package advanced.datastructure.kmp.lc214_shortestpalindrome;
 
+import java.util.Arrays;
+
 /**
  * Given a string S, you are allowed to convert it to a palindrome by adding characters in front of it.
  * Find and return the shortest palindrome you can find by performing this transformation.
@@ -13,6 +15,8 @@ public class Solution {
         Solution sol = new Solution();
         System.out.println(sol.shortestPalindrome("abcd"));
         System.out.println(sol.shortestPalindrome("aacecaaa"));
+
+        System.out.println(Arrays.toString(sol.preprocess("accabb#bbacca".toCharArray())));
     }
 
     public String shortestPalindrome(String s) {
