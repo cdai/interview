@@ -1,4 +1,10 @@
-package advanced.combinatorial.backtracking.dfs.lc010_regularexpressionmatching;
+package fundamentals.string.search.lc010_regularexpressionmatching;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Implement regular expression matching with support for '.' and '*'.
@@ -22,6 +28,43 @@ public class Solution {
 //        System.out.println(new Solution().isMatch("a", ".*.."));
     }
 
+    public boolean isMatch(String s, String p) {
+        // Build NFA of pattern
+        int n = p.length();
+        List<Integer>[] trans = new List[n + 1]; // final state
+        for (int i = 0; i < n + 1; i++) trans[i] = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (p.charAt(i) == '*') trans[i].add(i + 1);
+            else if (i < n - 1 && p.charAt(i + 1) == '*') { //look ahead
+                trans[i + 1].add(i);
+                trans[i].add(i + 1);
+            }
+        }
+
+        // Match str: compute possible states for s[i+1] in each iteration
+        Set<Integer> states = dfs(new HashSet<>(), Collections.singleton(0), trans);
+        for (int i = 0; i < s.length(); i++) {
+            Set<Integer> match = new HashSet<>();
+            for (int v : states)
+                if (v < n && (p.charAt(v) == s.charAt(i) || p.charAt(v) == '.'))
+                    match.add(v + 1);
+            states = dfs(new HashSet<>(), match, trans);
+        }
+
+        // Check if any path reach final state
+        for (int v : states) if (v == n) return true;
+        return false;
+    }
+
+    // Multiple-source reachability
+    private Set<Integer> dfs(Set<Integer> dst, Set<Integer> src, List<Integer>[] trans) {
+        dst.addAll(src);
+        for (int s : src)
+            for (int v : trans[s])
+                if (!dst.contains(v)) dst.addAll(dfs(dst, Collections.singleton(v), trans));
+        return dst;
+    }
+
     // My 2AC: O(M*N) time?
     // Note: Must match zero (move p) first, otherwise it terminates early if s reach end
     // s="aaa", p="a*a"
@@ -35,7 +78,7 @@ public class Solution {
     //  s=a, p=a
     //  s=, p=
     // true
-    public boolean isMatch(String s, String p) {
+    public boolean isMatch2(String s, String p) {
         if (p.isEmpty()) return s.isEmpty();
 
         // encounter star: match zero or match one only if . or char matched

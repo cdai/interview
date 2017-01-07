@@ -1,4 +1,4 @@
-package advanced.combinatorial.backtracking.dfs.lc044_wildcardmatching;
+package fundamentals.string.search.lc044_wildcardmatching;
 
 /**
  *
