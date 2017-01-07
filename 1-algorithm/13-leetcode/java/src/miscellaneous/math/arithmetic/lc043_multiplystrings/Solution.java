@@ -8,11 +8,29 @@ package miscellaneous.math.arithmetic.lc043_multiplystrings;
  */
 public class Solution {
 
+    // eg.1234*567 = 1234*7 + 1234*60 + 1234*500
+    // Key: n1[i] * n2[j] will be at ret[i+j,i+j+1]. eg.2*6=12 -> 2+1=3,4
+    public String multiply(String num1, String num2) {
+        int m = num1.length(), n = num2.length();
+        int[] mul = new int[m + n]; // left shift num1(m) n-1 times, plus 1 digit for carry
+        for (int i = 0, d1 = m - 1; i < m; i++, d1--) {
+            for (int j = 0, d2 = n - 1; j < n; j++, d2--) {
+                int sum = (num1.charAt(d1) - '0') * (num2.charAt(d2) - '0') + mul[i + j];
+                mul[i + j] = sum % 10;      // Low digit
+                mul[i + j + 1] += sum / 10; // High carry, must accumulate!
+            }
+        }
+        StringBuilder ret = new StringBuilder();
+        for (int i = mul.length - 1; i >= 0; i--)
+            if (!(ret.length() == 0 && mul[i] == 0)) ret.append(mul[i]);
+        return ret.length() == 0 ? "0" : ret.toString();
+    }
+
     // Elegant solution by yavinci from leetcode discuss
     // num1 - 1234: i=0, charAt(3)
     // num2 -  234: j=0, charAt(2)
     // prod[,,1,6]
-    public String multiply(String num1, String num2) {
+    public String multiply3(String num1, String num2) {
         int m = num1.length(), n = num2.length();
         int[] prod = new int[m + n];
         for (int i = m - 1; i >= 0; i--) {
