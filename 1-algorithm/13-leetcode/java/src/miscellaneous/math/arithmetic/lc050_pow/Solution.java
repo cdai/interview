@@ -1,16 +1,40 @@
 package miscellaneous.math.arithmetic.lc050_pow;
 
+import java.util.Stack;
+
 /**
  * Implement pow(x, n).
  */
 public class Solution {
 
     public static void main(String[] args) {
-        System.out.println(new Solution().myPow(2, 5));
+        System.out.println(new Solution().myPow(2, -5));
+    }
+
+    // 4AC
+    public double myPow(double x, int n) {
+        double ret = 1, pow = x;
+        for (long i = Math.abs((long) n); i > 0; i >>= 1) {
+            if (i % 2 == 1) ret *= pow;
+            pow *= pow;
+        }
+        return n > 0 ? ret : 1 / ret;
+    }
+
+    public double myPow4_stack(double x, int n) {
+        Stack<Integer> s = new Stack<>();
+        for (int i = n; i != 0; i /= 2) s.push(i);
+
+        double pow = 1;
+        while (!s.isEmpty()) {
+            pow *= pow;
+            if (s.pop() % 2 != 0) pow *= (n > 0) ? x : 1 / x;
+        }
+        return pow;
     }
 
     // My 3AC. O(logN) time.
-    public double myPow(double x, int n) {
+    public double myPow3(double x, int n) {
         double ret = 1, pow = x;            // n != 0 doesn't work due to sign
         for (long absn = Math.abs((long) n); absn > 0; absn >>= 1) {
             if ((absn & 1) == 1) ret *= pow;// avoid sign affect. don't use %
