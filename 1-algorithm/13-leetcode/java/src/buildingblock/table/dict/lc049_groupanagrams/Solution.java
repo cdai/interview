@@ -15,8 +15,37 @@ import java.util.*;
  */
 public class Solution {
 
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> grp = new HashMap<>();
+        for (String s : strs) { // invariant: grp contain anagram groups before s
+            char[] ch = s.toCharArray();
+            int[] cnt = new int[26];
+            for (char c : ch) cnt[c - 'a']++;
+            for (int i = 0, j = 0; i < cnt.length; i++)
+                while (cnt[i]-- > 0) ch[j++] = (char) (i + 'a');
+
+            String key = String.valueOf(ch);
+            if (!grp.containsKey(key)) grp.put(key, new ArrayList<>());
+            grp.get(key).add(s);
+        }
+        return new ArrayList<>(grp.values());
+    }
+
+    // 4AC still quick sort. O(MNlogN).
+    public List<List<String>> groupAnagrams4_quicksort(String[] strs) {
+        Map<String, List<String>> grp = new HashMap<>();
+        for (String s : strs) { // invariant: grp contain anagram groups before s
+            char[] c = s.toCharArray();
+            Arrays.sort(c);
+            String key = String.valueOf(c);
+            if (!grp.containsKey(key)) grp.put(key, new ArrayList<>());
+            grp.get(key).add(s);
+        }
+        return new ArrayList<>(grp.values());
+    }
+
     // My 3AC
-    public List<List<String>> groupAnagrams_quicksort(String[] strs) {
+    public List<List<String>> groupAnagrams3_quicksort(String[] strs) {
         Map<String,List<String>> group = new HashMap<>();
         for (String str : strs) {
             char[] chars = str.toCharArray();
@@ -31,7 +60,7 @@ public class Solution {
     }
 
     // O(MNlogN) time using quicksort. O(MN) using counting sort.
-    public List<List<String>> groupAnagrams(String[] strs) {
+    public List<List<String>> groupAnagrams3(String[] strs) {
         Map<String,List<String>> group = new HashMap<>();
         for (String str : strs) {
             char[] chars = str.toCharArray();
