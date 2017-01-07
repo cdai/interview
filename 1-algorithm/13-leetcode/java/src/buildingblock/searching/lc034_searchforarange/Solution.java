@@ -1,5 +1,7 @@
 package buildingblock.searching.lc034_searchforarange;
 
+import java.util.Arrays;
+
 /**
  * Given a sorted array of integers, find the starting and ending position of a given target value.
  * Your algorithm's runtime complexity must be in the order of O(log n).
@@ -8,8 +10,38 @@ package buildingblock.searching.lc034_searchforarange;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(Arrays.toString(sol.searchRange(new int[]{5, 7, 8, 8, 10}, 8)));
+    }
+
+    public int[] searchRange(int[] A, int target) {
+        int[] range = { -1, -1 };
+        if (A.length == 0) return range;
+
+        int l, r;
+        for (l = 0, r = A.length - 1; l < r; ) {/* t in [l,r] */
+            int m = l + (r - l) / 2;
+            if (A[m] == target) r = m;          /* l=r-1 -> m=l -> m=l=r */
+            else if (A[m] < target) l = m + 1;
+            else r = m - 1;
+        }
+        if (A[l] != target) return range;       /* l=r */
+        range[0] = l;
+
+        for (l = 0, r = A.length - 1; l < r; ) {
+            int m = l + (r - l + 1) / 2;        /* ceiling not floor */
+            if (A[m] == target) l = m;          /* l=r-1 -> m=r -> m=l=r */
+            else if (A[m] < target) l = m + 1;
+            else r = m - 1;
+        }
+        if (A[r] != target) return range;
+        range[1] = r;
+        return range;
+    }
+
     // My 2nd: two binary searches with O(logN) time
-    public int[] searchRange(int[] nums, int target) {
+    public int[] searchRange2(int[] nums, int target) {
         int[] range = new int[]{ -1, -1 };
         if (nums.length == 0) {
             return range;
