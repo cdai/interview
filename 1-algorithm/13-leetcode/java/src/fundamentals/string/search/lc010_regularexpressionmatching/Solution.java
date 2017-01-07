@@ -28,7 +28,21 @@ public class Solution {
 //        System.out.println(new Solution().isMatch("a", ".*.."));
     }
 
+    // 1.Must check s.isEmpty() later, eg."a","a**" -> "", "**"
+    // 2.Don't match * to zero to all, just zero with p[1..] and one with p[0..]
     public boolean isMatch(String s, String p) {
+        if (p.isEmpty()) return s.isEmpty();
+        if (p.length() > 1 && p.charAt(1) == '*') {
+            return isMatch(s, p.substring(2)) ||
+                    (!s.isEmpty() && (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.') && isMatch(s.substring(1), p));
+        }
+        return !s.isEmpty() && (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.') && isMatch(s.substring(1), p.substring(1));
+    }
+
+    // 1.Build the NFA transition table of pattern P to represent "empty transition" for "*", "(", "|".
+    // 2.Iterate through string S, save all "reachable" states from previous states. (multiple-source reachability problem)
+    // 3.Finally, if any path reaches the final state, then S and P is matched.
+    public boolean isMatch3_nfa(String s, String p) {
         // Build NFA of pattern
         int n = p.length();
         List<Integer>[] trans = new List[n + 1]; // final state

@@ -5,9 +5,18 @@ package fundamentals.string.search.lc044_wildcardmatching;
  */
 public class Solution {
 
+    // TLE again... but clear logic
+    public boolean isMatch(String s, String p) {
+        if (p.isEmpty()) return s.isEmpty();
+        if (p.charAt(0) == '*') { // Match 0 to all char, s could be ""
+            return isMatch(s, p.substring(1)) || (!s.isEmpty() && isMatch(s.substring(1), p));
+        }
+        return !s.isEmpty() && (s.charAt(0) == p.charAt(0) || p.charAt(0) == '?') && isMatch(s.substring(1), p.substring(1));
+    }
+
     // TLE: "aaabbbaabaaaaababaabaaabbabbbbbbbbaabababbabbbaaaaba"
     //      "a*******b"
-    public boolean isMatch(String s, String p) {
+    public boolean isMatch2(String s, String p) {
         if (p.isEmpty()) return s.isEmpty();
         if (p.charAt(0) == '*') /* star match zero or many (irrelevant to previous char) */
             return isMatch(s, p.substring(1)) || (!s.isEmpty() && isMatch(s.substring(1), p));
