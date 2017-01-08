@@ -11,8 +11,26 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
-    // Elegant solution from leetcode discuss
+    // 4AC. Same as 3AC just with clean name.
+    // l1=nil, l2=nil breach the invariant of following loop
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        if (l1 == null && l2 == null) return new ListNode(0);
+        ListNode dmy = new ListNode(0), pre = dmy;
+        int carry = 0;
+        while (l1 != null || l2 != null || carry > 0) {
+            int d1 = (l1 != null) ? l1.val : 0;
+            int d2 = (l2 != null) ? l2.val : 0;
+            int sum = d1 + d2 + carry;
+            pre = pre.next = new ListNode(sum % 10);
+            carry = sum / 10;
+            if (l1 != null) l1 = l1.next;
+            if (l2 != null) l2 = l2.next;
+        }
+        return dmy.next;
+    }
+
+    // Elegant solution from leetcode discuss
+    public ListNode addTwoNumbers3(ListNode l1, ListNode l2) {
         ListNode head = new ListNode(0), prev = head;
         int carry = 0;
         while (l1 != null || l2 != null || carry != 0) { // Nice! Safe since there's l1 and l2 null check
