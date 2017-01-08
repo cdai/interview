@@ -3,8 +3,10 @@ package advanced.datastructure.unionfind.lc352_datastreamasdisjointintervals;
 import miscellaneous.interval.Interval;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -28,6 +30,19 @@ public class SummaryRanges1 {
         if (left > 0) ranges.put(val - left, sum);
         if (right > 0) ranges.put(val + right, sum);
         ranges.put(val, sum);
+    }
+
+    // O(logN) time as well but remove unused middle val.
+    private Set<Integer> dup = new HashSet<>();
+    public void addNum2(int val) {
+        if (!dup.add(val)) return;
+        int left = ranges.containsKey(val - 1) ? ranges.remove(val - 1) : 0;
+        int right = ranges.containsKey(val + 1) ? ranges.remove(val + 1) : 0;
+        int sum = left + right + 1;
+
+        if (left > 0) ranges.put(val - left, sum);
+        if (right > 0) ranges.put(val + right, sum);
+        if (left == 0 || right == 0) ranges.put(val, sum); // remove middle val if it's not boundary to speed up getInt()
     }
 
     // O(N) time
