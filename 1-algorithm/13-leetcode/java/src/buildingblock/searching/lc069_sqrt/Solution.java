@@ -5,8 +5,24 @@ package buildingblock.searching.lc069_sqrt;
  */
 public class Solution {
 
-    // My 3AC. O(logN) time.
+    public static void main(String[] args) {
+        System.out.println(new Solution().mySqrt(2147483647));
+    }
+
     public int mySqrt(int x) {
+        if (x <= 0) return 0;
+        long l = 0, r = x;
+        while (l < r) {
+            long m = l + (r - l + 1) / 2; // ceiling avoids dead loop, but r+1 overflow if r=INT_MAX
+            if (m == x / m) return (int) m;
+            if (m <= x / m) l = m; /* not sure. eg. 3*3 < 10, sqrt(10)=3 */
+            else r = m - 1; /* sqrt must be smaller than m */
+        }
+        return (int) l;
+    }
+
+    // My 3AC. O(logN) time.
+    public int mySqrt3(int x) {
         if (x <= 1) return x;
         int l = 0, h = x;
         while (l + 1 < h) {
