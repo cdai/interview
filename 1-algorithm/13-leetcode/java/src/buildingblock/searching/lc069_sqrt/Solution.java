@@ -12,7 +12,7 @@ public class Solution {
     // MAX_INT*MAX_INT(2^32-1) < MAX_LONG(2^64-1)
     public int mySqrt(int x) {
         if (x <= 0) return 0;
-        long l = 0, r = x;
+        long l = 1, r = x;
         while (l < r) {
             long m = l + (r - l + 1) / 2; // ceiling avoids dead loop, but r+1 overflow if r=INT_MAX
             if (m * m == x) return (int) m;
