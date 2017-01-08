@@ -4,6 +4,8 @@ import miscellaneous.interval.Interval;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -14,9 +16,24 @@ import java.util.TreeMap;
  */
 public class Solution {
 
+    // 4AC. Spare "prev" var by storing and comparing to ret directly.
+    public List<Interval> merge(List<Interval> ints) {
+        if (ints.isEmpty()) return new ArrayList<>();
+        ints.sort(Comparator.comparingInt(i -> i.start)); // must sort by start, eg.[2,3],[4,5],[1,10]
+        LinkedList<Interval> ret = new LinkedList<>();
+
+        for (Interval in : ints) {
+            if (!ret.isEmpty() && in.start <= ret.getLast().end) {
+                ret.getLast().end = Math.max(ret.getLast().end, in.end); // no need to revise start, since already sorted by start
+            } else
+                ret.add(new Interval(in.start, in.end));
+        }
+        return ret;
+    }
+
     // My 3AC. Longer but more clean and efficient using for-each.
     // O(NlogN) time due to sorting.
-    public List<Interval> merge(List<Interval> intervals) {
+    public List<Interval> merge3(List<Interval> intervals) {
         intervals.sort((i1, i2) -> Integer.compare(i1.start, i2.start));
         List<Interval> ret = new ArrayList<>();
         Interval prev = null;
