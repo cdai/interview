@@ -3,6 +3,7 @@ package miscellaneous.interval.lc057_insertinterval;
 import miscellaneous.interval.Interval;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,8 +15,36 @@ import java.util.List;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        List<Interval> merge = sol.insert(Arrays.asList(
+                new Interval(1, 2), new Interval(3, 5), new Interval(6, 7),
+                new Interval(8, 10), new Interval(12, 16)
+        ), new Interval(4, 9));
+        for (Interval in : merge)
+            System.out.printf("[%d, %d]\n", in.start, in.end);
+    }
+
+    // 1) Shallow vs Deep: Don't do deep clone unnecessarily. Copy new interval only when interval in ints are going to be changed
+    // 2) Condition: no affect = (i.end < new.start), merge = (i.start <= m.end), no affect = (m.end < i.start)
+    public List<Interval> insert(List<Interval> ints, Interval newin) {
+        List<Interval> ret = new ArrayList<>();
+        int i, n = ints.size();
+        for (i = 0; i < n && ints.get(i).end < newin.start; i++) // newin definitely has no affect on end before its start
+            ret.add(ints.get(i));
+
+        Interval merge = new Interval(newin.start, newin.end); /* first interval end >= newin.start */
+        for (; i < n && ints.get(i).start <= merge.end; i++) { // merge.start <= ints.get(i).end
+            merge.start = Math.min(merge.start, ints.get(i).start);
+            merge.end = Math.max(merge.end, ints.get(i).end);
+        }
+        ret.add(merge);
+        ret.addAll(ints.subList(i, n)); /* all interval start > merge.end */
+        return ret;
+    }
+
     // My 3AC
-    public List<Interval> insert(List<Interval> intervals, Interval insert) {
+    public List<Interval> insert3(List<Interval> intervals, Interval insert) {
         List<Interval> ret = new ArrayList<>();
         for (Interval cur : intervals) {
             if (cur.end >= insert.start) break; // Note: first cur overlap insert. insert.end >= cur.start wrong!
