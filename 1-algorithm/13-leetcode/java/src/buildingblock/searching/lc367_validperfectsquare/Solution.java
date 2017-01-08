@@ -8,8 +8,20 @@ package buildingblock.searching.lc367_validperfectsquare;
  */
 public class Solution {
 
-    // My 2nd: O(logN)
     public boolean isPerfectSquare(int num) {
+        if (num <= 0) return false;
+        long l = 0, r = num;
+        while (l < r) {
+            long m = l + (r - l + 1) / 2;
+            if (m * m == num) return true;
+            if (m * m < num) l = m;
+            else r = m - 1;
+        }
+        return l * l == num;
+    }
+
+    // My 2nd: O(logN)
+    public boolean isPerfectSquare2(int num) {
         if (num <= 0) {
             return false;
         }
