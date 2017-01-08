@@ -8,6 +8,7 @@ package buildingblock.sorting.counting.lc075_sortcolors;
  */
 public class Solution {
 
+    // [0, red)=red(0), [red,i)=white(1), [i,blue]=unknown, (blue,n-1]=blue(2)
     // r = where next red to store (A[r]=0 when r==i or A[r]=1 after first 1 occurs)
     // b = where next blue to store (unknown value)
     //       r   i     b
@@ -15,8 +16,8 @@ public class Solution {
     public void sortColors(int[] nums) {
         int r = 0, b = nums.length - 1;
         for (int i = 0; i <= b; i++) {
-            if (nums[i] == 0) swap(nums, r++, i);
-            else if (nums[i] == 2) swap(nums, b--, i--); // Continue to handle i after swap, since we don't know what it(A[b]) is
+            if (nums[i] == 0) swap(nums, r++, i); // We know nums[red]=1
+            else if (nums[i] == 2) swap(nums, b--, i--); // Continue to handle i after swap to maintain invariant, since we don't know what it(A[b]) is
         }
     }
 
