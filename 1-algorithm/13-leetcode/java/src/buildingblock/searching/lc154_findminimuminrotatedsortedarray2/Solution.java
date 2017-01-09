@@ -6,9 +6,21 @@ package buildingblock.searching.lc154_findminimuminrotatedsortedarray2;
  */
 public class Solution {
 
+    // n[m] == n[r] -> r=m wrong! eg.[1,1,-1,1]
+    public int findMin(int[] nums) {
+        int l = 0, r = nums.length - 1;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (nums[m] > nums[r]) l = m + 1;
+            else if (nums[m] < nums[r]) r = m;
+            else r--;
+        }
+        return nums[l];
+    }
+
     // Inspired from leetcode discuss: O(N) in the worst case
     // But this approach will not return the correct index, only value
-    public int findMin(int[] nums) {
+    public int findMin3(int[] nums) {
         // Min element must be [0, n-1]
         int low = 0, high = nums.length - 1;
 
