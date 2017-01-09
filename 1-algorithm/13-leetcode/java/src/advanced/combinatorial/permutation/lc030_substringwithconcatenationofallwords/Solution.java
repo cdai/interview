@@ -25,9 +25,28 @@ public class Solution {
         ));
     }
 
+    public List<Integer> findSubstring(String s, String[] words) {
+        if (s.isEmpty() || words.length == 0) return new ArrayList<>();
+        Map<String, Integer> dict = new HashMap<>();
+        for (String w : words) dict.put(w, dict.getOrDefault(w, 0) + 1);
+
+        List<Integer> ret = new ArrayList<>();
+        int m = s.length(), n = words.length, l = words[0].length();
+        for (int i = 0; i <= m - n * l; i++) {
+            Map<String, Integer> copy = new HashMap<>(dict);
+            for (int j = 0, k = i; j < n; j++, k += l) {
+                String w = s.substring(k, k + l);
+                if (!copy.containsKey(w)) break;
+                if (!copy.remove(w, 1)) copy.put(w, copy.get(w) - 1);
+            }
+            if (copy.isEmpty()) ret.add(i);
+        }
+        return ret;
+    }
+
     // "lingmindraboofooowingdingbarrwingmonkeypoundcake"
     // ["fooo","barr","wing","ding","wing"]
-    public List<Integer> findSubstring(String s, String[] words) {
+    public List<Integer> findSubstring2(String s, String[] words) {
         Map<String,Integer> target = new HashMap<>();
         for (String w : words) {
             increment(target, w);

@@ -20,9 +20,25 @@ import java.util.List;
  */
 public class Solution {
 
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> ret = new ArrayList<>();
+        if (nums.length > 0) dfs(ret, new ArrayList<>(), nums, 0);
+        return ret;
+    }
+
+    private void dfs(List<List<Integer>> ret, List<Integer> path, int[] nums, int start) {
+        ret.add(new ArrayList<>(path));
+        if (start == nums.length) return;
+        for (int i = start; i < nums.length; i++) {
+            path.add(nums[i]);
+            dfs(ret, path, nums, i + 1);
+            path.remove(path.size() - 1);
+        }
+    }
+
     // Solution from leetcode discuss: bit manipulation
     // Fastest and common solution for Set intersect, join and diff.
-    public List<List<Integer>> subsets(int[] nums) {
+    public List<List<Integer>> subsets2_bit(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         int size = 1 << nums.length;
         for (int i = 0; i < size; i++) {
@@ -35,7 +51,7 @@ public class Solution {
     }
 
     // Inspired by leetcode discuss - iterative DP solution
-    public List<List<Integer>> subsets2(int[] nums) {
+    public List<List<Integer>> subsets2_iterative(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         result.add(new ArrayList<>());
         for (int num : nums) {
@@ -51,7 +67,7 @@ public class Solution {
     }
 
     // My 2nd: from recusive tree view, save all internal and leaf nodes
-    public List<List<Integer>> subsets3(int[] nums) {
+    public List<List<Integer>> subsets2(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         doSubset(result, new ArrayList<>(), nums, 0);
         return result;
