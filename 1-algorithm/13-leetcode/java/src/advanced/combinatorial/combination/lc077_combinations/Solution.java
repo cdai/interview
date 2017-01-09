@@ -18,8 +18,26 @@ import java.util.List;
  */
 public class Solution {
 
-    // My 2nd: much faster, beat 41%. O(N!) time O(K) space?
     public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> ret = new ArrayList<>();
+        if (n > 0 && k > 0) dfs(ret, new ArrayList<Integer>(), n, k, 1);
+        return ret;
+    }
+
+    private void dfs(List<List<Integer>> ret, List<Integer> path, int n, int k, int i) {
+        if (k == 0) {
+            ret.add(new ArrayList<>(path));
+            return;
+        }
+        for (; i <= n; i++) {
+            path.add(i);
+            dfs(ret, path, n, k - 1, i + 1);
+            path.remove(path.size() - 1);
+        }
+    }
+
+    // My 2nd: much faster, beat 41%. O(N!) time O(K) space?
+    public List<List<Integer>> combine2(int n, int k) {
         List<List<Integer>> result = new ArrayList<>();
         doCombine(result, new ArrayList<>(), n, k);
         return result;
@@ -42,7 +60,7 @@ public class Solution {
 
 
     // My 2nd: extremely slow due to return value, only beat 8%...
-    public List<List<Integer>> combine2(int n, int k) {
+    public List<List<Integer>> combine22(int n, int k) {
         return doCombine2(new ArrayList<>(), n, k);
     }
 
