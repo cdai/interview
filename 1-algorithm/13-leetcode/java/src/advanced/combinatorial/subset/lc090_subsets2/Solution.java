@@ -25,8 +25,26 @@ public class Solution {
         System.out.println(new Solution().subsetsWithDup(new int[]{1, 2, 2, 2}));
     }
 
-    // Recursive solution, inspired from 40-Combination Sum II
     public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums); // Sort in order for duplicate check
+        List<List<Integer>> ret = new ArrayList<>();
+        if (nums.length > 0) dfs(ret, new ArrayList<>(), nums, 0);
+        return ret;
+    }
+
+    private void dfs(List<List<Integer>> ret, List<Integer> path, int[] nums, int start) {
+        ret.add(new ArrayList<>(path));
+        if (start == nums.length) return;
+        for (int i = start; i < nums.length; i++) {
+            if (i > start && nums[i] == nums[i - 1]) continue;
+            path.add(nums[i]);
+            dfs(ret, path, nums, i + 1);
+            path.remove(path.size() - 1);
+        }
+    }
+
+    // Recursive solution, inspired from 40-Combination Sum II
+    public List<List<Integer>> subsetsWithDup3(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         Arrays.sort(nums);                          // error: forget to sort...
         doSubset(result, new ArrayList<>(), nums, 0);
