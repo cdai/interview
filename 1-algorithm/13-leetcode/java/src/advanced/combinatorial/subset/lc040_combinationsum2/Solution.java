@@ -20,6 +20,30 @@ import java.util.Set;
  */
 public class Solution {
 
+    // Variants:
+    // 39-Combination Sum: candidates can be used many times => dfs(..., i)
+    // 40-Combination Sum II: many times + duplicate => if(...) continue
+    // LintCode II: only once => dfs(..., i+1)
+    public List<List<Integer>> combinationSum2_3(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> ret = new ArrayList<>();
+        if (nums.length > 0) dfs(ret, new ArrayList<>(), nums, target, 0);
+        return ret;
+    }
+
+    private void dfs(List<List<Integer>> ret, List<Integer> path, int[] nums, int target, int start) {
+        if (target <= 0) {
+            if (target == 0) ret.add(new ArrayList<>(path));
+            return;
+        }
+        for (int i = start; i < nums.length; i++) {
+            if (i > start && nums[i] == nums[i - 1]) continue; // Comb-2: de-duplicate
+            path.add(nums[i]);
+            dfs(ret, path, nums, target - nums[i], i); // Comb-1: each candidate used any time, i+1 for only once
+            path.remove(path.size() - 1);
+        }
+    }
+
     // My 2nd: O(2^N) time, O(N) space
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         List<List<Integer>> result = new ArrayList<>();
