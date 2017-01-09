@@ -10,8 +10,32 @@ package advanced.scan.window.lc209_minimumsizesubarraysum;
  */
 public class Solution {
 
-    // My 3AC. Readable variable names.
+    // O(NlogN) binary search solution
+    // Represent nums in cumulative way: sum of subarray[i,j]=sum[j+1]-sum[i]
     public int minSubArrayLen(int s, int[] nums) {
+        int[] sums = new int[nums.length + 1];
+        for (int i = 0; i < nums.length; i++) sums[i + 1] = sums[i] + nums[i];
+
+        int min = Integer.MAX_VALUE;
+        for (int l = 0; l < nums.length; l++) {
+            int r = search(sums, sums[l] + s, l + 1);
+            if (r > 0) min = Math.min(min, r - l); // not r-l+1
+        }
+        return min == Integer.MAX_VALUE ? 0 : min;
+    }
+
+    private int search(int[] sums, int target, int start) {
+        int l = start, r = sums.length - 1;
+        while (l < r) { // Find first num greater than or equals target
+            int m = (l + r) / 2;
+            if (sums[m] < target) l = m + 1;
+            else r = m;
+        }
+        return sums[l] >= target ? l : -1;
+    }
+
+    // My 3AC. Readable variable names.
+    public int minSubArrayLen3(int s, int[] nums) {
         int sum = 0, from = 0, win = Integer.MAX_VALUE;
         for (int i = 0; i < nums.length; i++) {
             sum += nums[i];
