@@ -7,8 +7,28 @@ package buildingblock.searching.lc081_searchinrotatedsortedarray2;
  */
 public class Solution {
 
+    // 4AC. Recursion.
+    public boolean search(int[] A, int target) {
+        return search(A, target, 0, A.length - 1);
+    }
+
+    private boolean search(int[] A, int target, int l, int r) {
+        if (l > r) return false;
+        int m = l + (r - l) / 2;
+        if (A[m] == target) return true;
+        if (A[m] < A[r]) {
+            if (A[m] < target && target <= A[r]) return search(A, target, m + 1, r);
+            else return search(A, target, l, m - 1);
+        }
+        if (A[l] < A[m]) {
+            if (A[l] <= target && target < A[m]) return search(A, target, l, m - 1);
+            else return search(A, target, m + 1, r);
+        }
+        return search(A, target, m + 1, r) || search(A, target, l, m - 1);
+    }
+
     // My 3AC: O(N) worst
-    public boolean search(int[] A, int t) {
+    public boolean search3(int[] A, int t) {
         int l = 0, r = A.length - 1;
         while (l <= r) {
             int m = l + (r - l) / 2;
