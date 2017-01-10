@@ -20,8 +20,27 @@ import java.util.Queue;
  */
 public class Solution {
 
-    // My 3AC
+    // Nice recursive solution
+    //  -3-
+    // 9  -20-
+    //    15 7
+    // [[],[9]] -> [[],[9,20],[15,7]] -> [[3],[9,20],[15,7]]
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> ret = new LinkedList<>();
+        dfs(ret, root, 1);
+        return ret;
+    }
+
+    private void dfs(List<List<Integer>> ret, TreeNode root, int level) {
+        if (root == null) return;
+        if (ret.size() < level) ret.add(0, new ArrayList<>()); // must put to head
+        dfs(ret, root.left, level + 1);
+        dfs(ret, root.right, level + 1);
+        ret.get(ret.size() - level).add(root.val);
+    }
+
+    // My 3AC
+    public List<List<Integer>> levelOrderBottom2(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
         doLevelOrderBottom(result, root, 0);
         Collections.reverse(result);
