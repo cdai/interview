@@ -8,8 +8,27 @@ package advanced.greedy.lc122_besttimetobuyandsellstock2;
  */
 public class Solution {
 
-    // My 3AC: accumulate if cur > prev (low)
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(sol.maxProfit(new int[]{3, 2, 6, 5, 0, 3}));
+    }
+
+    // 4AC. Not greedy strategy. Not good.
     public int maxProfit(int[] prices) {
+        if (prices.length == 0) return 0;
+        int max = 0, buy = prices[0], n = prices.length;
+        for (int i = 1; i < n; i++) {
+            if (prices[i] < prices[i - 1]) { // increasing sequence
+                max += prices[i - 1] - buy;
+                buy = prices[i];
+            }
+        }
+        max += prices[n - 1] - buy;
+        return max;
+    }
+
+    // My 3AC: accumulate if cur > prev (low)
+    public int maxProfit3(int[] prices) {
         int profit = 0, low = Integer.MAX_VALUE;
         for (int price : prices) {
             if (price > low) profit += price - low;
