@@ -20,8 +20,26 @@ import java.util.Queue;
  */
 public class Solution {
 
-    // My 2nd: BFS with height to determine insert order
+    // "zigzag" var is optional
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> ret = new ArrayList<>();
+        Queue<TreeNode> q = new LinkedList<>();
+        if (root != null) q.offer(root);
+        while (!q.isEmpty()) {
+            List<Integer> level = new LinkedList<>();
+            for (int i = q.size(); i > 0; i--) {
+                TreeNode n = q.poll();
+                level.add(ret.size() % 2 == 0 ? level.size() : 0, n.val);
+                if (n.left != null) q.offer(n.left);
+                if (n.right != null) q.offer(n.right);
+            }
+            ret.add(level);
+        }
+        return ret;
+    }
+
+    // My 2nd: BFS with height to determine insert order
+    public List<List<Integer>> zigzagLevelOrder2(TreeNode root) {
         Queue<TreeNode> q = new LinkedList<>();
         if (root != null) q.offer(root);
         List<List<Integer>> ret = new ArrayList<>();
