@@ -15,6 +15,21 @@ public class Solution {
         System.out.println(new Solution().numDecodings("1120"));
     }
 
+    // 4AC. Same idea but not very elegant.
+    public int numDecodings4(String s) {
+        if (s.isEmpty()) return 0;
+        int dec0 = 1, dec1 = (s.charAt(0) == '0') ? 0 : 1; // dec0=1 make progress
+        for (int i = 1; i < s.length(); i++) {
+            int dec2 = 0;
+            char c = s.charAt(i), p = s.charAt(i - 1);
+            if (c != '0') dec2 += dec1; // cur position decodes individually
+            if (p == '1' || (p == '2' && '0' <= c && c <= '6')) dec2 += dec0; // pre+cur decodes together
+            dec0 = dec1;
+            dec1 = dec2;
+        }
+        return dec1;
+    }
+
     // way,way2,way1:
     // 1/2,[0] -> way1
     // 3~9,[0] -> 0 (way1)
@@ -33,6 +48,7 @@ public class Solution {
         return way2;
     }
 
+    // Best solution
     // 1~9:   dp[i-1]
     // 10~26: dp[i-1] + dp[i-2]
     // 0,27~99: 0
