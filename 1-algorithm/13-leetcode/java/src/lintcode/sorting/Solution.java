@@ -23,4 +23,17 @@ public class Solution {
         nums[b] = tmp;
     }
 
+    // 6-Merge Two Sorted Array
+    public int[] mergeSortedArray(int[] A, int[] B) {
+        int m = A.length, n = B.length;
+        int[] C = new int[m + n];
+        int i = 0, j = 0, k = 0;
+        while (i < m && j < n)
+            C[k++] = (A[i] < B[j]) ? A[i++] : B[j++];
+
+        if (i < m) System.arraycopy(A, i, C, k, m - i);
+        else System.arraycopy(B, j, C, k, n - j);
+        return C;
+    }
+
 }
