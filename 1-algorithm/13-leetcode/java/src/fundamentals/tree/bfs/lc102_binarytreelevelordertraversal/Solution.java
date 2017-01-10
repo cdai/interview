@@ -19,8 +19,25 @@ import java.util.Queue;
  */
 public class Solution {
 
-    // My 2nd: O(N) time, O(width) space
     public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> ret = new ArrayList<>();
+        Queue<TreeNode> q = new LinkedList<>();
+        if (root != null) q.offer(root);
+        while (!q.isEmpty()) {
+            List<Integer> level = new ArrayList<>();
+            for (int i = q.size(); i > 0; i--) {
+                TreeNode n = q.poll();
+                level.add(n.val);
+                if (n.left != null) q.offer(n.left);
+                if (n.right != null) q.offer(n.right);
+            }
+            ret.add(level);
+        }
+        return ret;
+    }
+
+    // My 2nd: O(N) time, O(width) space
+    public List<List<Integer>> levelOrder2(TreeNode root) {
         Queue<TreeNode> q = new LinkedList<>();
         if (root != null) q.offer(root);
         List<List<Integer>> ret = new ArrayList<>();
