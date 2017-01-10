@@ -42,6 +42,21 @@ public class Solution {
         System.out.println(root.right.right.val + " next: " + root.right.right.next);
     }
 
+    // 4AC
+    public void connect4(TreeLinkNode root) {
+        if (root == null) return;
+        TreeLinkNode par = root;
+        while (par.left != null) { // invariant: nodes at par level are all connected
+            TreeLinkNode cur = par;
+            while (cur != null) {
+                cur.left.next = cur.right;
+                if (cur.next != null) cur.right.next = cur.next.left;
+                cur = cur.next;
+            }
+            par = par.left;
+        }
+    }
+
     // O(N) time, O(1) space: key is to use "next" too!
     public void connect_bfs(TreeLinkNode root) {
         if (root == null) return;

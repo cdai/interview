@@ -29,13 +29,15 @@ public class Solution {
 
     // My 2nd solution inspired from leetcode discuss.
     // Very elegant solution using dummy head!
+    // 1) Don't need to check pre is not null (pre = dmy initially)
+    // 2) Don't need to store first non-null child (dmy.next)
     public void connect(TreeLinkNode root) {
         TreeLinkNode dmy = new TreeLinkNode(0), par = root;
         while (par != null) {
-            TreeLinkNode prev = dmy;
+            TreeLinkNode pre = dmy;
             for (; par != null; par = par.next) {
-                if (par.left != null) prev = prev.next = par.left;
-                if (par.right != null) prev = prev.next = par.right;
+                if (par.left != null) pre = pre.next = par.left;
+                if (par.right != null) pre = pre.next = par.right;
             }
             par = dmy.next;
             dmy.next = null;
