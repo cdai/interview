@@ -12,6 +12,18 @@ public class Solution {
         System.out.println(new Solution().largestRectangleArea(new int[]{3,2,4}));
     }
 
+    public int largestRectangleArea(int[] height) {
+        Stack<Integer> s = new Stack<>();
+        int max = 0, n = height.length;
+        for (int i = 0; i <= n; i++) { // 0 to empty stack
+            int h = (i < n) ? height[i] : 0;
+            while (!s.isEmpty() && height[s.peek()] > h) // safe to compute area of s.peek() till previous idx
+                max = Math.max(max, height[s.pop()] * (s.isEmpty() ? i : i - 1 - s.peek()));
+            s.push(i);
+        }
+        return max;
+    }
+
     // eg.[1,7,8,5,6,10,11,8] -> [1,x,x,5,6,x,x,8]
     // Key: idx stack=[0,3,4,7], height in gaps (1~2,5~6) MUST greater than left and right!
     // At the end, the stack looks like [0,3,4,7], namely [1,7,8,5,6,10,11,8] -> [1,x,x,5,6,x,x,8].
@@ -37,7 +49,7 @@ public class Solution {
     }
 
     // My 2AC: more natural than i--. O(N) time
-    public int largestRectangleArea(int[] heights) {
+    public int largestRectangleArea2(int[] heights) {
         Stack<Integer> s = new Stack<>();
         int max = 0;
         for (int i = 0; i <= heights.length; i++) {
