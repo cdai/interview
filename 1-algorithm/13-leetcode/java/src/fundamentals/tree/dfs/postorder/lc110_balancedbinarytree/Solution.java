@@ -9,8 +9,20 @@ import fundamentals.tree.TreeNode;
  */
 public class Solution {
 
-    // My 2nd
     public boolean isBalanced(TreeNode root) {
+        return dfs(root) >= 0;
+    }
+
+    private int dfs(TreeNode root) {
+        if (root == null) return 0; // height=#edge of path
+        int left, right;
+        if ((left = dfs(root.left)) < 0) return -1;
+        if ((right = dfs(root.right)) < 0) return -1;
+        return Math.abs(left - right) <= 1 ? Math.max(left, right) + 1 : -1;
+    }
+
+    // My 2nd
+    public boolean isBalanced2(TreeNode root) {
         return doCheckBalance(root) != -1;
     }
 
