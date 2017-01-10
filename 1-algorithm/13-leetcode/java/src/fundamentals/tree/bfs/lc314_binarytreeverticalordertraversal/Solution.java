@@ -36,9 +36,9 @@ public class Solution {
         // [[8], [4], [2, 9, 10, 12], [1, 5, 6], [3, 11, 13, 14], [7], [15]]
     }
 
-    // O(N) time.
+    // O(N) time without using TreeMap
     public List<List<Integer>> verticalOrder(TreeNode root) {
-        Map<Integer,List<Integer>> colNode = new HashMap<>();
+        Map<Integer, List<Integer>> colNode = new HashMap<>();
         Queue<Pair> q = new LinkedList<>();
         if (root != null) q.offer(new Pair(0, root));
         int min = 0, max = 0;
