@@ -17,8 +17,32 @@ public class Solution {
         System.out.println(new Solution().isPalindrome(head));
     }
 
-    // My 2nd
+    // Two cases: 3->4(mid)->4->3, 3->4->5(mid)->4->3
+    //         => 3 -> 4 <-4 <- 3, 3->4->5 <-4<-3
     public boolean isPalindrome(ListNode head) {
+        if (head == null) return true;
+        ListNode mid = head, fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            mid = mid.next;
+            fast = fast.next.next;
+        }
+
+        ListNode pre = mid, cur = mid.next;
+        while (cur != null) {
+            ListNode suc = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = suc;
+        }
+        mid.next = null;
+
+        for (ListNode l = head, r = pre; l != null && r != null; l = l.next, r = r.next)
+            if (l.val != r.val) return false;
+        return true;
+    }
+
+    // My 2nd
+    public boolean isPalindrome2(ListNode head) {
         if (head == null) {
             return true;
         }
