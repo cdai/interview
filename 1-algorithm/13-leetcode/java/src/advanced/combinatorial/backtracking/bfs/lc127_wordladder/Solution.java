@@ -32,8 +32,37 @@ public class Solution {
                 new HashSet<>(Arrays.asList("hot", "dot", "dog", "lot", "log"))));
     }
 
+    // 1) It's much faster than one-end search indeed as explained in wiki.
+    // 2) BFS isn't equivalent to Queue. Sometimes Set is more accurate representation for nodes of level.
+    // 3) It's safe to share a visited set for both ends since if they meet same string it terminates early.
+    // 4) It seems like if(set.add()) is a little slower than if(!contains()) then add().
+    public int ladderLength(String start, String end, Set<String> dict) {
+        Set<String> qs = new HashSet<>(), qe = new HashSet<>(), vis = new HashSet<>(); // safe to share visited set
+        if (!start.isEmpty()) qs.add(start);
+        if (!end.isEmpty()) qe.add(end);
+
+        for (int i = 2; !qs.isEmpty() && !qe.isEmpty(); i++) {
+            Set<String> next = new HashSet<>();
+            for (String w : qs) {
+                char[] ch = w.toCharArray();
+                for (int j = 0; j < ch.length; j++) {
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        ch[j] = c;
+                        String ns = String.valueOf(ch);
+                        if (qe.contains(ns)) return i; // meet from two ends
+                        if (dict.contains(ns) && vis.add(ns)) next.add(ns);
+                    }
+                    ch[j] = w.charAt(j);
+                }
+            }
+            qs = (next.size() < qe.size()) ? next : qe; // switch to small one to traverse from other end
+            qe = (qs == qe) ? next : qe;
+        }
+        return 0;
+    }
+
     // 4AC. Minor change: reuse char array
-    public int ladderLength(String begin, String end, Set<String> dict) {
+    public int ladderLength4(String begin, String end, Set<String> dict) {
         Queue<String> q = new LinkedList<>();
         q.offer(begin);
         dict.add(end);
