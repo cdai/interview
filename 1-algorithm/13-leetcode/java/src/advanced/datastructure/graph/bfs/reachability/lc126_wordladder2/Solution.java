@@ -33,8 +33,42 @@ public class Solution {
                 new HashSet<>(Arrays.asList("hot","dog"))));
     }
 
+    public List<List<String>> findLadders(String start, String end, Set<String> dict) {
+        Queue<List<String>> q = new LinkedList<>();
+        if (!start.isEmpty()) q.offer(Arrays.asList(start));
+        dict.add(end);
+
+        List<List<String>> ret = new ArrayList<>();
+        for (int i = 1; !q.isEmpty(); i++) {
+            Set<String> vis = new HashSet<>();
+            for (int j = q.size(); j > 0; j--) {
+                List<String> path = q.poll();
+                String word = path.get(path.size() - 1);
+                if (end.equals(word)) ret.add(path);
+                if (!ret.isEmpty()) continue;
+
+                char[] ch = word.toCharArray();
+                for (int k = 0; k < ch.length; k++) {
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        ch[k] = c;
+                        String nw = String.valueOf(ch);
+                        if (dict.contains(nw)) {
+                            List<String> np = new ArrayList<>(path);
+                            np.add(nw);
+                            q.offer(np);
+                            vis.add(nw);
+                        }
+                    }
+                    ch[k] = word.charAt(k);
+                }
+            }
+            dict.removeAll(vis); // remove at last to avoid missing out solution
+        }
+        return ret;
+    }
+
     // My 2AC
-    public List<List<String>> findLadders(String beginWord, String endWord, Set<String> wordList) {
+    public List<List<String>> findLadders2(String beginWord, String endWord, Set<String> wordList) {
         Queue<String> queue = new LinkedList<>();
         queue.offer(beginWord);
         wordList.add(endWord);
