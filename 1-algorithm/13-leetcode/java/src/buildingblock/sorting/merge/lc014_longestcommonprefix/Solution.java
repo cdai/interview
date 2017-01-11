@@ -5,9 +5,25 @@ package buildingblock.sorting.merge.lc014_longestcommonprefix;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(sol.longestCommonPrefix(new String[]{"abc", "ad", "ab"}));
+    }
+
+    // O(NK) time.
+    public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) return "";
+        String pre = strs[0];
+        for (int i = 1; i < strs.length; i++) {
+            while (!strs[i].startsWith(pre)) // back up tmp LCP if str[i] not start with it
+                pre = pre.substring(0, pre.length() - 1);
+        }
+        return pre;
+    }
+
     // Inspired by soulmachine: compare strs[0] with others
     // Fairly faster than mine...
-    public String longestCommonPrefix(String[] strs) {
+    public String longestCommonPrefix3(String[] strs) {
         if (strs.length == 0) {
             return "";
         }
