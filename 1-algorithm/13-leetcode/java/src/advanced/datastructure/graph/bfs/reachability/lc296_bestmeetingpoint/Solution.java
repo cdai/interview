@@ -1,4 +1,4 @@
-package advanced.combinatorial.backtracking.bfs.lc296_bestmeetingpoint;
+package advanced.datastructure.graph.bfs.reachability.lc296_bestmeetingpoint;
 
 /**
  * A group of two or more people wants to meet and minimize the total travel distance.

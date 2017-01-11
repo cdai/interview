@@ -1,4 +1,4 @@
-package advanced.combinatorial.backtracking.bfs.lc317_shortestdistancefromallbuildings;
+package advanced.datastructure.graph.bfs.reachability.lc317_shortestdistancefromallbuildings;
 
 import java.util.LinkedList;
 import java.util.Queue;

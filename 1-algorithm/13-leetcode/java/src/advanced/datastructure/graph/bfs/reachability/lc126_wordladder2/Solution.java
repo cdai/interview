@@ -1,4 +1,4 @@
-package advanced.combinatorial.backtracking.bfs.lc126_wordladder2;
+package advanced.datastructure.graph.bfs.reachability.lc126_wordladder2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
