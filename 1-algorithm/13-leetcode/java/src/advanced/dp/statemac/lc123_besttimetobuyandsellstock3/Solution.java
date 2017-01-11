@@ -12,9 +12,31 @@ public class Solution {
         System.out.println(new Solution().maxProfit(new int[]{1, 2, 5, 0, 3, 1, 10}));
     }
 
+    // 4AC.
+    public int maxProfit(int[] prices) {
+        if (prices.length == 0) return 0;
+        int n = prices.length;
+        int[] max1 = new int[n];
+        for (int i = 1, buy = prices[0]; i < n; i++) {
+            if (prices[i] < buy) buy = prices[i];
+            max1[i] = Math.max(max1[i - 1], prices[i] - buy);
+        }
+
+        int[] max2 = new int[n]; // max2[i] is max profit of [i,n)
+        for (int i = n - 2, sell = prices[n - 1]; i >= 0; i--) {
+            if (prices[i] > sell) sell = prices[i];
+            max2[i] = Math.max(max2[i + 1], sell - prices[i]);
+        }
+
+        int max = max2[0]; // Note!
+        for (int i = 0; i < n - 1; i++)
+            max = Math.max(max, max1[i] + max2[i + 1]);
+        return max;
+    }
+
     // My 3AC. Draw a state machine with four states: buy1, sell1, buy2, sell2
     // which indicate the profit under four states. Then draw the transition.
-    public int maxProfit(int[] prices) {
+    public int maxProfit3(int[] prices) {
         int buy1 = Integer.MIN_VALUE, sell1 = 0, buy2 = Integer.MIN_VALUE, sell2 = 0;
         for (int price : prices) {
             buy1 = Math.max(buy1, -price);
