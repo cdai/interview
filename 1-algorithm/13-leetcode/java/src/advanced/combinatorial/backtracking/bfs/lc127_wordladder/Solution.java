@@ -32,8 +32,32 @@ public class Solution {
                 new HashSet<>(Arrays.asList("hot", "dot", "dog", "lot", "log"))));
     }
 
-    // My 3AC. O(N) time where N is #words in dict.
+    // 4AC. Minor change: reuse char array
     public int ladderLength(String begin, String end, Set<String> dict) {
+        Queue<String> q = new LinkedList<>();
+        q.offer(begin);
+        dict.add(end);
+        for (int i = 1; !q.isEmpty(); i++) {
+            for (int j = q.size(); j > 0; j--) {
+                String w = q.poll();
+                if (end.equals(w)) return i;
+
+                char[] ch = w.toCharArray();
+                for (int k = 0; k < ch.length; k++) { // suppose dict is large
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        ch[k] = c;
+                        String nw = String.valueOf(ch);
+                        if (dict.remove(nw)) q.offer(nw);
+                    }
+                    ch[k] = w.charAt(k);
+                }
+            }
+        }
+        return 0;
+    }
+
+    // My 3AC. O(N) time where N is #words in dict.
+    public int ladderLength3(String begin, String end, Set<String> dict) {
         Queue<String> q = new LinkedList<>();
         q.offer(begin);
         dict.add(end);                      // add end word to dict to make it reachable in loop below
