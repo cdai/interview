@@ -1,6 +1,4 @@
-package advanced.datastructure.graph.undirected.lc133_clonegraph;
-
-import advanced.datastructure.graph.UndirectedGraphNode;
+package advanced.datastructure.graph.dfs.lc133_clonegraph;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,8 +28,28 @@ public class Solution {
         System.out.println(clone);
     }
 
-    // My 3AC. BFS solution
+    // Invariant: copy children and put into copies cache. push child to queue if not visited yet.
     public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if (node == null) return null;
+        Queue<UndirectedGraphNode> q = new LinkedList<>();
+        q.offer(node);
+        Map<Integer, UndirectedGraphNode> copies = new HashMap<>();
+        copies.put(node.label, new UndirectedGraphNode(node.label));
+        while (!q.isEmpty()) {
+            UndirectedGraphNode old = q.poll(), cpy = copies.get(old.label);
+            for (UndirectedGraphNode n : old.neighbors) {
+                if (!copies.containsKey(n.label)) {
+                    copies.put(n.label, new UndirectedGraphNode(n.label)); // must clone child here
+                    q.offer(n);
+                }
+                cpy.neighbors.add(copies.get(n.label));
+            }
+        }
+        return copies.get(node.label);
+    }
+
+    // My 3AC. BFS solution
+    public UndirectedGraphNode cloneGraph3(UndirectedGraphNode node) {
         if (node == null) return null;
         Queue<UndirectedGraphNode> q = new LinkedList<>();
         Map<Integer,UndirectedGraphNode> visit = new HashMap<>();
@@ -55,19 +73,19 @@ public class Solution {
     // O(N) time
     public UndirectedGraphNode cloneGraph_dfs(UndirectedGraphNode node) {
         if (node == null) return null;
-        return doClone(node, new HashMap<>());
+        return dfs(node, new HashMap<>());
     }
 
-    private UndirectedGraphNode doClone(UndirectedGraphNode node,
-                                        Map<Integer,UndirectedGraphNode> visited) {
-        if (visited.containsKey(node.label)) return visited.get(node.label);
+    private UndirectedGraphNode dfs(UndirectedGraphNode node,
+                                    Map<Integer,UndirectedGraphNode> copies) {
+        if (copies.containsKey(node.label)) return copies.get(node.label);
 
-        UndirectedGraphNode cloned = new UndirectedGraphNode(node.label);
-        visited.put(cloned.label, cloned);
+        UndirectedGraphNode cpy = new UndirectedGraphNode(node.label);
+        copies.put(cpy.label, cpy);
 
-        for (UndirectedGraphNode neighbor : node.neighbors)
-            cloned.neighbors.add(doClone(neighbor, visited));
-        return cloned;
+        for (UndirectedGraphNode n : node.neighbors)
+            cpy.neighbors.add(dfs(n, copies));
+        return cpy;
     }
 
     // My 1AC
@@ -75,7 +93,7 @@ public class Solution {
         if (node == null) {         // error1: OMG! OJ try null input at times...
             return null;
         }
-        return doClone(node, new HashMap<>());
+        return dfs(node, new HashMap<>());
     }
 
     private UndirectedGraphNode doClone1(UndirectedGraphNode src,
