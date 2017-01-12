@@ -1,6 +1,9 @@
 package advanced.scan.sequence.lc300_longestincreasingsubsequence;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Given an unsorted array of integers, find the length of longest increasing subsequence.
@@ -15,8 +18,22 @@ public class Solution {
         System.out.println(new Solution().lengthOfLIS(new int[]{1, 3, 6, 7, 9, 4, 10, 5, 6}));
     }
 
-    // Very smart and general solution for this kinda problem
     public int lengthOfLIS(int[] nums) {
+        List<Integer> seq = new ArrayList<>();
+        int max = 0;
+        for (int num : nums) {
+            int ins = Collections.binarySearch(seq, num);
+            if (ins < 0) {
+                ins = -(ins + 1);
+                if (ins == seq.size()) seq.add(num);// append new biggest
+                else seq.set(ins, num);             // replace bigger one
+            } /* else ignore exist num */
+        }
+        return seq.size();
+    }
+
+    // Very smart and general solution for this kinda problem
+    public int lengthOfLIS3(int[] nums) {
         int[] dp = new int[nums.length];
         int len = 0;
         for (int num : nums) {
