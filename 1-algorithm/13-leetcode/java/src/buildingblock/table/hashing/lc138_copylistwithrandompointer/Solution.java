@@ -30,9 +30,54 @@ public class Solution {
         System.out.println(new Solution().copyRandomList(null));
     }
 
+    public RandomListNode copyRandomList(RandomListNode head) {
+        if (head == null) return null;
+
+        // 1.Clone node and insert after old one
+        for (RandomListNode n = head; n != null; n = n.next.next) {
+            RandomListNode cpy = new RandomListNode(n.label);
+            cpy.next = n.next;
+            n.next = cpy;
+        }
+
+        // 2.Set random field
+        for (RandomListNode n = head; n != null; n = n.next.next) {
+            if (n.random != null) n.next.random = n.random.next;
+        }
+
+        // 3.Split lists
+        RandomListNode dmy = new RandomListNode(0), pre = dmy;
+        for (RandomListNode n = head; n != null; n = n.next) {
+            pre = pre.next = n.next;
+            n.next = n.next.next;
+        }
+        return dmy.next;
+    }
+
+    // 4AC
+    // Invariant: node and random copied, random and next field are set before pointer n
+    public RandomListNode copyRandomList4_on(RandomListNode head) {
+        if (head == null) return null;
+        Map<Integer, RandomListNode> copies = new HashMap<>();
+        RandomListNode dmy = new RandomListNode(0), pre = dmy;
+        for (RandomListNode n = head; n != null; n = n.next) {
+            RandomListNode cpy = copyIfNotFound(n, copies);
+            if (n.random != null) cpy.random = copyIfNotFound(n.random, copies);
+            pre = pre.next = cpy;
+        }
+        return dmy.next;
+    }
+
+    private RandomListNode copyIfNotFound(RandomListNode node,
+                                          Map<Integer, RandomListNode> copies) {
+        if (!copies.containsKey(node.label))
+            copies.put(node.label, new RandomListNode(node.label));
+        return copies.get(node.label);
+    }
+
     // Solution from programcreek, use 3 passes with O(1) space
     // Much faster than HashMap solution
-    public RandomListNode copyRandomList(RandomListNode head) {
+    public RandomListNode copyRandomList3(RandomListNode head) {
         // 1.Copy node as next of itself
         for (RandomListNode cur = head; cur != null; cur = cur.next.next) {
             RandomListNode copy = new RandomListNode(cur.label);
