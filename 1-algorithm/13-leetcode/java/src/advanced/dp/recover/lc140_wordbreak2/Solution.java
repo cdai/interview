@@ -20,13 +20,13 @@ public class Solution {
         System.out.println(
                 new Solution().wordBreak(
                         "catsanddog",
-                        new HashSet<>(Arrays.asList("cat","cats","and","sand","dog"))
+                        Arrays.asList("cat","cats","and","sand","dog")
                 )
         );
         System.out.println(
                 new Solution().wordBreak(
                         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                        new HashSet<>(Arrays.asList("a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"))
+                        Arrays.asList("a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa")
                 )
         );
     }
@@ -84,7 +84,7 @@ public class Solution {
         for (int i = 1; i < s.length(); i++) { // Break from "a"-"bcd" to "abc"-"d"
             String t = s.substring(i);
             if (!dict.contains(t)) continue;
-            for (String w : wordBreak(s.substring(0, i), dict))
+            for (String w : wordBreak3(s.substring(0, i), dict))
                 ret.add(w + " " + t);
         }
         memo3.put(s, ret);
