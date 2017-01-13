@@ -30,7 +30,7 @@ public class Solution {
                 )
         );
     }
-    
+
     // 4AC.
     private List<String>[] memo;
 
@@ -43,7 +43,7 @@ public class Solution {
         if (memo[n] != null) return memo[n];
 
         List<String> ret = new ArrayList<>();
-        for (int i = n - 1; i >= 0; i--) { // from s[n-1,n) to s[0,n)
+        for (int i = 0; i < n; i++) { // from s[0,n) to s[n-1,n)
             String suff = s.substring(i);
             if (!dict.contains(suff)) continue;
             if (i == 0) ret.add(suff); // base case
@@ -57,7 +57,7 @@ public class Solution {
     }
 
     // Many list in DP is useless if it cannot reach further
-    public List<String> wordBreak4_tle(String s, List<String> dict) {
+    public List<String> wordBreak4_tle(String s, Set<String> dict) {
         List<String>[] dp = new List[s.length() + 1];
         for (int i = 1; i <= s.length(); i++) {
             List<String> words = new ArrayList<>();
@@ -236,7 +236,7 @@ public class Solution {
     // Error: eg. "catsanddog", ["cat","cats","and","sand", "dog", "sandd", "og"]
     // after ["cat sand", "cats and"], you still need try to match from cat to get ["cat", "sandd"]
     // that means everything matched no matter how far, should be kept in map forever
-    public List<String> wordBreak3(String s, Set<String> wordDict) {
+    public List<String> wordBreak13(String s, Set<String> wordDict) {
         List<String> result = new ArrayList<>();    // error1: iterate matchTo then remove from matchStr has problem, since index is changing on-the-fly
         List<String> matchStr = new ArrayList<>();  // error2: hashmap can only change value or remove kv pair
         List<Integer> matchTo = new ArrayList<>();
