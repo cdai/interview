@@ -2,6 +2,7 @@ package advanced.dp.n2.lc139_wordbreak;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,8 +14,21 @@ import java.util.Set;
  */
 public class Solution {
 
+    public boolean wordBreak(String s, Set<String> dict) {
+        int max = 0; // Optimize trick
+        for (String w : dict) max = Math.max(max, w.length());
+
+        boolean[] dp = new boolean[s.length() + 1]; // s[0,i) length=i is breakable
+        dp[0] = true;
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = i - 1; j >= Math.max(0, i - max) && !dp[i]; j--) // from s[i-1,i) to s[0,i), stop if no word has length [j,i)
+                dp[i] |= dp[j] && dict.contains(s.substring(j, i));
+        }
+        return dp[s.length()];
+    }
+
     // My 3AC. I assume it's more efficient to compare from shorter string. Beat 80%.
-    public boolean wordBreak(String s, Set<String> wordDict) {
+    public boolean wordBreak3(String s, Set<String> wordDict) {
         boolean[] dp = new boolean[s.length() + 1];
         dp[0] = true;
         for (int i = 1; i <= s.length(); i++)
