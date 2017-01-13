@@ -30,14 +30,55 @@ public class Solution {
                 )
         );
     }
+    
+    // 4AC.
+    private List<String>[] memo;
+
+    // Note disadvantage of DP:
+    // Bottom-up DP incurs many useless sub-solutions even if it reduces repeating computation
+    // Since we have no idea which sub-solution would be used by upper level, all are computed
+    public List<String> wordBreak(String s, List<String> dict) {
+        int n = s.length();
+        if (memo == null) memo = new List[n + 1];
+        if (memo[n] != null) return memo[n];
+
+        List<String> ret = new ArrayList<>();
+        for (int i = n - 1; i >= 0; i--) { // from s[n-1,n) to s[0,n)
+            String suff = s.substring(i);
+            if (!dict.contains(suff)) continue;
+            if (i == 0) ret.add(suff); // base case
+            else {
+                for (String pref : wordBreak(s.substring(0, i), dict))
+                    ret.add(pref + " " + suff);
+            }
+        }
+        memo[n] = ret;
+        return ret;
+    }
+
+    // Many list in DP is useless if it cannot reach further
+    public List<String> wordBreak4_tle(String s, List<String> dict) {
+        List<String>[] dp = new List[s.length() + 1];
+        for (int i = 1; i <= s.length(); i++) {
+            List<String> words = new ArrayList<>();
+            for (int j = i - 1; j >= 0; j--) { // from s[i-1,i) to s[0,i)
+                String suff = s.substring(j, i);
+                if (!dict.contains(suff)) continue;
+                if (j == 0) words.add(suff);
+                else for (String pref : dp[j]) words.add(pref + " " + suff);
+            }
+            dp[i] = words;
+        }
+        return dp[dp.length - 1];
+    }
 
     // My 3AC.
-    private Map<String,List<String>> memo = new HashMap<>();
+    private Map<String,List<String>> memo3 = new HashMap<>();
 
-    public List<String> wordBreak(String s, Set<String> dict) {
+    public List<String> wordBreak3(String s, Set<String> dict) {
         List<String> ret = new ArrayList<>();
         if (s.isEmpty()) return ret;
-        if (memo.containsKey(s)) return memo.get(s);
+        if (memo3.containsKey(s)) return memo3.get(s);
         if (dict.contains(s)) ret.add(s);
 
         for (int i = 1; i < s.length(); i++) { // Break from "a"-"bcd" to "abc"-"d"
@@ -46,7 +87,7 @@ public class Solution {
             for (String w : wordBreak(s.substring(0, i), dict))
                 ret.add(w + " " + t);
         }
-        memo.put(s, ret);
+        memo3.put(s, ret);
         return ret;
     }
 
