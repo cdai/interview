@@ -18,6 +18,7 @@ public class Solution {
         System.out.println(new Solution().lengthOfLIS(new int[]{1, 3, 6, 7, 9, 4, 10, 5, 6}));
     }
 
+    // 4AC. O(NlogN) solution.
     public int lengthOfLIS(int[] nums) {
         List<Integer> seq = new ArrayList<>();
         int max = 0;
@@ -30,6 +31,23 @@ public class Solution {
             } /* else ignore exist num */
         }
         return seq.size();
+    }
+
+    // 4AC. O(N^2) DP solution.
+    // 1) Subproblem solution include 1.
+    // 2) Solution dp[n-1] is not what we want.
+    public int lengthOfLIS4(int[] nums) {
+        if (nums.length == 0) return 0;
+        int[] dp = new int[nums.length];
+        Arrays.fill(dp, 1); // must do
+        int max = 0;
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i]) dp[i] = Math.max(dp[i], dp[j] + 1);
+            }
+            max = Math.max(max, dp[i]);
+        }
+        return max;
     }
 
     // Very smart and general solution for this kinda problem
