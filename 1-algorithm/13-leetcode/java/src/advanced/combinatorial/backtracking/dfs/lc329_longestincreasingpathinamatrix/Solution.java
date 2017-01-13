@@ -30,9 +30,31 @@ public class Solution {
 
     private int[][] dirs = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
 
+    public int longestIncreasingPath(int[][] matrix) {
+        if (matrix.length == 0 || matrix[0].length == 0) return 0;
+        int[][] memo = new int[matrix.length][matrix[0].length];
+        int max = 0;
+        for (int i = 0; i < matrix.length; i++)
+            for (int j = 0; j < matrix[i].length; j++)
+                max = Math.max(max, dfs(memo, matrix, i, j, Long.MIN_VALUE));
+        return max;
+    }
+
+    private int dfs(int[][] memo, int[][] matrix, int x, int y, long pre) {
+        if (x < 0 || x >= matrix.length || y < 0 || y >= matrix[0].length) return 0;
+        if (pre >= matrix[x][y]) return 0; // must put before memo check. extra visit cache is not necessary.
+        if (memo[x][y] > 0) return memo[x][y];
+
+        int max = 0;
+        for (int[] d : dirs)
+            max = Math.max(max, dfs(memo, matrix, x + d[0], y + d[1], matrix[x][y]) + 1);
+        memo[x][y] = max;
+        return max;
+    }
+
     // My 2AC: due to memo, every cell is computed once, so O(MN) time
     // No need to mark or save visited cells, since sequence must be increasing
-    public int longestIncreasingPath(int[][] A) {
+    public int longestIncreasingPath2(int[][] A) {
         if (A.length == 0 || A[0].length == 0) return 0;
         this.memo = new int[A.length][A[0].length];
         int max = 0;
