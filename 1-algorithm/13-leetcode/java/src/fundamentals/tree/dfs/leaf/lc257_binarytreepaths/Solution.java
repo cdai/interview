@@ -20,8 +20,23 @@ import java.util.Queue;
  */
 public class Solution {
 
-    // My 3AC.
     public List<String> binaryTreePaths(TreeNode root) {
+        List<String> ret = new ArrayList<>();
+        if (root != null) dfs(ret, "" + root.val, root);
+        return ret;
+    }
+
+    private void dfs(List<String> ret, String path, TreeNode root) {
+        if (root.left == null && root.right == null) {
+            ret.add(path);
+            return;
+        }
+        if (root.left != null) dfs(ret, path + "->" + root.left.val, root.left);
+        if (root.right != null) dfs(ret, path + "->" + root.right.val, root.right);
+    }
+
+    // My 3AC.
+    public List<String> binaryTreePaths3(TreeNode root) {
         Queue<Pair> q = new LinkedList<>();
         List<String> ret = new ArrayList<>();
         if (root != null) q.offer(new Pair(root, String.valueOf(root.val)));
