@@ -14,8 +14,27 @@ import java.util.Stack;
  */
 public class Solution {
 
-    // My 2nd
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> ret = new ArrayList<>();
+        dfs(ret, new ArrayList<>(), root, sum);
+        return ret;
+    }
+
+    private void dfs(List<List<Integer>> ret, List<Integer> path, TreeNode root, int sum) {
+        if (root == null) return;
+
+        path.add(root.val);
+        if (root.left == null && root.right == null) {
+            if (sum == root.val) ret.add(new ArrayList<>(path));
+        } else {
+            dfs(ret, path, root.left, sum - root.val);
+            dfs(ret, path, root.right, sum - root.val);
+        }
+        path.remove(path.size() - 1);
+    }
+
+    // My 2nd
+    public List<List<Integer>> pathSum2(TreeNode root, int sum) {
         List<List<Integer>> result = new ArrayList<>();
         pathSum(result, new ArrayList<>(), root, sum);
         return result;
@@ -30,7 +49,7 @@ public class Solution {
         sum -= root.val;
         path.add(root.val);
 
-        if (root.left == null && root.right == null && sum == 0) {
+        if (root.left == null && root.right == null && sum == 0) { // Wrong?!
             result.add(new ArrayList<>(path));
         } else {
             pathSum(result, path, root.left, sum);
