@@ -8,8 +8,14 @@ import fundamentals.tree.TreeNode;
  */
 public class Solution {
 
+    public boolean hasPathSum(TreeNode root, int sum) { // invariant: sum represents target for current and lower level
+        if (root == null) return false; // root is null or missing child for non-leaf node
+        if (root.left == null && root.right == null) return sum == root.val;
+        return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+    }
+
     // My 2nd: O(N) time
-    public boolean hasPathSum(TreeNode root, int sum) {
+    public boolean hasPathSum2(TreeNode root, int sum) {
         if (root == null) return false;
 
         sum -= root.val;
@@ -19,7 +25,7 @@ public class Solution {
     }
 
     // Error for edge case
-    public boolean hasPathSum2(TreeNode root, int sum) {
+    public boolean hasPathSum21(TreeNode root, int sum) {
         if (root == null) {     // error: [],sum=0 -> should be false
             return sum == 0;
         }
