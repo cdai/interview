@@ -21,6 +21,24 @@ public class Solution {
     private int max = Integer.MIN_VALUE;
 
     public int maxPathSum(TreeNode root) {
+        dfs(root);
+        return max;
+    }
+
+    // Invariant:
+    // 1) return max path that is able to reuse.
+    // 2) max updated by tree rooted at root after return.
+    private int dfs(TreeNode root) {
+        if (root == null) return 0;
+        int left = dfs(root.left), right = dfs(root.right);
+        max = Math.max(max, root.val); // Too messy!
+        max = Math.max(max, root.val + left);
+        max = Math.max(max, root.val + right);
+        max = Math.max(max, root.val + left + right);
+        return Math.max(root.val, Math.max(left + root.val, right + root.val));
+    }
+
+    public int maxPathSum2(TreeNode root) {
         doMaxPathSum(root);
         return max;
     }
