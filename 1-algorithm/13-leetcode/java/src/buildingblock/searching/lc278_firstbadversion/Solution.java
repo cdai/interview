@@ -11,9 +11,19 @@ package buildingblock.searching.lc278_firstbadversion;
  */
 public class Solution extends VersionControl {
 
+    public int firstBadVersion(int n) {
+        int l = 1, r = n;
+        while (l < r) { /* invariant: bad version must in [l,r] */
+            int m = l + (r - l) / 2;
+            if (isBadVersion(m)) r = m; // no need to check, they must be all bad
+            else l = m + 1;             // all good before m
+        }
+        return l;
+    }
+
     // My 2nd
     // My 1st
-    public int firstBadVersion(int n) {
+    public int firstBadVersion2(int n) {
         /* MustBe(0,n) */
         int low = 0, high = n;
 
