@@ -9,8 +9,16 @@ import java.util.Arrays;
  */
 public class Solution {
 
-    // My 2nd: O(N)
     public void moveZeroes(int[] nums) {
+        int i = 0; /* invariant: nums[0,i) are non-zero */
+        for (int num : nums) {
+            if (num != 0) nums[i++] = num;
+        }
+        Arrays.fill(nums, i, nums.length, 0);
+    }
+
+    // My 2nd: O(N)
+    public void moveZeroes2(int[] nums) {
         // Invariant: [0,j) has no zero
         int j = 0;
         for (int num : nums)
