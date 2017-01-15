@@ -28,9 +28,53 @@ public class Solution {
         });
     }
 
+    private int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+    public void solve(char[][] board) {
+        if (board.length == 0 || board[0].length == 0) return;
+        int m = board.length, n = board[0].length;
+
+        // 1.Flip preserved O to #
+        for (int i = 0; i < m; i++) {
+            flip(board, m, n, i, 0);
+            flip(board, m, n, i, n - 1);
+        }
+        for (int j = 0; j < n; j++) {
+            flip(board, m, n, 0, j);
+            flip(board, m, n, m - 1, j);
+        }
+
+        // 2.Flip inner O and restore #
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 'O') board[i][j] = 'X';
+                else if (board[i][j] == '#') board[i][j] = 'O';
+            }
+        }
+    }
+
+    private void flip(char[][] board, int m, int n, int x, int y) {
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{x, y});
+        while (!q.isEmpty()) {
+            int[] p = q.poll();
+            int i = p[0], j = p[1];
+            if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] != 'O') continue;
+            board[i][j] = '#';
+            for (int[] d : dirs) q.offer(new int[]{i + d[0], j + d[1]});
+        }
+    }
+
+    // TLE
+    private void flip2(char[][] board, int m, int n, int x, int y) {
+        if (x < 0 || x >= m || y < 0 || y >= n || board[x][y] != 'O') return;
+        board[x][y] = '#';
+        for (int[] d : dirs) flip(board, m, n, x + d[0], y + d[1]);
+    }
+
     // Flood fill algorithm (very lively): O(m*n) time
     // If we don't handle boundary-0 first, redundent DFS emerge, think about it!
-    public void solve(char[][] board) {
+    public void solve2(char[][] board) {
         if (board.length == 0 || board[0].length == 0) return;
         int m = board.length, n = board[0].length;
         // 1.Flood fill all 'O' on the boundary
