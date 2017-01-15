@@ -19,8 +19,57 @@ package advanced.combinatorial.backtracking.dfs.lc200_numberofislands;
  */
 public class Solution {
 
+    // Overkill union find solution.
+    // 1) k = i * n + j (not i*m + j, not i * j)
+    // 2) i = k / n, j = k % n (not m !!!)
+    public int numIslands(char[][] friends) {
+        if (friends.length == 0) return 0;
+        int m = friends.length, n = friends[0].length;
+
+        // 1.Make each person as an individual circle initially
+        int cnt = 0;
+        int[] circles = new int[m * n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (friends[i][j] == '1') {
+                    cnt++;
+                    int pos = i * n + j;
+                    circles[pos] = pos; // note [0,0] belong to 0, so don't use !=0 to decide
+                }
+            }
+        }
+
+        // 2.Union friends in transitive manner and decrement the counter
+        int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        for (int i = 0; i < circles.length; i++) {
+            int x1 = i / n, y1 = i % n;
+            if (friends[x1][y1] != '1') continue;
+            for (int[] d : dirs) { // try on 4 directions
+                int x2 = x1 + d[0], y2 = y1 + d[1];
+                if (x2 < 0 || x2 >= m || y2 < 0 || y2 >= n || friends[x2][y2] != '1') continue;
+                int cir1 = find(circles, i);
+                int cir2 = find(circles, x2 * n + y2);
+                if (union(circles, cir1, cir2)) cnt--;
+            }
+        }
+        return cnt;
+    }
+
+    private static boolean union(int[] circles, int c1, int c2) {
+        if (c1 == c2) return false;
+        circles[c1] = c2;
+        return true;
+    }
+
+    // Find representative of current person, meanwhile compress path
+    private static int find(int[] circles, int cur) {
+        int par = circles[cur];
+        if (cur != par) circles[cur] = find(circles, par);
+        return circles[cur];
+    }
+
     // My 2AC: O(N^2) time, O(N) space
-    public int numIslands(char[][] grid) {
+    public int numIslands2(char[][] grid) {
         int islands = 0;
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
@@ -83,7 +132,7 @@ public class Solution {
     }
 
     // ["111","010","111"]
-    public int numIslands2(char[][] grid) {
+    public int numIslands12(char[][] grid) {
         if (grid.length == 0 || grid[0].length == 0) {
             return 0;
         }
