@@ -19,16 +19,17 @@ import java.util.Queue;
  */
 public class Solution {
 
+    // 4AC.
     // My 3AC. Use adjacent list. O(V + E).
     public boolean canFinish(int num, int[][] prereq) {
         if (prereq.length == 0 || prereq[0].length == 0) return true;
 
-        List<Integer>[] adj = new List[num];
+        List<Integer>[] adj = new List[num]; // Don't use Set. Input may contain duplicate edges
         int[] indegree = new int[num];
         for (int i = 0; i < num; i++) adj[i] = new ArrayList<>();
         for (int[] req : prereq) {
-            adj[req[1]].add(req[0]);
-            indegree[req[0]]++;
+            adj[req[1]].add(req[0]); // prereq -> crs
+            indegree[req[0]]++;      // save in-degree, otherwise it's unknown
         }
 
         Queue<Integer> q = new LinkedList<>();
