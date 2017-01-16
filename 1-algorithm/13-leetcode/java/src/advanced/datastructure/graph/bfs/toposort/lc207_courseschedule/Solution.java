@@ -19,9 +19,33 @@ import java.util.Queue;
  */
 public class Solution {
 
+    // 4AC. Standard DFS approach from CLRS.
+    public boolean canFinish(int n, int[][] prereq) {
+        List<Integer>[] adj = new List[n];
+        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();
+        for (int[] e : prereq) adj[e[1]].add(e[0]);
+
+        int[] vis = new int[n];     // reuse so that each node visited once
+        for (int i = 0; i < n; i++) // must check every node. eg.[1,0],[0,1]
+            if (dfs(adj, i, vis)) return false;
+        return true;
+    }
+
+    // Check if back edge (directed cycle) exists. If not => DAG => able to topo sort
+    private boolean dfs(List<Integer>[] adj, int v, int[] vis) {
+        vis[v] = 1;
+        for (int nb : adj[v]) {
+            if (vis[nb] == 1) return true; // visited and nb is v's ancestor => back edge
+            if (vis[nb] == 0 && dfs(adj, nb, vis)) return true; // nb is not visited => tree edge
+            // else vis[nb]==2, nb is visited but not ancestor => forward or cross edge
+        }
+        vis[v] = 2;
+        return false;
+    }
+
     // 4AC.
     // My 3AC. Use adjacent list. O(V + E).
-    public boolean canFinish(int num, int[][] prereq) {
+    public boolean canFinish4(int num, int[][] prereq) {
         if (prereq.length == 0 || prereq[0].length == 0) return true;
 
         List<Integer>[] adj = new List[num]; // Don't use Set. Input may contain duplicate edges
