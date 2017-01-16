@@ -1,4 +1,4 @@
-package advanced.datastructure.graph.directed.lc269_aliendictionary;
+package advanced.datastructure.graph.bfs.toposort.lc269_aliendictionary;
 
 import java.util.HashSet;
 import java.util.LinkedList;

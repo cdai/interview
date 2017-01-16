@@ -1,4 +1,4 @@
-package advanced.datastructure.graph.undirected.lc310_minimumheighttrees;
+package advanced.datastructure.graph.bfs.toposort.lc310_minimumheighttrees;
 
 import java.util.ArrayList;
 import java.util.Arrays;
