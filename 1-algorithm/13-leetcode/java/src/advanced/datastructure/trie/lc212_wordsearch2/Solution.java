@@ -20,6 +20,11 @@ import java.util.List;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(sol.findWords(new char[][]{{'a'}}, new String[]{"a"}));
+    }
+
     // O(mns4^w), where m & n are the board dimensions, s is the number of words in dict,
     // and w is the maximum one of words’ length. (4 means try in 4 directions).
     // Using Trie tree, build it in O(sw), search part become O(mnw4^w).
@@ -29,8 +34,25 @@ public class Solution {
         TrieNode trie = TrieNode.buildTree(words);
         for (int i = 0; i < board.length; i++)
             for (int j = 0; j < board[i].length; j++)
-                doFindWords(result, trie, board, i, j);
+                dfs(result, trie, board, i, j);
         return result;
+    }
+
+    private void dfs(List<String> ret, TrieNode node, char[][] board, int x, int y) {
+        if (x < 0 || x >= board.length || y < 0 || y >= board[0].length || board[x][y] == '#') return;
+
+        char c = board[x][y];
+        node = node.next[c - 'a']; // Note! node itself is matched before cur char. eg.[[a]],[a]
+        if (node == null) return;
+
+        if (node.word != null) {
+            ret.add(node.word);
+            node.word = null; // de-duplicate
+        }
+        board[x][y] = '#';
+        int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        for (int[] d : dirs) dfs(ret, node, board, x + d[0], y + d[1]);
+        board[x][y] = c;
     }
 
     private void doFindWords(List<String> result, TrieNode p, char[][] board, int row, int col) {
