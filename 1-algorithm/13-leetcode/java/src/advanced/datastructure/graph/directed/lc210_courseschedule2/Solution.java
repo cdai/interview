@@ -26,27 +26,28 @@ public class Solution {
         System.out.println(new Solution().findOrder(2, new int[][]{{1, 0}}));
     }
 
+    // 4AC.
     public int[] findOrder(int num, int[][] prereq) {
         List<Integer>[] adj = new List[num];
-        int[] indegree = new int[num];
+        int[] indegs = new int[num];
         for (int i = 0; i < num; i++) adj[i] = new ArrayList<>();
         for (int[] req : prereq) {
             adj[req[1]].add(req[0]);
-            indegree[req[0]]++;
+            indegs[req[0]]++;
         }
 
         Queue<Integer> q = new LinkedList<>();
         for (int i = 0; i < num; i++)
-            if (indegree[i] == 0) q.offer(i);
+            if (indegs[i] == 0) q.offer(i);
 
-        int cnt = 0;
         int[] order = new int[num];
-        for (; !q.isEmpty(); cnt++) {
-            order[cnt] = q.poll();
-            for (int crs : adj[order[cnt]])
-                if (--indegree[crs] == 0) q.offer(crs);
+        int i = 0; /* invariant: q contains leaves, i = #handled leaves */
+        while (!q.isEmpty()) {
+            order[i++] = q.poll();
+            for (int crs : adj[order[i]])
+                if (--indegs[crs] == 0) q.offer(crs);
         }
-        return (cnt == num) ? order : new int[0]; // must check if can finish
+        return (i == num) ? order : new int[0]; // must check if can finish
     }
 
     // O(V + E) time, O(V) space
