@@ -20,7 +20,52 @@ public class Solution {
         System.out.println(new Solution().validTree(5, new int[][]{{0, 1}, {2, 0}, {3,4}}));
     }
 
+    // 3AC. Kruskal's MST algorithm.
     public boolean validTree(int n, int[][] edges) {
+        int[] forest = new int[n];
+        for (int i = 0; i < n; i++) forest[i] = i;
+
+        for (int[] e : edges) {
+            int tree1 = find(forest, e[0]);
+            int tree2 = find(forest, e[1]);
+            if (tree1 == tree2) return false; // found cycle!
+            forest[tree1] = tree2;
+        }
+        return edges.length == n - 1; // connected
+    }
+
+    private int find(int[] forest, int v) { // Comparess path
+        if (forest[v] != v) forest[v] = find(forest, forest[v]);
+        return forest[v];
+    }
+
+    // 3AC. DFS cycle check solution.
+    public boolean validTree_dfs(int n, int[][] edges) {
+        List<Integer>[] adj = new List[n];
+        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();
+        for (int[] e : edges) {
+            adj[e[0]].add(e[1]);
+            adj[e[1]].add(e[0]);
+        }
+
+        boolean[] vis = new boolean[n];
+        if (dfs(adj, 0, -1, vis)) return false; // Check if acyclic
+
+        for (boolean v : vis) // Check if all connected
+            if (!v) return false;
+        return true;
+    }
+
+    private boolean dfs(List<Integer>[] adj, int cur, int par, boolean[] vis) {
+        vis[cur] = true;
+        for (int v : adj[cur]) {
+            if (vis[v] && v != par) return true; // undirected back edge
+            if (!vis[v] && dfs(adj, v, cur, vis)) return true;
+        }
+        return false;
+    }
+
+    public boolean validTree2(int n, int[][] edges) {
         List<Integer>[] adj = new List[n];
         for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();
         for (int[] e : edges) {
@@ -46,7 +91,7 @@ public class Solution {
 
     // My old-school solution. O(E + V) time.
     // A tree is an acyclic connected graph.
-    public boolean validTree2(int n, int[][] edges) {
+    public boolean validTree_bfs(int n, int[][] edges) {
         List<Integer>[] adj = new List[n];
         for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();
         for (int[] e : edges) {
