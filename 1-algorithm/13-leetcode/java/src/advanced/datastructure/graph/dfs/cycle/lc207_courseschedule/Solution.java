@@ -1,4 +1,4 @@
-package advanced.datastructure.graph.bfs.toposort.lc207_courseschedule;
+package advanced.datastructure.graph.dfs.cycle.lc207_courseschedule;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

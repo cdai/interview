@@ -1,4 +1,4 @@
-package advanced.datastructure.graph.bfs.toposort.lc261_graphvalidtree;
+package advanced.datastructure.graph.dfs.cycle.lc261_graphvalidtree;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

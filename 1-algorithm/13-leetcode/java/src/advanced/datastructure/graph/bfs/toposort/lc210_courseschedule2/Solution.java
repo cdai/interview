@@ -26,8 +26,32 @@ public class Solution {
         System.out.println(new Solution().findOrder(2, new int[][]{{1, 0}}));
     }
 
+    // 4AC. DFS solution.
+    public int[] findOrder(int n, int[][] prereq) {
+        List<Integer>[] adj = new List[n];
+        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();
+        for (int[] e : prereq) adj[e[1]].add(e[0]);
+
+        LinkedList<Integer> ret = new LinkedList<>();
+        int[] vis = new int[n];
+        for (int i = 0; i < n; i++)
+            if (vis[i] == 0 && dfs(ret, adj, i, vis)) return new int[0];
+        return ret.stream().mapToInt(i -> i).toArray();
+    }
+
+    private boolean dfs(LinkedList<Integer> ret, List<Integer>[] adj, int v, int[] vis) {
+        vis[v] = 1;
+        for (int nb : adj[v]) {
+            if (vis[nb] == 1) return true;
+            if (vis[nb] == 0 && dfs(ret, adj, nb, vis)) return true;
+        }
+        vis[v] = 2;
+        ret.addFirst(v); // Topo-sort order is the reverse order of their finish time
+        return false;
+    }
+
     // 4AC.
-    public int[] findOrder(int num, int[][] prereq) {
+    public int[] findOrder4(int num, int[][] prereq) {
         List<Integer>[] adj = new List[num];
         int[] indegs = new int[num];
         for (int i = 0; i < num; i++) adj[i] = new ArrayList<>();
