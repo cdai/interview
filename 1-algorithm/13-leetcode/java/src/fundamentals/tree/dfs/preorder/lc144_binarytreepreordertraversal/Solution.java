@@ -67,25 +67,20 @@ public class Solution {
         return ret;
     }
 
+    // 3AC.
     // My 2nd: iterative using stack. O(n) time, O(h) space
     public List<Integer> preorderTraversal_stack(TreeNode root) {
-        Stack<TreeNode> stack = new Stack<>();
-        if (root != null) {
-            stack.push(root);
-        }
+        Stack<TreeNode> s = new Stack<>();
+        if (root !=null) s.push(root);
 
-        List<Integer> result = new ArrayList<>();
-        while (!stack.isEmpty()) {
-            TreeNode node = stack.pop();
-            result.add(node.val);
-            if (node.right != null) {
-                stack.push(node.right);
-            }
-            if (node.left != null) {
-                stack.push(node.left);
-            }
+        List<Integer> ret = new ArrayList<>();
+        while (!s.isEmpty()) {
+            TreeNode node = s.pop();
+            ret.add(node.val);
+            if (node.right != null) s.push(node.right);
+            if (node.left != null) s.push(node.left);
         }
-        return result;
+        return ret;
     }
 
     // My 2nd: recursion. O(n) time, O(h) space
