@@ -10,17 +10,18 @@ import java.util.Queue;
  */
 public class Solution {
 
-    // O(N) time
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
         return serial(new StringBuilder(), root).toString();
     }
 
+    // Generate preorder traversal string
     private StringBuilder serial(StringBuilder str, TreeNode root) {
         if (root == null) return str.append("#");
         str.append(root.val).append(",");
-        serial(str, root.left).append(","); // note execution order
-        return serial(str, root.right);
+        serial(str, root.left).append(",");
+        serial(str, root.right);
+        return str;
     }
 
     // Decodes your encoded data to tree.
@@ -28,7 +29,35 @@ public class Solution {
         return deserial(new LinkedList<>(Arrays.asList(data.split(","))));
     }
 
-    private TreeNode deserial(Queue<String> queue) {
+    // Use queue to simplify position move
+    private TreeNode deserial(Queue<String> q) {
+        String val = q.poll();
+        if ("#".equals(val)) return null;
+        TreeNode root = new TreeNode(Integer.valueOf(val));
+        root.left = deserial(q);
+        root.right = deserial(q);
+        return root;
+    }
+
+    // O(N) time
+    // Encodes a tree to a single string.
+    public String serialize1(TreeNode root) {
+        return serial(new StringBuilder(), root).toString();
+    }
+
+    private StringBuilder serial1(StringBuilder str, TreeNode root) {
+        if (root == null) return str.append("#");
+        str.append(root.val).append(",");
+        serial(str, root.left).append(","); // note execution order
+        return serial(str, root.right);
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize1(String data) {
+        return deserial(new LinkedList<>(Arrays.asList(data.split(","))));
+    }
+
+    private TreeNode deserial1(Queue<String> queue) {
         String val = queue.poll();
         if ("#".equals(val)) return null;
         TreeNode root = new TreeNode(Integer.valueOf(val));
