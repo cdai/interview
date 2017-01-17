@@ -22,8 +22,20 @@ public class Solution {
         System.out.println(new Solution().partition(head, 3));
     }
 
-    // Very concise and inspiring solution from leetcode discuss
     public ListNode partition(ListNode head, int x) {
+        ListNode small = new ListNode(0), spre = small;
+        ListNode large = new ListNode(0), lpre = large;
+        for (ListNode n = head; n != null; n = n.next) {
+            if (n.val < x) spre = spre.next = n;
+            else lpre = lpre.next = n;
+        }
+        spre.next = large.next; // discard dummy head
+        lpre.next = null;       // cut off since this may not be last node
+        return small.next;
+    }
+
+    // Very concise and inspiring solution from leetcode discuss
+    public ListNode partition3(ListNode head, int x) {
         ListNode smallHead = new ListNode(0);
         ListNode largeHead = new ListNode(0);
 

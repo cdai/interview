@@ -33,7 +33,7 @@ public class Solution {
         }
     }
 
-    // 
+    //
     // 1) Compare nums[i] and nums[l] (pivot), instead of nums[m]!
     // 2) Don't forget to swap nums[l] and nums[m]
     public int median(int[] nums) {
