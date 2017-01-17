@@ -16,17 +16,18 @@ public class Solution {
         System.out.println(new Solution().findKthLargest(new int[]{1, 5, 2, 3, 10, 7, 11}, 2));
     }
 
+    // 4AC
     // My 3AC. Simplify variable names.
     public int findKthLargest(int[] A, int k) {
-        k = A.length - k;
-        int l = 0, h = A.length - 1;
-        while (l < h) {
-            int m = l; // m must be last smaller num instead of first larger
-            for (int i = l + 1; i <= h; i++)
+        k = A.length - k;   // index of k largest
+        int l = 0, r = A.length - 1;
+        while (l < r) {
+            int m = l;      // choose first element as pivot
+            for (int i = l + 1; i <= r; i++)
                 if (A[i] < A[l]) swap(A, i, ++m);
             swap(A, l, m);
 
-            if (k < m) h = m - 1;
+            if (k < m) r = m - 1;
             else if (k > m) l = m + 1;
             else return A[m];
         }
