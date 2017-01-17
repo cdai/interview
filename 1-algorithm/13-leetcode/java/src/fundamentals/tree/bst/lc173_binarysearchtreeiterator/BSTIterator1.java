@@ -34,8 +34,7 @@ public class BSTIterator1 {
     }
 
     private void pushAllLeft(TreeNode root) {
-        for (; root != null; root = root.left)
-            stack.push(root);
+        for (; root != null; root = root.left) stack.push(root);
     }
 
 }
