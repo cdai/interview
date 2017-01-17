@@ -15,6 +15,20 @@ import java.util.Stack;
  */
 public class Solution {
 
+    public List<Integer> postorderTraversal(TreeNode root) {
+        Stack<TreeNode> s = new Stack<>();
+        if (root != null) s.push(root);
+
+        LinkedList<Integer> ret = new LinkedList<>();
+        while (!s.isEmpty()) { // Add root to head, then do right and left subtree (reversed preorder)
+            TreeNode node = s.pop();
+            ret.addFirst(node.val);
+            if (node.left != null) s.push(node.left);
+            if (node.right != null) s.push(node.right);
+        }
+        return ret;
+    }
+
     //      1
     //    /   \
     //   2     5
@@ -23,7 +37,7 @@ public class Solution {
     // Pre-order:  1-2-3-4-5-6-7
     // Post-order:   3-4-2-6-7-5-1
     // root-left-right => left-right-root
-    public List<Integer> postorderTraversal(TreeNode root) {
+    public List<Integer> postorderTraversal2(TreeNode root) {
         LinkedList<Integer> ret = new LinkedList<>();
         Stack<TreeNode> s = new Stack<>();
         TreeNode p = root;
