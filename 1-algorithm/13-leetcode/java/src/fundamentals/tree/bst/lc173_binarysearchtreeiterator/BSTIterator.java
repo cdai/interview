@@ -2,48 +2,44 @@ package fundamentals.tree.bst.lc173_binarysearchtreeiterator;
 
 import fundamentals.tree.TreeNode;
 
-import java.util.Stack;
-
 /**
- * Implement an iterator over a binary search tree (BST).
- * Your iterator will be initialized with the root node of a BST.
- * Calling next() will return the next smallest number in the BST.
- * Note: next() and hasNext() should run in average O(1) time and uses O(h) memory,
- * where h is the height of the tree.
- *
- * My 2nd attempt
+ * The key of Morris traverse is **link right pointer of rightmost child of left subtree before go left**,
+ * so that when we complete left subtree we can follow the footprint back to root.
+ * Then restore rightmost's right pointer and then go for right subtree.
  */
 public class BSTIterator {
-
-    private Stack<TreeNode> stack;
 
     private TreeNode cur;
 
     public BSTIterator(TreeNode root) {
-        this.stack = new Stack<>();
         this.cur = root;
     }
 
-    /** @return whether we have a next smallest number */
     public boolean hasNext() {
-        return !stack.isEmpty() || cur != null;
+        return cur != null;
     }
 
-    /** @return the next smallest number */
-    public int next() {
-        int val = 0;
-        while (hasNext()) {
-            if (cur != null) {
-                stack.push(cur);
-                cur = cur.left;
-            } else {
-                cur = stack.pop();
-                val = cur.val;
+    public int next() { /* suppose hasNext() called ahead */
+        TreeNode node = null;
+        while (cur != null && node == null) {
+            if (cur.left == null) {         // no left child, then go right (right child or back to root by footprint)
+                node = cur;
                 cur = cur.right;
-                break;
+            } else {
+                TreeNode rmost = cur.left;
+                while (rmost.right != null && rmost.right != cur) rmost = rmost.right;
+
+                if (rmost.right == null) {  // 1.link rmost to root (cur) as footprint before go left
+                    rmost.right = cur;
+                    cur = cur.left;
+                } else {                    // 2.We already get back to root by footprint, so restore then go right
+                    node = cur;
+                    rmost.right = null;
+                    cur = cur.right;
+                }
             }
         }
-        return val;
+        return node.val;
     }
 
 }
