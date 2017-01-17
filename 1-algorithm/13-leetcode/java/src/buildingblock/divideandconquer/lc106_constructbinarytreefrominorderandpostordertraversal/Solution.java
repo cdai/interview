@@ -16,7 +16,7 @@ public class Solution {
     private TreeNode doBuild(int[] inorder, int[] postorder, int is, int ie, int ps, int pe) {
         if (is > ie) return null;
 
-        int i = 0, rootval = postorder[pe];
+        int i = is, rootval = postorder[pe];
         while (inorder[i] != rootval) i++;
 
         TreeNode root = new TreeNode(rootval);

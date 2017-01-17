@@ -10,9 +10,26 @@ import java.util.Arrays;
  */
 public class Solution {
 
+    // 3AC.
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return doBuild(preorder, inorder, 0, preorder.length - 1, 0, inorder.length - 1);
+    }
+
+    private TreeNode doBuild(int[] preorder, int[] inorder, int ps, int pe, int is, int ie) {
+        if (ps > pe || is > ie) return null;
+
+        int i = is, rootval = preorder[ps]; // Note: is and ps, not 0!
+        while (inorder[i] != rootval) i++;
+
+        TreeNode root = new TreeNode(rootval);
+        root.left = doBuild(preorder, inorder, ps + 1, ps + i - is, is, i - 1);
+        root.right = doBuild(preorder, inorder, ps + i - is + 1, pe, i + 1, ie);
+        return root;
+    }
+
     // My 2nd: easy index, but many sub array generated slow down the performance...
     // O(N) time, O(logN) time
-    public TreeNode buildTree(int[] preorder, int[] inorder) {
+    public TreeNode buildTree2(int[] preorder, int[] inorder) {
         if (preorder.length == 0) {
             return null;
         }
