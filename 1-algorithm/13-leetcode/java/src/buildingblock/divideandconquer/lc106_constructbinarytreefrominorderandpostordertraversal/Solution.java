@@ -8,9 +8,26 @@ import fundamentals.tree.TreeNode;
  */
 public class Solution {
 
+    // 3AC. O(NlogN) time.
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        return doBuild(inorder, postorder, 0, inorder.length - 1, 0, postorder.length - 1);
+    }
+
+    private TreeNode doBuild(int[] inorder, int[] postorder, int is, int ie, int ps, int pe) {
+        if (is > ie) return null;
+
+        int i = 0, rootval = postorder[pe];
+        while (inorder[i] != rootval) i++;
+
+        TreeNode root = new TreeNode(rootval);
+        root.left = doBuild(inorder, postorder, is, i - 1, ps, ps + i - is - 1);
+        root.right = doBuild(inorder, postorder, i + 1, ie, ps + i - is, pe - 1);
+        return root;
+    }
+
     // My 2nd
     // O(N) time, O(logN) time
-    public TreeNode buildTree(int[] inorder, int[] postorder) {
+    public TreeNode buildTree2(int[] inorder, int[] postorder) {
         return doBuildTree(inorder, 0, inorder.length - 1, postorder, 0, postorder.length - 1);
     }
 
