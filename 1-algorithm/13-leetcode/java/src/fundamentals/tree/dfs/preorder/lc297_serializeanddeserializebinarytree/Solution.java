@@ -10,6 +10,15 @@ import java.util.Queue;
  */
 public class Solution {
 
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.left.left = new TreeNode(4);
+        root.right.left = new TreeNode(5);
+        System.out.println(new Solution().serialize(root));
+    }
+
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
         return serial(new StringBuilder(), root).toString();
