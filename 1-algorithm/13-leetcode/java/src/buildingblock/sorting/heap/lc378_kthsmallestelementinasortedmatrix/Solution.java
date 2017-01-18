@@ -1,6 +1,7 @@
 package buildingblock.sorting.heap.lc378_kthsmallestelementinasortedmatrix;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -17,8 +18,20 @@ import java.util.Queue;
  */
 public class Solution {
 
+    // O(KlogN) time. Treat each row as sorted list, find kth during "merge"
+    public int kthSmallest(int[][] A, int k) {
+        int n = A.length;
+        Queue<int[]> q = new PriorityQueue<>(Comparator.comparingInt(e -> A[e[0]][e[1]]));
+        for (int i = 0; i < n; i++) q.offer(new int[]{i, 0});
+        while (k-- > 1) {
+            int[] e = q.poll();
+            if (++e[1] < n) q.offer(e);
+        }
+        return q.isEmpty() ? 0 : A[q.peek()[0]][q.peek()[1]];
+    }
+
     // My 2nd: O(KlogK) time.
-    public int kthSmallest(int[][] matrix, int k) {
+    public int kthSmallest2(int[][] matrix, int k) {
         if (matrix.length == 0 || matrix[0].length == 0 || k <= 0) {
             return 0;
         }
