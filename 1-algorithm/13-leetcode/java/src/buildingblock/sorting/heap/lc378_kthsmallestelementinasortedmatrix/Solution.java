@@ -70,7 +70,7 @@ public class Solution {
         return heap.isEmpty() ? 0 : heap.poll();
     }
 
-    public int kthSmallest2(int[][] matrix, int k) {
+    public int kthSmallest21(int[][] matrix, int k) {
         if (matrix.length == 0 || matrix[0].length == 0) {
             return 0;
         }
