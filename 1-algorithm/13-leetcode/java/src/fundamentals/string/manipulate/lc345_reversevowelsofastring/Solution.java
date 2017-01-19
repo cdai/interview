@@ -12,8 +12,21 @@ import java.util.Set;
  */
 public class Solution {
 
-    // My 2nd: O(N) time O(1) space
     public String reverseVowels(String s) {
+        if (s.isEmpty()) return "";
+        Set<Character> vow = new HashSet<>(Arrays.asList(
+                'a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U'));
+        char[] c = s.toCharArray();
+        for (int i = 0, j = c.length - 1; i < j; ) {
+            if (!vow.contains(c[i])) i++;
+            else if (!vow.contains(c[j])) j--;
+            else swap(c, i++, j--);
+        }
+        return String.valueOf(c);
+    }
+
+    // My 2nd: O(N) time O(1) space
+    public String reverseVowels2(String s) {
         Set<Character> vowels = new HashSet<>(
                 Arrays.asList(new Character[] { 'a','e','i','o','u','A','E','I','O','U' }));
         char[] chars = s.toCharArray();
