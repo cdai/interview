@@ -18,9 +18,19 @@ public class Solution {
         System.out.println(new Solution().reverseWords("a"));
     }
 
+    public String reverseWords(String s) {
+        String[] words = s.trim().split("\\s+"); // must trim and split by s+, ow. " " exists after split!
+        if (words.length == 0) return "";
+        StringBuilder ret = new StringBuilder();
+        for (int i = words.length - 1; i > 0; i--) {
+            ret.append(words[i]).append(" ");
+        }
+        return ret.append(words[0]).toString();
+    }
+
     // Process in reversed order to reduce insert(0,str) cost
     // And use nested loop to get rid of flag variable
-    public String reverseWords(String s) {
+    public String reverseWords3(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = s.length() - 1; i >= 0; i--) {
             if (s.charAt(i) == ' ') continue;
