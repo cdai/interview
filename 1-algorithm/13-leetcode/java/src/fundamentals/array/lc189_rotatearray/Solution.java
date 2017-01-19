@@ -8,6 +8,23 @@ package fundamentals.array.lc189_rotatearray;
  */
 public class Solution {
 
+    public void rotate(int[] nums, int k) {
+        if (nums.length == 0) return;
+        int n = nums.length;
+        k %= n;
+        reverse(nums, 0, n - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, n - 1);
+    }
+
+    private void reverse(int[] nums, int i, int j) {
+        for (; i < j; i++, j--) {
+            int tmp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = tmp;
+        }
+    }
+
     // Solution 1: just use extra space
     // Solution 2: magical reverse! O(N)
     public void rotate2(int[] nums, int k) {
@@ -17,7 +34,7 @@ public class Solution {
         reverse(nums, k, nums.length);
     }
 
-    private void reverse(int[] nums, int start, int end) { // exclusive
+    private void reverse2(int[] nums, int start, int end) { // exclusive
         for (int i = start, j = end - 1; i < j; i++, j--) {
             int tmp = nums[i];
             nums[i] = nums[j];
