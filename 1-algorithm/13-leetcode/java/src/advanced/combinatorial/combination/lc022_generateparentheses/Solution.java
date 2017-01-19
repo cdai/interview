@@ -26,7 +26,23 @@ public class Solution {
         System.out.println(sol.generateParenthesis(3));
     }
 
+    // 4AC. Use string, a little slower but concise a lot.
     public List<String> generateParenthesis(int n) {
+        List<String> ret = new ArrayList<>();
+        if (n > 0) dfs(ret, "", 0, 0, n);
+        return ret;
+    }
+
+    private void dfs(List<String> ret, String path, int left, int right, int n) {
+        if (right == n) {
+            ret.add(path);
+            return;
+        }
+        if (left > right) dfs(ret, path + ")", left, right + 1, n);
+        if (left < n) dfs(ret, path + "(", left + 1, right, n);
+    }
+
+    public List<String> generateParenthesis3(int n) {
         List<String> ret = new ArrayList<>();
         generate(ret, new char[n * 2], 0, 0, n, 0);
         return ret;
