@@ -14,9 +14,11 @@ public class Solution {
     public boolean canPermutePalindrome(String s) {
         Set<Character> freq = new HashSet<>();
         for (int i = 0; i < s.length(); i++) {
-            if (!freq.remove(s.charAt(i))) freq.add(s.charAt(i));
+            char c = s.charAt(i);   // Suppose palindrome only contains letter, no space,digits..
+            if (!Character.isLetter(c)) continue;
+            if (!freq.remove(c)) freq.add(c);
         }
-        return freq.size() <= 1; // At most one odd character
+        return freq.size() <= 1;    // At most one odd character
     }
 
     public boolean canPermutePalindrome_twopass(String s) {
@@ -45,7 +47,7 @@ public class Solution {
 
     @Test
     void testSpace() {
-        Assertions.assertTrue(canPermutePalindrome("a bab g"));
+        Assertions.assertTrue(canPermutePalindrome("a babg"));
     }
 
     @Test
