@@ -22,6 +22,19 @@ public class Solution {
         }
     }
 
+    // 157-Unique Character
+    public boolean isUnique(String str) {
+        if (str.length() > 256) return false;
+
+        boolean[] exist = new boolean[256];
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (exist[c]) return false;
+            exist[c] = true;
+        }
+        return true;
+    }
+
     // 397-Longest Increasing Continuous Subsequence
     public int longestIncreasingContinuousSubsequence(int[] A) {
         if (A.length == 0) return 0;
