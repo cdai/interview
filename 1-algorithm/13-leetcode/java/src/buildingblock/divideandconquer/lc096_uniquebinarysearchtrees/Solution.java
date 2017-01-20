@@ -6,8 +6,19 @@ package buildingblock.divideandconquer.lc096_uniquebinarysearchtrees;
  */
 public class Solution {
 
-    // My 2nd: O(N^2) time, O(N) space
+    // #Sub-problem=n, dependencies on sub-problem=1+2+...n => O(N^2)
     public int numTrees(int n) {
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int l = 0, r = i - 1; l < i; l++, r--)
+                dp[i] += dp[l] * dp[r];
+        }
+        return dp[n];
+    }
+
+    // My 2nd: O(N^2) time, O(N) space
+    public int numTrees2(int n) {
         if (n < 0) {
             return 1;
         }
