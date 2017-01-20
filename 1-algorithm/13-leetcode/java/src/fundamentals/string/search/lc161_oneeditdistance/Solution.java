@@ -1,23 +1,56 @@
 package fundamentals.string.search.lc161_oneeditdistance;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 /**
  * Given two strings S and T, determine if they are both one edit distance apart.
  */
 public class Solution {
 
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        System.out.println(s.isOneEditDistance("abcdef", "abcdef"));
-        System.out.println(s.isOneEditDistance("abcXef", "abcdef"));
-        System.out.println(s.isOneEditDistance("abcdef", "abcde"));
-        System.out.println(s.isOneEditDistance("abde", "abcde"));
+    public boolean isOneEditDistance(String s, String t) {
+        int m = s.length(), n = t.length();
+        if (Math.abs(m - n) > 1) return false;
+        for (int i = 0; i < Math.min(m, n); i++) {
+            if (s.charAt(i) == t.charAt(i)) continue;
+            if (m == n) return s.substring(i + 1).equals(t.substring(i + 1));
+            if (m > n) return s.substring(i + 1).equals(t.substring(i));
+            else return s.substring(i).equals(t.substring(i + 1));
+        }
+        return m != n; /* Only last char different. eg."abcd" "abc". Rule out equal case "abc" "abc" */
+    }
 
-        System.out.println(!s.isOneEditDistance("abcdef", "abcdefgh"));
-        System.out.println(!s.isOneEditDistance("aXcXef", "abcdef"));
+    @Test
+    void testEmpty() {
+        Assertions.assertFalse(isOneEditDistance("", ""));
+        Assertions.assertTrue(isOneEditDistance("", "a"));
+        Assertions.assertTrue(isOneEditDistance("b", ""));
+    }
+
+    @Test
+    void testNormal() {
+        Assertions.assertTrue(isOneEditDistance("abcfg", "abcefg"));
+        Assertions.assertTrue(isOneEditDistance("abcefg", "abcfg"));
+        Assertions.assertTrue(isOneEditDistance("abcefg", "abcxfg"));
+    }
+
+    @Test
+    void testFalse() {
+        Assertions.assertFalse(isOneEditDistance("abc", "abc")); // equals = zero edit distance!!!
+        Assertions.assertFalse(isOneEditDistance("axxbc", "abc"));
+        Assertions.assertFalse(isOneEditDistance("abc", "abxxc"));
+        Assertions.assertFalse(isOneEditDistance("abcd", "aDcE"));
+    }
+
+    @Test
+    void testLastChar() {
+        Assertions.assertTrue(isOneEditDistance("abcf", "abcfg"));
+        Assertions.assertTrue(isOneEditDistance("abcfg", "abcf"));
+        Assertions.assertTrue(isOneEditDistance("abcfg", "abcfx"));
     }
 
     // My 3AC. O(N) time using one loop.
-    public boolean isOneEditDistance(String s, String t) {
+    public boolean isOneEditDistance3(String s, String t) {
         if (Math.abs(s.length() - t.length()) > 1) return false;
         for (int i = 0; i < Math.min(s.length(), t.length()); i++) {
             if (s.charAt(i) == t.charAt(i)) continue;
