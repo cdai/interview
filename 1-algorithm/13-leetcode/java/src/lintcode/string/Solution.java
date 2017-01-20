@@ -35,6 +35,17 @@ public class Solution {
         return true;
     }
 
+    // O(1) space solution if we can assume only lowercase letter is allowed
+    public boolean isUnique_o1(String str) {
+        int exist = 0; // assume only lowercase char that an int can hold
+        for (int i = 0; i < str.length(); i++) {
+            int idx = str.charAt(i) - 'a';
+            if (((exist >> idx) & 1) == 1) return false;
+            exist |= 1 << idx;
+        }
+        return true;
+    }
+
     // 397-Longest Increasing Continuous Subsequence
     public int longestIncreasingContinuousSubsequence(int[] A) {
         if (A.length == 0) return 0;
