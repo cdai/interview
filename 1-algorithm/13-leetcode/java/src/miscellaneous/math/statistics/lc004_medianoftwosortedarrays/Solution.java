@@ -8,7 +8,30 @@ package miscellaneous.math.statistics.lc004_medianoftwosortedarrays;
  */
 public class Solution {
 
-    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+    public static void main(String[] args) {
+        System.out.println(new Solution().findMedianSortedArrays(
+                new int[]{1, 3, 4, 5}, new int[]{2, 3, 7}));
+    }
+
+    public double findMedianSortedArrays(int[] A1, int[] A2) {
+        int n1 = A1.length, n2 = A2.length;
+        if (n1 < n2) return findMedianSortedArrays(A2, A1); // A2 is shorter
+
+        int l = 0, r = n2 * 2;
+        while (l <= r) {
+            int m2 = (l + r) / 2, m1 = n1 + n2 - m2; // cut 1 and cut 2
+            double l1 = (m1 == 0) ? Double.MIN_VALUE : A1[(m1 - 1) / 2];
+            double l2 = (m2 == 0) ? Double.MIN_VALUE : A2[(m2 - 1) / 2];
+            double r1 = (m1 == n1 * 2) ? Double.MAX_VALUE : A1[m1 / 2];
+            double r2 = (m2 == n2 * 2) ? Double.MAX_VALUE : A2[m2 / 2];
+            if (l1 > r2) l = m2 + 1;        // A1's lower half too big, move cut 1 left
+            else if (l2 > r1) r = m2 - 1;   // A2's lower half too big, move cut 2 left
+            else return (Math.max(l1, l2) + Math.min(r1, r2)) / 2; // otherwise, correct cut
+        }
+        return -1;
+    }
+
+    public double findMedianSortedArrays1(int[] nums1, int[] nums2) {
         if (nums1.length == 0 && nums2.length == 0) {
             return 0;
         }
