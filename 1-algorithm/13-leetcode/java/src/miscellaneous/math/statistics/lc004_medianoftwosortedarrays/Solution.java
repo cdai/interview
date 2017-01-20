@@ -10,10 +10,36 @@ public class Solution {
 
     public static void main(String[] args) {
         System.out.println(new Solution().findMedianSortedArrays(
-                new int[]{1, 3, 4, 5}, new int[]{2, 3, 7}));
+                new int[]{1, 2, 3, 4, 5}, new int[]{0, 1, 6, 7}));
     }
 
     public double findMedianSortedArrays(int[] A1, int[] A2) {
+        int m = A1.length, n = A2.length;
+        int l = (m + n + 1) / 2, r = (m + n + 2) / 2; // potential two median number
+        return (getKth(A1, 0, m, A2, 0, n, l) + getKth(A1, 0, m, A2, 0, n, r)) / 2.0;
+    }
+
+    private int getKth(int[] A1, int s1, int m, int[] A2, int s2, int n, int k) {
+        print(A1, s1, m, A2, s2, n, k);
+        if (m > n) return getKth(A2, s2, n, A1, s1, m, k);
+        if (m == 0) return A2[s2 + k - 1];
+        if (k == 1) return Math.min(A1[s1], A2[s2]);
+
+        int i = Math.min(m, k / 2), j = Math.min(n, k / 2);
+        if (A1[s1 + i - 1] > A2[s2 + j - 1]) return getKth(A1, s1, m, A2, s2 + j, n - j, k - j);
+        else return getKth(A1, s1 + i, m - i, A2, s2, n, k - i); // discard #i num of A1's left half
+    }
+
+    private void print(int[] A1, int s1, int m, int[] A2, int s2, int n, int k) {
+        System.out.print("A1: [");
+        for (int i = s1; i < s1 + m; i++) System.out.printf("%d, ", A1[i]);
+        System.out.print("]  A2: [");
+        for (int i = s2; i < s2 + n; i++) System.out.printf("%d, ", A2[i]);
+        System.out.printf("]  K: %d\n", k);
+    }
+
+    // Why?
+    public double findMedianSortedArrays_mostupvoted(int[] A1, int[] A2) {
         int n1 = A1.length, n2 = A2.length;
         if (n1 < n2) return findMedianSortedArrays(A2, A1); // A2 is shorter
 
