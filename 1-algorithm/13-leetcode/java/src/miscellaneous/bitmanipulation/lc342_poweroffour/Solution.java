@@ -7,8 +7,20 @@ package miscellaneous.bitmanipulation.lc342_poweroffour;
  */
 public class Solution {
 
-    // My 2AC: check even bit instead, same effect.
+    // only 1 one-bit on odd bit.
+    // A=1010, we have 8 * A (it's ok we set sign)
     public boolean isPowerOfFour(int num) {
+        return num > 0 && ((num - 1) & num) == 0 && (num & 0xAAAAAAAA) == 0;
+    }
+
+    public boolean isPowerOfFour_loop(int num) {
+        if (num <= 0) return false;
+        while(num % 4 == 0) num /= 4; // remove all factors
+        return num == 1;
+    }
+
+    // My 2AC: check even bit instead, same effect.
+    public boolean isPowerOfFour2(int num) {
         // 0x55555555 = 01010101010101010101010101010101
         // 0xAAAAAAAA = 10101010101010101010101010101010
         return (num > 0) && ((num & (num - 1)) == 0) && ((num & 0xAAAAAAAA) == 0);
@@ -21,7 +33,7 @@ public class Solution {
                 && ((num & 0x5555555555555555l) == num);
     }
 
-    public boolean isPowerOfFour2(int num) {
+    public boolean isPowerOfFour12(int num) {
         // Determine if it's power of two at first
         if (num <= 0 || (num & (num - 1)) != 0) { // error: !=0 not ==1
             return false;
