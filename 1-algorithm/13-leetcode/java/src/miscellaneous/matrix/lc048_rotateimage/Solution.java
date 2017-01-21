@@ -24,8 +24,21 @@ public class Solution {
         System.out.println();
     }
 
-    // Amazing solution from crazy people!
     public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        for (int i = 0; i < n / 2; i++) {
+            for (int j = i; j < n - i - 1; j++) { // don't rotate at last position
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[n - j - 1][i];                // right -> top
+                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];// bottom -> right
+                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];// left -> bottom
+                matrix[j][n - i - 1] = tmp;                         // top -> left
+            }
+        }
+    }
+
+    // Amazing solution from crazy people!
+    public void rotate2(int[][] matrix) {
         reverseRow(matrix);
         for (int i = 0; i < matrix.length; i++)
             for (int j = i + 1; j < matrix[i].length; j++)
