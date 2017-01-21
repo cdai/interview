@@ -42,5 +42,8 @@ public class MedianFinder {
                 large.size() < small.size() ? small.peek() :
                         (large.peek() + small.peek()) / 2.0;
     }
+    // Lintcode has different definition. Note:
+    // Median is A[(n - 1) / 2]. A=[1,2,3], median=2. A=[1,19], median=1.
+    //  med[i] = left.size() >= right.size() ? left.peek() : right.peek();
 
 }
