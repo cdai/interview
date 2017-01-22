@@ -100,6 +100,34 @@ public class Solution {
         return dp[n][k];
     }
 
+    // 45-Maximum Subarray Difference
+    // Do four times maxSubArray or two times maxSubArray II from two directions
+    public int maxDiffSubArrays(int[] nums) {
+        if (nums.length == 0) return 0;
+        int n = nums.length, lmaxlocal, lminlocal, rmaxlocal, rminlocal;
+        int[] lmax = new int[n], lmin = new int[n], rmax = new int[n], rmin = new int[n];
+        lmax[0] = lmaxlocal = lmin[0] = lminlocal = nums[0];
+        rmax[n - 1] = rmaxlocal = rmin[n - 1] = rminlocal = nums[n - 1];
+
+        for (int i = 1; i < n; i++) {
+            lmaxlocal = Math.max(nums[i], nums[i] + lmaxlocal);
+            lminlocal = Math.min(nums[i], nums[i] + lminlocal);
+            rmaxlocal = Math.max(nums[n - i - 1], nums[n - i - 1] + rmaxlocal);
+            rminlocal = Math.min(nums[n - i - 1], nums[n - i - 1] + rminlocal);
+            lmax[i] = Math.max(lmax[i - 1], lmaxlocal);
+            lmin[i] = Math.min(lmin[i - 1], lminlocal);
+            rmax[n - i - 1] = Math.max(rmax[n - i], rmaxlocal);
+            rmin[n - i - 1] = Math.min(rmin[n - i], rminlocal);
+        }
+
+        int diff = Integer.MIN_VALUE;
+        for (int i = 0; i < n - 1; i++) {
+            diff = Math.max(diff, lmax[i] - rmin[i + 1]);
+            diff = Math.max(diff, -lmin[i] + rmax[i + 1]);
+        }
+        return diff;
+    }
+
     // 402-Continuous Subarray Sum
     public List<Integer> continuousSubarraySum(int[] A) {
         if (A.length == 0) return new ArrayList<>();
