@@ -52,7 +52,35 @@ public class Solution {
         }
         return idx;
     }
-    
+
+    // 42-Maximum Subarray Sum II
+    public int maxTwoSubArrays(ArrayList<Integer> nums) {
+        if (nums.isEmpty()) return 0;
+        int n = nums.size(), maxSoFar, maxEndHere;
+        int[] left = new int[n], right = new int[n];
+
+        left[0] = maxSoFar = maxEndHere = nums.get(0);
+        for (int i = 1; i < n; i++) {
+            maxEndHere = Math.max(nums.get(i), maxEndHere + nums.get(i));
+            maxSoFar = Math.max(maxSoFar, maxEndHere);
+            left[i] = maxSoFar;
+        }
+
+        right[n - 1] = maxSoFar = maxEndHere = nums.get(n - 1);
+        for (int i = n - 2; i >= 0; i--) {
+            maxEndHere = Math.max(nums.get(i), maxEndHere + nums.get(i));
+            maxSoFar = Math.max(maxSoFar, maxEndHere);
+            right[i] = maxSoFar;
+        }
+
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < n - 1; i++) // from (0,1) -> (n-2,n-1)
+            max = Math.max(max, left[i] + right[i + 1]);
+        return max;
+    }
+
+    // 43-Maximum Subarray Sum III
+
     // 402-Continuous Subarray Sum
     public List<Integer> continuousSubarraySum(int[] A) {
         if (A.length == 0) return new ArrayList<>();
