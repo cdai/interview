@@ -80,6 +80,25 @@ public class Solution {
     }
 
     // 43-Maximum Subarray Sum III
+    // dp[i][j] = max(dp[m][j-1] + maxSoFar) Note:
+    //  1) maxSoFar calculated backwards.
+    //  2) m cannot be < j - 1, since j-1 subarrays require at least j-1 numbers
+    public int maxSubArray(int[] nums, int k) {
+        int n = nums.length;
+        int[][] dp = new int[n + 1][k + 1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= k; j++) {
+                dp[i][j] = Integer.MIN_VALUE;
+                int maxSoFar = Integer.MIN_VALUE, maxEndHere = 0;
+                for (int m = i - 1; m >= j - 1; m--) {
+                    maxEndHere = Math.max(nums[m], nums[m] + maxEndHere);
+                    maxSoFar = Math.max(maxSoFar, maxEndHere);
+                    dp[i][j] = Math.max(dp[i][j], dp[m][j - 1] + maxSoFar);
+                }
+            }
+        }
+        return dp[n][k];
+    }
 
     // 402-Continuous Subarray Sum
     public List<Integer> continuousSubarraySum(int[] A) {
