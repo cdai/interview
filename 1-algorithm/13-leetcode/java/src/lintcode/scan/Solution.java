@@ -1,5 +1,6 @@
 package lintcode.scan;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +51,26 @@ public class Solution {
             presum.put(sum, i);
         }
         return idx;
+    }
+    
+    // 402-Continuous Subarray Sum
+    public List<Integer> continuousSubarraySum(int[] A) {
+        if (A.length == 0) return new ArrayList<>();
+        int maxSoFar = A[0], maxEndHere = A[0];
+        int from = 0, to = 0, last = 0;
+        for (int i = 1; i < A.length; i++) {
+            if (maxEndHere < 0) {
+                last = i;
+                maxEndHere = A[i];
+            } else maxEndHere += A[i];
+
+            if (maxSoFar < maxEndHere) {
+                from = last;
+                to = i;
+                maxSoFar = maxEndHere;
+            }
+        }
+        return Arrays.asList(from, to);
     }
 
 }
