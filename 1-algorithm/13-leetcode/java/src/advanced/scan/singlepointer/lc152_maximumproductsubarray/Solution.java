@@ -10,10 +10,22 @@ public class Solution {
         System.out.println(new Solution().maxProduct(new int[]{2,3,-2,-3,4}));
     }
 
+    // So happy I figure this out on my own at 3AC attempt!
+    public int maxProduct(int[] nums) {
+        int max = Integer.MIN_VALUE;    // global max
+        int maxloc = 1, minloc = 1;     // max or min end here
+        for (int num : nums) {          // negative could cause maxloc and minloc swap
+            int prod1 = maxloc * num, prod2 = minloc * num;
+            maxloc = Math.max(num, Math.max(prod1, prod2));
+            minloc = Math.min(num, Math.min(prod1, prod2));
+            max = Math.max(max, maxloc);
+        }
+        return max;
+    }
 
     private static final int INVALID = 1;
 
-    public int maxProduct(int[] nums) {
+    public int maxProduct21(int[] nums) {
         if (nums.length == 0) {
             return 0;
         }
