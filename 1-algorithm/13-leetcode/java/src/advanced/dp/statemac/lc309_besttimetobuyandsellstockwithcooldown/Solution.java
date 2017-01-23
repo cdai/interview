@@ -14,9 +14,36 @@ public class Solution {
         System.out.println(new Solution().maxProfit(new int[]{1, 2, 3, 10, 2, 4}));
     }
 
+    public int maxProfit(int[] prices) {
+        if (prices.length == 0) return 0;
+        int buy = -prices[0], sell = 0, rest = 0;
+        for (int i = 1; i < prices.length; i++) {
+            int prebuy = buy;
+            buy = Math.max(prebuy, rest - prices[i]);
+            rest = Math.max(rest, sell);
+            sell = prebuy + prices[i];
+        }
+        return Math.max(rest, sell);
+    }
+
+    // Multi-state variable DP:
+    // Each sub-problem of day i contains 3 states: max profit ends with buy/rest/sell
+    public int maxProfit31(int[] prices) {
+        if (prices.length == 0) return 0;
+        int n = prices.length;
+        int[] buy = new int[n], sell = new int[n], rest = new int[n];
+        buy[0] = -prices[0];
+        for (int i = 1; i < n; i++) {
+            buy[i] = Math.max(buy[i - 1], rest[i - 1] - prices[i]);
+            rest[i] = Math.max(rest[i - 1], sell[i - 1]);
+            sell[i] = buy[i - 1] + prices[i];
+        }
+        return Math.max(rest[n - 1], sell[n - 1]);
+    }
+
     // O(N) time. Replace N space with variable because of limited states
     // dependency: sell[i-1] => buy[i-1] => rest[i-1] => sell[i-1] (use prev break cycle)
-    public int maxProfit(int[] prices) {
+    public int maxProfit21(int[] prices) {
         if (prices.length == 0) return 0;
         int rest = 0, buy = -prices[0], sell = 0; // Both 0 and MIN correct, but 0 is more natural for me
         for (int i = 1; i < prices.length; i++) {
@@ -32,7 +59,7 @@ public class Solution {
     // We run 3 instances (initial action: rest, buy, sell) on 1 state machine
     // with 1 input tape (prices) at the same time.
     // Meanwhile, they have data interaction during this process!
-    public int maxProfit_statemachine(int[] prices) {
+    public int maxProfit2_statemachine(int[] prices) {
         if (prices.length == 0) return 0;
         int n = prices.length;
         int[] rest = new int[n];
