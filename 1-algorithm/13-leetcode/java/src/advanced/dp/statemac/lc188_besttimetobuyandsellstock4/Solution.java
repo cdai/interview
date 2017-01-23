@@ -19,10 +19,37 @@ public class Solution {
         Assertions.assertEquals(15, maxProfit(4, new int[]{1, 2, 4, 2, 5, 7, 2, 4, 9, 0}));
     }
 
+    // Note max(dp[i-1][?] not dp[i], since we have 2D matrix, last value of state wouldn't copy by itself
+    public int maxProfit(int k, int[] prices) {
+        if (k >= prices.length / 2) {
+            int profit = 0, min = Integer.MAX_VALUE;
+            for (int price : prices) {
+                if (min < price) profit += price - min;
+                min = price;
+            }
+            return profit;
+        }
+
+        int n = prices.length;
+        int[][] dp = new int[n + 1][2 * k + 2]; // Add two extra position to avoid boundary check
+        for (int[] row : dp)
+            for (int i = 2; i <= 2 * k; i += 2)
+                row[i] = Integer.MIN_VALUE;     // Initial all buy to MIN
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 2; j <= 2 * k; j += 2) {
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1] - prices[i - 1]);
+                dp[i][j + 1] = Math.max(dp[i - 1][j + 1], dp[i][j] + prices[i - 1]);
+            }
+        }
+        for (int[] row : dp) System.out.println(Arrays.toString(row));
+        return dp[n][2 * k + 1];
+    }
+
     // Why sell[i]=max(sell[i], buy[i]+p) not buy[i-1]
     // Because i here means ith transaction not ith day (variation of III)
     // sell[i] and buy[i] are in the same pair
-    public int maxProfit(int k, int[] prices) {
+    public int maxProfit4_multivar(int k, int[] prices) {
         if (k >= prices.length / 2) { // Degrade to II, make transactions as many as possible
             int profit = 0, min = Integer.MAX_VALUE;
             for (int price : prices) {
@@ -40,7 +67,6 @@ public class Solution {
                 sell[i] = Math.max(sell[i], buy[i] + price);
             }
         }
-        System.out.println(Arrays.toString(sell));
         return sell[k];
     }
 
