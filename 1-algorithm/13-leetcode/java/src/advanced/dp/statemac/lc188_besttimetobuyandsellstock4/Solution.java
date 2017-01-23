@@ -1,5 +1,9 @@
 package advanced.dp.statemac.lc188_besttimetobuyandsellstock4;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import sun.plugin.javascript.navig.Array;
+
 import java.util.Arrays;
 
 /**
@@ -10,6 +14,14 @@ import java.util.Arrays;
  */
 public class Solution {
 
+    @Test
+    void testBuyThenSellAtOneDay() {
+        Assertions.assertEquals(15, maxProfit(4, new int[]{1, 2, 4, 2, 5, 7, 2, 4, 9, 0}));
+    }
+
+    // Why sell[i]=max(sell[i], buy[i]+p) not buy[i-1]
+    // Because i here means ith transaction not ith day (variation of III)
+    // sell[i] and buy[i] are in the same pair
     public int maxProfit(int k, int[] prices) {
         if (k >= prices.length / 2) { // Degrade to II, make transactions as many as possible
             int profit = 0, min = Integer.MAX_VALUE;
@@ -28,6 +40,7 @@ public class Solution {
                 sell[i] = Math.max(sell[i], buy[i] + price);
             }
         }
+        System.out.println(Arrays.toString(sell));
         return sell[k];
     }
 
