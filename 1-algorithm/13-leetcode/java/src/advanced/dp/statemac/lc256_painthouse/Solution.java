@@ -12,6 +12,8 @@ package advanced.dp.statemac.lc256_painthouse;
 public class Solution {
 
     // My 3AC. No need to treat i=0 as special case.
+    // Candidate doesn't contain red/blue/green itself unlike Stock problem,
+    // since you cannot do nothing at ith day (doesn't paint any color)
     public int minCost(int[][] costs) {
         if (costs.length == 0 || costs[0].length == 0) return 0;
         int red = 0, blue = 0, green = 0;
