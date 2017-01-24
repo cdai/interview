@@ -12,8 +12,7 @@ public class Solution {
 
     // My 2AC: O(N) time and O(1) space
     public boolean canJump(int[] nums) {
-        int reach = 0;
-        for (int i = 0; i < nums.length; i++) {
+        for (int i = 0, reach = 0; i < nums.length; i++) {
             if (reach < i) return false;
             reach = Math.max(reach, i + nums[i]);
         }
