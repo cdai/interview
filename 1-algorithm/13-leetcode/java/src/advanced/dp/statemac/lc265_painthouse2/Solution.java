@@ -21,17 +21,17 @@ public class Solution {
     // My 3AC. use foreach for conciseness
     public int minCostII(int[][] costs) {
         if (costs.length == 0 || costs[0].length == 0) return 0;
-        int min1 = 0, min2 = 0, color = -1; // Nice!
+        int min1 = 0, min2 = 0, color1 = 0;
         for (int[] cost : costs) {
-            int min1i = Integer.MAX_VALUE, min2i = min1i, colori = 0;
+            int m1i = Integer.MAX_VALUE, m2i = m1i, c1i = 0;
             for (int i = 0; i < cost.length; i++) {
-                int c = cost[i] + (i != color ? min1 : min2);
-                if (c < min1i) {
-                    min2i = min1i; min1i = c; colori = i;
-                } else if (c < min2i)
-                    min2i = c;
+                int cur = cost[i] + (i != color1 ? min1 : min2);
+                if (cur < m1i) {
+                    m2i = m1i; m1i = cur; c1i = i;
+                } else if (cur < m2i)
+                    m2i = cur;
             }
-            min1 = min1i; min2 = min2i; color = colori;
+            min1 = m1i; min2 = m2i; color1 = c1i;
         }
         return min1;
     }
