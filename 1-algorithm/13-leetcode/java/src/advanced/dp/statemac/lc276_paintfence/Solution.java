@@ -8,6 +8,19 @@ package advanced.dp.statemac.lc276_paintfence;
  */
 public class Solution {
 
+    // Previous diff -> diff, k-1 except that same color for each: x*(k-1)
+    // Previous same -> diff, k-1 except that same color for each: y*(k-1)
+    // Previous diff -> same, only 1 choice for each: x
+    public int numWays(int n, int k) {
+        int same = 0, diff = k;
+        for (int i = 2; i <= n; i++) {
+            int prediff = diff;
+            diff = (same + diff) * (k - 1);
+            same = prediff;
+        }
+        return same + diff;
+    }
+
     public int numWays2(int n, int k) {
         if (n == 0) return 0;
         if (n == 1) return k;   // don't forget to handle first 2 states specially
