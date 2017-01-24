@@ -44,8 +44,12 @@ public class Solution {
     // step      1     2
     public int jump(int[] nums) {
         int step = 0, reach = 0, farthest = 0;
-        for (int i = 0; i < nums.length - 1; i++) { // error: i<N. eg.[0] -> 1
+        for (int i = 0; i < nums.length - 1; i++) { // reach last so stop before 1, eg.[1,1]
+
+            // Record how far we can go from elts in [i,reach]
             farthest = Math.max(farthest, i + nums[i]);
+
+            // Beyond the range of last elt, increment step and switch to next
             if (i == reach) {
                 reach = farthest;
                 step++;
