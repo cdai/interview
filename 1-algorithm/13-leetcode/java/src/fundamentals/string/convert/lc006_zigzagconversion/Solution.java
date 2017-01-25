@@ -14,9 +14,25 @@ import java.util.Arrays;
  */
 public class Solution {
 
+    // 3AC. Easier to understand.
+    public String convert(String s, int numRows) {
+        if (s.isEmpty() || numRows <= 1) return s;
+        StringBuilder[] zigzag = new StringBuilder[numRows];
+        for (int i = 0; i < numRows; i++) zigzag[i] = new StringBuilder();
+        for (int i = 0, d = 1, row = -1; i < s.length(); ) {
+            if (d + row < 0 || d + row >= numRows) { // dead loop if numRows <= 1
+                d *= -1;
+            } else {
+                row += d;
+                zigzag[row].append(s.charAt(i++));
+            }
+        }
+        return String.join("", zigzag);
+    }
+
     // My 2nd: how can I come up with this...
     // My 1st
-    public String convert(String s, int numRows) {
+    public String convert2(String s, int numRows) {
         if (s.isEmpty() || numRows < 2) { // error1: div-by-zero
             return s;
         }
