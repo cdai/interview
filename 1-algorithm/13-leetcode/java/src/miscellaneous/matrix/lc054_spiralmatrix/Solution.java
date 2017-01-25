@@ -19,9 +19,29 @@ public class Solution {
         System.out.println(new Solution().spiralOrder(new int[][]{{1, 2, 3, 4, 5}}));
     }
 
+    // Clear var name: left, right, top, bottom
+    public List<Integer> spiralOrder(int[][] matrix) {
+        if (matrix.length == 0 || matrix[0].length == 0) return new ArrayList<>();
+        List<Integer> ret = new ArrayList<>();
+        int m = matrix.length, n = matrix[0].length;
+        int left = 0, right = n - 1, top = 0, bottom = m - 1;
+        while (left <= right && top <= bottom) {
+            for (int i = left; i <= right; i++) ret.add(matrix[top][i]);
+            top++;
+            for (int i = top; i <= bottom; i++) ret.add(matrix[i][right]);
+            right--;
+            if (left > right || top > bottom) break;
+            for (int i = right; i >= left; i--) ret.add(matrix[bottom][i]);
+            bottom--;
+            for (int i = bottom; i >= top; i--) ret.add(matrix[i][left]);
+            left++;
+        }
+        return ret;
+    }
+
     // 2AC: Very straight forward solution from leetcode!
     // When you finish a direction, remove that row/col by move rowbegin/end or colbegin/end
-    public List<Integer> spiralOrder(int[][] matrix) {
+    public List<Integer> spiralOrder2(int[][] matrix) {
         List<Integer> result = new ArrayList<>();
         if (matrix.length == 0 || matrix[0].length == 0) return result;
 
