@@ -10,9 +10,21 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null) return null;
+        for (ListNode pre = head; pre.next != null; ) {
+            if (pre.val == pre.next.val) {
+                pre.next = pre.next.next;
+            } else {
+                pre = pre.next;
+            }
+        }
+        return head;
+    }
+
     // Version-1: Compare cur and cur.next without prev
     // Note both cur and cur.next could reach null
-    public ListNode deleteDuplicates(ListNode head) {
+    public ListNode deleteDuplicates1(ListNode head) {
         if (head == null) {
             return null;
         }
@@ -30,7 +42,7 @@ public class Solution {
 
     // Version-2: compare cur and prev
     // Note update of prev and cur
-    public ListNode deleteDuplicates2(ListNode head) {
+    public ListNode deleteDuplicates12(ListNode head) {
         if (head == null) {
             return null;
         }
