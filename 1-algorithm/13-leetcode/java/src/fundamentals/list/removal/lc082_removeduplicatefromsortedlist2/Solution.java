@@ -11,8 +11,41 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
-    // Solution from programcreek
+    // Very clear solution! Better than mine.
     public ListNode deleteDuplicates(ListNode head) {
+        ListNode dmy = new ListNode(0), pre = dmy;
+        dmy.next = head;
+        for (ListNode cur = head; cur != null; cur = cur.next) {
+            while (cur.next != null && pre.next.val == cur.next.val) {
+                cur = cur.next;
+            }
+            if (pre.next == cur) {  // only 1 distinct element
+                pre = pre.next;
+            } else {                // found duplicates, delete them all
+                pre.next = cur.next;
+            }
+        }
+        return dmy.next;
+    }
+
+    // Same as 2AC. a little messy too.
+    public ListNode deleteDuplicates31(ListNode head) {
+        ListNode dmy = new ListNode(0), pre = dmy;
+        dmy.next = head;
+        while (pre.next != null && pre.next.next != null) {
+            if (pre.next.val == pre.next.next.val) {
+                ListNode n = pre.next.next;
+                while (n.next != null && n.next.val == pre.next.val) n = n.next;
+                pre.next = n.next; // delete all node in middle, no need to move pre
+            } else {
+                pre = pre.next;
+            }
+        }
+        return dmy.next;
+    }
+
+    // Solution from programcreek
+    public ListNode deleteDuplicates2(ListNode head) {
         if (head == null) {
             return null;
         }
@@ -36,7 +69,7 @@ public class Solution {
     }
 
     // My 2nd: a little trivial in loop body
-    public ListNode deleteDuplicates2(ListNode head) {
+    public ListNode deleteDuplicates21(ListNode head) {
         if (head == null) {
             return null;
         }
@@ -64,7 +97,7 @@ public class Solution {
         return dummy.next;
     }
 
-    public ListNode deleteDuplicates3(ListNode head) {
+    public ListNode deleteDuplicates1(ListNode head) {
         if (head == null) {
             return head;
         }
