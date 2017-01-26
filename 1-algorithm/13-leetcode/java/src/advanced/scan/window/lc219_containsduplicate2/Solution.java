@@ -11,8 +11,17 @@ import java.util.Set;
  */
 public class Solution {
 
-    // My 2nd: much easier and elegant using Sliding Window.
     public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Set<Integer> seen = new HashSet<>(); /* dist=k => k+1 nums => save nearby k numbers */
+        for (int i = 0; i < nums.length; i++) {
+            if (!seen.add(nums[i])) return true;
+            if (seen.size() > k) seen.remove(nums[i - k]);
+        }
+        return false;
+    }
+
+    // My 2nd: much easier and elegant using Sliding Window.
+    public boolean containsNearbyDuplicate2(int[] nums, int k) {
         if (nums.length == 0 || k <= 0) {
             return false;
         }
@@ -28,7 +37,7 @@ public class Solution {
                 numSet.remove(nums[i - k]);
             }
 
-            /* At most K-1 here */
+            /* At most K-1 here? Wrong! i=k, numSet has k+1 elts, so now we have k */
         }
         return false;
     }
