@@ -10,8 +10,24 @@ package buildingblock.searching.lc162_findpeakelement;
  */
 public class Solution {
 
+    // Case 1: A[m-1] < A[m] > A[m+1] => return (too messy tough), so go left and keep A[m]
+    // Case 2: A[m-1] > A[m] > A[m+1] => go left
+    // Case 3: A[m-1] < A[m] < A[m+1] => go right
+    // Case 4: A[m-1] > A[m] < A[m+1] => both ok, then go left to simplify if-else
+    // So don't bother to return from case 1 directly, then we have one case to go right
+    // Note don't worry missing peak, we only need one
+    public int findPeakElement(int[] A) {
+        int n = A.length, l = 0, r = n - 1;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (A[m] < A[m + 1]) l = m + 1; /* l<r<n => m+1<=r<n */
+            else r = m;
+        }
+        return l;
+    }
+
     // O(logN) solution from leetcode discuss
-    public int findPeakElement(int[] nums) {
+    public int findPeakElement21(int[] nums) {
         int low = 0, high = nums.length - 1;
         while (low < high) {
             int mid1 = low + (high - low) / 2;
