@@ -11,8 +11,17 @@ import java.util.Set;
  */
 public class Solution {
 
-    // Save one operation by using return value of add
+    // O(N) time and space
     public boolean containsDuplicate(int[] nums) {
+        Set<Integer> seen = new HashSet<>();
+        for (int n : nums) {
+            if (!seen.add(n)) return true;
+        }
+        return false;
+    }
+
+    // Save one operation by using return value of add
+    public boolean containsDuplicate3(int[] nums) {
         Set<Integer> numSet = new HashSet<>();
         for (int num : nums) {
             if (!numSet.add(num)) { // One operation: add() return false if element exists already
