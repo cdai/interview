@@ -2,9 +2,25 @@ package lintcode.bst;
 
 import fundamentals.tree.TreeNode;
 
+import java.util.ArrayList;
+
 /**
  */
 public class Solution {
+    
+    // 11-Search Range in Binary Search Tree
+    public ArrayList<Integer> searchRange(TreeNode root, int k1, int k2) {
+        ArrayList<Integer> ret = new ArrayList<>();
+        dfs(ret, root, k1, k2);
+        return ret;
+    }
+
+    private void dfs(ArrayList<Integer> ret, TreeNode root, int k1, int k2) {
+        if (root == null) return;
+        if (k1 < root.val) dfs(ret, root.left, k1, k2);
+        if (k1 <= root.val && root.val <= k2) ret.add(root.val);
+        if (root.val < k2) dfs(ret, root.right, k1, k2);
+    }
 
     // 375-Clone Binary Tree
     public TreeNode cloneTree(TreeNode root) {
