@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  */
 public class Solution {
-    
+
     // 11-Search Range in Binary Search Tree
     public ArrayList<Integer> searchRange(TreeNode root, int k1, int k2) {
         ArrayList<Integer> ret = new ArrayList<>();

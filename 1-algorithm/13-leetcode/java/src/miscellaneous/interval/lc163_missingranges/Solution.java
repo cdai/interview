@@ -1,6 +1,10 @@
 package miscellaneous.interval.lc163_missingranges;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -9,11 +13,22 @@ import java.util.List;
  */
 public class Solution {
 
-    public static void main(String[] args) {
-        Solution sol = new Solution();
-        System.out.println(sol.findMissingRanges(new int[]{0, 1, 3, 50, 75}, 0, 99));
-        System.out.println(sol.findMissingRanges(new int[]{0, 1, 3, 50, 75}, -2, 99));
-        System.out.println(sol.findMissingRanges(new int[]{0}, 0, 0));
+    @Test
+    void testEmpty() {
+        Assertions.assertEquals(Arrays.asList("0"), findMissingRanges(new int[]{}, 0, 0));
+        Assertions.assertEquals(Arrays.asList(), findMissingRanges(new int[]{0}, 0, 0));
+    }
+
+    @Test
+    void testNormal() {
+        Assertions.assertEquals(Arrays.asList("2", "4->49", "51->74", "76->99"),
+                findMissingRanges(new int[]{0, 1, 3, 50, 75}, 0, 99));
+    }
+
+    @Test
+    void testBoundary() {
+        Assertions.assertEquals(Arrays.asList("99"), findMissingRanges(new int[]{96, 97, 98}, 96, 99));
+        Assertions.assertEquals(Arrays.asList("-2->-1", "1"), findMissingRanges(new int[]{0}, -2, 1));
     }
 
     // Concise solution by reusing param.
