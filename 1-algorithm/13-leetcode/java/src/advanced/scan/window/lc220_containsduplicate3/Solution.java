@@ -2,6 +2,7 @@ package advanced.scan.window.lc220_containsduplicate3;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,9 +22,46 @@ public class Solution {
         System.out.println(new Solution().containsNearbyAlmostDuplicate(new int[]{0, Integer.MAX_VALUE}, 1, Integer.MAX_VALUE));
     }
 
+    // O(N) Bucket sort solution
+    // Almost duplicates can only exist in bucket or +/-1.
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        if (nums.length == 0 || k <= 0 || t < 0) return false;
+        Map<Long, Long> seen = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            long buc = getBucket(nums[i], t);
+            if (seen.containsKey(buc)) return true;
+            if (seen.containsKey(buc + 1) && seen.get(buc + 1) - nums[i] <= t) return true;
+            if (seen.containsKey(buc - 1) && nums[i] - seen.get(buc - 1) <= t) return true;
+            seen.put(buc, (long) nums[i]);
+            if (seen.size() > k) seen.remove(getBucket(nums[i - k], t));
+        }
+        return false;
+    }
+
+    // Note in Java -3 / 5 = 0 not -1, so we force num to be positive
+    // We get bucket no.: [0,k], [k+1,2k+1]...
+    private long getBucket(int num, int t) {
+        return ((long) num - Integer.MIN_VALUE) / (t + 1L);
+    }
+
+    // O(NlogK) BST (RBTree) solution.
+    public boolean containsNearbyAlmostDuplicate3(int[] nums, int k, int t) {
+        if (nums.length == 0 || k <= 0 || t < 0) return false;
+        TreeSet<Long> seen = new TreeSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            Long pre = seen.floor((long) nums[i]);  // greatest number <= nums[i]
+            Long suc = seen.ceiling((long) nums[i]);// least number >= nums[i]
+            if ((pre != null && nums[i] - pre <= t) ||
+                    (suc != null && suc - nums[i] <= t)) return true;
+            seen.add((long) nums[i]);
+            if (seen.size() > k) seen.remove((long) nums[i - k]);
+        }
+        return false;
+    }
+
     // My 2AC: O(NlogK) time and O(logK) space.
     // Compare nums[i] with previous K elements in Set ahead, so the duplicate case is handled implicitly
-    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+    public boolean containsNearbyAlmostDuplicate21(int[] nums, int k, int t) {
         if (nums.length == 0 || k <= 0 || t < 0) return false;
         TreeSet<Long> tree = new TreeSet<>();
         for (int i = 0; i < nums.length; i++) {
