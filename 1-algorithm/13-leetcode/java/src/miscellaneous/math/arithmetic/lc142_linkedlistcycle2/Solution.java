@@ -9,6 +9,7 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
+    // 3AC
     // Suppose linked list is like: a->b->...(x)->c->d->...(y)->c
     //  t is encountering time, k is encountering point, then when meeting:
     //      k = (t - x) % y, k = (2t - x) % y
