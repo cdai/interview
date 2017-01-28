@@ -9,6 +9,7 @@ import fundamentals.tree.TreeNode;
  */
 public class Solution {
 
+    // 3AC
     // My 2nd
     // More elegant, compact, efficient solution
     public int maxDepth(TreeNode root) {
