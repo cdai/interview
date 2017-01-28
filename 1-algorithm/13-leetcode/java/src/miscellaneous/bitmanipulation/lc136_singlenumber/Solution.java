@@ -7,6 +7,7 @@ package miscellaneous.bitmanipulation.lc136_singlenumber;
  */
 public class Solution {
 
+    // 3AC.
     // My 2AC
     public int singleNumber(int[] nums) {
         int single = 0;
