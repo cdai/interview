@@ -32,11 +32,38 @@ public class Solution {
         System.out.println(new Solution().getIntersectionNode(headA, headB).val);
     }
 
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) return null;
+        int lenA = 0, lenB = 0;
+        for (ListNode n = headA; n != null; n = n.next) lenA++;
+        for (ListNode n = headB; n != null; n = n.next) lenB++;
+
+        // Align list A and B
+        ListNode nodeA = headA, nodeB = headB;
+        for (; lenA > lenB; lenA--) nodeA = nodeA.next;
+        for (; lenA < lenB; lenB--) nodeB = nodeB.next;
+
+        while (nodeA != nodeB) {// check first for eg.1->2,1->3
+            nodeA = nodeA.next;
+            nodeB = nodeB.next;
+        }
+        return nodeA;
+    }
+
+    public ListNode getIntersectionNode3(ListNode headA, ListNode headB) {
+        ListNode nodeA = headA, nodeB = headB;
+        while (nodeA != nodeB) {
+            nodeA = (nodeA == null) ? headB : nodeA.next;
+            nodeB = (nodeB == null) ? headA : nodeB.next;
+        }
+        return nodeA;
+    }
+
     // O(N) time + O(1) space
     // 1.Get the length of the two lists.
     // 2.Align them to the same start point.
     // 3.Move them together until finding the intersection point, or the end null
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    public ListNode getIntersectionNode2(ListNode headA, ListNode headB) {
         int lenA = length(headA), lenB = length(headB);
         for (; lenA > lenB; lenA--) headA = headA.next;
         for (; lenA < lenB; lenB--) headB = headB.next;
@@ -68,7 +95,7 @@ public class Solution {
     }
 
     // O(N) time, O(1) space
-    public ListNode getIntersectionNode2(ListNode headA, ListNode headB) {
+    public ListNode getIntersectionNode21(ListNode headA, ListNode headB) {
         if (headA == null || headB == null) {
             return null;
         }
@@ -103,7 +130,7 @@ public class Solution {
         return len;
     }
 
-    public ListNode getIntersectionNode3(ListNode headA, ListNode headB) {
+    public ListNode getIntersectionNode1(ListNode headA, ListNode headB) {
         if (headA == null || headB == null) {
             return null; // return null if no intersection
         }
