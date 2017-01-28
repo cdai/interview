@@ -11,8 +11,43 @@ public class Solution {
         System.out.println(new Solution().firstMissingPositive(new int[]{3,4,-1,1}));
     }
 
+    public int firstMissingPositive(int[] A) {
+        int n = A.length;
+        for (int i = 0; i < n; i++) {
+            // Move forward whenever cur is "dirty" negative, zero or no need to swap (o.w. dead loop, eg.[1,1])
+            while (0 < A[i] && A[i] <= n && A[i] != A[A[i] - 1])
+                swap(A, i, A[i] - 1);
+        }
+        for (int i = 0; i < n; i++) {
+            if (A[i] - 1 != i) return i + 1;
+        }
+        return n + 1;
+    }
+
+    // 3AC.
+    public int firstMissingPositive_mine(int[] A) {
+        if (A.length == 0) return 1;
+        for (int i = 0; i < A.length; ) {
+            if (A[i] - 1 == i) i++;
+            else if (!safeSwap(A, A[i] - 1, i)) i++;
+        }
+        for (int i = 0; i < A.length; i++) {
+            if (A[i] - 1 != i) return i + 1;
+        }
+        return A.length + 1;
+    }
+
+    // Move forward if cur is "dirty" negative, zero or no need to swap (all cause dead loop)
+    private boolean safeSwap(int[] A, int i, int j) {
+        if (i < 0 || i >= A.length || A[i] == A[j]) return false;
+        int tmp = A[i];
+        A[i] = A[j];
+        A[j] = tmp;
+        return true;
+    }
+
     // My 2nd: still hard to remember... O(N) time
-    public int firstMissingPositive(int[] nums) {
+    public int firstMissingPositive2(int[] nums) {
         // Radix sort in-place
         for (int i = 0; i < nums.length; ) {
             if (nums[i] <= 0 || nums[i] > nums.length) {
