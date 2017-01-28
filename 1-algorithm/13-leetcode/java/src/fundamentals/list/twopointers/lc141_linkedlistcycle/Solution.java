@@ -8,6 +8,7 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
+    // My 3AC.
     // My 2nd
     // Error: it's ok to put behind, since they will encounter anyway if cycle exists
     public boolean hasCycle(ListNode head) {
