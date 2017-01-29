@@ -1,5 +1,8 @@
 package lintcode.sorting;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  */
 public class Solution {
@@ -11,6 +14,31 @@ public class Solution {
             if (nums[j] < k) swap(nums, i++, j);
         }
         return i;
+    }
+
+    // 39-Recover Rotated Sorted Array
+    // Test case: [], [1], [1,2,3], [4,5,1,2,3], [5,5,-7,-7]
+    // Note integer comparsion:
+    // The type of each of the operands of a numerical comparison operator must be a type that
+    // is convertible to a primitive numeric type, or a compile-time error occurs.
+    public void recoverRotatedSortedArray(ArrayList<Integer> nums) {
+        int n = nums.size();
+        for (int i = 1; i < n; i++) {
+            if (nums.get(i - 1) > nums.get(i)) {
+                reverse(nums, 0, i);
+                reverse(nums, i, n);
+                reverse(nums, 0, n); // do last to keep pivot there
+                return;
+            }
+        }
+    }
+
+    private void reverse(List<Integer> nums, int start, int end) { /* [inclusive,exclusive) */
+        for (int i = start, j = end - 1; i < j; i++, j--) {
+            int tmp = nums.get(i);
+            nums.set(i, nums.get(j));
+            nums.set(j, tmp);
+        }
     }
 
     // 143-Sort colors II
