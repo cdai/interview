@@ -11,8 +11,34 @@ public class Solution {
         System.out.println(Math.abs(Integer.MIN_VALUE));
     }
 
+    public int reverse(int n) {
+        int rev = 0;
+        for (; n != 0; n /= 10) {
+            int d = n % 10;
+            int tmp = rev * 10 + d;
+            if ((tmp - d) / 10 != rev) return 0; // must overflow if not equal!
+            rev = tmp;
+        }
+        return rev;
+    }
+
+    // 3AC.
+    public int reverse3(int n) {
+        int rev = 0, sign = (n >= 0) ? 1 : -1;
+        while (n != 0) {
+            int d = Math.abs(n % 10);
+            if (rev > Integer.MAX_VALUE / 10 ||
+                    (rev == Integer.MAX_VALUE / 10 && d > 7)) {
+                return 0;
+            }
+            rev = rev * 10 + d;
+            n /= 10;
+        }
+        return sign * rev;
+    }
+
     // we don't need to use Math.abs or special logic to handle '+' and '-', because the sign can be kept during calculating
-    public int reverse(int x) {
+    public int reverse2(int x) {
         int ret = 0;
         while (x != 0) {    // error: != not > if deal with both pos and neg here
             if (ret > Integer.MAX_VALUE / 10 || ret < Integer.MIN_VALUE / 10) { // For 2147483647 it's impossible we got "214748364" and a digit > 7 like 8463847412 will cause Runtime error at the very first
@@ -25,7 +51,7 @@ public class Solution {
     }
 
     // My AC: confused on overflow handle...
-    public int reverse2(int x) {
+    public int reverse12(int x) {
         if (x == Integer.MIN_VALUE) {
             return 0;
         }
