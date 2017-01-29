@@ -8,6 +8,7 @@ package fundamentals.string.convert.lc008_stringtointeger;
 public class Solution {
 
     public static void main(String[] args) {
+        System.out.println(new Solution().myAtoi("1"));
         System.out.println(new Solution().myAtoi("   b123"));
     }
 
@@ -15,23 +16,24 @@ public class Solution {
     // Since c[i]=0 when reach end, C++ is more concise even!
     public int myAtoi(String str) {
         char[] c = str.toCharArray();
-        int i = 0, sign = 1, base = 0;
+        int i = 0, sign = 1, num = 0, n = c.length;
 
         // 1.Skip leading whitespace
-        while (i < c.length && Character.isWhitespace(c[i])) i++;
+        while (i < n && Character.isWhitespace(c[i])) i++;
 
         // 2.Get sign of number
-        if (i < c.length && (c[i] == '+' || c[i] == '-'))
+        if (i < n && (c[i] == '+' || c[i] == '-'))
             sign = (c[i++] == '-') ? -1 : 1;
 
         // 3.Digit or letter
-        while (i < c.length && Character.isDigit(c[i])) {
-            if (base > Integer.MAX_VALUE / 10
-                    || (base == Integer.MAX_VALUE / 10 && c[i] - '0' > 7)) // Nice check!!!
+        for (; i < n && Character.isDigit(c[i]); i++) {
+            int add = c[i] - '0';
+            if (num > Integer.MAX_VALUE / 10
+                    || (num == Integer.MAX_VALUE / 10 && add > 7)) // Nice check!!!
                 return (sign == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-            base = base * 10 + (c[i++] - '0');
+            num = num * 10 + add;
         }
-        return base * sign;
+        return num * sign;
     }
 
     // How messy it looks like when you put all together...
