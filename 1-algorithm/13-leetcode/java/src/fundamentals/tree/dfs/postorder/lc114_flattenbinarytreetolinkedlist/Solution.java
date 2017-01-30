@@ -26,9 +26,27 @@ import fundamentals.tree.TreeNode;
  */
 public class Solution {
 
+    public void flatten(TreeNode root) {
+        build(root);
+    }
+
+    // Return right most node after flatten
+    private TreeNode build(TreeNode root) {
+        if (root == null) return null;
+        TreeNode rmost1 = build(root.left);
+        TreeNode rmost2 = build(root.right);
+        if (rmost1 != null) {
+            rmost1.right = root.right;
+            root.right = root.left;
+        }
+        root.left = null;
+        return rmost2 != null ? rmost2 :
+                (rmost1 != null ? rmost1 : root);
+    }
+
     // Freaking beatiful solution by reversed post-order traversal.
     // Inspired by leetcode discuss.
-    public void flatten(TreeNode root) {
+    public void flatten22(TreeNode root) {
         doFlatten(root, null);
     }
 
