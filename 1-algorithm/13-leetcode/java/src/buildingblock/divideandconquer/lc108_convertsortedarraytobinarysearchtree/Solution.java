@@ -7,6 +7,9 @@ import fundamentals.tree.TreeNode;
  */
 public class Solution {
 
+    // T(N) = 2T(N/2) = 2^2T(N/2^2) = ... 2^iT(N/2^i)
+    // Base case: n/2^i=1 -> i = logN
+    // T(N) = 2^logNT(1) = O(N) time
     // [], [1], [1,2], [1,2,3], [1,2,3,4]
     public TreeNode sortedArrayToBST(int[] A) {
         return build(A, 0, A.length - 1);

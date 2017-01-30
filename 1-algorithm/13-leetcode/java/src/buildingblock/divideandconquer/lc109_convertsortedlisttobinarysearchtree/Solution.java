@@ -8,8 +8,45 @@ import fundamentals.tree.TreeNode;
  */
 public class Solution {
 
-    // My 2nd: O(N) time, O(logN) space
     public TreeNode sortedListToBST(ListNode head) {
+        return build(head, null);
+    }
+
+    private TreeNode build(ListNode head, ListNode tail) { /* [head,tail) exclusive */
+        if (head == tail) return null;
+        ListNode mid = head, fast = head;
+        while (fast != tail && fast.next != tail) {
+            mid = mid.next;
+            fast = fast.next.next;
+        }
+        TreeNode root = new TreeNode(mid.val);
+        root.left = build(head, mid);
+        root.right = build(mid.next, tail);
+        return root;
+    }
+
+    // 3AC. Change list
+    public TreeNode sortedListToBST3(ListNode head) {
+        if (head == null) return null;
+        ListNode pre = null, mid = head, fast = head;
+        while (fast != null && fast.next != null) {
+            pre = mid;
+            mid = mid.next;
+            fast = fast.next.next;
+        }
+
+        TreeNode root = new TreeNode(mid.val);
+        if (pre == null) return root;
+        ListNode right = mid.next;
+        pre.next = mid.next = null;
+
+        root.left = sortedListToBST(head);
+        root.right = sortedListToBST(right);
+        return root;
+    }
+
+    // My 2nd: O(N) time, O(logN) space
+    public TreeNode sortedListToBST2(ListNode head) {
         if (head == null) {
             return null;
         }
@@ -66,7 +103,7 @@ public class Solution {
     }
 
     // Correct but different from judge. eg.[1,2] -> me [2,1], judge [1,null,2]
-    public TreeNode sortedListToBST2(ListNode head) {
+    public TreeNode sortedListToBST12(ListNode head) {
         if (head == null) {
             return null;
         }
