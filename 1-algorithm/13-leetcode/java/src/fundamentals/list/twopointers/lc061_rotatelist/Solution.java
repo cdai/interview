@@ -8,9 +8,28 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null || k <= 0) return head;
+        ListNode tail = head, pivot = head;
+
+        // 1.Find length of list and tail
+        int len = 1;
+        for (; tail.next != null; tail = tail.next) len++;
+
+        // 2.Find pivot
+        k = len - k % len;
+        while (--k > 0) pivot = pivot.next;
+
+        // 3.Rotate list
+        tail.next = head;
+        head = pivot.next;
+        pivot.next = null;
+        return head;
+    }
+
     // My 2nd:
     // Don't need a dummy node for this problem
-    public ListNode rotateRight(ListNode head, int k) {
+    public ListNode rotateRight2(ListNode head, int k) {
         if (head == null) {
             return null;
         }
@@ -41,7 +60,7 @@ public class Solution {
     }
 
     // Most clean and best version from soulmachine
-    public ListNode rotateRight2(ListNode head, int k) {
+    public ListNode rotateRight21(ListNode head, int k) {
         if (head == null) {
             return null;
         }
