@@ -9,6 +9,8 @@ public class MyHashTbl {
 
     public static void main(String[] args) {
         MyHashTbl tbl = new MyHashTbl(10);
+
+        // === Separate chaining test ===
         Assertions.assertTrue(tbl.add(1));
         Assertions.assertTrue(tbl.add(2));
         Assertions.assertTrue(tbl.add(7));
@@ -41,6 +43,17 @@ public class MyHashTbl {
         Assertions.assertTrue(tbl.contains(21));
         tbl.remove(21); // empty
         Assertions.assertFalse(tbl.contains(21));
+
+        // === Linear probing test ===
+        Assertions.assertTrue(tbl.add2(1));
+        Assertions.assertTrue(tbl.add2(2));
+        Assertions.assertFalse(tbl.add2(2));
+        Assertions.assertTrue(tbl.add2(3));
+
+        Assertions.assertTrue(tbl.contains2(1));
+        Assertions.assertTrue(tbl.contains2(2));
+        Assertions.assertTrue(tbl.contains2(3));
+        Assertions.assertFalse(tbl.contains2(6));
     }
 
     private int capacity;
@@ -125,11 +138,40 @@ public class MyHashTbl {
 
     // ===== Chaining =====
 
-    public void put2(int key, int val) {
+    private Integer[] tbl2 = new Integer[10];
 
+    public boolean add2(int key) {
+        int idx = search2(key);
+        if (tbl2[idx] != null) {
+            return false;
+        }
+        tbl2[idx] = key;
+        return true;
     }
 
-    public Integer get2(int key) {
-        return null;
+    public boolean contains2(int key) {
+        int idx = search2(key);
+        return tbl2[idx] != null;
+    }
+
+    public boolean remove2(int key) {
+        int idx = search2(key);
+        if (tbl2[idx] == null) {
+            return false;
+        }
+        //tbl2[idx] = Integer.MIN_VALUE; // mark as deleted but don't break the cluster
+        return true;
+    }
+
+    private int search2(int key) {
+        for (int i = 0; i < capacity; i++) {
+            int j = hashcode(key, i); // i-th in probe sequence
+            if (tbl2[j] == null || tbl2[j].equals(key)) return j;
+        }
+        throw new IllegalStateException("Hash table is full");
+    }
+
+    private int hashcode(int key, int i) { // common for linear, quadratic, double hashing
+        return (key % capacity + i + capacity) % capacity;
     }
 }
