@@ -11,8 +11,22 @@ package buildingblock.table.alphabet.lc383_ransomnote;
  */
 public class Solution {
 
+    // Test case: [],[]  [a],[]  [],[a]  [abc],[a]  [ab],[abc]  [abb],[bacb]
+    public boolean canConstruct(String ransom, String magazine) {
+        if (ransom.isEmpty() || magazine.isEmpty()) return ransom.isEmpty();
+        if (ransom.length() > magazine.length()) return false;
+        int[] diff = new int[26];
+        for (int i = 0; i < magazine.length(); i++) {
+            diff[magazine.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < ransom.length(); i++) {
+            if (--diff[ransom.charAt(i) - 'a'] < 0) return false;
+        }
+        return true;
+    }
+
     // Simplify: remove last one loop
-    public boolean canConstruct(String ransomNote, String magazine) {
+    public boolean canConstruct1(String ransomNote, String magazine) {
         int[] letters = new int[26];
         for (char c : magazine.toCharArray()) {
             letters[c - 'a']++;
@@ -26,7 +40,7 @@ public class Solution {
     }
 
     // My 1AC
-    public boolean canConstruct2(String ransomNote, String magazine) {
+    public boolean canConstruct12(String ransomNote, String magazine) {
         if (ransomNote.length() > magazine.length()) {
             return false;
         }
