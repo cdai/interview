@@ -1,6 +1,7 @@
 package buildingblock.divideandconquer.lc241_differentwaystoaddparentheses;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,36 @@ import java.util.Map;
  *  Output: [-34, -14, -10, -10, 10]
  */
 public class Solution {
+
+    // 3AC. Alternative
+    public List<Integer> diffWaysToCompute3(String input) {
+        List<String> expr = new ArrayList<>();
+        for (int i = 0, j = 0; i <= input.length(); i++) {
+            if (i == input.length()) expr.add(input.substring(j, i));
+            else if("+-*".indexOf(input.charAt(i)) >= 0) {
+                expr.add(input.substring(j, i));
+                expr.add(input.substring(i, i + 1));
+                j = i + 1;
+            }
+        }
+        return compute(expr.toArray(new String[0]), 0, expr.size() - 1);
+    }
+
+    private List<Integer> compute(String[] expr, int start, int end) {
+        if (start == end) return Arrays.asList(Integer.valueOf(expr[start]));
+        List<Integer> ret = new ArrayList<>();
+        for (int i = start; i <= end; i++) {
+            if (!"+-*".contains(expr[i])) continue;
+            for (int left : compute(expr, start, i - 1)) {
+                for (int right : compute(expr, i + 1, end)) {
+                    if ("+".equals(expr[i])) ret.add(left + right);
+                    else if ("-".equals(expr[i])) ret.add(left - right);
+                    else ret.add(left * right);
+                }
+            }
+        }
+        return ret;
+    }
 
     private Map<String,List<Integer>> memo = new HashMap<>();
 
