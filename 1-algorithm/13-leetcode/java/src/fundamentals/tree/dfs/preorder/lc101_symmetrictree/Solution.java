@@ -10,6 +10,35 @@ import java.util.Stack;
  */
 public class Solution {
 
+    // 3AC
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) return true;
+        return isMirror(root.left, root.right);
+    }
+
+    private boolean isMirror(TreeNode root1, TreeNode root2) {
+        if (root1 == null || root2 == null) return root1 == null && root2 == null;
+        return root1.val == root2.val &&
+                isMirror(root1.left, root2.right) && isMirror(root1.right, root2.left);
+    }
+
+    public boolean isSymmetric_iterative(TreeNode root) {
+        if (root == null) return true;
+        Stack<TreeNode> s = new Stack<>();
+        s.push(root.left);
+        s.push(root.right);
+        while (!s.isEmpty()) {
+            TreeNode n1 = s.pop(), n2 = s.pop();
+            if (n1 == null && n2 == null) continue;
+            if ((n1 == null || n2 == null) || n1.val != n2.val) return false;
+            s.push(n1.left);
+            s.push(n2.right);
+            s.push(n1.right);
+            s.push(n2.left);
+        }
+        return true;
+    }
+
     // My 2nd: recursive solution
     public boolean isSymmetric_recurisve(TreeNode root) {
         if (root == null) return true;
@@ -25,25 +54,25 @@ public class Solution {
     }
 
     // My 2nd: iterative solution, use stack to simulate DFS
-    public boolean isSymmetric(TreeNode root) {
-        Stack<TreeNode> stack = new Stack<>();
+    public boolean isSymmetric2(TreeNode root) {
+        Stack<TreeNode> s = new Stack<>();
         if (root != null) {
-            stack.push(root.right);
-            stack.push(root.left);
+            s.push(root.right);
+            s.push(root.left);
         }
-        while (!stack.isEmpty()) {
-            TreeNode node1 = stack.pop();
-            TreeNode node2 = stack.pop();
-            if (node1 == null || node2 == null) {
-                if (node1 != null || node2 != null)
+        while (!s.isEmpty()) {
+            TreeNode n1 = s.pop();
+            TreeNode n2 = s.pop();
+            if (n1 == null || n2 == null) {
+                if (n1 != null || n2 != null)
                     return false;
             } else {
-                if (node1.val != node2.val)
+                if (n1.val != n2.val)
                     return false;
-                stack.push(node2.left);
-                stack.push(node1.right);
-                stack.push(node2.right);
-                stack.push(node1.left);
+                s.push(n2.left);
+                s.push(n1.right);
+                s.push(n2.right);
+                s.push(n1.left);
             }
         }
         return true;
