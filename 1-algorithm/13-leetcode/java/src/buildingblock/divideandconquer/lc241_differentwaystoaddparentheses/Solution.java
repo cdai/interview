@@ -58,9 +58,32 @@ public class Solution {
 
     private Map<String,List<Integer>> memo = new HashMap<>();
 
+    // Choose different operator as root and combine left and right evaluate result
+    // Exactly same as Unique BST II, note the base case handle though.
+    public List<Integer> diffWaysToCompute(String expr) {
+        if (memo.containsKey(expr)) return memo.get(expr);
+        List<Integer> ret = new ArrayList<>();
+        for (int i = 0; i < expr.length(); i++) {
+            String s = expr.substring(i, i + 1);
+            if (!"+-*".contains(s)) continue;
+            for (int left : diffWaysToCompute(expr.substring(0, i))) {
+                for (int right : diffWaysToCompute(expr.substring(i + 1))) {
+                    if ("+".equals(s)) ret.add(left + right);
+                    else if ("-".equals(s)) ret.add(left - right);
+                    else ret.add(left * right);
+                }
+            }
+        }
+        if (ret.isEmpty()) {
+            ret.add(Integer.valueOf(expr));
+        }
+        memo.put(expr, ret);
+        return ret;
+    }
+
     // Eg.2-1-1 -> 2-(1-1) It's ok! That's what this problem expect!
     // Different from Unique Path II, sub-solution of this problem should be cached
-    public List<Integer> diffWaysToCompute(String input) {
+    public List<Integer> diffWaysToCompute2(String input) {
         if (memo.containsKey(input)) {
             return memo.get(input);
         }
@@ -117,7 +140,7 @@ public class Solution {
     }
 
     //
-    public List<Integer> diffWaysToCompute2(String input) {
+    public List<Integer> diffWaysToCompute12(String input) {
         List<Integer> result = new ArrayList<>();
         doCompute(result, input, numberOfOperator(input));
         return result;
