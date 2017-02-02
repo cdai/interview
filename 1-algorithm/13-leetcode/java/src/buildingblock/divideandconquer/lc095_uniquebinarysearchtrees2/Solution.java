@@ -16,8 +16,28 @@ public class Solution {
         System.out.println(root);
     }
 
-    // My 2AC: Time complexity TODO...
     public List<TreeNode> generateTrees(int n) {
+        return generate(1, n);
+    }
+
+    private List<TreeNode> generate(int start, int end) {
+        if (start > end) return Arrays.asList(new TreeNode[]{null});
+        List<TreeNode> ret = new ArrayList<>();
+        for (int i = start; i <= end; i++) {
+            for (TreeNode left : generate(start, i - 1)) {
+                for (TreeNode right : generate(i + 1, end)) {
+                    TreeNode root = new TreeNode(i);
+                    root.left = left; // don't do deep clone for simplicity
+                    root.right = right;
+                    ret.add(root);
+                }
+            }
+        }
+        return ret;
+    }
+
+    // My 2AC: Time complexity TODO...
+    public List<TreeNode> generateTrees2(int n) {
         if (n <= 0) {
             return new ArrayList<>();
         }
@@ -83,7 +103,7 @@ public class Solution {
 
     // tree[i-1] cannot be used to build tree[i], since duplicate values
     // n = 3 -> [[1,null,1,null,1],[1,null,2,1],[2,1,1],[3,1,null,null,1],[3,2,null,1]]
-    public List<TreeNode> generateTrees2(int n) {
+    public List<TreeNode> generateTrees12(int n) {
         List[] trees = new List[n + 2];
         trees[0] = trees[n + 1] = Arrays.asList(new TreeNode[] {null});
 
