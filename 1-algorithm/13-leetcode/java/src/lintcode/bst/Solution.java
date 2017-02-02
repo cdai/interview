@@ -31,4 +31,13 @@ public class Solution {
         return copy;
     }
 
+    // 469-Identical Binary Tree (Same Tree)
+    // [][], [][b], [a][], [a][a]...
+    public boolean isIdentical(TreeNode a, TreeNode b) {
+        if (a == null || b == null) return a == null && b == null;
+        return a.val == b.val &&
+                isIdentical(a.left, b.left) &&
+                isIdentical(a.right, b.right);
+    }
+
 }
