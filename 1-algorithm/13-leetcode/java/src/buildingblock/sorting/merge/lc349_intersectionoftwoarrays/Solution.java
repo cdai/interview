@@ -1,7 +1,9 @@
 package buildingblock.sorting.merge.lc349_intersectionoftwoarrays;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -12,10 +14,48 @@ import java.util.stream.Collectors;
  */
 public class Solution {
 
+    // 3AC. Binary search O(NlogN) time O(1) space solution.
+    public int[] intersection(int[] A, int[] B) {
+        Arrays.sort(A);
+        Arrays.sort(B);
+
+        List<Integer> inter = new ArrayList<>();
+        for (int i = 0; i < A.length; i++) {
+            if (i > 0 && A[i - 1] == A[i]) continue;
+            if (Arrays.binarySearch(B, A[i]) >= 0) inter.add(A[i]);
+        }
+
+        int[] ret = new int[inter.size()];
+        for (int i = 0; i < inter.size(); i++) {
+            ret[i] = inter.get(i);
+        }
+        return ret;
+    }
+
     // Why lambda is very slow...
-    public int[] intersection(int[] nums1, int[] nums2) {
+    public int[] intersection_lambda(int[] nums1, int[] nums2) {
         Set<Integer> set = Arrays.stream(nums2).boxed().collect(Collectors.toSet());
         return Arrays.stream(nums1).distinct().filter(set::contains).toArray();
+    }
+
+    public int[] intersection3(int[] A, int[] B) {
+        Arrays.sort(A);
+        Arrays.sort(B);
+
+        List<Integer> inter = new ArrayList<>();
+        for (int i = 0, j = 0; i < A.length && j < B.length; ) {
+            if (i > 0 && A[i - 1] == A[i]) i++;     // Bypass duplicate in num1
+            else if (j > 0 && B[j - 1] == B[j]) j++;
+            else if (A[i] < B[j]) i++;
+            else if (A[i] > B[j]) j++;
+            else inter.add(A[i++]);                 // It's ok move only i since we bypass duplicate
+        }
+
+        int[] ret = new int[inter.size()];
+        for (int i = 0; i < inter.size(); i++) {
+            ret[i] = inter.get(i);
+        }
+        return ret;
     }
 
     // My 2nd: O(NlogN) time, O(1) space
@@ -64,6 +104,25 @@ public class Solution {
             nums[i++] = n;
         }
         return nums;
+    }
+
+    public int[] intersection_set(int[] nums1, int[] nums2) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums1) {
+            set.add(num);
+        }
+
+        Set<Integer> inter = new HashSet<>();
+        for (int num : nums2) {
+            if (set.contains(num)) inter.add(num);
+        }
+
+        int[] ret = new int[inter.size()];
+        int i = 0;
+        for (int num : inter) {
+            ret[i++] = num;
+        }
+        return ret;
     }
 
 }
