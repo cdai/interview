@@ -16,8 +16,57 @@ import java.util.Queue;
  */
 public class Solution {
 
-    // Inspired by leetcode solution. O(N)
+    // Essence of the problem is how to sort by freq less than O(NlogN) time
+    // 1) Maintain a K-size-heap since we only only largest K element
+    // 2) Sort by bucket since freq is in [1,nums.length]
     public List<Integer> topKFrequent(int[] nums, int k) {
+        Map<Integer,Integer> freq = new HashMap<>();
+        for (int num : nums) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
+
+        List<Integer>[] bucket = new List[nums.length + 1];
+        for (Map.Entry<Integer,Integer> e : freq.entrySet()) {
+            if (bucket[e.getValue()] == null) {
+                bucket[e.getValue()] = new ArrayList<>();
+            }
+            bucket[e.getValue()].add(e.getKey());
+        }
+
+        List<Integer> ret = new ArrayList<>();
+        for (int i = nums.length; i > 0 && ret.size() < k; i--) {
+            if (bucket[i] != null) {
+                ret.addAll(bucket[i]);
+            }
+        }
+        return ret.subList(0, k);
+    }
+
+    // O(NlogK) time Heap solution.
+    public List<Integer> topKFrequent3(int[] nums, int k) {
+        Map<Integer,Integer> freq = new HashMap<>();
+        for (int num : nums) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
+
+        Queue<Map.Entry<Integer,Integer>> q = new PriorityQueue<>(Map.Entry.comparingByValue());
+        for (Map.Entry<Integer,Integer> e : freq.entrySet()) {
+            q.offer(e);
+            if (q.size() > k) {
+                q.poll();
+            }
+        }
+
+        List<Integer> ret = new ArrayList<>();
+        while (!q.isEmpty()) {
+            ret.add(q.poll().getKey());
+        }
+        Collections.reverse(ret);
+        return ret;
+    }
+
+    // Inspired by leetcode solution. O(N)
+    public List<Integer> topKFrequent2(int[] nums, int k) {
         if (nums.length == 0 || k <= 0) {
             return new ArrayList<>();
         }
