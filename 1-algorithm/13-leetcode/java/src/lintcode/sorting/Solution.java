@@ -85,6 +85,21 @@ public class Solution {
         nums[b] = tmp;
     }
 
+    // 49-Sort Letter by Case
+    public void sortLetters(char[] chars) { /* invariant: [0,i) lowercase, [i,j) uppercase, [j,n) unknown */
+        for (int i = 0, j = 0; j < chars.length; j++) {
+            if (Character.isLowerCase(chars[j])) {
+                swap(chars, i++, j);
+            }
+        }
+    }
+
+    private void swap(char[] chars, int i, int j) {
+        char tmp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = tmp;
+    }
+
     // 6-Merge Two Sorted Array
     public int[] mergeSortedArray(int[] A, int[] B) {
         int m = A.length, n = B.length;
