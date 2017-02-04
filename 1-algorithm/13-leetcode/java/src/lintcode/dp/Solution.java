@@ -1,5 +1,8 @@
 package lintcode.dp;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import java.util.Arrays;
 
 /**
@@ -41,6 +44,29 @@ public class Solution {
         }
         dump(dp);
         return max;
+    }
+
+    // 92-Backpack
+    @Test
+    void testBackpack() {
+        Assertions.assertEquals(6, backPack(7, new int[]{1, 3, 5})); // 1,5 not 1,3 or 3,5
+    }
+
+    // Since each item can be used once, we must treat each item as phase
+    // [0, 1, 1, 1, 1, 1, 1, 1]
+    // [0, 1, 1, 3, 4, 4, 4, 4]
+    // [0, 1, 1, 3, 4, 5, 6, 6]
+    public int backPack(int m, int[] items) {
+        int[] dp = new int[m + 1];
+        for (int it : items) {
+            for (int sz = m; sz >= 0; sz--) {
+                if (sz >= it) {
+                    dp[sz] = Math.max(dp[sz], dp[sz - it] + it);
+                }
+            }
+            System.out.println(Arrays.toString(dp));
+        }
+        return dp[m];
     }
 
     private void dump(int[][] dp) {
