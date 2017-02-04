@@ -69,6 +69,19 @@ public class Solution {
         return dp[m];
     }
 
+    // 125-Backpack II
+    public int backPackII(int m, int[] A, int V[]) {
+        int[] dp = new int[m + 1]; // max value with size-i backpack
+        for (int i = 0; i < A.length; i++) {
+            for (int sz = m; sz >= 0; sz--) { // backwards to avoid override
+                if (sz >= A[i]) {
+                    dp[sz] = Math.max(dp[sz], dp[sz - A[i]] + V[i]);
+                }
+            }
+        }
+        return dp[m];
+    }
+
     private void dump(int[][] dp) {
         for (int[] row : dp)
             System.out.println(Arrays.toString(row));
