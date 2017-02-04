@@ -15,8 +15,24 @@ import java.util.List;
  */
 public class Solution {
 
-    // My 2AC: Be aware for MIN problem, MIN, 0, -1... O(coins*N)
+    // 3AC. O(N*amount) time O(amount) space solution.
+    // Test case: [],0  [2],3  [1,2],5...
     public int coinChange(int[] coins, int amount) {
+        int[] dp = new int[amount + 1];
+        for (int i = 1; i <= amount; i++) {
+            int min = Integer.MAX_VALUE;
+            for (int c : coins) {
+                if (i - c >= 0 && dp[i - c] != -1) {
+                    min = Math.min(min, dp[i - c] + 1);
+                }
+            }
+            dp[i] = (min == Integer.MAX_VALUE) ? -1 : min;
+        }
+        return dp[amount];
+    }
+
+    // My 2AC: Be aware for MIN problem, MIN, 0, -1... O(coins*N)
+    public int coinChange2(int[] coins, int amount) {
         if (coins.length == 0 || amount < 0) {
             return -1;
         }
@@ -57,7 +73,7 @@ public class Solution {
 
     // Greedy doesn't work, since it may be unchangable after trying coin with largest donomination
     // eg.[10,5,1] -> 4. (5 + 2 + 2 + 2)
-    public int coinChange2(int[] coins, int amount) {
+    public int coinChange12(int[] coins, int amount) {
         if (coins.length == 0) {
             return -1;
         }
