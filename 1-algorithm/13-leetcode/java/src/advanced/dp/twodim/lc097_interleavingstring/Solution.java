@@ -11,9 +11,27 @@ import java.util.Queue;
  */
 public class Solution {
 
+    // dp[i,j] = if s3[0,i+j-1] can be interleaved by i chars of s1 and j chars of s2
+    public boolean isInterleave(String s1, String s2, String s3) {
+        if (s1.length() + s2.length() != s3.length()) return false;
+        int m = s1.length(), n = s2.length();
+        boolean[][] dp = new boolean[m + 1][n + 1];
+        dp[0][0] = true;
+        for (int i = 1; i <= m; i++) dp[i][0] = s1.substring(0, i).equals(s3.substring(0, i));
+        for (int j = 1; j <= n; j++) dp[0][j] = s2.substring(0, j).equals(s3.substring(0, j));
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                dp[i][j] = (dp[i - 1][j] && s1.charAt(i - 1) == s3.charAt(i + j - 1)) ||
+                        (dp[i][j - 1] && s2.charAt(j - 1) == s3.charAt(i + j - 1));
+            }
+        }
+        return dp[m][n];
+    }
+
     // "DP table represents if s3 is interleaving at (i+j)th position
     // when s1 is at ith position, and s2 is at jth position. 0th position means empty string."
-    public boolean isInterleave(String s1, String s2, String s3) {
+    public boolean isInterleave2(String s1, String s2, String s3) {
         if (s1.length() + s2.length() != s3.length()) return false;
         char[] c1 = s1.toCharArray(), c2 = s2.toCharArray(), c3 = s3.toCharArray();
         boolean[][] dp = new boolean[c1.length + 1][c2.length + 1];
