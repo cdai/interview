@@ -1,4 +1,4 @@
-package buildingblock.table.hashing.lc325_maximumsizesubarraysumequalsk;
+package advanced.scan.cumulative.lc325_maximumsizesubarraysumequalsk;
 
 import java.util.HashMap;
 import java.util.Map;

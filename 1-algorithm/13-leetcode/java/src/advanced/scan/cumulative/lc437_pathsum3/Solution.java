@@ -1,6 +1,9 @@
-package fundamentals.tree.dfs.leaf.lc437_pathsum3;
+package advanced.scan.cumulative.lc437_pathsum3;
 
 import fundamentals.tree.TreeNode;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * You are given a binary tree in which each node contains an integer value. Find the number of paths that sum to a given value.
@@ -21,8 +24,26 @@ public class Solution {
         System.out.println(new Solution().pathSum1(root, 8, 0));
     }
 
-    // O(N^2) time worst case, O(NlogN) time for balanced tree.
+    // O(N) time Cumulative (Prefix) Array solution
     public int pathSum(TreeNode root, int sum) {
+        Map<Integer,Integer> presum = new HashMap<>();
+        presum.put(0, 1); // must-have: eg.[2,1], target=3 => premap=[(2,1),(3,1)] but (0,1) doesn't exist!
+        return dfs(root, sum, 0, presum);
+    }
+
+    private int dfs(TreeNode root, int target, int sum, Map<Integer,Integer> presum) {
+        if (root == null) return 0;
+        sum += root.val;
+        int ret = presum.getOrDefault(sum - target, 0);
+        presum.put(sum, presum.getOrDefault(sum, 0) + 1);
+        ret += dfs(root.left, target, sum, presum) +
+                dfs(root.right, target, sum, presum);
+        presum.put(sum, presum.get(sum) - 1);
+        return ret;
+    }
+
+    // O(N^2) time worst case, O(NlogN) time for balanced tree.
+    public int pathSum2(TreeNode root, int sum) {
         if (root == null) return 0;
         return dfs(root, 0, sum) +
                 pathSum(root.left, sum) + // Wrong if call dfs(root.left, root.val+sum, target)
