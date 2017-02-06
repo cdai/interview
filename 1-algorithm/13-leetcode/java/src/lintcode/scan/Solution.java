@@ -53,6 +53,29 @@ public class Solution {
         return idx;
     }
 
+    // 405-Submatrix sum
+    public int[][] submatrixSum(int[][] A) {
+        int m = A.length, n = A[0].length;
+        int[][] presum = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {/* Prefix sum [i,j] = sum of submatrix [0,0]~[i,j] inclusive */
+            for (int j = 1; j <= n; j++)
+                presum[i][j] = presum[i-1][j] + presum[i][j-1] + A[i-1][j-1] - presum[i-1][j-1];
+        }
+        for (int i = 0; i < m; i++) {
+            for (int h = i + 1; h <= m; h++) {
+                Map<Integer, Integer> map = new HashMap<>();
+                for (int j = 0; j <= n; j++) {
+                    int sum = presum[h][j] - presum[i][j];
+                    if (map.containsKey(sum)) {
+                        return new int[][]{{i, map.get(sum)}, {h - 1, j - 1}};
+                    }
+                    map.put(sum, j);
+                }
+            }
+        }
+        return new int[][]{{0, 0}, {0, 0}};
+    }
+
     // 42-Maximum Subarray Sum II
     public int maxTwoSubArrays(ArrayList<Integer> nums) {
         if (nums.isEmpty()) return 0;
