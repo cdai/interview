@@ -1,6 +1,8 @@
 package lintcode.sorting;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -111,6 +113,29 @@ public class Solution {
         if (i < m) System.arraycopy(A, i, C, k, m - i);
         else System.arraycopy(B, j, C, k, n - j);
         return C;
+    }
+
+    // 379-Reorder Array to Construct the Minimum Number
+    public String minNumber(int[] nums) {
+        int n = nums.length;
+        String[] strs = new String[n];
+        for (int i = 0; i < n; i++) {
+            strs[i] = String.valueOf(nums[i]);
+        }
+
+        //Arrays.sort(strs, (s1, s2) -> (s1 + s2).compareTo(s2 + s1));
+        Arrays.sort(strs, new Comparator<String>() {
+            public int compare(String s1, String s2) {
+                return (s1 + s2).compareTo(s2 + s1);
+            }
+        });
+        StringBuilder ret = new StringBuilder();
+        for (String s : strs) {
+            if (!"0".equals(s) || ret.length() > 0) {
+                ret.append(s);
+            }
+        }
+        return ret.length() == 0 ? "0" : ret.toString();
     }
 
 }
