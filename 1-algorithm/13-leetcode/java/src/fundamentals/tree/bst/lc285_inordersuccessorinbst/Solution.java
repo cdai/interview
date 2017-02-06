@@ -32,6 +32,29 @@ public class Solution {
     // O(1) space solution from CLRS. Ignore first case from dietpepsi solution:
     // "To find a successor, you just need to find the smallest one that is larger than the given value.
     // Since there are no duplicate values in a BST. It just like the binary search in a sorted list."
+
+    // Equivalent find insert position for x
+    // Case 1: x is a leaf
+    //    o - pre
+    //   /
+    //  o
+    //   \
+    //    \
+    //     \
+    //      x
+    //
+    // Case 2: x is a non-leaf
+    //    o
+    //   /
+    //  o
+    //   \
+    //    \
+    //     x
+    //      \
+    //       o
+    //      /
+    //     /
+    //    o - pre
     public TreeNode inorderSuccessor(TreeNode root, TreeNode x) {
         /*if (x.right != null) {
             x = x.right;
@@ -41,12 +64,13 @@ public class Solution {
         }*/
 
         TreeNode p = root, pre = null;
-        while (p != null) { // Case 2: Find lowest ancestor whose left child is ancestor of x too
+        while (p != null) {
             if (x.val < p.val) {
                 pre = p;
                 p = p.left;
-            } else
+            } else {
                 p = p.right;
+            }
         }
         return pre;
     }
