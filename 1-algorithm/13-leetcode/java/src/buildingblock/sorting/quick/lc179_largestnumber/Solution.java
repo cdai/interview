@@ -9,8 +9,18 @@ import java.util.Arrays;
  */
 public class Solution {
 
-    // My 2AC: use comparator
     public String largestNumber(int[] nums) {
+        String[] strs = new String[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            strs[i] = String.valueOf(nums[i]);
+        }
+        Arrays.sort(strs, (s1, s2) -> (s2 + s1).compareTo(s1 + s2));
+        String ret = String.join("", strs);
+        return ret.isEmpty() || ret.startsWith("0") ? "0" : ret;
+    }
+
+    // My 2AC: use comparator
+    public String largestNumber2(int[] nums) {
         // 1.Convert to Integer array since Arrays.sort(A,T) forces that
         String[] strs = new String[nums.length];
         for (int i = 0; i < nums.length; i++) {
