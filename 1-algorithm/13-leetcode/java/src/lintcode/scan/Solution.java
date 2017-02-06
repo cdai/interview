@@ -56,18 +56,17 @@ public class Solution {
     // 405-Submatrix sum
     public int[][] submatrixSum(int[][] A) {
         int m = A.length, n = A[0].length;
-        int[][] presum = new int[m + 1][n + 1];
-        for (int i = 1; i <= m; i++) {/* Prefix sum [i,j] = sum of submatrix [0,0]~[i,j] inclusive */
-            for (int j = 1; j <= n; j++)
-                presum[i][j] = presum[i-1][j] + presum[i][j-1] + A[i-1][j-1] - presum[i-1][j-1];
-        }
         for (int i = 0; i < m; i++) {
-            for (int h = i + 1; h <= m; h++) {
+            int[] presum = new int[n + 1]; // reuse for same "base line" row-i
+            for (int h = i; h < m; h++) {
+                for (int j = 1; j <= n; j++) {
+                    presum[j] += A[h][j - 1];
+                }
                 Map<Integer, Integer> map = new HashMap<>();
-                for (int j = 0; j <= n; j++) {
-                    int sum = presum[h][j] - presum[i][j];
+                for (int j = 0, sum = 0; j <= n; j++) { // Start from j=0 since no (0,0) in map
+                    sum += presum[j];
                     if (map.containsKey(sum)) {
-                        return new int[][]{{i, map.get(sum)}, {h - 1, j - 1}};
+                        return new int[][]{{i, map.get(sum)}, {h, j - 1}};
                     }
                     map.put(sum, j);
                 }
