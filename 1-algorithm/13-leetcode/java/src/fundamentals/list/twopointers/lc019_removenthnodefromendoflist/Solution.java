@@ -17,8 +17,24 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
+    // Same as Nth to Last Node, but pre starts at dmy rather than head
+    ListNode removeNthFromEnd(ListNode head, int n) {
+        if (head == null) return null;
+        ListNode dmy = new ListNode(0), pre = dmy;
+        dmy.next = head;
+
+        int i = 0;
+        for (ListNode p = head; p != null; p = p.next) {
+            if (i++ >= n) {
+                pre = pre.next;
+            }
+        }
+        pre.next = pre.next.next;
+        return dmy.next;
+    }
+
     // 2nd: More clear version!
-    public ListNode removeNthFromEnd(ListNode head, int n) {
+    public ListNode removeNthFromEnd2(ListNode head, int n) {
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
 
@@ -39,7 +55,7 @@ public class Solution {
     }
 
     // 1st
-    public ListNode removeNthFromEnd2(ListNode head, int n) {
+    public ListNode removeNthFromEnd12(ListNode head, int n) {
         ListNode cur = head;
         ListNode prev = null;
         int i;
