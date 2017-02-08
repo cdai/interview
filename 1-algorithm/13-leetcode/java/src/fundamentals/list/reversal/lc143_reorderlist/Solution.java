@@ -9,8 +9,51 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
-    // More concise merge code from leetcode discuss
+    // 1 -> 2 <- 3 <- 4
+    // p1             p2
+    //  ______________
+    // |              |
+    // 1    2 <- 3 <- 4
+    //      p2        p1
+    //  ______________
+    // |              |
+    // 1    2 <- 3    4
+    //      |_________|
+    //      p1   p2
+    //  ______________
+    // |              |
+    // 1    2 -> 3    4
+    //      |_________|
+    //           p1    p2=null
+    // 3->null
     public void reorderList(ListNode head) {
+        if (head == null) return;
+        ListNode mid = head, fast = head;
+        while (fast.next != null && fast.next.next != null) { // must stop if fast.next.next is nil
+            mid = mid.next;
+            fast = fast.next.next;
+        }
+
+        ListNode pre = mid, cur = mid.next;
+        while (cur != null) {
+            ListNode suc = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = suc;
+        }
+        mid.next = null; // cut off so that stop at p1=null
+
+        ListNode p1 = head, p2 = pre;
+        while (p1 != null) {
+            ListNode tmp = p1.next;
+            p1.next = p2;
+            p1 = p2;
+            p2 = tmp;
+        }
+    }
+
+    // More concise merge code from leetcode discuss
+    public void reorderList2(ListNode head) {
         if (head == null) {
             return;
         }
@@ -42,7 +85,7 @@ public class Solution {
     }
 
     // My 2nd
-    public void reorderList2(ListNode head) {
+    public void reorderList21(ListNode head) {
         if (head == null) {
             return;
         }
