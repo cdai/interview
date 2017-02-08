@@ -14,8 +14,35 @@ public class Solution {
         System.out.println(new Solution().sortList(head));
     }
 
-    // Clean but use O(logN) stack space
     public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode pre = head, fast = head;
+        while (fast.next != null && fast.next.next != null) { // pre stop before middle
+            pre = pre.next;
+            fast = fast.next.next;
+        }
+        ListNode mid = pre.next;
+        pre.next = null;
+        return merge(sortList(head), sortList(mid));
+    }
+
+    private ListNode merge(ListNode head1, ListNode head2) {
+        ListNode dmy = new ListNode(0), pre = dmy;
+        for (; head1 != null && head2 != null; pre = pre.next) {
+            if (head1.val < head2.val) {
+                pre.next = head1;
+                head1 = head1.next;
+            } else {
+                pre.next = head2;
+                head2 = head2.next;
+            }
+        }
+        pre.next = (head1 != null) ? head1 : head2;
+        return dmy.next;
+    }
+
+    // Clean but use O(logN) stack space
+    public ListNode sortList2(ListNode head) {
         if (head == null || head.next == null) return head; // Codes below can handle 1,2,...nodes, but this could improve performance
 
         ListNode mid = head, fast = head;
@@ -28,7 +55,7 @@ public class Solution {
         return merge(sortList(head), sortList(head2));
     }
 
-    private ListNode merge(ListNode list1, ListNode list2) {
+    private ListNode merge2(ListNode list1, ListNode list2) {
         ListNode dmy = new ListNode(0), prev = dmy;
         while (list1 != null && list2 != null) {
             if (list1.val < list2.val) {
@@ -117,7 +144,7 @@ public class Solution {
         return merge(sortList(list1), sortList(list2));
     }
 
-    public ListNode sortList2(ListNode head) {
+    public ListNode sortList12(ListNode head) {
         // Only one node, just return
         if (head.next == null) {
             return head;
