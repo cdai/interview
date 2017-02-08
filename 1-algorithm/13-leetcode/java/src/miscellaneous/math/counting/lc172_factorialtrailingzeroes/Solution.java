@@ -10,12 +10,14 @@ public class Solution {
     // Produce one zero:    5,10,15,20,25...
     // Produce another zero:25(5*5),50(5*5*2)...
     // So one factor 5 can produce 1 zero
+
+    // Each factor 5 produce a 0. eg.5, 10, 15, 20. eg.25, 50 produces 2 zero.
     public int trailingZeroes(int n) {
-        int count = 0;
+        int zero = 0;
         for (long i = 5; i <= n; i *= 5) { // Be aware of overflow
-            count += n / i;
+            zero += n / i;
         }
-        return count;
+        return zero;
     }
 
     // Eg. 136 / 5 = 27 (There're 27 '5' between 1..136, each one can cause one 0)
