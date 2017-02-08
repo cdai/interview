@@ -6,6 +6,27 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
+    // 166-Nth to Last Node in List
+    // Think it easy: when p has moved n steps,
+    //  nth (nth=nth.next in if) move along with p (p=p.next in for header)
+    //i=0    1    2    3
+    //  3 -> 2 -> 1 -> 5 -> null, n=2
+    //nth/p  |    |    |     |  (view at beginning of each iteration)
+    //nth    p    |    |     |
+    //nth         p    |     |
+    //      nth        p     |
+    //           nth         p
+    ListNode nthToLast(ListNode head, int n) {
+        ListNode nth = head;
+        int i = 0; /* steps that p moves forward (at loop beginning) */
+        for (ListNode p = head; p != null; p = p.next) {
+            if (i++ >= n) {
+                nth = nth.next;
+            }
+        }
+        return nth;
+    }
+
     // 511-Swap Two Nodes in Linked List
     // Note many edge cases: v1 or v2 not found; v2 is before v1; v1 is predecessor of v2; v1 is head
     public ListNode swapNodes(ListNode head, int v1, int v2) {
