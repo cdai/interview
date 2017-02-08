@@ -15,6 +15,28 @@ public class Solution {
         new Solution().insertionSortList(n1);
     }
 
+    // 3AC. No cut off list.
+    public ListNode insertionSortList3(ListNode head) {
+        ListNode dmy = new ListNode(0), pre = dmy;
+        dmy.next = head;
+        while (pre.next != null) {
+            ListNode p = dmy;
+            while (p.next.val < pre.next.val) { // p=pre possibly
+                p = p.next;
+            }
+
+            if (p != pre) {
+                ListNode tmp = p.next;
+                p.next = pre.next;
+                pre.next = pre.next.next;
+                p.next.next = tmp;
+            } else {
+                pre = pre.next;
+            }
+        }
+        return dmy.next;
+    }
+
     // Solution from leetcode discuss
     public ListNode insertionSortList(ListNode head) {
         if (head == null || head.next == null) {
