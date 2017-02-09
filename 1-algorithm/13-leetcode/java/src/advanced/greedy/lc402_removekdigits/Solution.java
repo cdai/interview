@@ -7,8 +7,31 @@ import java.util.Stack;
  */
 public class Solution {
 
-    // 1AC. Greedy O(N) time and space.
+    // 2AC
     public String removeKdigits(String num, int k) {
+        if (num.isEmpty() || num.length() <= k) return "0";
+        Stack<Character> s = new Stack<>();
+        for (int i = 0; i < num.length(); i++) {
+            char c = num.charAt(i);
+            while (!s.isEmpty() && c < s.peek() && k > 0) {
+                s.pop();
+                k--;
+            }
+            s.push(c);
+        }
+
+        // Remove leading zero by iterating stack from bottom (note k > 0 case)
+        StringBuilder ret = new StringBuilder();
+        for (char c : s) {
+            if (c != '0' || ret.length() > 0) {
+                ret.append(c);
+            }
+        }
+        return ret.length() == 0 ? "0" : ret.substring(0, ret.length() - k);
+    }
+
+    // 1AC. Greedy O(N) time and space.
+    public String removeKdigits1(String num, int k) {
         if (num.isEmpty() || num.length() <= k) return "0";
         Stack<Character> s = new Stack<>();
         for (int i = 0; i < num.length(); i++) {
