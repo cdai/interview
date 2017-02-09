@@ -7,6 +7,17 @@ package miscellaneous.math.counting.lc357_countnumberswithuniquedigits;
  */
 public class Solution {
 
+    // eg.n=3   d1               d2                  d3
+    //        [1~9]=9 * [0~9 exclude d1]=9 * [0~9 exclude d1/d2]=8
+    public int countNumbersWithUniqueDigits(int n) {
+        int total = 1; // 0
+        for (int i = 1, cnt = 9; i <= n; i++) {
+            total += cnt;
+            cnt *= 10 - i; // reuse cnt
+        }
+        return total;
+    }
+
     // My 2AC: backtracking solution. Note N -> N digits not N+1
     public int countNumbersWithUniqueDigits2(int n) {
         return doCount(n, new boolean[10], 0);
@@ -29,7 +40,7 @@ public class Solution {
 
     // DP solution with counting technique
     // total(n) = total(n-1) + f(K) (9 * 9 * 8 * ... (9 - k + 2))
-    public int countNumbersWithUniqueDigits(int n) {
+    public int countNumbersWithUniqueDigits22(int n) {
         if (n == 0) return 1;
 
         n = (n > 10) ? 10 : n; // Nice! Prevent overflow
