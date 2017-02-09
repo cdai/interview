@@ -18,8 +18,48 @@ import java.util.Set;
  */
 public class Solution {
 
-    // An interesting "find cycle in linked list" flavour solution
+    // O(N) space
     public boolean isHappy(int n) {
+        if (n <= 0) return false;
+        Set<Long> seen = new HashSet<>();
+        for (long l = n, tmp = 0; l != 1; l = tmp, tmp = 0) {
+            if (!seen.add(l)) {
+                return false;
+            }
+            for (; l > 0; l /= 10) {
+                long d = l % 10;
+                tmp += d * d;
+            }
+        }
+        return true;
+    }
+
+    // O(1) space by Floyd’s Cycle-Finding Algorithm
+    // eg. n=19  slow  fast
+    //            82    68
+    //            68     1
+    //           100     1
+    //             1     1
+    public boolean isHappy_floyd(int n) {
+        if (n <= 0) return false;
+        int slow = n, fast = n;
+        do {
+            slow = next(slow);
+            fast = next(next(fast));
+        } while (slow != fast);
+        return slow == 1; // Find cycle, check if cycle only contains 1
+    }
+
+    private int next(int n) {
+        int ret = 0;
+        for (; n > 0; n /= 10) {
+            ret += Math.pow(n % 10, 2);
+        }
+        return ret;
+    }
+
+    // An interesting "find cycle in linked list" flavour solution
+    public boolean isHappy21(int n) {
         int slow = n, fast = n;
         // eg. 10, slow=1, fast=1, wrong!
         /*while (slow != 1) {
@@ -36,7 +76,7 @@ public class Solution {
         return slow == 1;
     }
 
-    private int next(int n) {
+    private int next21(int n) {
         int sum = 0;
         while (n > 0) {
             int d = (n % 10);
