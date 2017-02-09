@@ -7,8 +7,19 @@ package miscellaneous.math.pattern.lc258_adddigits;
  */
 public class Solution {
 
-    // My 2AC: use loop
     public int addDigits(int num) {
+        while (num >= 10) {
+            int tmp = 0;
+            for (int i = num; i > 0; i /= 10) {
+                tmp += i % 10;
+            }
+            num = tmp;
+        }
+        return num;
+    }
+
+    // My 2AC: use loop
+    public int addDigits2(int num) {
         while (num >= 10) {
             int sum = 0;
             while (num > 0) {
