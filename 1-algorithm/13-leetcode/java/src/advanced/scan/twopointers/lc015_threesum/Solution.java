@@ -18,12 +18,14 @@ public class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
         List<List<Integer>> ret = new ArrayList<>();
-        for (int i = 0; i < nums.length - 2; i++) {
+        int n = nums.length;
+        for (int i = 0; i < n - 2; i++) {
             if (i > 0 && nums[i - 1] == nums[i]) continue;
-            for (int j = i + 1, k = nums.length - 1; j < k; ) {
-                if (j > i + 1 && nums[j - 1] == nums[j]) j++; // work not to check duplicate at k
-                else if (nums[i] + nums[j] + nums[k] < 0) j++;
-                else if (nums[i] + nums[j] + nums[k] > 0) k--;
+            for (int j = i + 1, k = n - 1; j < k; ) {
+                int sum = nums[i] + nums[j] + nums[k];
+                if (j > i + 1 && nums[j - 1] == nums[j]) j++;
+                else if (sum < 0) j++;
+                else if (sum > 0) k--;
                 else ret.add(Arrays.asList(nums[i], nums[j++], nums[k--]));
             }
         }
