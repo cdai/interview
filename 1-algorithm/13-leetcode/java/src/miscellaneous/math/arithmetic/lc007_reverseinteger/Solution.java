@@ -13,6 +13,19 @@ public class Solution {
 
     public int reverse(int n) {
         int rev = 0;
+        for (; n != 0; n /= 10) { // n!=0 works for both positive and negative
+            int tmp = rev * 10 + n % 10;
+            if (tmp / 10 != rev) { // must overflow if not equal!
+                return 0;
+            }
+            rev = tmp;
+        }
+        return rev;
+    }
+
+    // No need to tmp - d
+    public int reverse4(int n) {
+        int rev = 0;
         for (; n != 0; n /= 10) {
             int d = n % 10;
             int tmp = rev * 10 + d;
