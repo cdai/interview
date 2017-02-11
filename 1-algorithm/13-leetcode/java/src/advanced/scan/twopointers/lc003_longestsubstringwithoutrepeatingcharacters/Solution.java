@@ -1,5 +1,8 @@
 package advanced.scan.twopointers.lc003_longestsubstringwithoutrepeatingcharacters;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,13 +19,30 @@ import java.util.Set;
  */
 public class Solution {
 
-    public static void main(String[] args) {
-        System.out.println(new Solution().lengthOfLongestSubstring("bb"));
-        System.out.println(new Solution().lengthOfLongestSubstring("abcabcbb"));
+    @Test
+    void test() {
+        Assertions.assertEquals(0, lengthOfLongestSubstring(""));
+        Assertions.assertEquals(1, lengthOfLongestSubstring("a"));
+        Assertions.assertEquals(1, lengthOfLongestSubstring("aa"));
+        Assertions.assertEquals(2, lengthOfLongestSubstring("aac"));
+    }
+
+    public int lengthOfLongestSubstring(String s) {
+        Set<Character> win = new HashSet<>();
+        int max = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (!win.add(c)) { // Found dup, shrink window until found same one
+                for (int j = i - win.size(); c != s.charAt(j); j++)
+                    win.remove(s.charAt(j));
+            }
+            max = Math.max(max, win.size());
+        }
+        return max;
     }
 
     // Save index not count
-    public int lengthOfLongestSubstring(String s) {
+    public int lengthOfLongestSubstring3(String s) {
         int[] idx = new int[256];
         Arrays.fill(idx, -1);
         int max = 0;
