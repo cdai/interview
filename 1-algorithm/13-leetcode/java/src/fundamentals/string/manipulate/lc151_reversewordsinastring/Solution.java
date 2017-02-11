@@ -19,6 +19,16 @@ public class Solution {
     }
 
     public String reverseWords(String s) {
+        String[] words = s.trim().split("\\s+");
+        StringBuilder ret = new StringBuilder();
+        for (int i = words.length - 1; i >= 0; i--) {
+            ret.append(words[i]);
+            if (i > 0) ret.append(" ");
+        }
+        return ret.toString();
+    }
+
+    public String reverseWords4(String s) {
         String[] words = s.trim().split("\\s+"); // must trim and split by s+, ow. " " exists after split!
         if (words.length == 0) return "";
         StringBuilder ret = new StringBuilder();
