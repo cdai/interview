@@ -5,7 +5,7 @@ import fundamentals.list.ListNode;
 import java.util.Stack;
 
 /**
- * 
+ *
  */
 public class Solution {
 
