@@ -13,12 +13,29 @@ public class Solution {
         System.out.println(new Solution().longestPalindrome("civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth"));
     }
 
+    public String longestPalindrome(String s) {
+        String max = "";
+        for (int i = 0; i < s.length(); i++) {
+            String s1 = extend(s, i, i), s2 = extend(s, i, i + 1);
+            if (s1.length() > max.length()) max = s1;
+            if (s2.length() > max.length()) max = s2;
+        }
+        return max;
+    }
+
+    private String extend(String s, int i, int j) {
+        for (; 0 <= i && j < s.length(); i--, j++) {
+            if (s.charAt(i) != s.charAt(j)) break;
+        }
+        return s.substring(i + 1, j);
+    }
+
     // Much efficient than mine, since we start from small string
     // O(N^2) in the worst case, but on average O(N*len)
-    public String longestPalindrome(String s) {
+    public String longestPalindrome3(String s) {
         int max = 0, idx = 0;
         for (int i = 0; i < s.length(); i++) {
-            int len1 = extend(s, i, i), len2 = extend(s, i, i + 1);         // try to extend in odd or even length
+            int len1 = extend3(s, i, i), len2 = extend3(s, i, i + 1);         // try to extend in odd or even length
             if (max < Math.max(len1, len2)) {
                 idx = (len1 > len2) ? (i - len1 / 2) : (i - len2 / 2 + 1);  // get starting idx according to center and length
                 max = Math.max(len1, len2);
@@ -27,7 +44,7 @@ public class Solution {
         return s.substring(idx, idx + max); // error: idx+max not idx...
     }
 
-    private int extend(String s, int i, int j) {
+    private int extend3(String s, int i, int j) {
         for (; i >= 0 && j < s.length(); i--, j++)
             if (s.charAt(i) != s.charAt(j))
                 break;
