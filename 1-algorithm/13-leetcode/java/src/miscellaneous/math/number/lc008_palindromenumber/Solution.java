@@ -9,8 +9,21 @@ public class Solution {
         System.out.println(new Solution().isPalindrome(12321));
     }
 
-    // Amazing solution from cbmbbz
+    // Same idea as Reverse Integer but only check half way to avoid overflow
+    // 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33, 44, 55, 66, 77, 88, 99
+    // 101, 111, 121, 131, 141, 151, 161, 171, 181, 191, 202
     public boolean isPalindrome(int x) {
+        if (x < 0 || (x != 0 && x % 10 == 0)) return false; // tricky edge case
+        int rev = 0;
+        while (x > rev) {
+            rev = rev * 10 + x % 10;
+            x /= 10;
+        }
+        return rev == x || rev / 10 == x;
+    }
+
+    // Amazing solution from cbmbbz
+    public boolean isPalindrome3(int x) {
         if (x < 0 || (x != 0 && x % 10 == 0)) { // Note 10..00 will cause half=0, but 0 is palindrome
             return false;
         }
