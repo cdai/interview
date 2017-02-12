@@ -38,6 +38,19 @@ public class Solution {
         return dfa;
     }
 
+    // O(N^2) time
+    //      <-i
+    // aacecaaa
+    public String shortestPalindrome_bruteforce3(String s) {
+        StringBuilder rev = new StringBuilder(s).reverse();
+        for (int i = 0; i < rev.length(); i++) {
+            if (s.startsWith(rev.substring(i))) {
+                return rev.substring(0, i) + s;
+            }
+        }
+        return s; // Never reach here
+    }
+
     // Another brute force approach from stephan.
     // Check s="abcde" and rev="edcba", check when s.startsWith rev[i,len)
     // Namely, s[0,len-i) is a palindrome.
