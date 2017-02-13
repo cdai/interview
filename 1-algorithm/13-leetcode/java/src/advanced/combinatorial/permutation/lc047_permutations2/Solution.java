@@ -24,8 +24,52 @@ public class Solution {
         System.out.println(new Solution().permuteUnique(new int[]{1, 1, 2}));
     }
 
-    // Iterative version: O(N^3 * N copy) ?!
+    // 3AC.
     public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> ret = new ArrayList<>();
+        Arrays.sort(nums);
+        dfs(ret, new ArrayList<Integer>(), nums, new boolean[nums.length]);
+        return ret;
+    }
+
+    // Very tricky to avoid duplicate! 1) Sort the nums at first (don't forget)
+    // 2) "when a number has the same value with its previous, we can use this number only if his previous is used (upper level)"
+    // (num on the same level will be not used=true at the same time)
+    private void dfs(List<List<Integer>> ret, List<Integer> path, int[] nums, boolean[] used) {
+        if (path.size() == nums.length) {
+            ret.add(new ArrayList<>(path));
+        } else {
+            for (int i = 0; i < nums.length; i++) {
+                if (used[i]) continue;
+                if (i > 0 && used[i - 1] && nums[i - 1] == nums[i]) continue;
+                used[i] = true;
+                path.add(nums[i]);
+                dfs(ret, path, nums, used);
+                path.remove(path.size() - 1);
+                used[i] = false;
+            }
+        }
+    }
+
+    public List<List<Integer>> permuteUnique3_iterative(int[] nums) {
+        Queue<List<Integer>> ret = new LinkedList<>();
+        ret.offer(new LinkedList<>());
+        for (int num : nums) {
+            Set<List<Integer>> dup = new HashSet<>();
+            for (int i = ret.size(); i > 0; i--) {
+                List<Integer> perm = ret.poll();
+                for (int j = 0; j <= perm.size(); j++) {
+                    List<Integer> cpy = new LinkedList<>(perm);
+                    cpy.add(j, num);
+                    if (dup.add(cpy)) ret.offer(cpy);
+                }
+            }
+        }
+        return (List<List<Integer>>) ret;
+    }
+
+    // Iterative version: O(N^3 * N copy) ?!
+    public List<List<Integer>> permuteUnique2_iterative(int[] nums) {
         LinkedList<List<Integer>> result = new LinkedList<>();
         result.offer(new ArrayList<>());
         for (int num : nums) {
