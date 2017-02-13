@@ -20,7 +20,21 @@ import java.util.List;
  */
 public class Solution {
 
+    // Suppose nums.length <= 32 (reasonable since complexity is 2^N)
     public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> ret = new ArrayList<>();
+        int n = nums.length, size = 1 << n;
+        for (int i = 0; i < size; i++) {
+            List<Integer> set = new ArrayList<>();
+            for (int j = 0; j < n; j++) {
+                if (((i >> j) & 1) == 1) set.add(nums[j]);
+            }
+            ret.add(set);
+        }
+        return ret;
+    }
+
+    public List<List<Integer>> subsets3(int[] nums) {
         List<List<Integer>> ret = new ArrayList<>();
         if (nums.length > 0) dfs(ret, new ArrayList<>(), nums, 0);
         return ret;
