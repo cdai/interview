@@ -1,5 +1,8 @@
 package advanced.dp.twodim.lc063_uniquepaths2;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 /**
  * Follow up for "Unique Paths": Now consider if some obstacles are added to the grids. How many unique paths would there be? An obstacle and empty space is marked as 1 and 0 respectively in the grid.
  * For example, There is one obstacle in the middle of a 3x3 grid as illustrated below.
@@ -13,8 +16,36 @@ package advanced.dp.twodim.lc063_uniquepaths2;
  */
 public class Solution {
 
+    @Test
+    void test() {
+        Assertions.assertEquals(3, uniquePathsWithObstacles(new int[][]{
+                {0,0}, {0,0}, {0,0}, {1,0}, {0,0}
+        }));
+    }
+
+    // For first row and column, subsequent cell (#path) should be 0 if one obstalce appears
+    // Case 1 - first row:      dp[j] set to 0 since dp[j] += dp[j-1]. one obstacle causes 0 for all the followings
+    // Case 2 - first column:   dp[j] set to 0 since we never update j=0 again once it is set to 0 by obstacle
+    // Case 3 - others:         dp[j] simply set to dp[j] + dp[j-1]
+    public int uniquePathsWithObstacles(int[][] grid) {
+        if (grid.length == 0 || grid[0].length == 0) return 0;
+        int n = grid[0].length;
+        int[] dp = new int[n];
+        dp[0] = 1;
+        for (int[] row : grid) {
+            for (int j = 0; j < n; j++) {
+                if (row[j] == 1) {
+                    dp[j] = 0;
+                } else {
+                    if (j > 0) dp[j] += dp[j - 1];
+                }
+            }
+        }
+        return dp[n - 1];
+    }
+
     // My 2AC: DP solution with O(N^2) time and O(N) space
-    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+    public int uniquePathsWithObstacles2(int[][] obstacleGrid) {
         if (obstacleGrid.length == 0 || obstacleGrid[0].length == 0) {
             return 0;
         }
