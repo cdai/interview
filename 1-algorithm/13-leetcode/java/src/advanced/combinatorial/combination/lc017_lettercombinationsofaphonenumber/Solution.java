@@ -15,15 +15,37 @@ import java.util.Queue;
  */
 public class Solution {
 
-    // 3AC
+    //private static String[] map = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+
     public List<String> letterCombinations(String digits) {
+        List<String> ret = new ArrayList<>();
+        if (!digits.isEmpty()) {
+            dfs(ret, new char[digits.length()], digits, 0);
+        }
+        return ret;
+    }
+
+    private void dfs(List<String> ret, char[] path, String digits, int k) {
+        if (k == digits.length()) {
+            ret.add(String.valueOf(path));
+        } else {
+            String s = map[digits.charAt(k) - '0'];
+            for (int i = 0; i < s.length(); i++) {
+                path[k] = s.charAt(i);
+                dfs(ret, path, digits, k + 1);
+            }
+        }
+    }
+
+    // 3AC
+    public List<String> letterCombinations3(String digits) {
         List<String> ret = new ArrayList<>();
         if (!digits.isEmpty()) // Otherwise, return [""] which is wrong!
             dfs(ret, new char[digits.length()], digits, 0);
         return ret;
     }
 
-    private void dfs(List<String> ret, char[] path, String digits, int k) {
+    private void dfs3(List<String> ret, char[] path, String digits, int k) {
         if (k == digits.length()) {
             ret.add(String.valueOf(path));
             return;
