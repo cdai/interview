@@ -25,8 +25,51 @@ public class Solution {
         System.out.println(new Solution().permute(new int[]{1, 2, 3}));
     }
 
-    // My 2nd: this is the real recursion. O(N!) time, O(N) space
+    // 3AC
+    // Use of LinkedHashSet:
+    // "This class provides all of the optional Set operations, and permits null elements.
+    // Like HashSet, it provides constant-time performance for the basic operations (add, contains and remove),
+    // assuming the hash function disperses elements properly among the buckets.
+    // Performance is likely to be just slightly below that of HashSet, due to the added expense of maintaining the linked list, with one exception:
+    // Iteration over a LinkedHashSet requires time proportional to the size of the set, regardless of its capacity.
+    // Iteration over a HashSet is likely to be more expensive, requiring time proportional to its capacity."
     public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> ret = new ArrayList<>();
+        dfs(ret, new LinkedHashSet<>(), nums);
+        return ret;
+    }
+
+    private void dfs(List<List<Integer>> ret, Set<Integer> path, int[] nums) {
+        if (path.size() == nums.length) {
+            ret.add(new ArrayList<>(path));
+            return;
+        }
+        for (int num : nums) {
+            if (path.add(num)) {
+                dfs(ret, path, nums);
+                path.remove(num);
+            }
+        }
+    }
+
+    public List<List<Integer>> permute3_iterative(int[] nums) {
+        Queue<List<Integer>> ret = new LinkedList<>();
+        ret.offer(new LinkedList<>());
+        for (int num : nums) {
+            for (int i = ret.size(); i > 0; i--) {
+                List<Integer> perm = ret.poll();
+                for (int j = 0; j <= perm.size(); j++) {
+                    List<Integer> cpy = new LinkedList<>(perm);
+                    cpy.add(j, num);
+                    ret.offer(cpy);
+                }
+            }
+        }
+        return (List<List<Integer>>) ret;
+    }
+
+    // My 2nd: this is the real recursion. O(N!) time, O(N) space
+    public List<List<Integer>> permute2(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         doPermute(result, new ArrayList<>(), new boolean[nums.length], nums);
         return result;
