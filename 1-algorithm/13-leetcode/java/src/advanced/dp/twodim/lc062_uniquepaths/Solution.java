@@ -10,8 +10,23 @@ import java.util.Arrays;
  */
 public class Solution {
 
-    // My 2AC: O(N^2) time and O(N) space
+    // 3AC. O(N^2) space.
     public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i > 0 && j > 0) {
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                } else {
+                    dp[i][j] = 1; /* i=0 or j=0 or i=j=0 */
+                }
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
+    // My 2AC: O(N^2) time and O(N) space
+    public int uniquePaths2(int m, int n) {
         if (m <= 0 || n <= 0) {
             return -1;
         }
