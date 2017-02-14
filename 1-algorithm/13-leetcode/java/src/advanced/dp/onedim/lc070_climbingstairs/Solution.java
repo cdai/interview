@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public class Solution {
 
+    // 3AC
     // My 2AC: O(N) time and O(1) space
     // Each has 1 way from n-1 and n-2 to reach n
     // So f(n) = f(n-1) + f(n-2). So basically it's a Fibonacci!
@@ -21,6 +22,16 @@ public class Solution {
             fn1 = fn;
         }
         return fn1;
+    }
+
+    public int climbStairs3(int n) {
+        if (n <= 0) return 1;
+        int[] dp = new int[n + 1];
+        dp[0] = dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[n];
     }
 
     // My 1AC
