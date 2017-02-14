@@ -16,8 +16,32 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
-    // pre->1->2(suc)->3 => pre->2->1->3...
+    // Is this approach good? Use as much "var" as possible and follow "var" graph
+    // pre->cur->suc->tmp ==> pre->suc->cur->tmp ==> pre->suc->cur(pre)->tmp
     public ListNode swapPairs(ListNode head) {
+        ListNode dmy = new ListNode(0), pre = dmy;
+        dmy.next = head;
+        while (pre.next != null && pre.next.next != null) {
+            ListNode cur = pre.next, suc = cur.next, tmp = suc.next;
+            pre.next = suc;
+            suc.next = cur;
+            cur.next = tmp;
+            pre = cur;
+        }
+        return dmy.next;
+    }
+
+    // O(N) time and space due to recursion
+    public ListNode swapPairs_recursion(ListNode cur) {
+        if (cur == null || cur.next == null) return cur;
+        ListNode suc = cur.next;
+        cur.next = swapPairs(suc.next);
+        suc.next = cur;
+        return suc;
+    }
+
+    // pre->1->2(suc)->3 => pre->2->1->3...
+    public ListNode swapPairs4(ListNode head) {
         ListNode dmy = new ListNode(0), pre = dmy;
         dmy.next = head;
         while (pre.next != null && pre.next.next != null) {
