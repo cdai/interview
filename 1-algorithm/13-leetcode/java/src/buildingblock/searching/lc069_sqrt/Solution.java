@@ -9,8 +9,21 @@ public class Solution {
         System.out.println(new Solution().mySqrt(2147483647));
     }
 
-    // MAX_INT*MAX_INT(2^32-1) < MAX_LONG(2^64-1)
     public int mySqrt(int x) {
+        if (x <= 0) return 0;
+        int l = 1, r = x;
+        while (l < r) {
+            int m = l + (r - l) / 2 + 1; // avoid dead loop by l=r-1 -> l=m
+            int dif = x / m - m;
+            if (dif == 0) return m;
+            if (dif > 0) l = m; /* not sure. eg. 3*3 < 10, sqrt(10)=3 */
+            else r = m - 1;     /* sqrt must be smaller than m */
+        }
+        return l;
+    }
+
+    // MAX_INT*MAX_INT(2^32-1) < MAX_LONG(2^64-1)
+    public int mySqrt4(int x) {
         if (x <= 0) return 0;
         long l = 1, r = x;
         while (l < r) {
