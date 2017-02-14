@@ -8,7 +8,27 @@ package buildingblock.searching.lc367_validperfectsquare;
  */
 public class Solution {
 
+    // 4AC.
     public boolean isPerfectSquare(int num) {
+        if (num <= 0) return false;
+        int l = 1, r = num;
+        while (l < r) {
+            int m = l + (r - l) / 2 + 1;
+            if (num / m >= m) l = m;
+            else r = m - 1;
+        }
+        return l * l == num;
+    }
+
+    // 4AC. Brute force
+    public boolean isPerfectSquare_bruteforce(int num) {
+        for (long i = 1, sqr; (sqr = i * i) <= num; i++) {
+            if (num == sqr) return true;
+        }
+        return false;
+    }
+
+    public boolean isPerfectSquare3(int num) {
         if (num <= 0) return false;
         long l = 1, r = num;
         while (l < r) {
