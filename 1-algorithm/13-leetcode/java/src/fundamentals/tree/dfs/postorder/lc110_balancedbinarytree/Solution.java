@@ -14,6 +14,18 @@ public class Solution {
     }
 
     private int dfs(TreeNode root) {
+        if (root == null) return 0;
+        int l = dfs(root.left), r = dfs(root.right);
+        if (l < 0 || r < 0) return -1;
+        if (Math.abs(l - r) > 1) return -1;
+        return Math.max(l, r) + 1;
+    }
+
+    public boolean isBalanced3(TreeNode root) {
+        return dfs(root) >= 0;
+    }
+
+    private int dfs3(TreeNode root) {
         if (root == null) return 0; // height=#edge of path
         int left, right;
         if ((left = dfs(root.left)) < 0) return -1;
