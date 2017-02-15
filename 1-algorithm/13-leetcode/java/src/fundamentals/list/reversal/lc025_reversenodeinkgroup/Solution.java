@@ -20,15 +20,16 @@ import fundamentals.list.ListNode;
  */
 public class Solution {
 
+    // 4AC
     public ListNode reverseKGroup(ListNode head, int k) {
         int n = 0;
         for (ListNode p = head; p != null; p = p.next) n++;
 
         ListNode dmy = new ListNode(0), pre = dmy;
         dmy.next = head;
-        for (int i = 0; i < n / k; i++) {
+        for (int i = 0; i < n / k; i++) { // pre->...->cur->suc => pre->suc->...->cur
             ListNode cur = pre.next;
-            for (int j = 1; j < k; j++) {
+            for (int j = 1; j < k; j++) { // reverse k-1 times in head-insert way
                 ListNode suc = cur.next;
                 cur.next = suc.next;
                 suc.next = pre.next;
