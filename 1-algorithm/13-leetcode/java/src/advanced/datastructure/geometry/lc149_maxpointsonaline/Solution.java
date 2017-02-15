@@ -12,12 +12,43 @@ import java.util.Map;
  */
 public class Solution {
 
-    // O(N^2) time, O(N) space
+    // O(N^2) time, O(N) space: Calculate max points on a line from a point one by one
     // local= #max points of line crossing p[i] (exclude p[i])
     // dup= #same points as p[i]
     // local max = local + dup + 1
     // global max = max(global max, local max)
     public int maxPoints(Point[] points) {
+        int max = 0, n = points.length;
+        for (int i = 0; i < n; i++) {
+            Map<String, Integer> map = new HashMap<>();
+            int dup = 0, local = 0;
+            for (int j = i + 1; j < n; j++) {
+                int x = points[j].x - points[i].x;
+                int y = points[j].y - points[i].y;
+                int d = gcd(x, y);
+                if (d == 0) {
+                    dup++;
+                } else {
+                    String slope = (x / d) + "_" + (y / d);
+                    map.put(slope, map.getOrDefault(slope, 0) + 1);
+                    local = Math.max(local, map.get(slope));
+                }
+            }
+            max = Math.max(max, local + dup + 1);
+        }
+        return max;
+    }
+
+    private int gcd2(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
+    // O(N^2) time, O(N) space
+    // local= #max points of line crossing p[i] (exclude p[i])
+    // dup= #same points as p[i]
+    // local max = local + dup + 1
+    // global max = max(global max, local max)
+    public int maxPoints1(Point[] points) {
         if (points.length <= 2) return points.length;
         int max = 0;
         for (int i = 0; i < points.length - 1; i++) {
