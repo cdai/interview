@@ -37,19 +37,20 @@ public class Solution {
     // Note disadvantage of DP:
     // Bottom-up DP incurs many useless sub-solutions even if it reduces repeating computation
     // Since we have no idea which sub-solution would be used by upper level, all are computed
+    // Why? Because comparing with Rod Cutting problem, it's not all positions of this problem is "cutable"
     public List<String> wordBreak(String s, List<String> dict) {
         int n = s.length();
         if (memo == null) memo = new List[n + 1];
         if (memo[n] != null) return memo[n];
 
         List<String> ret = new ArrayList<>();
-        for (int i = 0; i < n; i++) { // from s[0,n) to s[n-1,n)
-            String suff = s.substring(i);
-            if (!dict.contains(suff)) continue;
-            if (i == 0) ret.add(suff); // base case
+        for (int i = 0; i < n; i++) {   // From entire s to one char. Why?
+            String suf = s.substring(i);// Because memo save solution of prefix. Why?
+            if (!dict.contains(suf)) continue; // Otherwise memo is useless if recurse with suffix
+            if (i == 0) ret.add(s);     // Base case: pre=""
             else {
-                for (String pref : wordBreak(s.substring(0, i), dict))
-                    ret.add(pref + " " + suff);
+                for (String pre : wordBreak(s.substring(0, i), dict))
+                    ret.add(pre + " " + suf);
             }
         }
         memo[n] = ret;
