@@ -53,11 +53,10 @@ public class Solution {
     // 3AC.
     // My 2nd: O(N) time, from <Programming Pearls>, but this one is hard to come up
     public int maxSubArray_pearls(int[] nums) {
-        if (nums.length == 0) return 0;
-        int maxSoFar = nums[0], maxEndHere = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            maxEndHere = Math.max(maxEndHere + nums[i], nums[i]); // discard maxEnd
-            maxSoFar = Math.max(maxSoFar, maxEndHere); // global max
+        int maxSoFar = Integer.MIN_VALUE, maxEndHere = 0;
+        for (int num : nums) {
+            maxEndHere = Math.max(maxEndHere + num, num);   // discard maxEnd or not
+            maxSoFar = Math.max(maxSoFar, maxEndHere);      // global max
         }
         return maxSoFar;
     }
