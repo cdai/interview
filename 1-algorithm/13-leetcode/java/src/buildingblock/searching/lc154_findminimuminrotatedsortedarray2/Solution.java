@@ -13,7 +13,7 @@ public class Solution {
             int m = l + (r - l) / 2;
             if (nums[m] > nums[r]) l = m + 1;
             else if (nums[m] < nums[r]) r = m;
-            else r--;
+            else r--; // safe since nums[m]==nums[r]
         }
         return nums[l];
     }
