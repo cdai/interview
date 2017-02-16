@@ -8,18 +8,40 @@ package buildingblock.searching.lc033_searchinrotatedsortedarray;
  */
 public class Solution {
 
+    // Note A[l] <= A[m]!! Edge case: [3,1],1.
+    // l=m=r-1: A[l]=A[m]=3<>target, then inner if not work, go l=m+1 which is correct!
+    // l=m=r: A[l]=A[m]=A[r]=target=1
     public int search(int[] A, int target) {
         int l = 0, r = A.length - 1;
         while (l <= r) { /* invariant: target in [l,r] */
             int m = l + (r - l) / 2;
             if (A[m] == target) return m;
-            if (A[l] < A[m]) {
+            if (A[l] <= A[m]) {
                 if (A[l] <= target && target < A[m]) r = m - 1;
                 else l = m + 1;
             } else { /* must at least one half is not rotated */
                 if (A[m] < target && target <= A[r]) l = m + 1;
                 else r = m - 1;
             }
+        }
+        return -1;
+    }
+
+    public int search31(int[] A, int target) {
+        // Find pivot (smallest)
+        int n = A.length, l = 0, r = n - 1;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (A[m] > A[r]) l = m + 1;
+            else r = m;
+        }
+        // Compare target with "real" mid number by pivot
+        int pv = l;
+        for (l = 0, r = n - 1; l <= r;) {
+            int m = l + (r - l) / 2, rm = (m + pv) % n;
+            if (A[rm] == target) return rm;
+            if (A[rm] < target) l = m + 1;
+            else r = m - 1;
         }
         return -1;
     }
