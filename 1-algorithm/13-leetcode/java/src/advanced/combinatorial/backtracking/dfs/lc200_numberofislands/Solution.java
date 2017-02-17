@@ -68,13 +68,15 @@ public class Solution {
         return circles[cur];
     }
 
-    // My 2AC: O(N^2) time, O(N) space
-    public int numIslands2(char[][] grid) {
-        int islands = 0;
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
+    // My 3AC.
+    // My 2AC: O(N^2) time, (why O(N) space?)
+    public int numIslands3(char[][] grid) {
+        if (grid.length == 0 || grid[0].length == 0) return 0;
+        int islands = 0, m = grid.length, n = grid[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 if (grid[i][j] == '1') {
-                    dfsMark(grid, i, j);
+                    dfsMark(grid, i, j, m, n);
                     islands++;
                 }
             }
@@ -82,15 +84,13 @@ public class Solution {
         return islands;
     }
 
-    private void dfsMark(char[][] grid, int i, int j) {
-        if (i < 0 || i >= grid.length || j < 0 || j >= grid[i].length) return;
-        if (grid[i][j] != '1') return;
-
-        grid[i][j] = 'X';
-        dfsMark(grid, i, j + 1);
-        dfsMark(grid, i + 1, j);
-        dfsMark(grid, i, j - 1);
-        dfsMark(grid, i - 1, j);
+    private void dfsMark(char[][] grid, int x, int y, int m, int n) {
+        if (x < 0 || x >= m || y < 0 || y >= n || grid[x][y] != '1') return;
+        grid[x][y] = 'x';
+        dfsMark(grid, x + 1, y, m, n);
+        dfsMark(grid, x - 1, y, m, n);
+        dfsMark(grid, x, y + 1, m, n);
+        dfsMark(grid, x, y - 1, m, n);
     }
 
     // My 1AC: not clear enough...
