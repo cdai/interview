@@ -2,57 +2,61 @@ package advanced.datastructure.random.lc381_insertdeletegetrandomo1duplicatesall
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Design a data structure that supports all following operations in average O(1) time.
  * Note: Duplicate elements are allowed.
  */
 public class RandomizedCollection {
-
-    private Map<Integer,Integer> data;
-
-    private List<Integer> index;
-
-    private java.util.Random rand;
+    private Random rand = new Random();
+    private List<Integer> list = new ArrayList<>();
+    private Map<Integer,Set<Integer>> bag = new HashMap<>();
 
     /** Initialize your data structure here. */
-    public RandomizedCollection() {
-        this.data = new HashMap<>();
-        this.index = new ArrayList<>();
-        this.rand = new java.util.Random();
-    }
+    public RandomizedCollection() {}
 
     /** Inserts a value to the collection. Returns true if the collection did not already contain the specified element. */
     public boolean insert(int val) {
-        Integer cnt = data.get(val);
-        if (cnt == null) {
-            cnt = 0;
+        boolean isNew = false;
+        if (!bag.containsKey(val)) {
+            bag.put(val, new HashSet<>());
+            isNew = true;
         }
-        data.put(val, cnt + 1);
-        index.add(val);
-        return cnt == 0;
+        bag.get(val).add(list.size());
+        list.add(val);
+        return isNew;
     }
 
     /** Removes a value from the collection. Returns true if the collection contained the specified element. */
     public boolean remove(int val) {
-        Integer cnt = data.get(val);
-        if (cnt == null) {
-            return false;
+        if (bag.containsKey(val)) {
+            int idx = bag.get(val).iterator().next();
+            bag.get(val).remove(idx);
+            // Copy last one to deleted position
+            if (idx < list.size() - 1) {
+                int lastval = list.get(list.size() - 1);
+                bag.get(lastval).remove(list.size() - 1);
+                bag.get(lastval).add(idx);
+                list.set(idx, lastval);
+            }
+            // Delete last one
+            list.remove(list.size() - 1);
+            if (bag.get(val).isEmpty()) {
+                bag.remove(val);
+            }
+            return true;
         }
-        if (cnt == 1) {
-            data.remove(val);
-        } else {
-            data.put(val, cnt - 1);
-        }
-        index.remove((Integer) val);
-        return true;
+        return false;
     }
 
     /** Get a random element from the collection. */
     public int getRandom() {
-        return index.get(rand.nextInt(index.size()));
+        return list.get(rand.nextInt(list.size()));
     }
 }
 
