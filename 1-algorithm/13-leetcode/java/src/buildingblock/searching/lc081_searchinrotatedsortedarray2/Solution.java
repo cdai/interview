@@ -28,6 +28,7 @@ public class Solution {
     }
 
     // My 3AC: O(N) worst
+    // l=m=r-1 fall into last else which is correct!
     public boolean search3(int[] A, int t) {
         int l = 0, r = A.length - 1;
         while (l <= r) {
