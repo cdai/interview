@@ -28,24 +28,25 @@ public class Solution {
         System.out.println(clone);
     }
 
+    // 4AC.
     // Invariant: copy children and put into copies cache. push child to queue if not visited yet.
     public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
         if (node == null) return null;
+        Map<UndirectedGraphNode,UndirectedGraphNode> vis = new HashMap<>();
         Queue<UndirectedGraphNode> q = new LinkedList<>();
         q.offer(node);
-        Map<Integer, UndirectedGraphNode> copies = new HashMap<>();
-        copies.put(node.label, new UndirectedGraphNode(node.label));
+        vis.put(node, new UndirectedGraphNode(node.label));
         while (!q.isEmpty()) {
-            UndirectedGraphNode old = q.poll(), cpy = copies.get(old.label);
-            for (UndirectedGraphNode n : old.neighbors) {
-                if (!copies.containsKey(n.label)) {
-                    copies.put(n.label, new UndirectedGraphNode(n.label)); // must clone child here
-                    q.offer(n);
+            UndirectedGraphNode par = q.poll();
+            for (UndirectedGraphNode nb : par.neighbors) {
+                if (!vis.containsKey(nb)) {
+                    vis.put(nb, new UndirectedGraphNode(nb.label));
+                    q.offer(nb);
                 }
-                cpy.neighbors.add(copies.get(n.label));
+                vis.get(par).neighbors.add(vis.get(nb));
             }
         }
-        return copies.get(node.label);
+        return vis.get(node);
     }
 
     // My 3AC. BFS solution
@@ -70,21 +71,20 @@ public class Solution {
         return visit.get(node.label);
     }
 
+    // 4AC.
     // O(N) time
     public UndirectedGraphNode cloneGraph_dfs(UndirectedGraphNode node) {
         if (node == null) return null;
         return dfs(node, new HashMap<>());
     }
 
-    private UndirectedGraphNode dfs(UndirectedGraphNode node,
-                                    Map<Integer,UndirectedGraphNode> copies) {
-        if (copies.containsKey(node.label)) return copies.get(node.label);
-
+    private UndirectedGraphNode dfs(UndirectedGraphNode node, Map<Integer,UndirectedGraphNode> vis) {
+        if (vis.containsKey(node.label)) return vis.get(node.label);
         UndirectedGraphNode cpy = new UndirectedGraphNode(node.label);
-        copies.put(cpy.label, cpy);
-
-        for (UndirectedGraphNode n : node.neighbors)
-            cpy.neighbors.add(dfs(n, copies));
+        vis.put(cpy.label, cpy);
+        for (UndirectedGraphNode nb : node.neighbors) {
+            cpy.neighbors.add(dfs(nb, vis));
+        }
         return cpy;
     }
 
