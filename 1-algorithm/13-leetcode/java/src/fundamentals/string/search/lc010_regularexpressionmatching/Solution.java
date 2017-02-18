@@ -42,15 +42,14 @@ public class Solution {
         int m = s.length(), n = p.length();
         boolean[][] dp = new boolean[m + 1][n + 1];
         dp[0][0] = true;
-        for (int j = 1; j < n; j += 2) // base case: s="", but p=?*?*...
-            dp[0][j + 1] = (p.charAt(j) == '*') && dp[0][j - 1];
-
+        for (int j = 2; j <= n && p.charAt(j - 1) == '*'; j += 2) dp[0][j] = true;
         for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
-                if (p.charAt(j - 1) == '*') {/* must have j >= 2, p[0]='*' is invalid */
-                    dp[i][j] |= dp[i][j - 2] || (dp[i - 1][j] && match(s.charAt(i - 1), p.charAt(j - 2))); // star repeats 0 or >= 1 times
+                char sc = s.charAt(i - 1), pc = p.charAt(j - 1);
+                if (pc == '*') {
+                    dp[i][j] = dp[i][j - 2] || (dp[i - 1][j] && match(sc, p.charAt(j - 2)));
                 } else {
-                    dp[i][j] |= dp[i - 1][j - 1] && match(s.charAt(i - 1), p.charAt(j - 1));
+                    dp[i][j] = dp[i - 1][j - 1] && match(sc, pc);
                 }
             }
         }
