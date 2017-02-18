@@ -5,20 +5,26 @@ package fundamentals.string.search.lc044_wildcardmatching;
  */
 public class Solution {
 
+    // 3AC.
     // O(MN) DP solution.
+    //    X  a  *  c
+    // X [T, F, F, F]
+    // a [F, T, T, F]  (* match zero -> T which makes all following T in the column)
+    // a [F, F, T, F]
+    // b [F, F, T, F]
+    // c [F, F, T, T]  (T on diagonal make final T)
     public boolean isMatch(String s, String p) {
         int m = s.length(), n = p.length();
         boolean[][] dp = new boolean[m + 1][n + 1];
         dp[0][0] = true;
-        for (int j = 1; j <= n && (p.charAt(j - 1) == '*'); j++)
-            dp[0][j] = true;
-
+        for (int j = 1; j <= n && p.charAt(j - 1) == '*'; j++) dp[0][j] = true;
         for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
-                if (p.charAt(j - 1) == '*') {
-                    dp[i][j] = dp[i][j - 1] || dp[i - 1][j]; // match zero or 1+ char (eg. a, aa, abc...)
+                char sc = s.charAt(i - 1), pc = p.charAt(j - 1);
+                if (pc == '*') {
+                    dp[i][j] = dp[i - 1][j] || dp[i][j - 1];// match zero or 1+ char (eg. a, aa, abc...)
                 } else {
-                    dp[i][j] = dp[i - 1][j - 1] && (p.charAt(j - 1) == '?' || p.charAt(j - 1) == s.charAt(i - 1));
+                    dp[i][j] = dp[i - 1][j - 1] && (sc == pc || pc == '?');
                 }
             }
         }
