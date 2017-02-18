@@ -49,7 +49,7 @@ public class Solution {
         }
 
         boolean[] vis = new boolean[n];
-        if (dfs(adj, 0, -1, vis)) return false; // Check if acyclic
+        if (dfs(adj, 0, -1, vis)) return false; // Check if acyclic, par is necessary for undirected graph
 
         for (boolean v : vis) // Check if all connected
             if (!v) return false;
