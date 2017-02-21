@@ -13,6 +13,12 @@ public class Solution {
         return num > 0 && ((num - 1) & num) == 0 && (num & 0xAAAAAAAA) == 0;
     }
 
+    public boolean isPowerOfFour_recursive(int num) {
+        if (num <= 0) return false;
+        if (num == 1) return true;
+        return num % 4 == 0 && isPowerOfFour(num / 4);
+    }
+
     public boolean isPowerOfFour_loop(int num) {
         if (num <= 0) return false;
         while(num % 4 == 0) num /= 4; // remove all factors
