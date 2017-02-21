@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * Check palindrome in data stream
+ * Check palindrome in data stream: http://www.geeksforgeeks.org/online-algorithm-for-checking-palindrome-in-a-stream/
  */
 public class RabinKarpAlg {
 
