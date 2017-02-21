@@ -12,7 +12,7 @@ public class Solution {
     public int maxProfit(int[] prices) {
         int low = Integer.MAX_VALUE, max = 0;
         for (int price : prices) {
-            if (price < low) low = price;
+            if (price < low) low = price; // save lowest meanwhile computing largest gap
             else max = Math.max(max, price - low);
         }
         return max;
