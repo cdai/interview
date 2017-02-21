@@ -13,6 +13,51 @@ public class Solution {
                 new int[]{1, 2, 3, 4, 5}, new int[]{0, 1, 6, 7}));
     }
 
+    // most upvoted. AC but not study yet...
+    public double findMedianSortedArrays4(int[] A1, int[] A2) {
+        int n1 = A1.length, n2 = A2.length;
+        if (n1 > n2) return findMedianSortedArrays(A2, A1);
+        int l = 0, r = n1;
+        while (l <= r) { // A1 shorter => O(log(min(n1,n2)))
+            int r1 = (l + r) / 2, r2 = (n1 + n2 + 1) / 2 - r1;
+            int l1 = r1 - 1, l2 = r2 - 1;
+            if (0 <= l1 && A2[r2] < A1[l1]) r = l1;          /* l1 is too big */
+            else if (r1 < n1 && A1[r1] < A2[l2]) l = r1 + 1; /* r1 is too small */
+            else { /* Ideal case: l1,l2 <= r1,r2 */
+                int m1 = 0, m2 = 0;
+                if (r1 == 0) m1 = A2[l2];
+                else if (r2 == 0) m1 = A1[l1];
+                else m1 = Math.max(A1[l1], A2[l2]);
+
+                if ((n1 + n2) % 2 == 1) return m1;
+                if (r1 == n1) m2 = A2[r2];
+                else if (r2 == n2) m2 = A1[r1];
+                else m2 = Math.min(A1[r1], A2[r2]);
+                return (m1 + m2) / 2.0;
+            }
+        }
+        return -1;
+    }
+
+    // Second most upvoted. AC?
+    public double findMedianSortedArrays3(int[] A1, int[] A2) {
+        int m = A1.length, n = A2.length;
+        if (m > n) return findMedianSortedArrays(A2, A1);
+        if (m == 0) return (A2[(n - 1) / 2] + A2[n / 2]) / 2.0;
+        int l = 0, r = m + n;
+        while (l <= r) {
+            int m1 = (l + r) / 2, m2 = m + n - m1;
+            double l1 = (m1 == 0) ? Integer.MIN_VALUE : A1[(m1 - 1) / 2];
+            double l2 = (m2 == 0) ? Integer.MIN_VALUE : A2[(m2 - 1) / 2];
+            double r1 = (m1 == m * 2) ? Integer.MAX_VALUE : A1[m1 / 2];
+            double r2 = (m2 == m * 2) ? Integer.MAX_VALUE : A2[m2 / 2];
+            if (l1 > r2) l = m1 + 1;
+            else if (l2 > r1) r = m1 - 1;
+            else return (Math.max(l1, l2) + Math.min(r1, r2)) / 2;
+        }
+        return -1;
+    }
+
     public double findMedianSortedArrays(int[] A1, int[] A2) {
         int m = A1.length, n = A2.length;
         int l = (m + n + 1) / 2, r = (m + n + 2) / 2; // potential two median number
