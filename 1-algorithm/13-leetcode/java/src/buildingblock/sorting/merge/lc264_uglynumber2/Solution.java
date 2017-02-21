@@ -21,7 +21,24 @@ public class Solution {
         System.out.println(new Solution().nthUglyNumber3(41));
     }
 
+    // We only know, at the beginning, the first one, which is 1. Then k[1] = min( k[0]x2, k[0]x3, k[0]x5).
+    // The answer is k[0]x2. So we move 2's pointer to 1. Then we test: k[2] = min( k[1]x2, k[0]x3, k[0]x5).
+    // And so on. Be careful about the cases such as 6, in which we need to forward both pointers of 2 and 3.
     public int nthUglyNumber(int n) {
+        int[] nums = new int[n + 1];
+        nums[1] = 1;
+        int i2 = 0, i3 = 0, i5 = 0;
+        int u2 = nums[1], u3 = nums[1], u5 = nums[1];
+        for (int i = 1; i <= n; i++) {
+            nums[i] = Math.min(u2, Math.min(u3, u5));
+            if (nums[i] == u2) u2 = nums[++i2] * 2;
+            if (nums[i] == u3) u3 = nums[++i3] * 3;
+            if (nums[i] == u5) u5 = nums[++i5] * 5;
+        }
+        return nums[n];
+    }
+
+    public int nthUglyNumber4(int n) {
         if (n <= 0) return 0;
         int[] ugly = new int[n + 1];
         ugly[1] = 1;
