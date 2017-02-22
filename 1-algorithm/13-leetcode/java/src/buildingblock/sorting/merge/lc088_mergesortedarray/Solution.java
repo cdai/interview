@@ -7,7 +7,20 @@ package buildingblock.sorting.merge.lc088_mergesortedarray;
  */
 public class Solution {
 
-    public void merge(int[] A, int m, int[] B, int n) {
+    // [],[]  [1],[]  [1,2,3],[2]  [1,2,3],[0]
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        if (nums1.length == 0 || nums2.length == 0 || nums1.length < m + n) return;
+        // Merge nums1 and nums2 to the back of nums1
+        int i = m - 1, j = n - 1;
+        for (int k = m + n - 1; i >= 0 && j >= 0; k--) {
+            nums1[k] = nums1[i] > nums2[j] ? nums1[i--] : nums2[j--];
+        }
+        // Copy remaining elts in nums2 to nums1
+        if (j >= 0) System.arraycopy(nums2, 0, nums1, 0, j + 1);
+    }
+
+    // Concise
+    public void merge4(int[] A, int m, int[] B, int n) {
         for (int i = m - 1, j = n - 1, k = m + n - 1; j >= 0; k--) { // terminate if A empty
             A[k] = (i >= 0 && A[i] > B[j]) ? A[i--] : B[j--]; // Pick larger from B or A is empty
         }
