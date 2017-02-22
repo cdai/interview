@@ -15,9 +15,27 @@ import java.util.Queue;
  */
 public class Solution {
 
+    // Nested loop
+    public List<String> letterCombinations(String digits) {
+        String[] map = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        LinkedList<String> q = new LinkedList<>();
+        if (!digits.isEmpty()) q.offer("");
+        for (int i = 0; i < digits.length(); i++) {
+            for (int j = q.size(); j > 0; j--) {
+                String s = q.poll();
+                String m = map[digits.charAt(i) - '0'];
+                for (int k = 0; k < m.length(); k++) {
+                    q.offer(s + m.charAt(k));
+                }
+            }
+        }
+        return q;
+    }
+
     //private static String[] map = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
 
-    public List<String> letterCombinations(String digits) {
+    // 4AC.
+    public List<String> letterCombinations4(String digits) {
         List<String> ret = new ArrayList<>();
         if (!digits.isEmpty()) {
             dfs(ret, new char[digits.length()], digits, 0);
@@ -67,8 +85,9 @@ public class Solution {
         while (!q.isEmpty()) {
             if (q.peek().length() == digits.length()) break;
             String s = q.poll();
-            for (char c : map[digits.charAt(s.length()) - '0'].toCharArray())
+            for (char c : map[digits.charAt(s.length()) - '0'].toCharArray()) {
                 q.offer(s + c);
+            }
         }
         return q;
     }
