@@ -16,22 +16,22 @@ public class Solution {
         System.out.println(new Solution().findKthLargest(new int[]{1, 5, 2, 3, 10, 7, 11}, 2));
     }
 
-    // 4AC
+    // 4AC. Note that we only shrink the range between l and r but never change k.
     // My 3AC. Simplify variable names.
     public int findKthLargest(int[] A, int k) {
-        k = A.length - k;   // index of k largest
+        k = A.length - k; // convert to index of k largest
         int l = 0, r = A.length - 1;
-        while (l < r) {
-            int m = l;      // choose first element as pivot
-            for (int i = l + 1; i <= r; i++)
-                if (A[i] < A[l]) swap(A, i, ++m);
-            swap(A, l, m);
+        while (l <= r) {
+            int i = l; // partition [l,r] by A[l]: [l,i]<A[l], [i+1,j)>=A[l]
+            for (int j = l + 1; j <= r; j++)
+                if (A[j] < A[l]) swap(A, j, ++i);
+            swap(A, l, i);
 
-            if (k < m) r = m - 1;
-            else if (k > m) l = m + 1;
-            else return A[m];
+            if (k < i) r = i - 1;
+            else if (k > i) l = i + 1;
+            else return A[i];
         }
-        return A[l];
+        return -1;
     }
 
     // Quick select solution from leetcode discuss.
@@ -84,13 +84,15 @@ public class Solution {
 
     // My 2nd: O(NlogK) time, O(K) space
     public int findKthLargest_heap(int[] nums, int k) {
-        Queue<Integer> heap = new PriorityQueue<>();
+        if (nums.length < k) return 0;
+        Queue<Integer> q = new PriorityQueue<>();
         for (int num : nums) {
-            heap.offer(num);
-            if (heap.size() > k)
-                heap.poll();
+            q.offer(num);
+            if (q.size() > k) {
+                q.poll();
+            }
         }
-        return (heap.size() < k) ? -1 : heap.poll();
+        return q.poll();
     }
 
     // My 1st
