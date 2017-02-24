@@ -9,8 +9,17 @@ package miscellaneous.math.statistics.lc268_missingnumber;
  */
 public class Solution {
 
-    // My 2nd
+    // 3AC.
     public int missingNumber(int[] nums) {
+        int missing = 0;
+        for (int i = 1; i <= nums.length; i++) {
+            missing ^= nums[i - 1] ^ i;
+        }
+        return missing;
+    }
+
+    // My 2nd
+    public int missingNumber3(int[] nums) {
         int sum = 0;
         for (int num : nums) sum += num;
         // It should be (1 + N) * N / 2
