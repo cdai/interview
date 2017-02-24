@@ -23,6 +23,7 @@ public class Solution {
         return num == 0 ? "Zero" : num2Word(num);
     }
 
+    // Skill: 1) 3 base cases: 10,100,1000 then recursion 2) trim before return, check zero at last
     // Wonderful solution from leetcode discuss. Beat 97.90!!!
     private String num2Word(int num) {
         String result = "";
