@@ -9,19 +9,22 @@ public class Solution {
         System.out.println(new Solution().countPrimes(5));
     }
 
+    // 3AC.
     // My 2AC: cannot remember optimizing skill...
+    // Prime number: greater than 1, only divisible by 1 and itself
     public int countPrimes(int n) {
-        // 1.Create table
-        boolean[] isNotPrime = new boolean[n];
-        for (int i = 2; i <= n / 2; i++)
-            for (int j = 2; i * j < n; j++)
-                isNotPrime[i * j] = true;
+        boolean[] notPrime = new boolean[n];
+        for (int i = 2; i < n; i++) {
+            for (int j = 2; i * j < n; j++) {
+                notPrime[i * j] = true;
+            }
+        }
 
-        // 2.Count through the table
-        int count = 0;
-        for (int i = 2; i < n; i++)
-            if (!isNotPrime[i]) count++;
-        return count;
+        int cnt = 0;
+        for (int i = 2; i < n; i++) {
+            if (!notPrime[i]) cnt++;
+        }
+        return cnt;
     }
 
     public int countPrimes_optimized(int n) {
