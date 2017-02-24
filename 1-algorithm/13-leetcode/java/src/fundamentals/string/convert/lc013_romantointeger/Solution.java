@@ -11,7 +11,8 @@ public class Solution {
 
     // 4AC
     public int romanToInt(String s) {
-        Map<Character, Integer> r2i = new HashMap<>();
+        if (s.isEmpty()) return 0;
+        Map<Character,Integer> r2i = new HashMap<>();
         r2i.put('I', 1);
         r2i.put('V', 5);
         r2i.put('X', 10);
@@ -20,11 +21,13 @@ public class Solution {
         r2i.put('D', 500);
         r2i.put('M', 1000);
 
-        int num = 0, n = s.length();
-        for (int i = n - 1; i >= 0; i--) {
-            if (i < n - 1 && r2i.get(s.charAt(i)) < r2i.get(s.charAt(i + 1)))
+        int n = s.length(), num = r2i.get(s.charAt(n - 1));
+        for (int i = n - 2; i >= 0; i--) {
+            if (r2i.get(s.charAt(i)) < r2i.get(s.charAt(i + 1))) {
                 num -= r2i.get(s.charAt(i));
-            else num += r2i.get(s.charAt(i));
+            } else {
+                num += r2i.get(s.charAt(i));
+            }
         }
         return num;
     }
