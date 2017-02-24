@@ -20,12 +20,12 @@ public class Solution {
     }
 
     // Extremely simple and straightforward solution
-    public String intToRoman3(int n) {
-        String[] M = { "", "M", "MM", "MMM" };
-        String[] C = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" };
-        String[] X = { "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" };
-        String[] I = { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
-        return M[n / 1000] + C[n % 1000 / 100] + X[n % 100 / 10] + I[n % 10];
+    public String intToRoman3(int num) {
+        String[] ones = " I II III IV V VI VII VIII IX".split(" ");
+        String[] tens = " X XX XXX XL L LX LXX LXXX XC".split(" ");
+        String[] hund = " C CC CCC CD D DC DCC DCCC CM".split(" ");
+        String[] thou = " M MM MMM".split(" ");
+        return thou[num / 1000] + hund[num % 1000 / 100] + tens[num % 100 / 10] + ones[num % 10];
     }
 
     private String[] syms = {
