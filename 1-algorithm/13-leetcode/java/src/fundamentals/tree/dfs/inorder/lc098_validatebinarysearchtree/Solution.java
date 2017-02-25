@@ -25,16 +25,17 @@ public class Solution {
     // My 3AC. Simplify variable name and s.peek()
     public boolean isValidBST(TreeNode root) {
         Stack<TreeNode> s = new Stack<>();
-        TreeNode p = root, prev = null;
+        TreeNode p = root, pre = null;
         while (!s.isEmpty() || p != null) {
             if (p != null) {
                 s.push(p);
                 p = p.left;
             } else {
-                if (prev != null && prev.val >= s.peek().val)
+                if (pre != null && pre.val >= s.peek().val) {
                     return false;
-                prev = s.pop();
-                p = prev.right;
+                }
+                pre = s.pop();
+                p = pre.right;
             }
         }
         return true;
