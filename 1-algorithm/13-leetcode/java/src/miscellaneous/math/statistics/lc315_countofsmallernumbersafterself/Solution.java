@@ -1,4 +1,4 @@
-package fundamentals.tree.bst.lc315_countofsmallernumbersafterself;
+package miscellaneous.math.statistics.lc315_countofsmallernumbersafterself;
 
 import java.util.ArrayList;
 import java.util.Arrays;
