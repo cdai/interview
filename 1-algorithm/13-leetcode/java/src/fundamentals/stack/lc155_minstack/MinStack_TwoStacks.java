@@ -6,15 +6,10 @@ import java.util.Stack;
  */
 public class MinStack_TwoStacks {
 
-    private Stack<Integer> vals;
+    private Stack<Integer> vals = new Stack<>();
+    private Stack<Integer> mins = new Stack<>();
 
-    private Stack<Integer> mins;
-
-    /** initialize your data structure here. */
     public MinStack_TwoStacks() {
-        this.vals = new Stack<>();
-        this.mins = new Stack<>();
-
         mins.push(Integer.MAX_VALUE); // Sentinel
     }
 
