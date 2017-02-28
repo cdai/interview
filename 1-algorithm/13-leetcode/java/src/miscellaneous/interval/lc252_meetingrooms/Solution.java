@@ -1,8 +1,9 @@
-package advanced.greedy.lc252_meetingrooms;
+package miscellaneous.interval.lc252_meetingrooms;
 
 import miscellaneous.interval.Interval;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...]
@@ -24,7 +25,16 @@ public class Solution {
         }));
     }
 
+    // This is essentially disjoint interval problem not greedy problem
     public boolean canAttendMeetings(Interval[] meetings) {
+        Arrays.sort(meetings, Comparator.comparingInt(m -> m.start));
+        for (int i = 1; i < meetings.length; i++) {
+            if (meetings[i - 1].end > meetings[i].start) return false;
+        }
+        return true;
+    }
+
+    public boolean canAttendMeetings2(Interval[] meetings) {
         Arrays.sort(meetings, (m1, m2) -> Integer.compare(m1.end, m2.end));
         Interval prev = null;
         for (Interval m : meetings) {
@@ -34,7 +44,7 @@ public class Solution {
         return true;
     }
 
-    public boolean canAttendMeetings2(Interval[] intervals) {
+    public boolean canAttendMeetings1(Interval[] intervals) {
         if (intervals.length == 0) return false; // Ask interviewer!
         Arrays.sort(intervals, (i1, i2) -> Integer.compare(i1.end, i2.end));
         for (int i = 1; i < intervals.length; i++)
