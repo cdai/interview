@@ -3,6 +3,7 @@ package advanced.greedy.lc253_meetingrooms2;
 import miscellaneous.interval.Interval;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -41,14 +42,20 @@ public class Solution {
         return rooms;
     }
 
+    // [-------] e2         : offer(e2) => rooms=1
+    //   [-------] e3       : offer(e3) => rooms=2
+    //     [---] e1         : offer(e1) => rooms=3
+    //          [----] e4   : compatible with e1,e2, pop them. Because subsequent interval
+    // must be compatible too (e1/e2.end <= e4.start <= e5/e6/...start) => rooms=2
     public int minMeetingRooms2(Interval[] intervals) {
         if (intervals.length == 0) return 0;
-        Arrays.sort(intervals, (a, b) -> Integer.compare(a.start, b.start));
-        Queue<Interval> q = new PriorityQueue<>((a, b) -> Integer.compare(a.end, b.end));
+        Arrays.sort(intervals, Comparator.comparingInt(i -> i.start));
+        Queue<Interval> q = new PriorityQueue<>(Comparator.comparingInt(i -> i.end));
         int rooms = 0;
         for (Interval in : intervals) {
-            while (!q.isEmpty() && in.start >= q.peek().end)
+            while (!q.isEmpty() && q.peek().end <= in.start) {
                 q.poll();
+            }
             q.offer(in);
             rooms = Math.max(rooms, q.size());
         }
