@@ -1,5 +1,7 @@
 package advanced.scan.twopointers.lc167_twosum2;
 
+import java.util.Arrays;
+
 /**
  * Given an array of integers that is already sorted in ascending order, find two numbers such that
  * they add up to a specific target number. The function twoSum should return indices of the two numbers
@@ -11,8 +13,20 @@ package advanced.scan.twopointers.lc167_twosum2;
  */
 public class Solution {
 
-    // My 3AC
+    // O(NlogN) time binary search solution.
     public int[] twoSum(int[] nums, int target) {
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            int j = Arrays.binarySearch(nums, i + 1, n, target - nums[i]);
+            if (j >= 0) {
+                return new int[]{ i + 1, j + 1 };
+            }
+        }
+        return new int[]{ -1, -1 };
+    }
+
+    // My 3AC
+    public int[] twoSum3(int[] nums, int target) {
         for (int i = 0, j = nums.length - 1; i < j; ) {
             if (nums[i] + nums[j] < target) i++;
             else if (nums[i] + nums[j] > target) j--;
