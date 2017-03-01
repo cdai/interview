@@ -1,4 +1,4 @@
-package fundamentals.graph.bfs.reachability.lc126_wordladder2;
+package fundamentals.graph.bfs.shortestpath.lc126_wordladder2;
 
 import java.util.ArrayList;
 import java.util.Arrays;

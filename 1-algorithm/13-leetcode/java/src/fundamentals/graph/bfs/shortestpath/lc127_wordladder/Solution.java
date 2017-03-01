@@ -1,8 +1,9 @@
-package fundamentals.graph.bfs.reachability.lc127_wordladder;
+package fundamentals.graph.bfs.shortestpath.lc127_wordladder;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
@@ -26,17 +27,41 @@ public class Solution {
 
     public static void main(String[] args) {
         System.out.println(new Solution().ladderLength("hit","hit",
-                new HashSet<>(Arrays.asList("hot"))));
+                Arrays.asList("hot")));
 
         System.out.println(new Solution().ladderLength("hit","cog",
-                new HashSet<>(Arrays.asList("hot", "dot", "dog", "lot", "log"))));
+                Arrays.asList("hot", "dot", "dog", "lot", "log")));
+    }
+
+    // 5AC.
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> dict = new HashSet<>(wordList);
+        Queue<String> q = new LinkedList<>();
+        if (dict.add(endWord)) return 0; // add end word to dict to make it reachable
+        q.offer(beginWord);
+        for (int len = 1; !q.isEmpty(); len++) {
+            for (int i = q.size(); i > 0; i--) {
+                String w = q.poll();
+                if (w.equals(endWord)) return len;
+
+                for (int j = 0; j < w.length(); j++) { // suppose dictionary is large
+                    char[] ch = w.toCharArray();
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        ch[j] = c;
+                        String nb = String.valueOf(ch);
+                        if (dict.remove(nb)) q.offer(nb);
+                    }
+                }
+            }
+        }
+        return 0;
     }
 
     // 1) It's much faster than one-end search indeed as explained in wiki.
-    // 2) BFS isn't equivalent to Queue. Sometimes Set is more accurate representation for nodes of level.
-    // 3) It's safe to share a visited set for both ends since if they meet same string it terminates early.
+    // 2) BFS isn't equivalent to Queue. Sometimes Set is more accurate representation for nodes of level. (also handy since we need to check if we meet from two ends)
+    // 3) It's safe to share a visited set for both ends since if they meet same string it terminates early. (vis is useful since we cannot remove word from dict due to bidirectional search)
     // 4) It seems like if(set.add()) is a little slower than if(!contains()) then add().
-    public int ladderLength(String start, String end, Set<String> dict) {
+    public int ladderLength_bidirection(String start, String end, Set<String> dict) {
         Set<String> qs = new HashSet<>(), qe = new HashSet<>(), vis = new HashSet<>(); // safe to share visited set
         if (!start.isEmpty()) qs.add(start);
         if (!end.isEmpty()) qe.add(end);
