@@ -31,6 +31,17 @@ public class Solution {
         return copy;
     }
 
+    // 245-Subtree: O(mn)
+    public boolean isSubtree(TreeNode t1, TreeNode t2) {
+        if (t1 == null) return t1 == t2;
+        return identical(t1, t2) || isSubtree(t1.left, t2) || isSubtree(t1.right, t2);
+    }
+
+    private boolean identical(TreeNode t1, TreeNode t2) {
+        if (t1 == null || t2 == null) return t1 == t2;
+        return t1.val == t2.val && identical(t1.left, t2.left) && identical(t1.right, t2.right);
+    }
+
     // 469-Identical Binary Tree (Same Tree)
     // [][], [][b], [a][], [a][a]...
     public boolean isIdentical(TreeNode a, TreeNode b) {
