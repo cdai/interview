@@ -35,16 +35,17 @@ public class Solution {
     // Minor improvement on duplicates bypass from leetcode discuss
     // A little faster than previous
     public List<List<Integer>> threeSum3(int[] nums) {
-        Arrays.sort(nums);
         List<List<Integer>> result = new ArrayList<>();
-        for (int i = 0; i < nums.length - 2; i++) {
-            if (i > 0 && nums[i - 1] == nums[i]) continue; // Bypass-1: skip duplicate using this trick!
-            for (int l = i + 1, r = nums.length - 1; l < r; ) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        for (int i = 0; i < n - 2; i++) {
+            if (i > 0 && nums[i - 1] == nums[i]) continue; // Bypass duplicate!
+            for (int l = i + 1, r = n - 1; l < r; ) {
                 if (nums[i] + nums[l] + nums[r] < 0) l++;
                 else if (nums[i] + nums[l] + nums[r] > 0) r--;
                 else {
                     result.add(Arrays.asList(nums[i], nums[l++], nums[r--]));
-                    while (l < r && nums[l] == nums[l - 1]) l++; // Bypass-2!
+                    while (l < r && nums[l] == nums[l - 1]) l++; // Bypass duplicate!
                     while (l < r && nums[r] == nums[r + 1]) r--;
                 }
             }
