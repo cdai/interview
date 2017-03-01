@@ -59,18 +59,18 @@ public class Solution {
     // This is much faster than BFS version?! Beat 85%!!!
     public List<List<Integer>> levelOrder_dfs(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
-        doLevelOrder(result, root, 0);
+        dfs(result, root, 0);
         return result;
     }
 
-    private void doLevelOrder(List<List<Integer>> result, TreeNode root, int depth) {
+    private void dfs(List<List<Integer>> result, TreeNode root, int depth) {
         if (root == null) return;
-        if (result.size() <= depth)
+        if (result.size() <= depth) {
             result.add(new ArrayList<>());
-
+        }
         result.get(depth).add(root.val);
-        doLevelOrder(result, root.left, depth + 1);
-        doLevelOrder(result, root.right, depth + 1);
+        dfs(result, root.left, depth + 1);
+        dfs(result, root.right, depth + 1);
     }
 
     // My 1st
