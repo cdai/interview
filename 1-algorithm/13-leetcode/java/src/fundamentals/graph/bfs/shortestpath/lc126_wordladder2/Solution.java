@@ -26,14 +26,47 @@ public class Solution {
 
     public static void main(String[] args) {
         System.out.println(new Solution().findLadders("hit", "cog",
-                new HashSet<>(Arrays.asList("hot", "dot", "dog", "lot", "log"))));
+                Arrays.asList("hot", "dot", "dog", "lot", "log")));
         System.out.println(new Solution().findLadders("red", "tax",
-                new HashSet<>(Arrays.asList("ted","tex","red","tax","tad","den","rex","pee"))));
+                Arrays.asList("ted","tex","red","tax","tad","den","rex","pee")));
         System.out.println(new Solution().findLadders("hot", "dog",
-                new HashSet<>(Arrays.asList("hot","dog"))));
+                Arrays.asList("hot","dog")));
     }
 
-    public List<List<String>> findLadders(String start, String end, Set<String> dict) {
+    // Naive solution: almost TLE
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+        List<List<String>> ret = new ArrayList<>();
+        Queue<List<String>> q = new LinkedList<>();
+        Set<String> dict = new HashSet<>(wordList);
+        q.offer(Arrays.asList(beginWord));
+        while (!q.isEmpty() && ret.isEmpty()) { // q could be NOT empty when ret has elts if w==endWord not appear first
+            Set<String> vis = new HashSet<>();
+            for (int i = q.size(); i > 0; i--) {
+                List<String> path = q.poll();
+                String w = path.get(path.size() - 1);
+                if (w.equals(endWord)) ret.add(path); // "steal" path from queue and enter "exit" mode
+
+                for (int j = 0; j < w.length(); j++) {
+                    char[] ch = w.toCharArray();
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        if (c == w.charAt(j)) continue;
+                        ch[j] = c;
+                        String nb = String.valueOf(ch);
+                        if (!dict.contains(nb)) continue;
+
+                        List<String> next = new ArrayList<>(path);
+                        next.add(nb);
+                        q.offer(next);
+                        vis.add(nb);
+                    }
+                }
+            }
+            dict.removeAll(vis);// Nice trick: How to avoid cycle meanwhile find all shortest path?
+        }                       // Allow for duplicate on same level, but remove to avoid visit repeatedly
+        return ret;
+    }
+
+    public List<List<String>> findLadders2(String start, String end, Set<String> dict) {
         Queue<List<String>> q = new LinkedList<>();
         if (!start.isEmpty()) q.offer(Arrays.asList(start));
         dict.add(end);
@@ -68,7 +101,7 @@ public class Solution {
     }
 
     // My 2AC
-    public List<List<String>> findLadders2(String beginWord, String endWord, Set<String> wordList) {
+    public List<List<String>> findLadders21(String beginWord, String endWord, Set<String> wordList) {
         Queue<String> queue = new LinkedList<>();
         queue.offer(beginWord);
         wordList.add(endWord);

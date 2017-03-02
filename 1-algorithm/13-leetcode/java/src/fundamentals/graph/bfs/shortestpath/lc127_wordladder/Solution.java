@@ -35,21 +35,21 @@ public class Solution {
 
     // 5AC.
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        Set<String> dict = new HashSet<>(wordList);
+        Set<String> dict = new HashSet<>(wordList), vis = new HashSet<>();
         Queue<String> q = new LinkedList<>();
-        if (dict.add(endWord)) return 0; // add end word to dict to make it reachable
         q.offer(beginWord);
         for (int len = 1; !q.isEmpty(); len++) {
             for (int i = q.size(); i > 0; i--) {
                 String w = q.poll();
                 if (w.equals(endWord)) return len;
 
-                for (int j = 0; j < w.length(); j++) { // suppose dictionary is large
+                for (int j = 0; j < w.length(); j++) {
                     char[] ch = w.toCharArray();
                     for (char c = 'a'; c <= 'z'; c++) {
+                        if (c == w.charAt(j)) continue;
                         ch[j] = c;
                         String nb = String.valueOf(ch);
-                        if (dict.remove(nb)) q.offer(nb);
+                        if (dict.contains(nb) && vis.add(nb)) q.offer(nb);
                     }
                 }
             }
@@ -61,27 +61,26 @@ public class Solution {
     // 2) BFS isn't equivalent to Queue. Sometimes Set is more accurate representation for nodes of level. (also handy since we need to check if we meet from two ends)
     // 3) It's safe to share a visited set for both ends since if they meet same string it terminates early. (vis is useful since we cannot remove word from dict due to bidirectional search)
     // 4) It seems like if(set.add()) is a little slower than if(!contains()) then add().
-    public int ladderLength_bidirection(String start, String end, Set<String> dict) {
-        Set<String> qs = new HashSet<>(), qe = new HashSet<>(), vis = new HashSet<>(); // safe to share visited set
-        if (!start.isEmpty()) qs.add(start);
-        if (!end.isEmpty()) qe.add(end);
-
-        for (int i = 2; !qs.isEmpty() && !qe.isEmpty(); i++) {
-            Set<String> next = new HashSet<>();
+    public int ladderLength_bidirectional(String beginWord, String endWord, List<String> wordList) {
+        Set<String> dict = new HashSet<>(wordList), qs = new HashSet<>(), qe = new HashSet<>(), vis = new HashSet<>();
+        qs.add(beginWord);
+        if (dict.contains(endWord)) qe.add(endWord); // all transformed words must be in dict (including endWord, except beginWord)
+        for (int len = 2; !qs.isEmpty(); len++) {
+            Set<String> nq = new HashSet<>();
             for (String w : qs) {
-                char[] ch = w.toCharArray();
-                for (int j = 0; j < ch.length; j++) {
+                for (int j = 0; j < w.length(); j++) {
+                    char[] ch = w.toCharArray();
                     for (char c = 'a'; c <= 'z'; c++) {
+                        if (c == w.charAt(j)) continue; // beginWord and endWord not the same, so bypass itself
                         ch[j] = c;
-                        String ns = String.valueOf(ch);
-                        if (qe.contains(ns)) return i; // meet from two ends
-                        if (dict.contains(ns) && vis.add(ns)) next.add(ns);
+                        String nb = String.valueOf(ch);
+                        if (qe.contains(nb)) return len; // meet from two ends
+                        if (dict.contains(nb) && vis.add(nb)) nq.add(nb); // not meet yet, vis is safe to use
                     }
-                    ch[j] = w.charAt(j);
                 }
             }
-            qs = (next.size() < qe.size()) ? next : qe; // switch to small one to traverse from other end
-            qe = (qs == qe) ? next : qe;
+            qs = (nq.size() < qe.size()) ? nq : qe; // switch to small one to traverse from other end
+            qe = (qs == nq) ? qe : nq;
         }
         return 0;
     }
