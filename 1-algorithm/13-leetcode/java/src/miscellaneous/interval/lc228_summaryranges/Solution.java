@@ -9,9 +9,22 @@ import java.util.List;
  */
 public class Solution {
 
+    // j is start index, i is end.
+    public List<String> summaryRanges(int[] nums) {
+        List<String> ret = new ArrayList<>();
+        int n = nums.length;
+        for (int i = 1, j = 0; i <= n; i++) {
+            if (i == n || nums[i - 1] != nums[i] - 1) {
+                ret.add(j == i - 1 ? nums[j] + "" : nums[j] + "->" + nums[i - 1]);
+                j = i;
+            }
+        }
+        return ret;
+    }
+
     // My 3AC: check from/prev backward at nums[i]
     // from: start point of range, prev: previous num for consecutive check
-    public List<String> summaryRanges(int[] nums) {
+    public List<String> summaryRanges3(int[] nums) {
         if (nums.length == 0) return new ArrayList<>();
 
         List<String> ranges = new ArrayList<>();
