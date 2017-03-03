@@ -3,51 +3,42 @@ package advanced.datastructure.random.lc384_shuffleanarray;
 import java.util.Random;
 
 /**
- * Shuffle a set of numbers without duplicates.
- * Example:
- *  // Init an array with set 1, 2, and 3.
- *  int[] nums = {1,2,3};
- *  Solution solution = new Solution(nums);
- *  // Shuffle the array [1,2,3] and return its result. Any permutation of [1,2,3] must equally likely to be returned.
- *  solution.shuffle();
- *  // Resets the array back to its original configuration [1,2,3].
- *  solution.reset();
- *  // Returns the random shuffling of array [1,2,3].
- *  solution.shuffle();
  */
 public class Solution {
 
     private int[] nums;
-
-    private int[] shuffled;
-
-    private Random rand;
+    private Random rand = new Random();
 
     public Solution(int[] nums) {
         this.nums = nums;
-        this.shuffled = new int[nums.length];
-        this.rand = new Random();
-        reset();
     }
 
-    /** Resets the array to its original configuration and return it. */
+    // Nice use of clone (Almost exclusive use of clone)
     public int[] reset() {
-        System.arraycopy(nums, 0, shuffled, 0, nums.length);
-        return shuffled;
+        return nums.clone();
     }
 
-    // P[ith elet goes to 1st position] = 1/n
-    // P[ith elet goes to 2st position] = n-1/n (i doesn't move in last round) * 1/n-1 = 1/n
-    // ...
-    /** Returns a random shuffling of the array. */
+    // Goal: Any permutation of nums array must equally likely to be returned
+    // Prove: arbitrary element i goes to every position with same probability
+    // Elt-i goes to last position = 1/n
+    // Elt-i goes to second last position
+    //   for elt-(n-1):      (n-1)/n       *      1/(n-1)
+    //                  swapped last round   picked again in this round
+    //   for elt-(0~n-2):    (n-1)/n       *      1/(n-1)
+    //                  stay in last round   picked in this round
     public int[] shuffle() {
-        for (int i = 0; i < shuffled.length; i++) {
-            int idx = rand.nextInt(shuffled.length - i);
-            int tmp = shuffled[i];
-            shuffled[i] = shuffled[i + idx];
-            shuffled[i + idx] = tmp;
+        int[] cpy = reset();
+        for (int i = cpy.length - 1; i > 0; i--) {
+            int j = rand.nextInt(i + 1); // j=[0,i)
+            swap(cpy, i, j);
         }
-        return shuffled;
+        return cpy;
+    }
+
+    private void swap(int[] A, int i, int j) {
+        int tmp = A[i];
+        A[i] = A[j];
+        A[j] = tmp;
     }
 
 }

@@ -3,6 +3,7 @@ package others.ood;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * CCI Deck of Cards and Blackjack game.
@@ -76,7 +77,14 @@ class Deck<T extends Card> {
 
     public void shuffle() {
         dealtIdx = 0;
-        Collections.shuffle(cards);
+        //Collections.shuffle(cards);
+        Random rand = new Random();
+        for (int i = cards.size() - 1; i > 0; i--) {
+            int j = rand.nextInt(i + 1);
+            T tmp = cards.get(i);
+            cards.set(i, cards.get(j));
+            cards.set(j, tmp);
+        }
     }
 
     public int remaining() {
