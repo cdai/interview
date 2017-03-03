@@ -25,11 +25,11 @@ public class Solution {
         return root;
     }
 
-    // My 3AC. Nice iterative solution with O(N) time and O(1) space.
+    // My 3AC. Nice iterative solution with O(h) time and O(1) space.
     public TreeNode lowestCommonAncestor3(TreeNode root, TreeNode p, TreeNode q) {
         while (true) { // assume root,p,q are non-null
-            if (root.val > p.val && root.val > q.val) root = root.left;
-            else if (root.val < p.val && root.val < q.val) root = root.right;
+            if (Math.max(p.val, q.val) < root.val) root = root.left;
+            else if (root.val < Math.min(p.val, q.val)) root = root.right;
             else return root;
         }
     }
