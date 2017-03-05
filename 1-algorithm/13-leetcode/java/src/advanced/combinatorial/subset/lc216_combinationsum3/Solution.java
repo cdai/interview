@@ -11,8 +11,26 @@ import java.util.List;
  */
 public class Solution {
 
-    // My 2nd: O(9!) time, O(K) space
     public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> ret = new ArrayList<>();
+        dfs(ret, new ArrayList<>(), k, n, 1);
+        return ret;
+    }
+
+    private void dfs(List<List<Integer>> ret, List<Integer> path, int k, int n, int start) {
+        if (n <= 0 || k <= 0) {
+            if (n == 0 && k == 0) ret.add(new ArrayList<>(path));
+            return;
+        }
+        for (int i = start; i <= 9; i++) {
+            path.add(i);
+            dfs(ret, path, k - 1, n - i, i + 1);
+            path.remove(path.size() - 1);
+        }
+    }
+
+    // My 2nd: O(9!) time, O(K) space
+    public List<List<Integer>> combinationSum3_2(int k, int n) {
         List<List<Integer>> result = new ArrayList<>();
         doCombineSum(result, new ArrayList<>(), k, n, 1);
         return result;
