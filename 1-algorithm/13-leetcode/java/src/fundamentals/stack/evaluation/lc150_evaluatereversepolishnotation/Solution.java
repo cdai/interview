@@ -14,6 +14,20 @@ public class Solution {
     public int evalRPN(String[] tokens) {
         Stack<Integer> s = new Stack<>();
         for (String t : tokens) {
+            if ("+".equals(t)) s.push(s.pop() + s.pop());
+            else if ("-".equals(t)) s.push(-s.pop() + s.pop());
+            else if ("*".equals(t)) s.push(s.pop() * s.pop());
+            else if ("/".equals(t)) {
+                int div = s.pop();
+                s.push(s.pop() / div);
+            } else s.push(Integer.parseInt(t));
+        }
+        return s.pop();
+    }
+
+    public int evalRPN3(String[] tokens) {
+        Stack<Integer> s = new Stack<>();
+        for (String t : tokens) {
             switch (t) {
                 case "+": s.push(s.pop() + s.pop()); break;
                 case "*": s.push(s.pop() * s.pop()); break;
