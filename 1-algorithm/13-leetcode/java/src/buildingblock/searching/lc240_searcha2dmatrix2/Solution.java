@@ -32,10 +32,22 @@ public class Solution {
     // Then the path of search is just like to traverse the BST until we reach the target node.
     public boolean searchMatrix(int[][] A, int target) {
         if (A.length == 0 || A[0].length == 0) return false;
-        for (int i = A.length - 1, j = 0; i >= 0 && j < A[0].length; ) {
-            if (A[i][j] == target) return true;
-            if (A[i][j] > target) i--;
-            else j++;
+        int m = A.length, n = A[0].length;
+        int row = m - 1, col = 0;
+        while (0 <= row && col < n) {
+            if (A[row][col] == target) return true;
+            if (A[row][col] < target) col++;
+            else row--;
+        }
+        return false;
+    }
+
+    // O(MlogN) solution
+    public boolean searchMatrix4(int[][] A, int target) {
+        if (A.length == 0 || A[0].length == 0) return false;
+        int m = A.length;
+        for (int i = 0; i < m; i++) {
+            if (Arrays.binarySearch(A[i], target) >= 0) return true;
         }
         return false;
     }
