@@ -33,9 +33,9 @@ public class Solution {
     // "To find a successor, you just need to find the smallest one that is larger than the given value.
     // Since there are no duplicate values in a BST. It just like the binary search in a sorted list."
 
-    // Equivalent find insert position for x
+    // O(h) time. Equivalent find insert position for x+1 because we also go right upon x.val=p.val
     // Case 1: x is a leaf
-    //    o - pre
+    //    o - suc
     //   /
     //  o
     //   \
@@ -54,25 +54,28 @@ public class Solution {
     //       o
     //      /
     //     /
-    //    o - pre
+    //    o - suc
     public TreeNode inorderSuccessor(TreeNode root, TreeNode x) {
-        /*if (x.right != null) {
-            x = x.right;
-            while (x.left != null) // Case 1: Find minimum in right subtree
-                x = x.left;
-            return x;
-        }*/
-
-        TreeNode p = root, pre = null;
+        TreeNode p = root, suc = null;
         while (p != null) {
             if (x.val < p.val) {
-                pre = p;
+                suc = p;
                 p = p.left;
             } else {
                 p = p.right;
             }
         }
-        return pre;
+        return suc;
+    }
+
+    public TreeNode inorderSuccessor_recursive(TreeNode root, TreeNode x) {
+        if (root == null) return null;
+        if (root.val < x.val) {
+            TreeNode suc = inorderSuccessor(root.left, x);
+            return suc == null ? root : suc;
+        } else {
+            return inorderSuccessor(root.right, x);
+        }
     }
 
     // Simple and clear, but with extra O(h) space and O(N) time
