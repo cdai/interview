@@ -1,4 +1,4 @@
-package advanced.combinatorial.backtracking.dfs.lc529_minesweeper;
+package advanced.combinatorial.backtracking.floodfill.lc529_minesweeper;
 
 /**
  */

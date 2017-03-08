@@ -1,4 +1,4 @@
-package advanced.combinatorial.backtracking.dfs.lc417_pacificatlanticwaterflow;
+package advanced.combinatorial.backtracking.floodfill.lc417_pacificatlanticwaterflow;
 
 import org.junit.jupiter.api.Test;
 

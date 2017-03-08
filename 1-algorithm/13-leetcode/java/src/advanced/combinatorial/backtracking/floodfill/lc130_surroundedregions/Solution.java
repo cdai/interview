@@ -1,8 +1,7 @@
-package advanced.combinatorial.backtracking.bfs.lc130_surroundedregions;
+package advanced.combinatorial.backtracking.floodfill.lc130_surroundedregions;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Set;
 import java.util.Stack;
 
 /**
