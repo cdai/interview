@@ -24,6 +24,40 @@ public class Solution {
     public List<int[]> pacificAtlantic(int[][] matrix) {
         if (matrix.length == 0 || matrix[0].length == 0) return new ArrayList<>();
         int m = matrix.length, n = matrix[0].length;
+
+        // Start from boundary to mark if internal cell are reachable from boundary
+        int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        boolean[][] pac = new boolean[m][n], atl = new boolean[m][n];
+        for (int i = 0; i < m; i++) {
+            dfs(matrix, i, 0, m, n, Integer.MIN_VALUE, dirs, pac);    // reach Pacific from left boundary
+            dfs(matrix, i, n - 1, m, n, Integer.MIN_VALUE, dirs, atl);// reach Atlantic from right boundary
+        }
+        for (int j = 0; j < n; j++) {
+            dfs(matrix, 0, j, m, n, Integer.MIN_VALUE, dirs, pac);    // reach Pacific from top boundary
+            dfs(matrix, m - 1, j, m, n, Integer.MIN_VALUE, dirs, atl);// reach Atlantic from bottom boundary
+        }
+
+        // Save result if some cell can flow into both Pacific and Atlantic
+        List<int[]> ret = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (pac[i][j] && atl[i][j]) ret.add(new int[]{i, j});
+            }
+        }
+        return ret;
+    }
+
+    private void dfs(int[][] matrix, int x, int y, int m, int n, Integer prev, int[][] dirs, boolean[][] reach) {
+        if (x < 0 || x >= m || y < 0 || y >= n || prev > matrix[x][y] || reach[x][y]) return;
+        reach[x][y] = true;
+        for (int[] d : dirs) {
+            dfs(matrix, x + d[0], y + d[1], m, n, matrix[x][y], dirs, reach);
+        }
+    }
+
+    public List<int[]> pacificAtlantic_backtrack(int[][] matrix) {
+        if (matrix.length == 0 || matrix[0].length == 0) return new ArrayList<>();
+        int m = matrix.length, n = matrix[0].length;
         Boolean[][][] memo = new Boolean[2][m][n];
         List<int[]> ret = new ArrayList<>();
         for (int i = 0; i < m; i++) {
