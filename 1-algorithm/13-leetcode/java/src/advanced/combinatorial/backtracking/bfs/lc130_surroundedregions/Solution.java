@@ -2,6 +2,7 @@ package advanced.combinatorial.backtracking.bfs.lc130_surroundedregions;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -30,7 +31,67 @@ public class Solution {
 
     private int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
+    // "Flood fill is an algorithm that determines the area connected to a given node in a multi-dimensional array."
+    // "When applied on an image to fill a particular bounded area with color, it is also known as boundary fill."
+    // Flood-fill (node, target-color, replacement-color):
+    //  1. If target-color is equal to replacement-color, return.
+    //  2. If the color of node is not equal to target-color, return.
+    //  3. Set the color of node to replacement-color.
+    //  4. Perform Flood-fill (one step to the south of node, target-color, replacement-color).
+    //     Perform Flood-fill (one step to the north of node, target-color, replacement-color).
+    //     Perform Flood-fill (one step to the west of node, target-color, replacement-color).
+    //     Perform Flood-fill (one step to the east of node, target-color, replacement-color).
+    // 5. Return.
+    // Smart Flood Fill algorithm to avoid repeat DFS backtrack.
+    // Since only 'X' and 'O' can appear in board, mark matrix is spared (Flood Fill alg fills indeed).
     public void solve(char[][] board) {
+        if (board.length == 0 || board[0].length == 0) return;
+        int m = board.length, n = board[0].length;
+
+        // 1.Mark non-surrounded cells
+        int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        char mark = '#';
+        for (int i = 0; i < m; i++) {
+            bfs(board, i, 0, m, n, dirs, mark);
+            bfs(board, i, n - 1, m, n, dirs, mark);
+        }
+        for (int j = 0; j < n; j++) {
+            bfs(board, 0, j, m, n, dirs, mark);
+            bfs(board, m - 1, j, m, n, dirs, mark);
+        }
+
+        // 2.Flip surrounded cells and meanwhile restore marked cells
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 'O') board[i][j] = 'X';
+                else if (board[i][j] == mark) board[i][j] = 'O';
+            }
+        }
+    }
+
+    private void bfs(char[][] board, int x, int y, int m, int n, int[][] dirs, char mark) {
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{x, y});
+        while (!q.isEmpty()) {
+            int[] p = q.poll();
+            int i = p[0], j = p[1];
+            if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] != 'O') continue;
+            board[i][j] = mark;
+            for (int[] d : dirs) {
+                q.offer(new int[]{i + d[0], j + d[1]});
+            }
+        }
+    }
+
+    private void dfs(char[][] board, int x, int y, int m, int n, int[][] dirs, char mark) {
+        if (x < 0 || x >= m || y < 0 || y >= n || board[x][y] != 'O') return;
+        board[x][y] = mark;
+        for (int[] d : dirs) {
+            dfs(board, x + d[0], y + d[1], m, n, dirs, mark);
+        }
+    }
+
+    public void solve3(char[][] board) {
         if (board.length == 0 || board[0].length == 0) return;
         int m = board.length, n = board[0].length;
 
