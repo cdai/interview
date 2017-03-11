@@ -15,30 +15,37 @@ public class MyQueue_O1Amortized {
 
     private Stack<Integer> output = new Stack<>();
 
-    // Push element x to the back of queue.
     public void push(int x) {
         input.push(x);
     }
 
-    // Removes the element from in front of queue.
-    public void pop() {
-        peek();
-        if (!output.isEmpty()) output.pop();
+    public int pop() {
+        if (transfer()) {
+            return output.pop();
+        }
+        return 0;
     }
 
-    // Get the front element.
     public int peek() {
-        if (output.isEmpty())
-            while (!input.isEmpty())
-                output.push(input.pop());
-
-        if (output.isEmpty()) return 0;
-        return output.peek();
+        if (transfer()) {
+            return output.peek();
+        }
+        return 0;
     }
 
-    // Return whether the queue is empty.
     public boolean empty() {
         return input.isEmpty() && output.isEmpty();
+    }
+
+    // Transfer each element only once, so pop and peek in O(1) amortized
+    // Return if transfer successfully (at least one element transferred)
+    private boolean transfer() {
+        if (output.isEmpty()) {
+            while (!input.isEmpty()) {
+                output.push(input.pop());
+            }
+        }
+        return !output.isEmpty();
     }
 
 }
