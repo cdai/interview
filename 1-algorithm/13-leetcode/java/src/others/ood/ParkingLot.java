@@ -12,11 +12,18 @@ public class ParkingLot {
         ParkingLot parklot = new ParkingLot(1, 20);
         parklot.park(new Motorcycle("ny1234"));
         parklot.park(new Car("nj4567"));
+        parklot.park(new Car("pinkman"));
+        parklot.park(new Car("hello"));
+        parklot.park(new Car("world"));
+        parklot.park(new Car("test123"));
+        Ticket t = parklot.park(new Car("testtest"));
+        parklot.park(new Bus("smithtown"));
+        parklot.unpark(t);
         parklot.park(new Bus("smithtown"));
     }
 
     private Level[] levels;
-    private Map<Ticket, Spot> inService = new HashMap<>();
+    private Map<Ticket, Spot[]> inService = new HashMap<>();
 
     public ParkingLot(int numLevel, int space) {
         levels = new Level[numLevel];
@@ -27,10 +34,11 @@ public class ParkingLot {
 
     public Ticket park(Vehicle vehicle) {
         for (Level level : levels) {
-            Spot spot = level.park(vehicle);
-            if (spot != null) {
-                inService.put(new Ticket(vehicle.getPlate()), spot);
-                break;
+            Spot[] spots = level.allocate(vehicle);
+            if (spots != null) {
+                Ticket ticket = new Ticket(vehicle.getPlate());
+                inService.put(ticket, spots);
+                return ticket;
             }
         }
         return null;
@@ -38,12 +46,13 @@ public class ParkingLot {
 
     /** Unpark car and charge customer accordingly */
     public int unpark(Ticket ticket) {
-        if (inService.containsKey(ticket)) {
-            Spot spot = inService.get(ticket);
-            spot.setAvailable(true);
-            return charge(ticket);
+        if (!inService.containsKey(ticket)) { // invalid ticket
+            return 0;
         }
-        return 0;
+        for (Spot spot : inService.get(ticket)) {
+            spot.setAvailable(true);
+        }
+        return charge(ticket);
     }
 
     /** Calculate charge by start/end time and vehicle type */
@@ -104,41 +113,65 @@ class Level {
     private Spot[] large;
 
     public Level(int space) {
-        small = createSpot(space / 4, VehicleType.Motorcycle);
-        medium = createSpot(space / 2, VehicleType.Car);
-        large = createSpot(space / 4, VehicleType.Bus);
+        small = createSpot(space / 4);
+        medium = createSpot(space / 2);
+        large = createSpot(space / 4);
     }
 
-    public Spot park(Vehicle vehicle) {
+    public Spot[] allocate(Vehicle vehicle) {
+        Spot[][] all;
+        if (vehicle.getType() == VehicleType.Motorcycle) {
+            all = new Spot[][]{ small, medium, large };
+        } else if (vehicle.getType() == VehicleType.Car) {
+            all = new Spot[][]{ medium, large };
+        } else {
+            all = new Spot[][]{ large };
+        }
+
+        int size = vehicle.getType().getSize();
+        for (Spot[] avail : all) {
+            for (int i = 0; i <= avail.length - size;) {
+                // Search if consecutive available spots exist
+                int j = i;
+                while (j < i + size && avail[j].isAvailable()) {
+                    j++;
+                }
+
+                // Return if so, otherwise start over at next spot (j must be occupied)
+                if (j == i + size) {
+                    Spot[] spots = new Spot[size];
+                    for (int k = 0; k < size; k++, i++) {
+                        spots[k] = avail[i];
+                        spots[k].setAvailable(false);
+                    }
+                    System.out.println("Park " + (size == 1 ? "motorcycle" : size == 2 ? "car" : "bus") +
+                            " [" + vehicle.getPlate() + "] at " +
+                            (avail == small ? "Small" : (avail == medium ? "Medium" : "Large")) +
+                            " from " + (j - size) + " to " + (j - 1));
+                    return spots;
+                }
+                i = j + 1;
+            }
+        }
+        System.out.println("Failed to park " +
+                (size == 1 ? "motorcycle" : size == 2 ? "car" : "bus") + " [" + vehicle.getPlate() + "]");
         return null;
     }
 
-    private Spot[] createSpot(int space, VehicleType type) {
-        Spot[] spots = new Spot[space / type.getSize()];
-        for (int i = 0; i < spots.length; i++) {
-            spots[i] = new Spot(type, i);
+    private Spot[] createSpot(int space) {
+        Spot[] spots = new Spot[space];
+        for (int i = 0; i < space; i++) {
+            spots[i] = new Spot();
         }
         return spots;
     }
 }
 
 class Spot {
-    private final VehicleType type;
-    private final int index;
     private boolean isAvailable;
 
-    public Spot(VehicleType type, int index) {
-        this.type = type;
-        this.index = index;
+    public Spot() {
         this.isAvailable = true;
-    }
-
-    public VehicleType getType() {
-        return type;
-    }
-
-    public int getIndex() {
-        return index;
     }
 
     public void setAvailable(boolean available) {
@@ -200,146 +233,3 @@ class Bus extends Vehicle {
     }
 }
 
-/*
-abstract class Vehicle {
-    protected String plate = "";
-    public abstract boolean park(Level level);
-    public abstract boolean unpark(Level level);
-}
-
-class Motorcycle extends Vehicle {
-    @Override
-    public boolean park(Level level) {
-        if (level.allocate(VehicleSize.Motorcycle, plate, 1)) return true;
-        if (level.allocate(VehicleSize.Compact, plate, 1)) return true;
-        if (level.allocate(VehicleSize.Large, plate, 1)) return true;
-        return false;
-    }
-    @Override
-    public boolean unpark(Level level) {
-        if (level.free(VehicleSize.Motorcycle, plate, 1)) return true;
-        if (level.free(VehicleSize.Compact, plate, 1)) return true;
-        if (level.free(VehicleSize.Large, plate, 1)) return true;
-        return false;
-    }
-}
-
-class Car extends Vehicle {
-    @Override
-    public boolean park(Level level) {
-        if (level.allocate(VehicleSize.Compact, plate, 1)) return true;
-        if (level.allocate(VehicleSize.Large, plate, 1)) return true;
-        return false;
-    }
-    @Override
-    public boolean unpark(Level level) {
-        if (level.free(VehicleSize.Compact, plate, 1)) return true;
-        if (level.free(VehicleSize.Large, plate, 1)) return true;
-        return false;
-    }
-}
-
-class Bus extends Vehicle {
-    @Override
-    public boolean park(Level level) {
-        return level.allocate(VehicleSize.Large, plate, 5);
-    }
-    @Override
-    public boolean unpark(Level level) {
-        return level.free(VehicleSize.Large, plate, 5);
-    }
-}
-
-class Level {
-
-    private int m, n;
-    private String[][] lot;
-
-    Level(int rows, int spots) {
-        m = rows;
-        n = spots;
-        lot = new String[rows][spots];
-    }
-
-    boolean allocate(VehicleSize type, String plate, int num) {
-        for (int i = 0; i < m; i++) {
-            for (int j = start(type); j <= end(type) - num; j++) {
-                if (lot[i][j] != null) continue;
-                while (num-- > 0) {
-                    lot[i][j++] = plate;
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    boolean free(VehicleSize type, String plate, int num) {
-        for (int i = 0; i < m; i++) {
-            for (int j = end(type) - 1; j >= start(type) + num - 1; j--) {
-                if (!plate.equals(lot[i][j])) continue;
-                while (num-- > 0) {
-                    lot[i][j--] = null;
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private int start(VehicleSize type) { // inclusive
-        if (type == VehicleSize.Motorcycle) return 0;
-        else if (type == VehicleSize.Compact) return n / 4;
-        else return n / 4 * 3; // ?
-    }
-
-    private int end(VehicleSize type) { // exclusive
-        if (type == VehicleSize.Motorcycle) return n / 4;
-        else if (type == VehicleSize.Compact) return n / 4 * 3;
-        else return n;
-    }
-}
-
-public class ParkingLot {
-
-    public static void main(String[] args) {
-        ParkingLot parklot = new ParkingLot(1, 1, 11);
-        parklot.parkVehicle(new Motorcycle());
-        parklot.parkVehicle(new Car());
-        parklot.parkVehicle(new Car());
-        parklot.parkVehicle(new Car());
-        parklot.parkVehicle(new Car());
-        parklot.parkVehicle(new Car());
-        parklot.parkVehicle(new Bus());
-        parklot.unParkVehicle(new Car());
-    }
-
-    private Level[] levels;
-
-    // @param n number of levels
-    // @param num_rows  each level has num_rows rows of spots
-    // @param spots_per_row each row has spots_per_row spots
-    public ParkingLot(int n, int rows, int spots) {
-        levels = new Level[n];
-        for (int i = 0; i < n; i++) {
-            levels[i] = new Level(rows, spots);
-        }
-    }
-
-    // Park the vehicle in a spot (or multiple spots)
-    // Return false if failed
-    public boolean parkVehicle(Vehicle vehicle) {
-        for (Level level : levels) {
-            if (vehicle.park(level)) return true;
-        }
-        return false;
-    }
-
-    // unPark the vehicle
-    public void unParkVehicle(Vehicle vehicle) {
-        for (Level level : levels) {
-            if (vehicle.unpark(level)) break;
-        }
-    }
-}
-*/
