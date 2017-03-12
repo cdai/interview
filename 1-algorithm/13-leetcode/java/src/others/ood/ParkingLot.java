@@ -1,12 +1,206 @@
 package others.ood;
 
-// enum type for Vehicle
-enum VehicleSize {
-    Motorcycle,
-    Compact,
-    Large,
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
+
+public class ParkingLot {
+
+    public static void main(String[] args) {
+        ParkingLot parklot = new ParkingLot(1, 20);
+        parklot.park(new Motorcycle("ny1234"));
+        parklot.park(new Car("nj4567"));
+        parklot.park(new Bus("smithtown"));
+    }
+
+    private Level[] levels;
+    private Map<Ticket, Spot> inService = new HashMap<>();
+
+    public ParkingLot(int numLevel, int space) {
+        levels = new Level[numLevel];
+        for (int i = 0; i < numLevel; i++) {
+            levels[i] = new Level(space);
+        }
+    }
+
+    public Ticket park(Vehicle vehicle) {
+        for (Level level : levels) {
+            Spot spot = level.park(vehicle);
+            if (spot != null) {
+                inService.put(new Ticket(vehicle.getPlate()), spot);
+                break;
+            }
+        }
+        return null;
+    }
+
+    /** Unpark car and charge customer accordingly */
+    public int unpark(Ticket ticket) {
+        if (inService.containsKey(ticket)) {
+            Spot spot = inService.get(ticket);
+            spot.setAvailable(true);
+            return charge(ticket);
+        }
+        return 0;
+    }
+
+    /** Calculate charge by start/end time and vehicle type */
+    private int charge(Ticket ticket) {
+        return 0;
+    }
 }
 
+class Ticket {
+    private String id;
+    private String plate;
+    private Date startTime;
+    private Date endTime;
+
+    public Ticket(String plate) {
+        this.id = UUID.randomUUID().toString();
+        this.plate = plate;
+        this.startTime = new Date();
+    }
+
+    public String getPlate() {
+        return plate;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return Objects.equals(id, ticket.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+}
+
+class Level {
+    private Spot[] small;
+    private Spot[] medium;
+    private Spot[] large;
+
+    public Level(int space) {
+        small = createSpot(space / 4, VehicleType.Motorcycle);
+        medium = createSpot(space / 2, VehicleType.Car);
+        large = createSpot(space / 4, VehicleType.Bus);
+    }
+
+    public Spot park(Vehicle vehicle) {
+        return null;
+    }
+
+    private Spot[] createSpot(int space, VehicleType type) {
+        Spot[] spots = new Spot[space / type.getSize()];
+        for (int i = 0; i < spots.length; i++) {
+            spots[i] = new Spot(type, i);
+        }
+        return spots;
+    }
+}
+
+class Spot {
+    private final VehicleType type;
+    private final int index;
+    private boolean isAvailable;
+
+    public Spot(VehicleType type, int index) {
+        this.type = type;
+        this.index = index;
+        this.isAvailable = true;
+    }
+
+    public VehicleType getType() {
+        return type;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+}
+
+abstract class Vehicle {
+    protected String plate;
+    protected VehicleType type;
+
+    public Vehicle(String plate, VehicleType type) {
+        this.plate = plate;
+        this.type = type;
+    }
+
+    public String getPlate() {
+        return plate;
+    }
+
+    public VehicleType getType() {
+        return type;
+    }
+}
+
+enum VehicleType {
+    Motorcycle(1), Car(2), Bus(4);
+
+    private final int size;
+
+    VehicleType(int size) {
+        this.size = size;
+    }
+
+    public int getSize() {
+        return size;
+    }
+}
+
+class Motorcycle extends Vehicle {
+    public Motorcycle(String plate) {
+        super(plate, VehicleType.Motorcycle);
+    }
+}
+
+class Car extends Vehicle {
+    public Car(String plate) {
+        super(plate, VehicleType.Car);
+    }
+}
+
+class Bus extends Vehicle {
+    public Bus(String plate) {
+        super(plate, VehicleType.Bus);
+    }
+}
+
+/*
 abstract class Vehicle {
     protected String plate = "";
     public abstract boolean park(Level level);
@@ -56,7 +250,6 @@ class Bus extends Vehicle {
     }
 }
 
-/* Represents a level in a parking garage */
 class Level {
 
     private int m, n;
@@ -123,7 +316,7 @@ public class ParkingLot {
 
     private Level[] levels;
 
-    // @param n number of leves
+    // @param n number of levels
     // @param num_rows  each level has num_rows rows of spots
     // @param spots_per_row each row has spots_per_row spots
     public ParkingLot(int n, int rows, int spots) {
@@ -149,3 +342,4 @@ public class ParkingLot {
         }
     }
 }
+*/
