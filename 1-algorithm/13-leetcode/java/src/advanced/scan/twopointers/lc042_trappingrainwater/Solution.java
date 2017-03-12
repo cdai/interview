@@ -12,10 +12,24 @@ import java.util.TreeMap;
  */
 public class Solution {
 
+    public int trap(int[] height) {
+        int total = 0, high1 = 0, high2 = 0;
+        for (int l = 0, r = height.length - 1; l < r;) {
+            if (height[l] < height[r]) {
+                high1 = Math.max(high1, height[l]);
+                total += high1 - height[l++];
+            } else {
+                high2 = Math.max(high2, height[r]);
+                total += high2 - height[r--];
+            }
+        }
+        return total;
+    }
+
     // first search the maximal bar in the heights and then do two traverse -
     // one from the leftmost bar to the highest bar and another one from the rightmost to the highest bar.
     // This solution combine these three steps in a very clever way.
-    public int trap(int[] height) {
+    public int trap4(int[] height) {
         int ltall = 0, rtall = 0, water = 0;
         for (int l = 0, r = height.length - 1; l < r; ) {
             if (height[l] < height[r]) {
