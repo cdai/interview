@@ -11,8 +11,67 @@ import java.util.Set;
  */
 public class Solution {
 
-    // O(N^2) and String append cost, but more readable solution from Stefan.
     public boolean isValidSudoku(char[][] board) {
+        int m = board.length, n = board[0].length;
+        boolean[][] row = new boolean[9][9], col = new boolean[9][9], sub = new boolean[9][9];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (!Character.isDigit(board[i][j])) continue;
+                int k = i / 3 * 3 + j / 3, num = board[i][j] - '1'; // from 0~9
+                if (row[i][num] || col[j][num] || sub[k][num]) {
+                    return false;
+                }
+                row[i][num] = col[j][num] = sub[k][num] = true;
+            }
+        }
+        return true;
+    }
+
+    public boolean isValidSudoku3(char[][] board) {
+        if (board.length == 0 || board[0].length == 0) return true;
+        int m = board.length, n = board[0].length;
+
+        // Validate row
+        for (int i = 0; i < m; i++) {
+            boolean[] exist = new boolean[10];
+            for (int j = 0; j < n; j++) {
+                if (!Character.isDigit(board[i][j])) continue;
+                int k = board[i][j] - '0';
+                if (exist[k]) return false;
+                else exist[k] = true;
+            }
+        }
+
+        // Validate col
+        for (int j = 0; j < n; j++) {
+            boolean[] exist = new boolean[10];
+            for (int i = 0; i < m; i++) {
+                if (!Character.isDigit(board[i][j])) continue;
+                int k = board[i][j] - '0';
+                if (exist[k]) return false;
+                else exist[k] = true;
+            }
+        }
+
+        // Validate square
+        for (int i = 0; i < m; i += 3) {
+            for (int j = 0; j < n; j += 3) {
+                boolean[] exist = new boolean[10];
+                for (int k = i; k < i + 3; k++) {
+                    for (int l = j; l < j + 3; l++) {
+                        if (!Character.isDigit(board[k][l])) continue;
+                        int q = board[k][l] - '0';
+                        if (exist[q]) return false;
+                        else exist[q] = true;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    // O(N^2) and String append cost, but more readable solution from Stefan.
+    public boolean isValidSudoku2(char[][] board) {
         Set<String> seen = new HashSet<>();
         for (int i = 0; i < 9; i++) {     // must be 9*9 board
             for (int j = 0; j < 9; j++) {
