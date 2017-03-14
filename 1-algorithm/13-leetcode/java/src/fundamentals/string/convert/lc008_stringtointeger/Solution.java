@@ -12,9 +12,30 @@ public class Solution {
         System.out.println(new Solution().myAtoi("   b123"));
     }
 
+    public int myAtoi(String s) {
+        int n = s.length(), num = 0, i = 0, sign = 1;
+        // 1.Trim leading space
+        while (i < n && s.charAt(i) == ' ') i++;
+
+        // 2.Check sign if there is any
+        if (i < n && (s.charAt(i) == '+' || s.charAt(i) == '-')) {
+            sign = (s.charAt(i++) == '-') ? -1 : 1;
+        }
+
+        // 3.Parse num
+        for (; i < n && Character.isDigit(s.charAt(i)); i++) {
+            int tmp = num * 10 + sign * (s.charAt(i) - '0');
+            if (tmp / 10 != num) {
+                return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            }
+            num = tmp;
+        }
+        return num;
+    }
+
     // Very concise and clean version from leetcode discuss
     // Since c[i]=0 when reach end, C++ is more concise even!
-    public int myAtoi(String str) {
+    public int myAtoi3(String str) {
         char[] c = str.toCharArray();
         int i = 0, sign = 1, num = 0, n = c.length;
 
