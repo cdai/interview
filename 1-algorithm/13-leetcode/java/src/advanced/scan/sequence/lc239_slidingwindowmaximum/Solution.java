@@ -1,4 +1,4 @@
-package advanced.scan.window.lc239_slidingwindowmaximum;
+package advanced.scan.sequence.lc239_slidingwindowmaximum;
 
 import java.util.Arrays;
 import java.util.Deque;
