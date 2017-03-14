@@ -24,9 +24,52 @@ public class Solution {
             System.out.println(Arrays.toString(row));
     }
 
+    public void wallsAndGates(int[][] rooms) {
+        if (rooms.length == 0 || rooms[0].length == 0) return;
+        int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        int m = rooms.length, n = rooms[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (rooms[i][j] == 0) dfs(rooms, i, j, m, n, 0, dirs);
+            }
+        }
+    }
+
+    private void dfs(int[][] rooms, int x, int y, int m, int n, int dist, int[][] dirs) {
+        if (x < 0 || x >= m || y < 0 || y >= n || rooms[x][y] < dist) return; // Key!
+        rooms[x][y] = dist;
+        for (int[] d : dirs) {
+            dfs(rooms, x + d[0], y + d[1], m, n, dist + 1, dirs);
+        }
+    }
+
+    // Multi-end BFS in O(MN) time.
+    // Simplify by removing inner loop and dist counter
+    public void wallsAndGates_mbfs(int[][] rooms) {
+        if (rooms.length == 0 || rooms[0].length == 0) return;
+        Queue<int[]> q = new LinkedList<>();
+        int m = rooms.length, n = rooms[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (rooms[i][j] == 0) q.offer(new int[]{i, j});
+            }
+        }
+
+        int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        while (!q.isEmpty()) {
+            int[] p = q.poll();
+            for (int[] d : dirs) {
+                int x = p[0] + d[0], y = p[1] + d[1];
+                if (x < 0 || x >= m || y < 0 || y >= n || rooms[x][y] != INF) continue;
+                rooms[x][y] = rooms[p[0]][p[1]] + 1;
+                q.offer(new int[]{x, y});
+            }
+        }
+    }
+
     private static final int INF = Integer.MAX_VALUE;
 
-    public void wallsAndGates(int[][] rooms) {
+    public void wallsAndGates1(int[][] rooms) {
         for (int i = 0; i < rooms.length; i++)
             for (int j = 0; j < rooms[i].length; j++)
                 if (rooms[i][j] == 0)
