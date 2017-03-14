@@ -33,7 +33,7 @@ public class Solution {
 
     // 245-Subtree: O(mn)
     public boolean isSubtree(TreeNode t1, TreeNode t2) {
-        if (t1 == null) return t1 == t2;
+        if (t1 == null) return t2 == null;
         return identical(t1, t2) || isSubtree(t1.left, t2) || isSubtree(t1.right, t2);
     }
 
