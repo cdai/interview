@@ -17,9 +17,27 @@ public class Solution {
         System.out.println(new Solution().isPalindrome(head));
     }
 
+    private ListNode left;
+
+    public boolean isPalindrome(ListNode head) {
+        left = head;
+        return dfs(head);
+    }
+
+    private boolean dfs(ListNode right) {
+        if (right == null) return true;
+        if (dfs(right.next)) {
+            if (left.val == right.val) {
+                left = left.next;
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Two cases: 3->4(mid)->4->3, 3->4->5(mid)->4->3
     //         => 3 -> 4 <-4 <- 3, 3->4->5 <-4<-3
-    public boolean isPalindrome(ListNode head) {
+    public boolean isPalindrome3(ListNode head) {
         if (head == null) return true;
         ListNode mid = head, fast = head;
         while (fast.next != null && fast.next.next != null) {
