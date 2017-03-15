@@ -42,6 +42,18 @@ public class Solution {
         System.out.println(root.right.right.val + " next: " + root.right.right.next);
     }
 
+    public void connect(TreeLinkNode root) {
+        if (root == null) return;
+        TreeLinkNode p = root;
+        while (p.left != null) {
+            for (TreeLinkNode cur = p; cur != null; cur = cur.next) {
+                if (cur.next != null) cur.right.next = cur.next.left;
+                cur.left.next = cur.right;
+            }
+            p = p.left;
+        }
+    }
+
     // 4AC
     public void connect4(TreeLinkNode root) {
         if (root == null) return;
@@ -73,7 +85,7 @@ public class Solution {
     }
 
     // DFS: key is to use "next". but DFS needs O(h) extra space.
-    public void connect(TreeLinkNode root) {
+    public void connect_dfs(TreeLinkNode root) {
         if (root == null) return;
 
         // 1.Connect children for lower level use
