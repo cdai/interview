@@ -23,8 +23,23 @@ import java.util.Map;
  */
 public class Solution {
 
-    // My 2nd: one pass in O(N) time, O(1) space
     public String getHint(String secret, String guess) {
+        int[] nums = new int[10];
+        int bulls = 0, cows = 0;
+        for (int i = 0; i < secret.length(); i++) {
+            int n1 = secret.charAt(i) - '0';
+            int n2 = guess.charAt(i) - '0';
+            if (n1 == n2) bulls++;
+            else {
+                if (nums[n1]++ < 0) cows++;
+                if (nums[n2]-- > 0) cows++;
+            }
+        }
+        return bulls + "A" + cows + "B";
+    }
+
+    // My 2nd: one pass in O(N) time, O(1) space
+    public String getHint2(String secret, String guess) {
         int[] nums = new int[10];
 
         int bulls = 0, cows = 0;
@@ -73,7 +88,7 @@ public class Solution {
     }
 
     // Hashmap
-    public String getHint2(String secret, String guess) {
+    public String getHint12(String secret, String guess) {
         if (secret.isEmpty() || guess.isEmpty() || secret.length() != guess.length()) {
             return "";
         }
